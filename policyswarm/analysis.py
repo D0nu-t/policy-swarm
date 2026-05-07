@@ -183,20 +183,18 @@ def executive_summary(
         Multi-line summary suitable for stdout or logging.
     """
     lines = [f"\n{'='*60}"]
+    STAT_EXCLUDE_COLS = {
+    "t_stat", "p_value", "significant",
+    "effect", "effect_ci_low", "effect_ci_high"}
     if experiment:
         lines.append(f"EXPERIMENT: {experiment}")
     lines.append(f"{'='*60}")
 
     for _, row in stats_df.iterrows():
-        # Build condition string from non-metric columns
-        cond_parts = []
-        for col in stats_df.columns:
-            if col in (metric_col, p_col, "t_stat", "significant"):
-                continue
-            if col.endswith("_ci_low") or col.endswith("_ci_high"):
-                continue
-        cond_parts.append(f"{col}={row[col]}")
-        cond = " | ".join(cond_parts)
+    # Identify true condition columns (exclude stats + CI columns)
+        cond_cols = [c for c in stats_df.columns if c not in STAT_EXCLUDE_COLS]
+
+        cond = " | ".join(f"{c}={row[c]}" for c in cond_cols)
 
         sig_marker = "**" if row.get("significant", False) else "  "
         eff_val    = row.get(metric_col, float("nan"))
