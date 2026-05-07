@@ -91,7 +91,7 @@ class PolicySwarm:
 
     def __init__(self, output_dir="policyswarm_output", seeds=None, policy_text=None):
         self.output_dir  = output_dir
-        self.seeds       = seeds or list(range(5))
+        self.seeds       = seeds or list(range(20)) # change num(seeds) here you moron, leave the --seeds arg empty to use the enumerated value
         self.policy_text = policy_text or self.DEFAULT_POLICY_TEXT
         os.makedirs(output_dir, exist_ok=True)
 
