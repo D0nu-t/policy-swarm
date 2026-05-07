@@ -1,4 +1,5 @@
 __pycache__/
 *.pyc
 results/
+policyswarm_output/
 .DS_Store
