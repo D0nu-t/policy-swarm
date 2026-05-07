@@ -118,51 +118,39 @@ def group_summary(
 # ---------------------------------------------------------------------------
 
 def stat_test_table(
-    df            : pd.DataFrame,
-    groupby_cols  : List[str],
-    control_col   : str,
-    treatment_col : str,
-    label         : str = "effect",
+    df: pd.DataFrame,
+    groupby_cols: List[str],
+    control_col: str,
+    treatment_col: str,
+    label: str = "effect",
 ) -> pd.DataFrame:
-    """Run paired t-tests for each group in a long-format DataFrame.
 
-    Parameters
-    ----------
-    df : pd.DataFrame
-        Must contain groupby_cols, 'seed', control_col, treatment_col.
-    groupby_cols : list of str
-    control_col : str
-        Column holding control condition values.
-    treatment_col : str
-        Column holding treatment condition values.
-    label : str
-        Name for the effect column in the output. Default "effect".
-
-    Returns
-    -------
-    pd.DataFrame with columns:
-        <groupby_cols> | t_stat | p_value | <label> | significant
-    """
     rows = []
+
     for keys, sub in df.groupby(groupby_cols):
         if not isinstance(keys, tuple):
             keys = (keys,)
-        t, p, eff = paired_ttest(
-            sub[control_col].values,
-            sub[treatment_col].values,
-            
-        )
-        diffs = sub[treatment_col].values - sub[control_col].values
+
+        control   = sub[control_col].values
+        treatment = sub[treatment_col].values
+
+        # core stats
+        t_stat, p_value, effect = paired_ttest(control, treatment)
+
+        # CI on paired differences
+        diffs = treatment - control
         _, ci_low, ci_high = confidence_interval(diffs)
+
         row = dict(zip(groupby_cols, keys))
-        row["t_stat"]     = t
-        row["p_value"]    = p
-        row[label]        = eff
-        row["effect_ci_low"]  = ci_low
+        row["t_stat"] = t_stat
+        row["p_value"] = p_value
+        row[label] = effect
+        row["effect_ci_low"] = ci_low
         row["effect_ci_high"] = ci_high
-        row["significant"]= p < 0.05
+        row["significant"] = p_value < 0.05
 
         rows.append(row)
+
     return pd.DataFrame(rows)
 
 
@@ -205,15 +193,20 @@ def executive_summary(
         for col in stats_df.columns:
             if col in (metric_col, p_col, "t_stat", "significant"):
                 continue
-            cond_parts.append(f"{col}={row[col]}")
+            if col.endswith("_ci_low") or col.endswith("_ci_high"):
+                continue
+        cond_parts.append(f"{col}={row[col]}")
         cond = " | ".join(cond_parts)
 
         sig_marker = "**" if row.get("significant", False) else "  "
         eff_val    = row.get(metric_col, float("nan"))
         p_val      = row.get(p_col, float("nan"))
+        ci_low = row.get("effect_ci_low", float("nan"))
+        ci_high = row.get("effect_ci_high", float("nan"))
+
         lines.append(
-            f"  {sig_marker} {cond:<40} Δ={eff_val:+.5f}  p={p_val:.4f}"
-        )
+            f"  {sig_marker} {cond:<40} Δ={eff_val:+.5f}  "
+            f"95% CI [{ci_low:.5f}, {ci_high:.5f}]  p={p_val:.4f}")
 
     lines.append(f"{'='*60}")
     lines.append("** = significant at α=0.05")
