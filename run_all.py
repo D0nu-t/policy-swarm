@@ -22,6 +22,7 @@ import os
 sys.path.insert(0, os.path.dirname(__file__))
 
 from policyswarm import PolicySwarm
+from policyswarm.latex import stat_table_to_latex, summary_table_to_latex
 
 POLICY_TEXT = """
 The government introduces strict AI safety regulations requiring transparency audits,
@@ -79,7 +80,41 @@ Experiments
     )
     return parser.parse_args()
 
+from pathlib import Path
+import pandas as pd
 
+
+def generate_latex_tables(report, experiment_name, output_root):
+    exp_dir = Path(output_root) / experiment_name
+    # ---------- STAT TABLE ----------
+    stats_files = list(exp_dir.glob("*_stats_*.csv"))
+    if stats_files:
+        stats_df = pd.read_csv(stats_files[-1])  
+        stats_df = stats_df.sort_values(by=stats_df.columns.tolist())
+
+        latex = stat_table_to_latex(
+            stats_df,
+            caption=f"{experiment_name.capitalize()} results (S=20, paired t-test).",
+            label=f"tab:{experiment_name}"
+        )
+
+        with open(exp_dir / f"{experiment_name}_table.tex", "w") as f:
+            f.write(latex)
+
+    # ---------- SUMMARY TABLE (geometry only) ----------
+    if experiment_name == "geometry":
+        results_files = list(exp_dir.glob("*_results_*.csv"))
+        if results_files:
+            df = pd.read_csv(results_files[-1])
+
+            latex = summary_table_to_latex(
+                df,
+                caption="Geometry comparison across opinion spaces (mean ± 95\\% CI, S=20).",
+                label="tab:geometry"
+            )
+
+            with open(exp_dir / "geometry_table.tex", "w") as f:
+                f.write(latex)
 def main():
     args = parse_args()
 
@@ -112,6 +147,11 @@ def main():
             figs = report.get("figure_paths", [])
             if figs:
                 print(f"         figures: {len(figs)}")
+        try:
+            generate_latex_tables(report, name, args.output)
+            print(f"         latex: 1 table generated")
+        except Exception as e:
+            print(f"         latex: failed ({e})")
     print(f"\nAll outputs saved to: {args.output}/")
 
 
