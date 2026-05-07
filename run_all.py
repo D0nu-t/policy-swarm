@@ -62,8 +62,8 @@ Experiments
     )
     parser.add_argument(
         "--seeds", nargs="+", type=int,
-        default=list(range(5)),
-        help="Random seeds for Monte Carlo runs (default: 0 1 2 3 4).",
+        default=list(range(20)),
+        help="Random seeds for Monte Carlo runs (default: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 141 15 16 17 18 19).",
     )
     parser.add_argument(
         "--output", default="policyswarm_output",
