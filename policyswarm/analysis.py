@@ -16,6 +16,27 @@ import numpy as np
 import pandas as pd
 from scipy.stats import ttest_rel, ttest_1samp
 
+from scipy.stats import sem, t
+import numpy as np
+
+def confidence_interval(vals, confidence=0.95):
+
+    vals = np.array(vals)
+    n = len(vals)
+
+    mean = np.mean(vals)
+
+    if n < 2:
+        return mean, mean, mean
+
+    stderr = sem(vals)
+
+    if np.isnan(stderr):
+        return mean, mean, mean
+
+    h = stderr * t.ppf((1 + confidence) / 2., n - 1)
+
+    return mean, mean - h, mean + h
 
 # ---------------------------------------------------------------------------
 # Paired t-test
@@ -55,35 +76,43 @@ def group_summary(
     groupby_cols: List[str],
     value_cols  : Optional[List[str]] = None,
 ) -> pd.DataFrame:
-    """Compute grouped mean, std, and n for numeric columns.
-
-    Parameters
-    ----------
-    df : pd.DataFrame
-    groupby_cols : list of str
-        Columns to group by (e.g., ["geometry", "lag"]).
-    value_cols : list of str, optional
-        Columns to aggregate. If None, uses all numeric columns not in
-        groupby_cols.
-
-    Returns
-    -------
-    pd.DataFrame with columns:
-        <groupby_cols> | <col>_mean | <col>_std | n
     """
+    Compute grouped statistics including:
+    mean, std, 95% confidence intervals, and n.
+    """
+
     if value_cols is None:
         numeric_cols = df.select_dtypes(include=[np.number]).columns.tolist()
         value_cols   = [c for c in numeric_cols if c not in groupby_cols]
 
-    agg_fns = {col: ["mean", "std"] for col in value_cols}
-    agg_fns["seed"] = "count" if "seed" in df.columns else None
+    rows = []
 
-    grouped = df.groupby(groupby_cols)[value_cols].agg(["mean", "std"])
-    grouped.columns = [f"{col}_{fn}" for col, fn in grouped.columns]
-    grouped["n"] = df.groupby(groupby_cols).size()
-    return grouped.reset_index()
+    for keys, sub in df.groupby(groupby_cols):
 
+        if not isinstance(keys, tuple):
+            keys = (keys,)
 
+        row = dict(zip(groupby_cols, keys))
+
+        for col in value_cols:
+
+            vals = sub[col].dropna().values
+
+            mean = np.mean(vals)
+            std  = np.std(vals, ddof=1)
+
+            ci_mean, ci_low, ci_high = confidence_interval(vals)
+
+            row[f"{col}_mean"]    = mean
+            row[f"{col}_std"]     = std
+            row[f"{col}_ci_low"]  = ci_low
+            row[f"{col}_ci_high"] = ci_high
+
+        row["n"] = len(sub)
+
+        rows.append(row)
+
+    return pd.DataFrame(rows)
 # ---------------------------------------------------------------------------
 # Stat-test table
 # ---------------------------------------------------------------------------
@@ -121,12 +150,18 @@ def stat_test_table(
         t, p, eff = paired_ttest(
             sub[control_col].values,
             sub[treatment_col].values,
+            
         )
+        diffs = sub[treatment_col].values - sub[control_col].values
+        _, ci_low, ci_high = confidence_interval(diffs)
         row = dict(zip(groupby_cols, keys))
         row["t_stat"]     = t
         row["p_value"]    = p
         row[label]        = eff
+        row["effect_ci_low"]  = ci_low
+        row["effect_ci_high"] = ci_high
         row["significant"]= p < 0.05
+
         rows.append(row)
     return pd.DataFrame(rows)
 
