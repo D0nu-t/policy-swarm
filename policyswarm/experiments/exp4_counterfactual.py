@@ -33,6 +33,7 @@ empirically real phenomena requiring different implementations.
 
 from __future__ import annotations
 
+import copy
 from typing import List, Optional
 import pandas as pd
 
@@ -90,7 +91,8 @@ class CounterfactualShockExperiment(BaseExperiment):
 
         for geometry in self.geometries:
             for lag in self.lags:
-                base_policy.lag = lag
+                policy = copy.copy(base_policy)
+                policy.lag = lag
                 shock_config = ShockConfig(mode=self.shock_mode)
 
                 gov_config = GovernanceConfig(
@@ -153,16 +155,16 @@ class CounterfactualShockExperiment(BaseExperiment):
         paths = [plot_phase_diagram(df, self.output_dir)]
 
         # Generate one control vs treatment comparison plot for seed 0, lag 0, euclidean
-        base_policy = policy_from_text(self.policy_text)
-        base_policy.lag = 0
+        plot_policy = copy.copy(policy_from_text(self.policy_text))
+        plot_policy.lag = 0
         sc = ShockConfig(mode=self.shock_mode)
         gov = GovernanceConfig(deployment_rate_cap=0.5, penalty_severity=0.5)
         shocks = generate_shocks(sc, self.sim_config.n_ticks, seed=0)
 
-        sim_c = Simulation(self.sim_config, gov, base_policy, shocks,
+        sim_c = Simulation(self.sim_config, gov, plot_policy, shocks,
                            apply_shocks=False, seed=0)
         sim_c.run()
-        sim_t = Simulation(self.sim_config, gov, base_policy, shocks,
+        sim_t = Simulation(self.sim_config, gov, plot_policy, shocks,
                            apply_shocks=True, seed=0)
         sim_t.run()
 

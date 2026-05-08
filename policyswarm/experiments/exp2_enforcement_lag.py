@@ -19,6 +19,7 @@ Fixed GovernanceConfig otherwise (MANDATORY regime)
 
 from __future__ import annotations
 
+import copy
 from typing import List, Optional
 import pandas as pd
 import numpy as np
@@ -68,8 +69,11 @@ class EnforcementLagExperiment(BaseExperiment):
         rows = []
 
         for lag in self.lags:
-            policy = base_policy
-            policy.lag = lag  # direct assignment (dataclass is mutable)
+            # copy.copy isolates each lag iteration: policy.lag assignment and
+            # any _apply_policy_shift() mutations inside Simulation.run() cannot
+            # bleed into the next iteration or into base_policy.
+            policy = copy.copy(base_policy)
+            policy.lag = lag
 
             gov_config = GovernanceConfig(
                 oversight_regime = None,

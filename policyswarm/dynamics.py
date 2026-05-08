@@ -30,6 +30,7 @@ Geometry of opinion space (Iteration 12):
 
 from __future__ import annotations
 
+import copy
 import random
 from typing import List, Optional, Tuple
 
@@ -100,7 +101,9 @@ class Simulation:
     ):
         self.sim_config   = sim_config
         self.gov_config   = gov_config
-        self.policy       = policy
+        # Deep-copy the policy so _apply_policy_shift() cannot corrupt the
+        # caller's object or any other Simulation sharing the same policy.
+        self.policy       = copy.copy(policy)
         self.shocks       = shocks
         self.apply_shocks = apply_shocks
         self.seed         = seed

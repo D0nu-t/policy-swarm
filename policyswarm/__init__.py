@@ -22,6 +22,8 @@ policyswarm.metrics        — Outcome metric computations
 policyswarm.analysis       — Statistical analysis utilities
 policyswarm.visualization  — Publication-ready plot generation
 policyswarm.experiments    — Individual experiment classes (Exp 1-6)
+policyswarm.latex          — LaTeX table generation
+policyswarm.schema         — Runtime schema validation
 """
 
 from .config import (
@@ -78,7 +80,7 @@ class PolicySwarm:
     output_dir : str
         Root directory for all experiment outputs. Default 'policyswarm_output'.
     seeds : list of int, optional
-        Monte Carlo seeds shared across all experiments. Default list(range(5)).
+        Monte Carlo seeds shared across all experiments. Default list(range(20)).
     policy_text : str, optional
         Raw policy text to ingest.
     """
@@ -91,14 +93,18 @@ class PolicySwarm:
 
     def __init__(self, output_dir="policyswarm_output", seeds=None, policy_text=None):
         self.output_dir  = output_dir
-        self.seeds       = seeds or list(range(20)) # change num(seeds) here you moron, leave the --seeds arg empty to use the enumerated value
+        # Default S=20. Override via --seeds CLI arg or seeds= constructor kwarg.
+        self.seeds       = seeds or list(range(20))
         self.policy_text = policy_text or self.DEFAULT_POLICY_TEXT
         os.makedirs(output_dir, exist_ok=True)
 
     def run_experiment(self, name, **kwargs):
         """Run a single named experiment."""
         if name not in _EXPERIMENT_MAP:
-            raise ValueError(f"Unknown experiment: {name!r}. Choose from: {list(_EXPERIMENT_MAP)}")
+            raise ValueError(
+                f"Unknown experiment: {name!r}. "
+                f"Choose from: {list(_EXPERIMENT_MAP)}"
+            )
         ExperimentClass = _EXPERIMENT_MAP[name]
         exp_dir = os.path.join(self.output_dir, name)
         exp = ExperimentClass(
