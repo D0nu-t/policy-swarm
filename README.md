@@ -15,7 +15,7 @@ The repository accompanies a research study on how **governance mechanisms inter
   - Peer influence
   - Media signals
   - Enforcement mechanisms (with lag)
-  - Exogenous shocks
+  - Exogenous shock
 
 ### Key Feature: Paired Experimental Design
 All experiments use **matched seeds**:
