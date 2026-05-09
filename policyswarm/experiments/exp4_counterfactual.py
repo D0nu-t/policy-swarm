@@ -107,13 +107,13 @@ class CounterfactualShockExperiment(BaseExperiment):
                     )
 
                     sim_c = Simulation(
-                        self.sim_config, gov_config, base_policy, shocks,
+                        self.sim_config, gov_config, policy, shocks,
                         apply_shocks=False, seed=seed, geometry=geometry,
                     )
                     sim_c.run()
 
                     sim_t = Simulation(
-                        self.sim_config, gov_config, base_policy, shocks,
+                        self.sim_config, gov_config, policy, shocks,
                         apply_shocks=True, seed=seed, geometry=geometry,
                     )
                     sim_t.run()

@@ -208,14 +208,14 @@ class Simulation:
         raise ValueError(f"Unknown geometry: {self.geometry}")
 
     def _retract(self, op: np.ndarray) -> np.ndarray:
-        """Project back onto the manifold (only meaningful for MANIFOLD)."""
-        if self.geometry == Geometry.MANIFOLD:
-            n = np.linalg.norm(op)
-            if n < 1e-9:
-                return op
-            # Rescale to unit sphere, then map to [0,1] via (1+x)/2
-            op_n = op / n
-            return np.clip((1 + op_n) / 2, 0.0, 1.0)
+        """Clip opinion vector back into [0, 1]^d after an update step.
+
+        The MANIFOLD geometry uses geodesic distances and tangent-vector update
+        directions on S^(d-1), but the original sphere-projection retraction
+        (1 + op/||op||) / 2 maps all opinions into [0.5, 1.0]^d, collapsing
+        variance to near zero within a few ticks. Simple clipping preserves
+        the geometric update semantics while keeping opinions in valid range.
+        """
         return np.clip(op, 0.0, 1.0)
 
     # -----------------------------------------------------------------------

@@ -207,35 +207,48 @@ def cascade_breadth(
 # ---------------------------------------------------------------------------
 
 def phase_transition_tick(
-    history   : List[np.ndarray],
-    window    : int   = 5,
-    threshold : float = 0.01,
+    history            : List[np.ndarray],
+    window             : int   = 5,
+    relative_threshold : float = 0.02,
 ) -> float:
     """First tick at which opinion variance has stabilised.
 
-    Stabilisation criterion: rolling standard deviation of variance over the
-    preceding ``window`` ticks falls below ``threshold``.  Returns ``inf``
-    if the system never converges within the simulation horizon.
+    Stabilisation criterion: the coefficient of variation (CV) of opinion
+    variance over a rolling ``window`` of ticks falls below
+    ``relative_threshold``.
 
-    This is more robust than a raw threshold on variance level, which
-    triggers on transient dips (Iteration 4 design note).
+        CV = std(OV_window) / mean(OV_window)
+
+    A relative threshold is necessary because OV magnitude varies with
+    geometry and governance parameters. The previous absolute threshold
+    (0.01) was calibrated for OV ~ 0.5 and fires trivially at tick 5
+    when OV ~ 0.02 (tick-to-tick changes ~ 0.0002 << 0.01), producing
+    phase_t = 5.0 with std = 0 across all seeds — an uninformative result.
+
+    Returns ``inf`` if the system never stabilises within the horizon.
 
     Parameters
     ----------
     history : list of np.ndarray
     window : int
-        Rolling window size. Default 5.
-    threshold : float
-        Stabilisation threshold on rolling std. Default 0.01.
+        Rolling window size in ticks. Default 5.
+    relative_threshold : float
+        CV threshold for stabilisation. 0.02 = 2% relative variation.
+        Default 0.02.
 
     Returns
     -------
     float
-        Tick index or inf.
+        Tick index (float) or inf.
     """
     variances = np.array([opinion_variance(h) for h in history])
     for t in range(window, len(variances)):
-        if np.std(variances[t - window : t]) < threshold:
+        window_vals = variances[t - window : t]
+        mean_v = np.mean(window_vals)
+        if mean_v < 1e-10:
+            return float(t)   # degenerate: all opinions collapsed
+        cv = np.std(window_vals) / mean_v
+        if cv < relative_threshold:
             return float(t)
     return float("inf")
 
