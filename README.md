@@ -176,7 +176,7 @@ config.py
 If used in research, cite as:
 
 ```
-Author, "PolicySwarm: Agent-Based Analysis of AI Governance Dynamics", 2026.
+Krishnasai Addala, "PolicySwarm: Agent-Based Analysis of AI Governance Dynamics", 2026.
 ```
 
 ---
