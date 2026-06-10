@@ -453,7 +453,7 @@ def main():
         policy_text = args.policy_text or POLICY_TEXT,
     )
 
-    print(f"\nPolicySwarm v1.0.0")
+    print(f"\nPolicySwarm v1.1.0")
     print(f"Policy source : {args.policy_source}")
     print(f"Seeds         : {args.seeds}")
     print(f"Output dir    : {args.output}")
