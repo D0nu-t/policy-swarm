@@ -17,18 +17,18 @@ design-document examples.
 
 Ideological distortion
 -----------------------
-perceived_policy() modulates how each agent interprets the raw policy vector,
-given their ideology score and institutional trust level. This implements the
-Iteration 6 / Iteration 8 finding that the same policy text generates
-heterogeneous effective policies across the population.
+perceived_policy() now accepts dimension_salience and noise_scale as arrays,
+making it generic for any N-dim policy. The legacy 4-dim AI policy default
+behaviour is preserved when these parameters are omitted.
 """
 
 from __future__ import annotations
 
 import re
-import numpy as np
+from typing import Dict, List, Optional, Tuple, Union
+
 import networkx as nx
-from typing import List, Tuple, Optional, Dict
+import numpy as np
 
 from .config import Policy
 
@@ -45,37 +45,31 @@ except (ImportError, OSError):
 
 # ---------------------------------------------------------------------------
 # Keyword ontology
-# Mapping: keyword → (policy dimension, direction)
-# direction +1 = strengthens that dimension, -1 = weakens
 # ---------------------------------------------------------------------------
 _KEYWORD_MAP: Dict[str, Tuple[str, float]] = {
-    # safety-related → raises enforcement + audit
-    "safety"           : ("enforcement",     +0.25),
-    "safe"             : ("enforcement",     +0.20),
-    "risk"             : ("enforcement",     +0.20),
-    "secure"           : ("enforcement",     +0.15),
-    # transparency-related
-    "transparency"     : ("transparency",    +0.30),
-    "transparent"      : ("transparency",    +0.25),
-    "disclosure"       : ("transparency",    +0.20),
-    "audit"            : ("audit_intensity", +0.30),
-    "audits"           : ("audit_intensity", +0.30),
-    "monitor"          : ("audit_intensity", +0.20),
-    # deployment / innovation-related
-    "innovation"       : ("deployment_cap",  +0.25),
-    "deployment"       : ("deployment_cap",  -0.15),
-    "deploy"           : ("deployment_cap",  -0.10),
-    "restrict"         : ("deployment_cap",  -0.20),
-    "limit"            : ("deployment_cap",  -0.15),
-    "ban"              : ("deployment_cap",  -0.35),
-    # enforcement / penalty-related
-    "penalties"        : ("enforcement",     +0.30),
-    "penalty"          : ("enforcement",     +0.25),
-    "compliance"       : ("enforcement",     +0.20),
-    "non-compliance"   : ("enforcement",     +0.20),
-    "regulation"       : ("enforcement",     +0.15),
-    "regulations"      : ("enforcement",     +0.15),
-    "strict"           : ("enforcement",     +0.25),
+    "safety"         : ("enforcement",     +0.25),
+    "safe"           : ("enforcement",     +0.20),
+    "risk"           : ("enforcement",     +0.20),
+    "secure"         : ("enforcement",     +0.15),
+    "transparency"   : ("transparency",    +0.30),
+    "transparent"    : ("transparency",    +0.25),
+    "disclosure"     : ("transparency",    +0.20),
+    "audit"          : ("audit_intensity", +0.30),
+    "audits"         : ("audit_intensity", +0.30),
+    "monitor"        : ("audit_intensity", +0.20),
+    "innovation"     : ("deployment_cap",  +0.25),
+    "deployment"     : ("deployment_cap",  -0.15),
+    "deploy"         : ("deployment_cap",  -0.10),
+    "restrict"       : ("deployment_cap",  -0.20),
+    "limit"          : ("deployment_cap",  -0.15),
+    "ban"            : ("deployment_cap",  -0.35),
+    "penalties"      : ("enforcement",     +0.30),
+    "penalty"        : ("enforcement",     +0.25),
+    "compliance"     : ("enforcement",     +0.20),
+    "non-compliance" : ("enforcement",     +0.20),
+    "regulation"     : ("enforcement",     +0.15),
+    "regulations"    : ("enforcement",     +0.15),
+    "strict"         : ("enforcement",     +0.25),
 }
 
 _NARRATIVE_KEYWORDS: Dict[str, List[str]] = {
@@ -90,34 +84,16 @@ _NARRATIVE_KEYWORDS: Dict[str, List[str]] = {
 # ---------------------------------------------------------------------------
 
 def extract_entities(text: str) -> List[str]:
-    """Extract relevant policy entities from raw text.
-
-    Attempts spaCy NER first, then applies keyword-fallback to ensure
-    domain-critical terms (which may not be named entities in spaCy) are
-    always captured.
-
-    Parameters
-    ----------
-    text : str
-        Raw policy text.
-
-    Returns
-    -------
-    list of str
-        Deduplicated entity / keyword list, lower-cased.
-    """
+    """Extract relevant policy entities from raw text."""
     found: set = set()
 
-    # spaCy NER pass
     if _SPACY_AVAILABLE and _NLP is not None:
         doc = _NLP(text)
         for ent in doc.ents:
             found.add(ent.text.lower().strip())
 
-    # Keyword fallback (always applied)
     text_lower = text.lower()
     for kw in _KEYWORD_MAP:
-        # word-boundary match to avoid substring false positives
         if re.search(r'\b' + re.escape(kw) + r'\b', text_lower):
             found.add(kw)
 
@@ -125,21 +101,7 @@ def extract_entities(text: str) -> List[str]:
 
 
 def extract_narrative_scores(text: str) -> Dict[str, float]:
-    """Compute narrative framing scores for a policy text.
-
-    Each score is the fraction of framing-indicator keywords present in the
-    text, normalised to [0, 1].
-
-    Parameters
-    ----------
-    text : str
-        Raw policy text.
-
-    Returns
-    -------
-    dict
-        Keys: "safety", "innovation", "transparency". Values in [0, 1].
-    """
+    """Compute narrative framing scores for a policy text."""
     text_lower = text.lower()
     scores: Dict[str, float] = {}
     for frame, keywords in _NARRATIVE_KEYWORDS.items():
@@ -156,23 +118,7 @@ def extract_narrative_scores(text: str) -> Dict[str, float]:
 # ---------------------------------------------------------------------------
 
 def build_kg(entities: List[str]) -> nx.Graph:
-    """Construct a knowledge graph from extracted entities.
-
-    Uses a fully connected structure (every entity pair gets a 'related_to'
-    edge) as an abstracted proxy for the MiroFish-Offline KG builder.
-    In the full pipeline this would be replaced by typed relation extraction
-    (e.g., 'enforces', 'restricts', 'enables').
-
-    Parameters
-    ----------
-    entities : list of str
-        Entity list from extract_entities().
-
-    Returns
-    -------
-    networkx.Graph
-        Undirected knowledge graph with 'label' node attributes.
-    """
+    """Construct a knowledge graph from extracted entities."""
     G = nx.Graph()
     for e in entities:
         G.add_node(e, label=e)
@@ -191,26 +137,7 @@ def policy_from_kg(
     lag      : int = 10,
     text     : Optional[str] = None,
 ) -> Policy:
-    """Map KG entities to a 4-D Policy object.
-
-    The baseline policy is (0.5, 0.5, 0.5, 0.5). Each keyword match
-    nudges the relevant dimension by the delta defined in _KEYWORD_MAP,
-    clamped to [0.1, 0.95] to avoid degenerate boundary policies.
-
-    Parameters
-    ----------
-    entities : list of str
-        Extracted entities from the policy text.
-    lag : int
-        Enforcement lag in ticks. Default 10.
-    text : str, optional
-        Original policy text, used to compute narrative framing scores.
-        If None, narrative defaults to 0.5 on all dimensions.
-
-    Returns
-    -------
-    Policy
-    """
+    """Map KG entities to a 4-D Policy object."""
     dims = {
         "deployment_cap" : 0.5,
         "transparency"   : 0.5,
@@ -238,19 +165,7 @@ def policy_from_kg(
 
 
 def policy_from_text(text: str, lag: int = 10) -> Policy:
-    """Convenience function: text → entities → KG → Policy.
-
-    Parameters
-    ----------
-    text : str
-        Raw policy text document.
-    lag : int
-        Enforcement lag in ticks. Default 10.
-
-    Returns
-    -------
-    Policy
-    """
+    """Convenience function: text → entities → KG → Policy."""
     entities = extract_entities(text)
     return policy_from_kg(entities, lag=lag, text=text)
 
@@ -260,17 +175,21 @@ def policy_from_text(text: str, lag: int = 10) -> Policy:
 # ---------------------------------------------------------------------------
 
 def perceived_policy(
-    policy_vector  : np.ndarray,
-    ideology       : float,
-    trust          : float,
-    noise_scale    : float = 0.05,
-    rng            : Optional[np.random.Generator] = None,
+    policy_vector      : np.ndarray,
+    ideology           : float,
+    trust              : float,
+    dimension_salience : Optional[np.ndarray] = None,
+    noise_scale        : Union[float, np.ndarray] = 0.05,
+    rng                : Optional[np.random.Generator] = None,
 ) -> np.ndarray:
-    """Compute an individual agent's perception of the policy vector.
+    """
+    Compute an individual agent's perception of the policy vector.
 
-    Implements the Iteration 6 / Iteration 8 model of ideological distortion:
-    anti-regulation agents (ideology < 0) underweight enforcement and audit
+    Anti-regulation agents (ideology < 0) underweight enforcement-type
     dimensions; low-trust agents discount the policy signal globally.
+    The magnitude of per-dimension distortion is governed by
+    dimension_salience, which is loaded from the schema YAML (Tier 1) or
+    computed from PCA loadings (Tier 2).
 
     Parameters
     ----------
@@ -281,10 +200,14 @@ def perceived_policy(
         +1 = strongly pro-regulation, -1 = strongly anti-regulation.
     trust : float
         Institutional trust in [0, 1]. Beta(2,2)-distributed.
-    noise_scale : float
-        Standard deviation of perceptual noise. Default 0.05.
+    dimension_salience : np.ndarray, shape (d,), optional
+        Per-dimension ideology sensitivity. When None, falls back to the
+        legacy hardcoded AI-policy bias for 4-dim vectors, or zeros otherwise.
+    noise_scale : float or np.ndarray, shape (d,)
+        Standard deviation of perceptual noise. Passing an array allows
+        per-dimension noise (used to scale by inverse confidence in Tier 1/2).
+        Default 0.05 (scalar, applied to all dimensions equally).
     rng : np.random.Generator, optional
-        Random number generator for noise. Uses np.random if None.
 
     Returns
     -------
@@ -293,17 +216,18 @@ def perceived_policy(
     """
     d = len(policy_vector)
 
-    # Dimension-specific ideology biases (length-4 assumption)
-    # [deployment_cap, transparency, enforcement, audit_intensity]
-    if d == 4:
-        bias = ideology * np.array([-0.3, 0.1, 0.2, 0.15])
-    else:
-        bias = ideology * np.full(d, -0.1)
+    if dimension_salience is None:
+        if d == 4:
+            dimension_salience = np.array([-0.3, 0.1, 0.2, 0.15])
+        else:
+            dimension_salience = np.zeros(d)
+
+    bias = ideology * np.asarray(dimension_salience)
 
     if rng is not None:
-        noise = rng.normal(0, noise_scale, size=d)
+        noise = rng.normal(0.0, noise_scale, size=d)
     else:
-        noise = np.random.normal(0, noise_scale, size=d)
+        noise = np.random.normal(0.0, noise_scale, size=d)
 
     perceived = trust * (policy_vector + bias) + noise
     return np.clip(perceived, 0.0, 1.0)
@@ -314,10 +238,7 @@ def perceived_policy(
 # ---------------------------------------------------------------------------
 
 def describe_extraction(text: str) -> str:
-    """Return a human-readable summary of extraction results for a text.
-
-    Useful for debugging the KG pipeline on new policy documents.
-    """
+    """Return a human-readable summary of extraction results for a text."""
     entities = extract_entities(text)
     narrative = extract_narrative_scores(text)
     policy = policy_from_text(text)

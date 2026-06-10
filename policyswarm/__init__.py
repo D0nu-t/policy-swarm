@@ -1,29 +1,50 @@
 """
 policyswarm
 ===========
-A research-grade agent-based modelling framework for studying how AI
-governance decisions propagate through synthetic social ecosystems.
+A research-grade agent-based modelling framework for studying how governance
+decisions propagate through synthetic social ecosystems.
 
-Quick start
------------
+Quick start — keyword extraction (no extra dependencies)
+---------------------------------------------------------
     from policyswarm import PolicySwarm
     ps = PolicySwarm(output_dir="my_run")
-    ps.run_experiment("lag")   # Experiment 2: enforcement lag sensitivity
-    ps.run_all()               # all six experiments
+    ps.run_experiment("lag")
+    ps.run_all()
+
+Quick start — Tier 1 LLM extraction
+-------------------------------------
+    from policyswarm.extraction_llm import LLMPolicyExtractor
+    extractor = LLMPolicyExtractor.from_yaml(
+        "schemas/ai_policy.yaml", backend="ollama", model="llama3.2:3b"
+    )
+    policy = extractor.extract("data/eu_ai_act.pdf")
+    # Then: python run_all.py --policy-source llm --schema schemas/ai_policy.yaml ...
+
+Quick start — Tier 2 embedding extraction
+------------------------------------------
+    # Fit once:
+    # python -m policyswarm.tools.fit_encoder --corpus-dir data/ --output models/enc.pkl
+    from policyswarm.extraction_embedding import EmbeddingPolicyExtractor
+    extractor = EmbeddingPolicyExtractor.load("models/enc.pkl")
+    policy = extractor.extract("data/new_regulation.pdf")
+    # Then: python run_all.py --policy-source embedding --encoder models/enc.pkl ...
 
 Module map
 ----------
-policyswarm.config         — Configuration dataclasses and enumerations
-policyswarm.extraction     — Policy-text ingestion and KG pipeline
-policyswarm.network        — Social network topology builders
-policyswarm.shocks         — Exogenous shock schedule generation
-policyswarm.dynamics       — Core ABM simulation engine (Simulation)
-policyswarm.metrics        — Outcome metric computations
-policyswarm.analysis       — Statistical analysis utilities
-policyswarm.visualization  — Publication-ready plot generation
-policyswarm.experiments    — Individual experiment classes (Exp 1-6)
-policyswarm.latex          — LaTeX table generation
-policyswarm.schema         — Runtime schema validation
+policyswarm.config              — Configuration dataclasses and enumerations
+policyswarm.extraction          — Keyword/KG policy ingestion (Tier 0)
+policyswarm.extraction_llm      — LLM-based schema-driven extraction (Tier 1)
+policyswarm.extraction_embedding— Corpus PCA embedding extraction (Tier 2)
+policyswarm.network             — Social network topology builders
+policyswarm.shocks              — Exogenous shock schedule generation
+policyswarm.dynamics            — Core ABM simulation engine (Simulation)
+policyswarm.metrics             — Outcome metric computations
+policyswarm.analysis            — Statistical analysis utilities
+policyswarm.visualization       — Publication-ready plot generation
+policyswarm.experiments         — Individual experiment classes (Exp 1-6)
+policyswarm.latex               — LaTeX table generation
+policyswarm.schema              — Runtime schema validation
+policyswarm.tools.fit_encoder   — CLI for fitting a Tier 2 CorpusEncoder
 """
 
 from .config import (
@@ -59,9 +80,40 @@ from .experiments import (
 
 import os
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"
 __author__  = "krishnasai-addala"
 
+# ---------------------------------------------------------------------------
+# Optional Tier 1 exports (requires: pip install pyyaml requests pdfplumber)
+# Optional HuggingFace backend (requires: pip install transformers torch)
+# ---------------------------------------------------------------------------
+try:
+    from .extraction_llm import (
+        LLMPolicyExtractor,
+        PolicySchema,
+        DimensionSpec,
+        OllamaBackend,
+        HuggingFaceBackend,
+    )
+    _TIER1_AVAILABLE = True
+except ImportError:
+    _TIER1_AVAILABLE = False
+
+# ---------------------------------------------------------------------------
+# Optional Tier 2 exports (requires: pip install sentence-transformers scikit-learn)
+# ---------------------------------------------------------------------------
+try:
+    from .extraction_embedding import (
+        CorpusEncoder,
+        EmbeddingPolicyExtractor,
+    )
+    _TIER2_AVAILABLE = True
+except ImportError:
+    _TIER2_AVAILABLE = False
+
+# ---------------------------------------------------------------------------
+# Experiment registry (module-level for use by run_all.py)
+# ---------------------------------------------------------------------------
 _EXPERIMENT_MAP = {
     "oversight"      : OversightPhaseExperiment,
     "lag"            : EnforcementLagExperiment,
@@ -71,6 +123,10 @@ _EXPERIMENT_MAP = {
     "geometry"       : GeometryExperiment,
 }
 
+
+# ---------------------------------------------------------------------------
+# PolicySwarm facade
+# ---------------------------------------------------------------------------
 
 class PolicySwarm:
     """High-level facade for running PolicySwarm experiments.
@@ -82,7 +138,7 @@ class PolicySwarm:
     seeds : list of int, optional
         Monte Carlo seeds shared across all experiments. Default list(range(20)).
     policy_text : str, optional
-        Raw policy text to ingest.
+        Raw policy text for the default keyword extraction path.
     """
 
     DEFAULT_POLICY_TEXT = """
@@ -93,13 +149,17 @@ class PolicySwarm:
 
     def __init__(self, output_dir="policyswarm_output", seeds=None, policy_text=None):
         self.output_dir  = output_dir
-        # Default S=20. Override via --seeds CLI arg or seeds= constructor kwarg.
         self.seeds       = seeds or list(range(20))
         self.policy_text = policy_text or self.DEFAULT_POLICY_TEXT
         os.makedirs(output_dir, exist_ok=True)
 
-    def run_experiment(self, name, **kwargs):
-        """Run a single named experiment."""
+    def run_experiment(self, name: str, **kwargs) -> dict:
+        """Run a single named experiment.
+
+        Extra kwargs (e.g. sim_config, shock_config) are forwarded to the
+        experiment constructor. This allows run_all.py to inject a custom
+        SimConfig when using Tier 1/2 policy extraction.
+        """
         if name not in _EXPERIMENT_MAP:
             raise ValueError(
                 f"Unknown experiment: {name!r}. "
@@ -115,8 +175,13 @@ class PolicySwarm:
         )
         return exp.report()
 
-    def run_all(self, experiments=None):
-        """Run all (or a subset of) experiments sequentially."""
+    def run_all(self, experiments=None) -> dict:
+        """Run all (or a subset of) experiments sequentially.
+
+        Uses the keyword extraction path. For Tier 1/2, call
+        run_all.py with --policy-source, which uses run_experiment()
+        directly with policy injection.
+        """
         to_run = experiments or list(_EXPERIMENT_MAP)
         reports = {}
         for name in to_run:
@@ -129,6 +194,15 @@ class PolicySwarm:
         return reports
 
     @staticmethod
-    def describe_policy(text):
+    def describe_policy(text: str) -> None:
         """Print the KG extraction summary for a policy text."""
         print(describe_extraction(text))
+
+    @staticmethod
+    def tier_status() -> dict:
+        """Report which extraction tiers are available given installed packages."""
+        return {
+            "tier0_keyword"  : True,
+            "tier1_llm"      : _TIER1_AVAILABLE,
+            "tier2_embedding": _TIER2_AVAILABLE,
+        }

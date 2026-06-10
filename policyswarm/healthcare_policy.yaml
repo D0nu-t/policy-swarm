@@ -1,0 +1,50 @@
+domain: "Healthcare Policy"
+description: >
+  Dimensions for evaluating healthcare access, insurance, and provider
+  regulation policy documents. Demonstrates domain-agnostic usage of
+  PolicySwarm with a non-AI policy domain.
+
+dimensions:
+  - name: access_restriction
+    description: >
+      Degree to which the policy limits patient access to treatments or
+      services. High (1.0) means severe restrictions such as mandatory
+      prior authorizations, step-therapy requirements, or gatekeeping.
+      Low (0.0) means universal open access with no gatekeeping.
+    ideology_sensitivity: -0.25
+
+  - name: cost_sharing
+    description: >
+      Patient financial burden. High (1.0) means high deductibles, copays,
+      coinsurance, and out-of-pocket maximums shifted to the patient.
+      Low (0.0) means full coverage with no patient cost sharing.
+    ideology_sensitivity: -0.2
+
+  - name: provider_regulation
+    description: >
+      Regulatory burden on healthcare providers and insurers. High (1.0)
+      means extensive licensing, reporting, quality metrics, and compliance
+      requirements. Low (0.0) means minimal provider regulation.
+    ideology_sensitivity: 0.15
+
+  - name: coverage_mandate
+    description: >
+      Breadth of mandated coverage. High (1.0) means comprehensive essential
+      health benefits with minimal exclusions, including mental health parity.
+      Low (0.0) means bare-bones coverage with many exclusions permitted.
+    ideology_sensitivity: 0.3
+
+narrative_frames:
+  - equity
+  - cost_containment
+  - quality
+
+lag_prompt: >
+  Estimate the number of time periods (integer, range 0-40) before this
+  healthcare policy's enforcement provisions become active. Consider:
+  regulatory rulemaking timelines (typically 12-18 months), insurer
+  compliance windows, phase-in schedules for coverage mandates, and
+  state implementation flexibility provisions.
+
+violator_dimension: cost_sharing
+violator_threshold: 0.75

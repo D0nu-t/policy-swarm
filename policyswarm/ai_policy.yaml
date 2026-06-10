@@ -1,0 +1,48 @@
+domain: "AI Governance"
+description: "Dimensions for evaluating AI regulatory policy documents"
+
+dimensions:
+  - name: deployment_cap
+    description: >
+      Permissiveness of AI system deployment. High (1.0) means the policy
+      allows broad deployment with few restrictions. Low (0.0) means
+      near-complete prohibition on high-risk AI systems.
+    ideology_sensitivity: -0.3
+
+  - name: transparency
+    description: >
+      Disclosure and explainability requirements. High (1.0) means strict
+      mandatory transparency audits, model cards, and public disclosure
+      obligations. Low (0.0) means no disclosure required.
+    ideology_sensitivity: 0.1
+
+  - name: enforcement
+    description: >
+      Penalty and compliance mechanism intensity. High (1.0) means severe
+      enforcement with heavy fines, criminal liability, and mandatory
+      corrective action for non-compliance. Low (0.0) means voluntary
+      guidelines with no enforcement mechanism.
+    ideology_sensitivity: 0.2
+
+  - name: audit_intensity
+    description: >
+      Monitoring depth and audit frequency. High (1.0) means extensive
+      continuous monitoring, mandatory third-party audits, and real-time
+      reporting requirements. Low (0.0) means no audit requirements.
+    ideology_sensitivity: 0.15
+
+narrative_frames:
+  - safety
+  - innovation
+  - transparency
+
+lag_prompt: >
+  Based on the policy text, estimate how many discrete time periods
+  (integer, range 0-40) would pass between policy announcement and active
+  enforcement beginning. Consider: phased rollout language, grace periods,
+  implementation deadlines, regulatory rulemaking timelines. A policy
+  effective immediately = 0. A policy with a 2-year implementation window
+  and 60-tick simulation horizon ≈ 30-35.
+
+violator_dimension: deployment_cap
+violator_threshold: 0.8

@@ -9,10 +9,12 @@ Configuration is deliberately split into three orthogonal concerns:
 
   SimConfig        – simulation mechanics (agent count, tick budget, interaction rate)
   GovernanceConfig – regulatory regime parameters (caps, penalties, lag)
-  Policy           – the 4-D policy object produced by the KG extraction layer
+  Policy           – N-D policy object. Supports two construction modes:
+                       Legacy: 4-dim named fields (backward compatible)
+                       Generic: N-dim vector + dimension_names from extractor
 
-This separation allows fixing governance while varying simulation mechanics, or
-vice-versa, without coupling changes across the codebase.
+The generic mode is required for Tier 1 (LLM extraction) and Tier 2 (embedding
+extraction). The legacy mode keeps all existing experiments working unchanged.
 """
 
 from __future__ import annotations
@@ -20,7 +22,7 @@ from __future__ import annotations
 import numpy as np
 from dataclasses import dataclass, field, asdict
 from enum import Enum
-from typing import Dict, Optional
+from typing import Dict, List, Optional, Union
 
 
 # ---------------------------------------------------------------------------
@@ -28,18 +30,7 @@ from typing import Dict, Optional
 # ---------------------------------------------------------------------------
 
 class OverlapRegime(str, Enum):
-    """Ordinal oversight regimes used in Experiment 1.
-
-    Maps to (deployment_rate_cap, penalty_severity) pairs that parametrize
-    how strictly the governance framework curtails high-influence agents.
-
-    Attributes
-    ----------
-    NONE        : No regulatory constraint. Baseline.
-    VOLUNTARY   : Self-regulatory guidelines; no enforcement mechanism.
-    MANDATORY   : Legally binding rules with non-trivial penalties.
-    PROHIBITIVE : Near-complete ban on high-risk deployment.
-    """
+    """Ordinal oversight regimes used in Experiment 1."""
     NONE        = "none"
     VOLUNTARY   = "voluntary"
     MANDATORY   = "mandatory"
@@ -55,51 +46,18 @@ REGIME_PARAMS: Dict[OverlapRegime, Dict[str, float]] = {
 
 
 class NetworkType(str, Enum):
-    """Social network topology selection.
-
-    Attributes
-    ----------
-    BARABASI_ALBERT      : Scale-free network via preferential attachment.
-                           Reflects heavy-tailed influence distributions.
-    STOCHASTIC_BLOCK     : Community-structured network (3 blocks).
-                           Produces echo-chamber dynamics.
-    """
     BARABASI_ALBERT  = "ba"
     STOCHASTIC_BLOCK = "sbm"
 
 
 class Geometry(str, Enum):
-    """Opinion-space metric for the bounded-confidence update rule.
-
-    The geometry choice is a substantive modelling decision (see Iteration 12
-    and Experiment 6 in the design document). Euclidean is the default and
-    dominant choice in the literature; cosine and manifold are alternatives
-    with distinct polarization properties.
-
-    Attributes
-    ----------
-    EUCLIDEAN : L2 norm in R^d. Highest polarization.
-    COSINE    : Angular disagreement only. Lowest polarization.
-    MANIFOLD  : Geodesic retraction onto unit hypersphere S^(d-1).
-    """
+    """Opinion-space metric for the bounded-confidence update rule."""
     EUCLIDEAN = "euclidean"
     COSINE    = "cosine"
     MANIFOLD  = "manifold"
 
 
 class ShockMode(str, Enum):
-    """Controls the directional character of exogenous shocks.
-
-    Attributes
-    ----------
-    COORDINATING : Mean-reverting toward opinion-space centre (0.5).
-                   Models crisis-induced consensus / coordinated messaging.
-    POLARIZING   : Centrifugal push away from centre.
-                   Models wedge events, disinformation campaigns.
-    DIRECTIONAL  : Pull toward the current policy vector.
-                   Used in Experiment 5 (centrality sweep) for coherent
-                   signal propagation studies.
-    """
     COORDINATING = "coordinating"
     POLARIZING   = "polarizing"
     DIRECTIONAL  = "directional"
@@ -111,53 +69,20 @@ class ShockMode(str, Enum):
 
 @dataclass
 class SimConfig:
-    """Mechanical parameters of the ABM simulation.
-
-    Parameters
-    ----------
-    n_agents : int
-        Number of agents in the population. Default 120.
-    n_ticks : int
-        Simulation duration in discrete time steps. Default 60.
-    interactions : int
-        Number of peer-interaction attempts per tick. Default 150.
-    shock_prob : float
-        Probability that an exogenous shock occurs on any given tick. Default 0.2.
-    mu : float
-        Opinion-update step size (convergence rate) in the bounded-confidence
-        rule. Bounded to (0, 1]. Default 0.15.
-    epsilon : float
-        Global confidence radius. Agents only interact when their opinion
-        distance is below this threshold. Default 0.5.
-    network_type : NetworkType
-        Social network topology. Default BARABASI_ALBERT.
-    ba_m : int
-        Edges added per node in BA preferential attachment. Default 3.
-    sbm_n_communities : int
-        Number of communities in the SBM topology. Default 3.
-    sbm_p_in : float
-        Within-community edge probability. Default 0.2.
-    sbm_p_out : float
-        Cross-community edge probability. Default 0.02.
-    opinion_dim : int
-        Dimensionality of the opinion vectors. Should match Policy.dim. Default 4.
-    policy_split_tick : int
-        Tick at which the pre/post variance measurement splits.
-        Also the tick at which time-varying policy updates activate. Default 40.
-    """
-    n_agents        : int         = 120
-    n_ticks         : int         = 60
-    interactions    : int         = 150
-    shock_prob      : float       = 0.2
-    mu              : float       = 0.15
-    epsilon         : float       = 0.5
-    network_type    : NetworkType = NetworkType.BARABASI_ALBERT
-    ba_m            : int         = 3
-    sbm_n_communities: int        = 3
-    sbm_p_in        : float       = 0.2
-    sbm_p_out       : float       = 0.02
-    opinion_dim     : int         = 4
-    policy_split_tick: int        = 40
+    """Mechanical parameters of the ABM simulation."""
+    n_agents         : int         = 120
+    n_ticks          : int         = 60
+    interactions     : int         = 150
+    shock_prob       : float       = 0.2
+    mu               : float       = 0.15
+    epsilon          : float       = 0.5
+    network_type     : NetworkType = NetworkType.BARABASI_ALBERT
+    ba_m             : int         = 3
+    sbm_n_communities: int         = 3
+    sbm_p_in         : float       = 0.2
+    sbm_p_out        : float       = 0.02
+    opinion_dim      : int         = 4
+    policy_split_tick: int         = 40
 
     def to_dict(self) -> dict:
         d = asdict(self)
@@ -171,35 +96,7 @@ class SimConfig:
 
 @dataclass
 class GovernanceConfig:
-    """Regulatory regime parameters.
-
-    These map directly to simulation mechanics via the GovernanceConfig ×
-    Simulation interface. They are the primary independent variables in most
-    experiments.
-
-    Parameters
-    ----------
-    oversight_regime : OverlapRegime
-        Categorical regime label. When set, automatically populates
-        deployment_rate_cap and penalty_severity from REGIME_PARAMS.
-        If set to None, the individual float values are used directly.
-    deployment_rate_cap : float
-        Probability that any given peer interaction is permitted per tick.
-        Models regulatory restriction on AI-system interaction frequency.
-        Range [0, 1]. Default 0.5.
-    penalty_severity : float
-        Multiplicative reduction applied to the effective influence of
-        "violator" agents (opinion[0] > 0.8 = extreme pro-AI stance).
-        0 = no penalty, 1 = complete silencing. Default 0.3.
-    enforcement_lag : int
-        Ticks between simulation start and penalty activation. Key
-        variable in Experiment 2. Default 10.
-    enable_media : bool
-        Whether ideology-aligned competing media broadcasts are active.
-        Key variable in Experiment 3. Default True.
-    media_strength : float
-        Scalar on ideology-aligned media push. Default 0.1.
-    """
+    """Regulatory regime parameters."""
     oversight_regime    : Optional[OverlapRegime] = None
     deployment_rate_cap : float                   = 0.5
     penalty_severity    : float                   = 0.3
@@ -221,65 +118,220 @@ class GovernanceConfig:
 
 
 # ---------------------------------------------------------------------------
-# Policy object
+# Policy object — generic N-dim with legacy 4-dim backward compatibility
 # ---------------------------------------------------------------------------
 
 @dataclass
 class Policy:
-    """4-D regulatory policy object produced by the KG extraction layer.
+    """
+    N-dimensional regulatory policy object.
 
-    Each dimension represents an independently measurable aspect of a
-    governance framework. Agent opinions are also 4-D, allowing agreement
-    on one dimension while disagreeing on another.
+    Two construction modes:
+
+    Legacy (4-dim AI policy, fully backward compatible — all existing
+    experiments continue to work without any changes):
+
+        Policy(deployment_cap=0.5, transparency=0.7, enforcement=0.8,
+               audit_intensity=0.6, lag=10)
+
+    Generic (N-dim, produced by LLMPolicyExtractor or EmbeddingPolicyExtractor):
+
+        Policy(
+            vector=np.array([0.5, 0.7, 0.8, 0.6]),
+            dimension_names=["deployment_cap", "transparency",
+                              "enforcement", "audit_intensity"],
+            confidence=np.array([0.9, 0.8, 0.7, 0.6]),
+            dimension_salience=np.array([-0.3, 0.1, 0.2, 0.15]),
+            violator_dim_index=0,
+            violator_threshold=0.8,
+            lag=10,
+        )
 
     Parameters
     ----------
-    deployment_cap : float
-        Permissiveness of AI deployment. High = permissive. Range [0,1].
-    transparency : float
-        Disclosure requirement stringency. High = strict. Range [0,1].
-    enforcement : float
-        Penalty intensity (complement to GovernanceConfig.penalty_severity,
-        which affects interaction; this affects the policy pull direction).
-    audit_intensity : float
-        Monitoring depth. High = extensive. Range [0,1].
-    lag : int
-        Enforcement lag in ticks. Overrides GovernanceConfig.enforcement_lag
-        when passed to Simulation directly. Default 10.
-    narrative : dict
-        Framing weights extracted from policy text. Keys: "safety",
-        "innovation", "transparency". Values in [0, 1].
+    vector : np.ndarray, shape (n_dims,), optional
+        Policy position vector. Takes precedence over named legacy fields
+        when provided. All values in [0, 1].
+    dimension_names : list of str, optional
+        Human-readable name for each dimension. Required for shift_dimension()
+        and for _apply_policy_shift() to locate "enforcement"/"audit_intensity".
+    confidence : np.ndarray, shape (n_dims,), optional
+        Per-dimension extraction confidence in [0, 1]. Used by perceived_policy()
+        to scale perceptual noise: low-confidence dims get higher noise.
+    dimension_salience : np.ndarray, shape (n_dims,), optional
+        Per-dimension ideology sensitivity. Replaces the hardcoded
+        [-0.3, 0.1, 0.2, 0.15] bias in perceived_policy(). Loaded from schema
+        YAML or computed from PCA loadings (Tier 2).
+    violator_dim_index : int
+        Index of the dimension used for violator detection. Default 0
+        (deployment_cap in the legacy schema).
+    violator_threshold : float
+        Threshold above which an agent on violator_dim_index is a "violator".
+        Default 0.8.
     """
+
+    # Generic fields (N-dim, optional — set by extractors)
+    vector             : Optional[np.ndarray] = None
+    dimension_names    : Optional[List[str]]  = None
+    confidence         : Optional[np.ndarray] = None
+    dimension_salience : Optional[np.ndarray] = None
+    violator_dim_index : int                  = 0
+    violator_threshold : float                = 0.8
+
+    # Legacy named fields (4-dim AI policy, always present for compat)
     deployment_cap  : float = 0.5
     transparency    : float = 0.5
     enforcement     : float = 0.5
     audit_intensity : float = 0.5
     lag             : int   = 10
     narrative       : Dict[str, float] = field(
-        default_factory=lambda: {"safety": 0.5, "innovation": 0.5, "transparency": 0.5}
+        default_factory=lambda: {
+            "safety": 0.5, "innovation": 0.5, "transparency": 0.5
+        }
     )
+
+    def __post_init__(self):
+        if self.vector is None:
+            # Legacy construction: build vector from named fields
+            self.vector = np.array([
+                self.deployment_cap,
+                self.transparency,
+                self.enforcement,
+                self.audit_intensity,
+            ], dtype=float)
+            if self.dimension_names is None:
+                self.dimension_names = [
+                    "deployment_cap", "transparency",
+                    "enforcement", "audit_intensity",
+                ]
+        else:
+            self.vector = np.asarray(self.vector, dtype=float)
+
+        if self.dimension_names is None:
+            self.dimension_names = [f"dim_{i}" for i in range(len(self.vector))]
+
+        if self.confidence is None:
+            self.confidence = np.ones(len(self.vector), dtype=float)
+        else:
+            self.confidence = np.asarray(self.confidence, dtype=float)
+
+        if self.dimension_salience is None:
+            if (
+                len(self.vector) == 4
+                and self.dimension_names[:4] == [
+                    "deployment_cap", "transparency",
+                    "enforcement", "audit_intensity",
+                ]
+            ):
+                # Legacy default: AI policy hardcoded ideology bias
+                self.dimension_salience = np.array([-0.3, 0.1, 0.2, 0.15])
+            else:
+                self.dimension_salience = np.zeros(len(self.vector), dtype=float)
+        else:
+            self.dimension_salience = np.asarray(self.dimension_salience, dtype=float)
+
+        # Keep legacy named fields in sync with vector for any code that reads them
+        self._sync_legacy_fields()
+
+    def _sync_legacy_fields(self) -> None:
+        """Sync the 4 legacy named fields from the vector when dimension names match."""
+        legacy = {
+            "deployment_cap": 0,
+            "transparency":   1,
+            "enforcement":    2,
+            "audit_intensity": 3,
+        }
+        for name, expected_idx in legacy.items():
+            if (
+                name in self.dimension_names
+                and self.dimension_names.index(name) < len(self.vector)
+            ):
+                idx = self.dimension_names.index(name)
+                object.__setattr__(self, name, float(self.vector[idx]))
+
+    def __setattr__(self, name: str, value) -> None:
+        """
+        Intercept direct field assignment to keep vector and legacy named
+        fields in sync.
+
+        After __post_init__ has run (i.e. vector and dimension_names are set),
+        assigning to any of the four legacy fields also updates the
+        corresponding vector element in-place.  This preserves backward
+        compatibility with code that does ``policy.enforcement = 0.9``.
+
+        During __init__ / __post_init__, when vector or dimension_names are
+        not yet set, the AttributeError is silently caught so construction
+        still works.
+        """
+        object.__setattr__(self, name, value)
+        _LEGACY = {"deployment_cap", "transparency", "enforcement", "audit_intensity"}
+        if name in _LEGACY:
+            try:
+                vec       = object.__getattribute__(self, "vector")
+                dim_names = object.__getattribute__(self, "dimension_names")
+                if vec is not None and dim_names is not None and name in dim_names:
+                    idx = dim_names.index(name)
+                    if idx < len(vec):
+                        # In-place update preserves the array object reference
+                        vec[idx] = float(value)
+            except AttributeError:
+                pass  # vector or dimension_names not yet initialised
+
+    def __copy__(self) -> Policy:
+        """Shallow copy that deep-copies numpy arrays to prevent cross-Simulation mutation."""
+        new = object.__new__(Policy)
+        new.__dict__.update(self.__dict__)
+        new.vector             = self.vector.copy()
+        new.confidence         = self.confidence.copy()
+        new.dimension_salience = self.dimension_salience.copy()
+        new.dimension_names    = list(self.dimension_names)
+        new.narrative          = dict(self.narrative)
+        return new
 
     @property
     def dim(self) -> int:
-        return 4
+        return len(self.vector)
 
     def as_vector(self) -> np.ndarray:
-        """Return the 4-D policy position as a NumPy array."""
-        return np.array([
-            self.deployment_cap,
-            self.transparency,
-            self.enforcement,
-            self.audit_intensity,
-        ], dtype=float)
+        """Return the policy position as a NumPy array (copy)."""
+        return self.vector.copy()
+
+    def shift_dimension(self, name: str, delta: float) -> None:
+        """
+        Shift a named dimension by delta, clamped to [0, 1].
+
+        Used by _apply_policy_shift() in Simulation. If the name is not in
+        dimension_names (e.g., domain-agnostic schema without "enforcement"),
+        raises KeyError — callers should catch this and skip silently.
+
+        Parameters
+        ----------
+        name : str
+            Dimension name. Must be in self.dimension_names.
+        delta : float
+            Signed shift amount. Clamped to keep result in [0, 1].
+        """
+        if name not in self.dimension_names:
+            raise KeyError(
+                f"Dimension '{name}' not in schema. "
+                f"Available: {self.dimension_names}"
+            )
+        idx = self.dimension_names.index(name)
+        self.vector[idx] = float(np.clip(self.vector[idx] + delta, 0.0, 1.0))
+        # Keep legacy field in sync
+        if name in ("deployment_cap", "transparency", "enforcement", "audit_intensity"):
+            object.__setattr__(self, name, float(self.vector[idx]))
 
     def to_dict(self) -> dict:
         return {
-            "deployment_cap" : self.deployment_cap,
-            "transparency"   : self.transparency,
-            "enforcement"    : self.enforcement,
-            "audit_intensity": self.audit_intensity,
-            "lag"            : self.lag,
-            "narrative"      : self.narrative,
+            "dimension_names"    : self.dimension_names,
+            "vector"             : self.vector.tolist(),
+            "confidence"         : self.confidence.tolist(),
+            "dimension_salience" : self.dimension_salience.tolist(),
+            "violator_dim_index" : self.violator_dim_index,
+            "violator_threshold" : self.violator_threshold,
+            "lag"                : self.lag,
+            "narrative"          : self.narrative,
         }
 
 
@@ -289,21 +341,7 @@ class Policy:
 
 @dataclass
 class ShockConfig:
-    """Parameters governing the exogenous shock process.
-
-    Parameters
-    ----------
-    shock_prob : float
-        Per-tick probability of a shock. Default 0.2.
-    min_strength : float
-        Minimum shock magnitude. Default 0.1.
-    max_strength : float
-        Maximum shock magnitude. Default 0.4.
-    mode : ShockMode
-        Directional character of shocks. Default COORDINATING.
-    n_targets : int
-        Number of agents targeted per shock event. Default 10.
-    """
+    """Parameters governing the exogenous shock process."""
     shock_prob   : float     = 0.2
     min_strength : float     = 0.1
     max_strength : float     = 0.4
