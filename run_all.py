@@ -74,9 +74,25 @@ from policyswarm.schema import STATS_SCHEMA, GEOMETRY_RESULTS_SCHEMA
 
 
 POLICY_TEXT = """
-The government introduces strict AI safety regulations requiring transparency audits,
-limiting deployment of high-risk systems, and enforcing penalties for non-compliance.
-The policy prioritises public safety over innovation risks.
+1. OBJECTIVE AND GUIDING PRINCIPLE
+The government hereby establishes a comprehensive, risk-based regulatory framework for Artificial Intelligence (AI). This policy explicitly prioritizes public safety, fundamental human rights, and systemic security over unrestrained technical innovation. Where severe or irreversible risks to public welfare are identified, the absence of full scientific certainty shall not be used as a reason for postponing precautionary regulations.
+
+2. CLASSIFICATION OF RISK TIERS
+AI systems shall be categorized into distinct risk tiers, drawing direct inspiration from the European Union AI Act framework:
+  * Prohibited Systems: AI practices that present an unacceptable risk to human safety and civil liberties are banned outright. This includes systems utilizing subliminal techniques to manipulate behavior, untargeted scraping of facial images for biometric surveillance, and state-backed social scoring systems.
+  * High-Risk Systems: AI deployed in critical infrastructure (such as water, electricity, and transport networks), medical devices, biometric identification, law enforcement, and systemic employment or education algorithms are subject to rigorous pre-market and post-market obligations.
+
+3. MANDATORY TRANSPARENCY AUDITS AND LIFECYCLE MANAGEMENT
+Providers and deployers of High-Risk and General-Purpose AI (GPAI) models must adhere to strict transparency and technical documentation standards:
+  * Conformity Assessments: Developers must perform independent or third-party conformity assessments before any high-risk system can be placed on the open market.
+  * Traceability & Explainability: System architectures must maintain automated logs (audit trails) ensuring transparency. AI systems interacting directly with humans must be designed to explicitly notify users that they are interacting with an AI. Synthetic content (e.g., text, video, audio) must be digitally watermarked in a machine-readable format.
+  * NIST Risk Management Alignment: Entities must implement continuous risk-mitigation frameworks detailing model architecture, dataset curation, bias testing, and human-in-the-loop oversight mechanisms that allow real-time intervention and system overrides.
+
+4. PENALTIES FOR NON-COMPLIANCE AND ENFORCEMENT
+To enforce compliance, the regulatory authority establishes a tiered, dissuasive penalty regime based on global annual turnover:
+  * Tier 1 (Prohibited Practices): Violations involving banned AI applications shall face administrative fines of up to €35,000,000 or up to 7% of the offending entity's total worldwide annual turnover for the preceding financial year, whichever is higher.
+  * Tier 2 (High-Risk Failures): Non-compliance with mandatory high-risk obligations, data governance gaps, or structural transparency failures shall be subject to fines of up to €15,000,000 or 3% of global annual turnover.
+  * Tier 3 (Procedural & Information Violations): Supplying incorrect, incomplete, or misleading information to auditing bodies or national competent authorities during an inspection shall carry penalties of up to €7,500,000 or 1% of global annual turnover.
 """
 
 VALID_EXPERIMENTS = [
