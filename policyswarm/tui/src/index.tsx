@@ -84,8 +84,8 @@ function parseArgs(argv: string[]): ParsedArgs {
     }
   }
 
-  // Default seeds: 0-19 (S=20), matching run_all.py default
-  const effectiveSeeds = seeds.length > 0 ? seeds : Array.from({ length: 20 }, (_, k) => k);
+  // Default seeds: 0-29 (S=30), matching run_all.py default
+  const effectiveSeeds = seeds.length > 0 ? seeds : Array.from({ length: 30 }, (_, k) => k);
 
   // Always point at run_all.py relative to the tui/ directory
 
