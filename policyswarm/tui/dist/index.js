@@ -6,7 +6,7 @@
  *
  * Usage (from the tui/ directory):
  *
- *   # Default: run all experiments, S=20, output=policyswarm_output
+ *   # Default: run all experiments, S=30, output=policyswarm_output
  *   node dist/index.js
  *
  *   # Custom seeds and output dir (forwarded verbatim to run_all.py)
@@ -71,8 +71,8 @@ function parseArgs(argv) {
             j++;
         }
     }
-    // Default seeds: 0-19 (S=20), matching run_all.py default
-    const effectiveSeeds = seeds.length > 0 ? seeds : Array.from({ length: 20 }, (_, k) => k);
+    // Default seeds: 0-29 (S=30), matching run_all.py default
+    const effectiveSeeds = seeds.length > 0 ? seeds : Array.from({ length: 30 }, (_, k) => k);
     // Always point at run_all.py relative to the tui/ directory
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = path.dirname(__filename);

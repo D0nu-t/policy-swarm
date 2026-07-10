@@ -6,7 +6,7 @@
  *
  * Usage (from the tui/ directory):
  *
- *   # Default: run all experiments, S=20, output=policyswarm_output
+ *   # Default: run all experiments, S=30, output=policyswarm_output
  *   node dist/index.js
  *
  *   # Custom seeds and output dir (forwarded verbatim to run_all.py)
