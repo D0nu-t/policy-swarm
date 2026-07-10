@@ -318,8 +318,8 @@ Policy sources
     )
     parser.add_argument(
         "--seeds", nargs="+", type=int,
-        default=list(range(20)),
-        help="Random seeds for Monte Carlo runs (default: 0-19, S=20).",
+        default=list(range(0, 30)),
+        help="Random seeds for Monte Carlo runs (default: 0-29, S=30).",
     )
     parser.add_argument(
         "--output", default="policyswarm_output",
@@ -418,7 +418,7 @@ def generate_latex_tables(experiment_name: str, output_root: str) -> int:
             df,
             caption=(
                 "Geometry comparison across opinion spaces "
-                "(mean $\\pm$ 95\\% CI, $S=20$)."
+                "(mean $\\pm$ 95\\% CI, $S=30$)."
             ),
             label="tab:geometry",
         )
@@ -434,7 +434,7 @@ def generate_latex_tables(experiment_name: str, output_root: str) -> int:
         stats_df,
         caption=(
             f"{experiment_name.capitalize()} results "
-            f"($S=20$, paired $t$-test, two-sided)."
+            f"($S=30$, paired $t$-test, two-sided)."
         ),
         label=f"tab:{experiment_name}",
     )

@@ -152,7 +152,7 @@ class PolicySwarm:
     output_dir : str
         Root directory for all experiment outputs. Default 'policyswarm_output'.
     seeds : list of int, optional
-        Monte Carlo seeds shared across all experiments. Default list(range(20)).
+        Monte Carlo seeds shared across all experiments. Default list(range(30)).
     policy_text : str, optional
         Raw policy text for the default keyword extraction path.
     """
@@ -165,7 +165,7 @@ class PolicySwarm:
 
     def __init__(self, output_dir="policyswarm_output", seeds=None, policy_text=None):
         self.output_dir  = output_dir
-        self.seeds       = seeds or list(range(20))
+        self.seeds       = seeds or list(range(30))
         self.policy_text = policy_text or self.DEFAULT_POLICY_TEXT
         os.makedirs(output_dir, exist_ok=True)
 
