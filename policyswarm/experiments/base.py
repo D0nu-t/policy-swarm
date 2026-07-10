@@ -9,6 +9,15 @@ Every experiment follows the same contract:
   3. Expose a .analyse() method that returns a stats DataFrame
   4. Expose a .plot() method that writes figures and returns file paths
   5. Expose a .report() convenience method that runs all three steps
+
+Structured progress events
+---------------------------
+In addition to the human-readable prose this class and its subclasses print,
+report() and run() also emit single-line JSON progress events prefixed with
+the sentinel token "##EVENT## ". These are consumed by tooling that wraps
+this process (e.g. tui/), which can safely grep for the prefix without
+risking a false match against the prose output or the stats_df.to_string()
+dump below. See _emit().
 """
 
 from __future__ import annotations
@@ -83,6 +92,46 @@ class BaseExperiment(ABC):
         """
 
     # ------------------------------------------------------------------
+    # Progress sizing — override in subclasses with a condition grid
+    # ------------------------------------------------------------------
+
+    def total_units(self) -> int:
+        """Total number of seed-iterations run(), used to size progress bars.
+
+        Default assumes a single condition (no grid): len(seeds). Experiments
+        that sweep a condition grid (lag values, geometries, regimes, ...)
+        should override this to len(grid) * len(seeds) so consumers of the
+        event stream can render an accurate percentage rather than just a
+        running count.
+        """
+        return len(self.seeds)
+
+    # ------------------------------------------------------------------
+    # Structured progress events (consumed by tui/)
+    # ------------------------------------------------------------------
+
+    def _emit(self, **fields) -> None:
+        """Emit a structured progress event as a single JSON line on stdout.
+
+        Parameters
+        ----------
+        **fields
+            Arbitrary JSON-serialisable key/value pairs. Callers always
+            include "type" (e.g. "start", "seed_complete", "complete",
+            "error") and "experiment" (self.__class__.__name__).
+
+        Notes
+        -----
+        flush=True is required: when this process is spawned as a child
+        (e.g. by the TUI via child_process.spawn), stdout is not a TTY, so
+        CPython switches from line-buffered to fully block-buffered. Without
+        an explicit flush, events queue up invisibly until the OS pipe
+        buffer fills or the process exits, which defeats the purpose of a
+        live progress stream.
+        """
+        print("##EVENT## " + json.dumps(fields), flush=True)
+
+    # ------------------------------------------------------------------
     # Convenience: full pipeline
     # ------------------------------------------------------------------
 
@@ -94,15 +143,19 @@ class BaseExperiment(ABC):
         dict with keys:
             results_df, stats_df, figure_paths, csv_path, stats_csv_path
         """
-        log.info(f"[{self.__class__.__name__}] Running experiment ...")
+        name = self.__class__.__name__
+
+        log.info(f"[{name}] Running experiment ...")
+        self._emit(type="start", experiment=name, total=self.total_units())
+
         df = self.run()
         self._results_df = df
 
-        log.info(f"[{self.__class__.__name__}] Analysing results ...")
+        log.info(f"[{name}] Analysing results ...")
         stats_df = self.analyse(df)
         self._stats_df = stats_df
 
-        log.info(f"[{self.__class__.__name__}] Generating plots ...")
+        log.info(f"[{name}] Generating plots ...")
         figure_paths = self.plot(df, stats_df)
 
         # Persist raw results and stats
@@ -123,6 +176,11 @@ class BaseExperiment(ABC):
         print(f"\nCSV  → {csv_path}")
         print(f"Stats → {stats_path}")
         print(f"Plots → {figure_paths}")
+
+        self._emit(
+            type="complete", experiment=name,
+            figures=len(figure_paths), rows=len(df),
+        )
 
         return {
             "results_df"      : df,

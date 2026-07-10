@@ -85,9 +85,13 @@ class CounterfactualShockExperiment(BaseExperiment):
         self.shock_mode  = shock_mode
         self.sim_config  = sim_config or SimConfig()
 
+    def total_units(self) -> int:
+        return len(self.geometries) * len(self.lags) * len(self.seeds)
+
     def run(self) -> pd.DataFrame:
         base_policy = policy_from_text(self.policy_text)
         rows = []
+        total = self.total_units()
 
         for geometry in self.geometries:
             for lag in self.lags:
@@ -135,6 +139,13 @@ class CounterfactualShockExperiment(BaseExperiment):
                         "num_shocks"     : len(shocks),
                         "shock_mode"     : self.shock_mode.value,
                     })
+
+                    self._emit(
+                        type="seed_complete", experiment=self.__class__.__name__,
+                        completed=len(rows), total=total,
+                        condition={"geometry": geometry.value, "lag": lag},
+                        seed=seed,
+                    )
 
         return pd.DataFrame(rows)
 

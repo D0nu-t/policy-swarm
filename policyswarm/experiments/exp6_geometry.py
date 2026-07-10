@@ -81,6 +81,9 @@ class GeometryExperiment(BaseExperiment):
         self.alphas      = alphas or [0.0, 0.05, 0.10, 0.15]
         self.sim_config  = sim_config or SimConfig()
 
+    def total_units(self) -> int:
+        return len(self.geometries) * len(self.alphas) * len(self.seeds)
+
     def run(self) -> pd.DataFrame:
         base_policy  = policy_from_text(self.policy_text)
         shock_config = ShockConfig(mode=ShockMode.COORDINATING)
@@ -88,7 +91,8 @@ class GeometryExperiment(BaseExperiment):
             deployment_rate_cap = 0.5,
             penalty_severity    = 0.3,
         )
-        rows = []
+        rows  = []
+        total = self.total_units()
 
         for geometry in self.geometries:
             for alpha in self.alphas:
@@ -126,6 +130,13 @@ class GeometryExperiment(BaseExperiment):
                         "phase_t"         : m["phase_transition_tick"],
                         "cascade_breadth" : m["cascade_breadth"],
                     })
+
+                    self._emit(
+                        type="seed_complete", experiment=self.__class__.__name__,
+                        completed=len(rows), total=total,
+                        condition={"geometry": geometry.value, "alpha": alpha},
+                        seed=seed,
+                    )
 
         return pd.DataFrame(rows)
 

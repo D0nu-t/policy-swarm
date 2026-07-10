@@ -1,0 +1,40 @@
+name: TUI CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "tui/**"
+      - "policyswarm/experiments/base.py"
+  pull_request:
+    branches: [main]
+    paths:
+      - "tui/**"
+      - "policyswarm/experiments/base.py"
+
+jobs:
+  check:
+    name: Typecheck & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: tui/package-lock.json
+
+      - name: Install dependencies
+        working-directory: tui
+        run: npm ci
+
+      - name: Typecheck
+        working-directory: tui
+        run: npm run typecheck
+
+      - name: Run tests
+        working-directory: tui
+        run: npm test

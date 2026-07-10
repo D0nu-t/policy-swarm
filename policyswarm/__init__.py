@@ -78,6 +78,7 @@ from .experiments import (
     GeometryExperiment,
 )
 
+import json
 import os
 
 __version__ = "1.1.0"
@@ -122,6 +123,21 @@ _EXPERIMENT_MAP = {
     "centrality"     : CentralitySweepExperiment,
     "geometry"       : GeometryExperiment,
 }
+
+
+# ---------------------------------------------------------------------------
+# Structured progress events (consumed by tui/)
+# ---------------------------------------------------------------------------
+
+def _emit_event(**fields) -> None:
+    """Module-level counterpart to BaseExperiment._emit().
+
+    Used here for run-level events (e.g. "error") that originate above any
+    individual experiment instance, inside PolicySwarm.run_all()'s exception
+    handler. Same sentinel-prefixed JSON-line format, see
+    policyswarm.experiments.base.BaseExperiment._emit for rationale.
+    """
+    print("##EVENT## " + json.dumps(fields), flush=True)
 
 
 # ---------------------------------------------------------------------------
@@ -190,6 +206,7 @@ class PolicySwarm:
                 reports[name] = self.run_experiment(name)
             except Exception as exc:
                 print(f"[ERROR] Experiment '{name}' failed: {exc}")
+                _emit_event(type="error", experiment=name, message=str(exc))
                 reports[name] = {"error": str(exc)}
         return reports
 

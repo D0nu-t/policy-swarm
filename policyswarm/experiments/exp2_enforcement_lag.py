@@ -64,9 +64,13 @@ class EnforcementLagExperiment(BaseExperiment):
         self.sim_config   = sim_config or SimConfig()
         self.shock_config = shock_config or ShockConfig(mode=ShockMode.COORDINATING)
 
+    def total_units(self) -> int:
+        return len(self.lags) * len(self.seeds)
+
     def run(self) -> pd.DataFrame:
         base_policy = policy_from_text(self.policy_text)
         rows = []
+        total = self.total_units()
 
         for lag in self.lags:
             # copy.copy isolates each lag iteration: policy.lag assignment and
@@ -117,6 +121,12 @@ class EnforcementLagExperiment(BaseExperiment):
                     "delta_variance"   : m_t["delta_variance"],
                     "num_shocks"       : len(shocks),
                 })
+
+                self._emit(
+                    type="seed_complete", experiment=self.__class__.__name__,
+                    completed=len(rows), total=total,
+                    condition={"lag": lag}, seed=seed,
+                )
 
         return pd.DataFrame(rows)
 

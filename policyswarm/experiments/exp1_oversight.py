@@ -89,9 +89,15 @@ class OversightPhaseExperiment(BaseExperiment):
 
     # ------------------------------------------------------------------
 
+    def total_units(self) -> int:
+        return len(self.regimes) * len(self.seeds)
+
+    # ------------------------------------------------------------------
+
     def run(self) -> pd.DataFrame:
         policy = policy_from_text(self.policy_text)
         rows   = []
+        total  = self.total_units()
 
         for regime in self.regimes:
             gov_config = GovernanceConfig(oversight_regime=regime)
@@ -133,6 +139,12 @@ class OversightPhaseExperiment(BaseExperiment):
                     "delta"              : m_t["variance"] - m_c["variance"],
                     "num_shocks"         : len(shocks),
                 })
+
+                self._emit(
+                    type="seed_complete", experiment=self.__class__.__name__,
+                    completed=len(rows), total=total,
+                    condition={"regime": regime.value}, seed=seed,
+                )
 
         return pd.DataFrame(rows)
 

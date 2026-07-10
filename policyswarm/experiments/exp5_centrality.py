@@ -71,6 +71,9 @@ class CentralitySweepExperiment(BaseExperiment):
         self.target_types = target_types or ["hub", "random"]
         self.sim_config   = sim_config or SimConfig()
 
+    def total_units(self) -> int:
+        return len(self.seeds) * len(self.target_types) * len(self.strengths)
+
     def run(self) -> pd.DataFrame:
         base_policy = policy_from_text(self.policy_text)
         # Use directional shock mode for Exp 5
@@ -81,7 +84,8 @@ class CentralitySweepExperiment(BaseExperiment):
         gov_config = GovernanceConfig(
             deployment_rate_cap = 0.5, penalty_severity = 0.5
         )
-        rows = []
+        rows  = []
+        total = self.total_units()
 
         for seed in self.seeds:
             base_schedule = generate_shocks(
@@ -118,6 +122,16 @@ class CentralitySweepExperiment(BaseExperiment):
                         "cascade_breadth": m_t["cascade_breadth"],
                         "num_shocks"    : len(schedule),
                     })
+
+                    self._emit(
+                        type="seed_complete", experiment=self.__class__.__name__,
+                        completed=len(rows), total=total,
+                        condition={
+                            "target_type": target_type,
+                            "shock_strength": round(float(strength), 4),
+                        },
+                        seed=seed,
+                    )
 
         return pd.DataFrame(rows)
 
