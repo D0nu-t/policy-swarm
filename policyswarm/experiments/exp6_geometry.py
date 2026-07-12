@@ -150,4 +150,9 @@ class GeometryExperiment(BaseExperiment):
         return summary
 
     def plot(self, df: pd.DataFrame, stats_df: pd.DataFrame) -> List[str]:
-        return [plot_geometry_comparison(df, self.output_dir)]
+        from ..visualization import plot_geometry_ptt
+        paths = [
+            plot_geometry_comparison(df, self.output_dir),   # existing: PI + OV boxplots
+            plot_geometry_ptt(df, self.output_dir),           # new: PTT line plot
+    ]
+        return [p for p in paths if p]

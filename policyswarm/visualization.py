@@ -484,3 +484,54 @@ def plot_variance_shift(
     ax.legend(frameon=False)
 
     return _save(fig, os.path.join(output_dir, filename))
+
+def plot_geometry_ptt(
+    df         : pd.DataFrame,
+    output_dir : str,
+    filename   : str = "geometry_ptt.png",
+) -> str:
+    """PTT vs convergence rate (mu), one line per geometry.
+
+    This is the sharpest geometry signature in Experiment 6: Euclidean PTT
+    increases with mu while cosine PTT decreases — opposite directions that
+    are not visible in the OV or PI boxplots.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Raw results from GeometryExperiment.run(). Must contain columns:
+        geometry, alpha, phase_t.
+    output_dir : str
+    filename : str
+    """
+    col = "phase_t"
+    if col not in df.columns:
+        return ""
+
+    # Replace inf PTT values (system never stabilised) with n_ticks
+    # so they don't break the mean calculation silently.
+    df = df.copy()
+    df[col] = df[col].replace(float("inf"), df[col].replace(float("inf"), None).max())
+
+    fig, ax = plt.subplots(figsize=(7, 4))
+
+    for i, (geom, sub) in enumerate(df.groupby("geometry")):
+        grouped = sub.groupby("alpha")[col].agg(["mean", "sem"])
+        ax.errorbar(
+            grouped.index,
+            grouped["mean"],
+            yerr=grouped["sem"],
+            marker="o",
+            label=str(geom).capitalize(),
+            color=_COLORS[i % len(_COLORS)],
+            capsize=3,
+            linewidth=1.8,
+        )
+
+    ax.set_xlabel("Convergence rate ($\\mu$)")
+    ax.set_ylabel("Phase Transition Tick (PTT)")
+    ax.set_title("PTT vs Convergence Rate by Geometry\n"
+                 "(Euclidean rises; cosine falls — opposite dynamics)")
+    ax.legend(title="Geometry", frameon=False)
+
+    return _save(fig, os.path.join(output_dir, filename))
