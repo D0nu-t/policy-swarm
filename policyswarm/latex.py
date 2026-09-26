@@ -76,6 +76,7 @@ import pandas as pd
 _STAT_EXCLUDE = {
     "t_stat", "p_value", "effect", "effect_ci_low", "effect_ci_high",
     "significant", "n", "schema_version",
+    "rel_effect", "rel_effect_ci_low", "rel_effect_ci_high",
 }
 
 

@@ -52,11 +52,13 @@ Examples include:
 
 Opinion similarity can be measured using different embedding geometries, allowing direct comparison between Euclidean and cosine-based interaction spaces.
 
+Opinions live in the centred cube [-1, 1]^d, where 0 is neutral on every dimension, so angular (cosine / manifold) similarity measures ideological alignment rather than distance from "no regulation". A single raw ε means very different interaction coverage under each metric, so geometry experiments calibrate ε per geometry to admit the same fraction of network-neighbour pairs (`policyswarm.geometry.matched_epsilons`) and record the realised gate pass rate of every run. Geometry × lag claims are tested with `analysis.lag_geometry_interaction`, not per-cell significance.
+
 ---
 
 # Experimental Pipeline
 
-The repository contains six independent experiments.
+The repository contains eight independent experiments.
 
 | Experiment         | Purpose                                              |
 | ------------------ | ---------------------------------------------------- |
@@ -64,6 +66,8 @@ The repository contains six independent experiments.
 | **Lag**            | Sensitivity to delayed enforcement                   |
 | **Media**          | Interaction between media exposure and regulation    |
 | **Counterfactual** | Comparison of different external shock models        |
+| **Topology**       | Counterfactual geometry × lag grid on SBM networks   |
+| **Epsilon**        | Raw vs coverage-matched threshold sensitivity        |
 | **Centrality**     | Influence of network position on policy outcomes     |
 | **Geometry**       | Effects of opinion-space geometry                    |
 

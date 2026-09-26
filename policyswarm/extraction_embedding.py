@@ -64,7 +64,7 @@ from typing import List, Optional, Union
 
 import numpy as np
 
-from .config import Policy
+from .config import Policy, unit_to_centred
 
 log = logging.getLogger("policyswarm.extraction_embedding")
 
@@ -532,7 +532,8 @@ class EmbeddingPolicyExtractor:
         Returns
         -------
         Policy
-            vector: n_dims values in [0, 1]
+            vector: n_dims values in [-1, 1] (encoder output in [0, 1],
+                    converted to the centred opinion space)
             confidence: normalized variance explained ratios (from PCA)
             dimension_salience: probe-similarity scores (from PCA loadings)
             dimension_names: ["latent_axis_0", ..., "latent_axis_{n-1}"]
@@ -547,12 +548,12 @@ class EmbeddingPolicyExtractor:
         ]
 
         return Policy(
-            vector             = vector,
+            vector             = unit_to_centred(vector),
             dimension_names    = dim_names,
             confidence         = self.encoder.confidence_baseline.copy(),
             dimension_salience = self.encoder.dimension_salience.copy(),
             violator_dim_index = 0,   # convention: most "permissive" axis = dim 0
-            violator_threshold = 0.8,
+            violator_threshold = unit_to_centred(0.8),
             lag                = lag,
             narrative          = {},  # no narrative frames in Tier 2
         )

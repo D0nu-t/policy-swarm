@@ -1,0 +1,556 @@
+
+PolicySwarm v1.1.0
+Policy source : keyword
+Seeds         : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
+Output dir    : policyswarm_output_centred
+Experiments   : ['centrality']
+Policy dims   : 4
+
+
+============================================================
+Running experiment: centrality
+============================================================
+##EVENT## {"type": "start", "experiment": "CentralitySweepExperiment", "total": 480}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 1, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.05}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 2, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.1286}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 3, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2071}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 4, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2857}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 5, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.3643}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 6, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.4429}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 7, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.5214}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 8, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.6}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 9, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.05}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 10, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.1286}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 11, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2071}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 12, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2857}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 13, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.3643}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 14, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.4429}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 15, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.5214}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 16, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.6}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 17, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.05}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 18, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.1286}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 19, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2071}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 20, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2857}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 21, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.3643}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 22, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.4429}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 23, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.5214}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 24, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.6}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 25, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.05}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 26, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.1286}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 27, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2071}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 28, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2857}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 29, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.3643}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 30, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.4429}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 31, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.5214}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 32, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.6}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 33, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.05}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 34, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.1286}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 35, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2071}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 36, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2857}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 37, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.3643}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 38, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.4429}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 39, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.5214}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 40, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.6}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 41, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.05}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 42, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.1286}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 43, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2071}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 44, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2857}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 45, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.3643}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 46, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.4429}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 47, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.5214}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 48, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.6}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 49, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.05}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 50, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.1286}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 51, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2071}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 52, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2857}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 53, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.3643}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 54, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.4429}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 55, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.5214}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 56, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.6}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 57, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.05}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 58, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.1286}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 59, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2071}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 60, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2857}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 61, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.3643}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 62, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.4429}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 63, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.5214}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 64, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.6}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 65, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.05}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 66, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.1286}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 67, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2071}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 68, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2857}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 69, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.3643}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 70, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.4429}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 71, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.5214}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 72, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.6}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 73, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.05}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 74, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.1286}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 75, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2071}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 76, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2857}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 77, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.3643}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 78, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.4429}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 79, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.5214}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 80, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.6}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 81, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.05}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 82, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.1286}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 83, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2071}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 84, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2857}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 85, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.3643}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 86, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.4429}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 87, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.5214}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 88, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.6}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 89, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.05}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 90, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.1286}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 91, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2071}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 92, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2857}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 93, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.3643}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 94, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.4429}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 95, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.5214}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 96, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.6}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 97, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.05}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 98, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.1286}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 99, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2071}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 100, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2857}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 101, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.3643}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 102, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.4429}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 103, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.5214}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 104, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.6}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 105, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.05}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 106, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.1286}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 107, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2071}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 108, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2857}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 109, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.3643}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 110, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.4429}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 111, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.5214}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 112, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.6}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 113, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.05}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 114, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.1286}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 115, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2071}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 116, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2857}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 117, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.3643}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 118, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.4429}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 119, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.5214}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 120, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.6}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 121, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.05}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 122, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.1286}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 123, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2071}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 124, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2857}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 125, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.3643}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 126, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.4429}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 127, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.5214}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 128, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.6}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 129, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.05}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 130, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.1286}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 131, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2071}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 132, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2857}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 133, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.3643}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 134, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.4429}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 135, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.5214}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 136, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.6}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 137, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.05}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 138, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.1286}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 139, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2071}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 140, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2857}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 141, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.3643}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 142, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.4429}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 143, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.5214}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 144, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.6}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 145, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.05}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 146, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.1286}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 147, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2071}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 148, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2857}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 149, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.3643}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 150, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.4429}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 151, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.5214}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 152, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.6}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 153, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.05}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 154, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.1286}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 155, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2071}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 156, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2857}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 157, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.3643}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 158, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.4429}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 159, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.5214}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 160, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.6}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 161, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.05}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 162, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.1286}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 163, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2071}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 164, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2857}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 165, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.3643}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 166, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.4429}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 167, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.5214}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 168, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.6}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 169, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.05}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 170, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.1286}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 171, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2071}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 172, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2857}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 173, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.3643}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 174, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.4429}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 175, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.5214}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 176, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.6}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 177, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.05}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 178, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.1286}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 179, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2071}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 180, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2857}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 181, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.3643}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 182, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.4429}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 183, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.5214}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 184, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.6}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 185, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.05}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 186, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.1286}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 187, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2071}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 188, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2857}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 189, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.3643}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 190, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.4429}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 191, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.5214}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 192, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.6}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 193, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.05}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 194, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.1286}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 195, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2071}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 196, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2857}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 197, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.3643}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 198, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.4429}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 199, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.5214}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 200, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.6}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 201, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.05}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 202, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.1286}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 203, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2071}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 204, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2857}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 205, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.3643}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 206, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.4429}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 207, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.5214}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 208, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.6}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 209, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.05}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 210, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.1286}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 211, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2071}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 212, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2857}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 213, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.3643}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 214, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.4429}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 215, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.5214}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 216, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.6}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 217, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.05}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 218, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.1286}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 219, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2071}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 220, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2857}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 221, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.3643}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 222, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.4429}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 223, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.5214}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 224, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.6}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 225, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.05}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 226, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.1286}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 227, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2071}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 228, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2857}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 229, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.3643}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 230, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.4429}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 231, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.5214}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 232, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.6}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 233, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.05}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 234, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.1286}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 235, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2071}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 236, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2857}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 237, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.3643}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 238, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.4429}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 239, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.5214}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 240, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.6}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 241, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.05}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 242, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.1286}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 243, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2071}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 244, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2857}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 245, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.3643}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 246, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.4429}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 247, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.5214}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 248, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.6}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 249, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.05}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 250, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.1286}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 251, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2071}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 252, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2857}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 253, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.3643}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 254, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.4429}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 255, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.5214}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 256, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.6}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 257, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.05}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 258, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.1286}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 259, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2071}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 260, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2857}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 261, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.3643}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 262, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.4429}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 263, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.5214}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 264, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.6}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 265, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.05}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 266, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.1286}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 267, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2071}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 268, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2857}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 269, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.3643}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 270, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.4429}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 271, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.5214}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 272, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.6}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 273, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.05}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 274, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.1286}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 275, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2071}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 276, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2857}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 277, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.3643}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 278, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.4429}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 279, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.5214}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 280, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.6}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 281, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.05}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 282, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.1286}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 283, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2071}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 284, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2857}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 285, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.3643}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 286, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.4429}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 287, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.5214}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 288, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.6}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 289, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.05}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 290, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.1286}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 291, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2071}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 292, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2857}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 293, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.3643}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 294, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.4429}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 295, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.5214}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 296, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.6}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 297, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.05}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 298, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.1286}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 299, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2071}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 300, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2857}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 301, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.3643}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 302, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.4429}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 303, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.5214}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 304, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.6}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 305, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.05}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 306, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.1286}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 307, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2071}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 308, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2857}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 309, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.3643}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 310, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.4429}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 311, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.5214}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 312, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.6}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 313, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.05}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 314, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.1286}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 315, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2071}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 316, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2857}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 317, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.3643}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 318, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.4429}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 319, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.5214}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 320, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.6}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 321, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.05}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 322, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.1286}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 323, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2071}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 324, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2857}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 325, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.3643}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 326, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.4429}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 327, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.5214}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 328, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.6}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 329, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.05}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 330, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.1286}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 331, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2071}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 332, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2857}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 333, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.3643}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 334, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.4429}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 335, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.5214}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 336, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.6}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 337, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.05}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 338, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.1286}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 339, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2071}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 340, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2857}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 341, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.3643}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 342, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.4429}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 343, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.5214}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 344, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.6}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 345, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.05}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 346, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.1286}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 347, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2071}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 348, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2857}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 349, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.3643}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 350, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.4429}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 351, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.5214}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 352, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.6}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 353, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.05}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 354, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.1286}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 355, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2071}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 356, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2857}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 357, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.3643}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 358, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.4429}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 359, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.5214}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 360, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.6}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 361, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.05}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 362, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.1286}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 363, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2071}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 364, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2857}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 365, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.3643}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 366, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.4429}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 367, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.5214}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 368, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.6}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 369, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.05}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 370, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.1286}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 371, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2071}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 372, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2857}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 373, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.3643}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 374, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.4429}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 375, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.5214}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 376, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.6}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 377, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.05}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 378, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.1286}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 379, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2071}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 380, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2857}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 381, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.3643}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 382, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.4429}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 383, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.5214}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 384, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.6}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 385, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.05}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 386, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.1286}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 387, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2071}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 388, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2857}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 389, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.3643}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 390, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.4429}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 391, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.5214}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 392, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.6}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 393, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.05}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 394, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.1286}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 395, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2071}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 396, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2857}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 397, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.3643}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 398, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.4429}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 399, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.5214}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 400, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.6}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 401, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.05}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 402, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.1286}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 403, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2071}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 404, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2857}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 405, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.3643}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 406, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.4429}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 407, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.5214}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 408, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.6}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 409, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.05}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 410, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.1286}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 411, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2071}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 412, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2857}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 413, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.3643}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 414, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.4429}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 415, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.5214}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 416, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.6}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 417, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.05}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 418, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.1286}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 419, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2071}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 420, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2857}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 421, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.3643}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 422, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.4429}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 423, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.5214}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 424, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.6}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 425, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.05}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 426, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.1286}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 427, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2071}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 428, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2857}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 429, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.3643}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 430, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.4429}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 431, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.5214}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 432, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.6}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 433, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.05}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 434, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.1286}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 435, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2071}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 436, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2857}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 437, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.3643}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 438, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.4429}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 439, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.5214}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 440, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.6}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 441, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.05}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 442, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.1286}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 443, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2071}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 444, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2857}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 445, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.3643}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 446, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.4429}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 447, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.5214}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 448, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.6}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 449, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.05}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 450, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.1286}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 451, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2071}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 452, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2857}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 453, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.3643}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 454, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.4429}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 455, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.5214}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 456, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.6}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 457, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.05}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 458, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.1286}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 459, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2071}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 460, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2857}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 461, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.3643}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 462, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.4429}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 463, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.5214}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 464, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.6}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 465, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.05}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 466, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.1286}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 467, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2071}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 468, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.2857}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 469, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.3643}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 470, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.4429}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 471, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.5214}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 472, "total": 480, "condition": {"target_type": "hub", "shock_strength": 0.6}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 473, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.05}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 474, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.1286}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 475, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2071}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 476, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.2857}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 477, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.3643}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 478, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.4429}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 479, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.5214}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "CentralitySweepExperiment", "completed": 480, "total": 480, "condition": {"target_type": "random", "shock_strength": 0.6}, "seed": 29}
+
+=== Exp 5: Centrality × Shock Strength ===
+target_type  shock_strength  delta_mean  delta_std  delta_ci_low  delta_ci_high  cascade_breadth_mean  cascade_breadth_std  cascade_breadth_ci_low  cascade_breadth_ci_high  n
+        hub          0.0500   -0.002516   0.004653     -0.004254      -0.000779              3.700000             0.595963                3.477464                 3.922536 30
+        hub          0.1286   -0.001776   0.009199     -0.005211       0.001659              3.766667             0.626062                3.532891                 4.000442 30
+        hub          0.2071    0.000582   0.012203     -0.003974       0.005139              3.833333             0.698932                3.572348                 4.094319 30
+        hub          0.2857    0.003490   0.014411     -0.001891       0.008871              4.066667             0.583292                3.848862                 4.284472 30
+        hub          0.3643    0.006108   0.015492      0.000323       0.011893              4.133333             0.507416                3.943861                 4.322806 30
+        hub          0.4429    0.008434   0.016014      0.002454       0.014413              4.366667             0.668675                4.116979                 4.616354 30
+        hub          0.5214    0.010600   0.016116      0.004583       0.016618              4.400000             0.723974                4.129664                 4.670336 30
+        hub          0.6000    0.012516   0.015941      0.006564       0.018468              4.466667             0.776079                4.176874                 4.756459 30
+     random          0.0500   -0.001798   0.000824     -0.002106      -0.001491              3.800000             0.714384                3.533245                 4.066755 30
+     random          0.1286   -0.004109   0.001746     -0.004761      -0.003457              3.766667             0.727932                3.494852                 4.038481 30
+     random          0.2071   -0.005907   0.002709     -0.006918      -0.004895              3.766667             0.773854                3.477705                 4.055629 30
+     random          0.2857   -0.007067   0.003468     -0.008362      -0.005772              3.633333             0.614948                3.403708                 3.862959 30
+     random          0.3643   -0.007411   0.004125     -0.008952      -0.005871              3.566667             0.504007                3.378467                 3.754866 30
+     random          0.4429   -0.007493   0.004801     -0.009285      -0.005700              3.433333             0.504007                3.245134                 3.621533 30
+     random          0.5214   -0.007330   0.005327     -0.009319      -0.005340              3.466667             0.507416                3.277194                 3.656139 30
+     random          0.6000   -0.006777   0.005808     -0.008945      -0.004608              3.433333             0.504007                3.245134                 3.621533 30
+
+=== Bimodality Mechanism Check (dim=0) ===
+target_type  strength  mean  std
+        hub      0.05   1.0  0.0
+        hub      0.60   1.0  0.0
+     random      0.05   1.0  0.0
+     random      0.60   1.0  0.0
+
+KDE comparison saved to: policyswarm_output_centred\centrality/opinion_kde_hub_vs_random.png
+
+Verdict: NOT SUPPORTED: BI does not meaningfully differ between hub and random targeting at high strength. The variance increase under hub targeting may have a different structural cause than simple bimodal clustering.
+target_type  shock_strength  delta_mean  delta_std  delta_ci_low  delta_ci_high  cascade_breadth_mean  cascade_breadth_std  cascade_breadth_ci_low  cascade_breadth_ci_high  n
+        hub          0.0500   -0.002516   0.004653     -0.004254      -0.000779              3.700000             0.595963                3.477464                 3.922536 30
+        hub          0.1286   -0.001776   0.009199     -0.005211       0.001659              3.766667             0.626062                3.532891                 4.000442 30
+        hub          0.2071    0.000582   0.012203     -0.003974       0.005139              3.833333             0.698932                3.572348                 4.094319 30
+        hub          0.2857    0.003490   0.014411     -0.001891       0.008871              4.066667             0.583292                3.848862                 4.284472 30
+        hub          0.3643    0.006108   0.015492      0.000323       0.011893              4.133333             0.507416                3.943861                 4.322806 30
+        hub          0.4429    0.008434   0.016014      0.002454       0.014413              4.366667             0.668675                4.116979                 4.616354 30
+        hub          0.5214    0.010600   0.016116      0.004583       0.016618              4.400000             0.723974                4.129664                 4.670336 30
+        hub          0.6000    0.012516   0.015941      0.006564       0.018468              4.466667             0.776079                4.176874                 4.756459 30
+     random          0.0500   -0.001798   0.000824     -0.002106      -0.001491              3.800000             0.714384                3.533245                 4.066755 30
+     random          0.1286   -0.004109   0.001746     -0.004761      -0.003457              3.766667             0.727932                3.494852                 4.038481 30
+     random          0.2071   -0.005907   0.002709     -0.006918      -0.004895              3.766667             0.773854                3.477705                 4.055629 30
+     random          0.2857   -0.007067   0.003468     -0.008362      -0.005772              3.633333             0.614948                3.403708                 3.862959 30
+     random          0.3643   -0.007411   0.004125     -0.008952      -0.005871              3.566667             0.504007                3.378467                 3.754866 30
+     random          0.4429   -0.007493   0.004801     -0.009285      -0.005700              3.433333             0.504007                3.245134                 3.621533 30
+     random          0.5214   -0.007330   0.005327     -0.009319      -0.005340              3.466667             0.507416                3.277194                 3.656139 30
+     random          0.6000   -0.006777   0.005808     -0.008945      -0.004608              3.433333             0.504007                3.245134                 3.621533 30
+
+CSV  → policyswarm_output_centred\centrality\CentralitySweepExperiment_results_20260926_194821.csv
+Stats → policyswarm_output_centred\centrality\CentralitySweepExperiment_stats_20260926_194821.csv
+Plots → ['policyswarm_output_centred\\centrality\\centrality_sweep.png']
+##EVENT## {"type": "complete", "experiment": "CentralitySweepExperiment", "figures": 1, "rows": 480}
+
+============================================================
+ALL EXPERIMENTS COMPLETE
+============================================================
+  [OK]   centrality
+         figures : 1
+         latex   : failed ([Schema: stats] Missing columns: ['t_stat', 'p_value', 'effect', 'effect_ci_low', 'effect_ci_high', 'significant']
+Found: ['cascade_breadth_ci_high', 'cascade_breadth_ci_low', 'cascade_breadth_mean', 'cascade_breadth_std', 'delta_ci_high', 'delta_ci_low', 'delta_mean', 'delta_std', 'n', 'shock_strength', 'target_type']
+Hint: ensure you are reading *_stats_*.csv, not *_results_*.csv.)
+
+All outputs saved to: policyswarm_output_centred/

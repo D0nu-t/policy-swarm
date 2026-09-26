@@ -15,6 +15,10 @@ Design
 Grid: lag ∈ {0, 5, 10, 20, 40} × seed ∈ seeds
 Paired control (no shocks) / treatment (shocks applied)
 Fixed GovernanceConfig otherwise (MANDATORY regime)
+
+Lag varies only the onset of the violator penalty: the perceived-policy pull
+onset (GovernanceConfig.policy_pull_onset) and the policy tightening tick
+(SimConfig.policy_split_tick = 30) are fixed across all lag conditions.
 """
 
 from __future__ import annotations

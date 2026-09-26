@@ -37,7 +37,7 @@ from ..metrics import compute_all_metrics
 from ..analysis import group_summary, executive_summary
 from ..visualization import plot_centrality_sweep
 from .base import BaseExperiment
-
+from policyswarm.experiments.exp5_mechanism_check import run_bimodality_check
 _DEFAULT_TEXT = """
 The government introduces strict AI safety regulations requiring transparency
 audits, limiting deployment of high-risk systems, and enforcing penalties for
@@ -137,11 +137,17 @@ class CentralitySweepExperiment(BaseExperiment):
 
     def analyse(self, df: pd.DataFrame) -> pd.DataFrame:
         summary = group_summary(
-            df, ["target_type", "shock_strength"],
-            ["delta", "cascade_breadth"]
+            df,
+            ["target_type", "shock_strength"],
+            ["delta", "cascade_breadth"],
         )
+
         print("\n=== Exp 5: Centrality × Shock Strength ===")
         print(summary.to_string(index=False))
+
+        # Additional mechanism validation
+        self.mechanism_summary = run_bimodality_check(self)
+
         return summary
 
     def plot(self, df: pd.DataFrame, stats_df: pd.DataFrame) -> List[str]:

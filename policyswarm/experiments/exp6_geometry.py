@@ -9,30 +9,34 @@ Compare three opinion-space metrics across an alpha (convergence rate) sweep:
   geometry ∈ {euclidean, cosine, manifold}
   alpha    ∈ {0.00, 0.05, 0.10, 0.15}  (overrides SimConfig.mu)
 
-Key findings (design document, representative run, 5 seeds)
-------------------------------------------------------------
-  geometry  alpha  variance  polarization  phase_t
-  euclidean  0.00    0.050      0.531         53
-  euclidean  0.05    0.047      0.498         61
-  cosine     0.00    0.045      0.150         38
-  cosine     0.05    0.043      0.144         41
-  manifold   0.00    0.048      0.312         47
+Bounded-confidence threshold
+----------------------------
+By default each geometry gets a coverage-matched epsilon (Euclidean keeps
+SimConfig.epsilon; cosine and manifold admit the same fraction of neighbour
+pairs at initialisation). ``epsilon_mode="raw"`` uses one raw epsilon for all
+geometries, which confounds geometry with threshold coverage.
 
-Interpretation: Euclidean dynamics produce the highest polarization; cosine
-the lowest. Variance is broadly similar across geometries. The geometry choice
-is a modelling decision with non-trivial empirical consequences.
+Sanity check at alpha = 0
+-------------------------
+With mu = 0 peer influence is switched off, and since the policy anchor is no
+longer applied inside the gated peer loop, geometry has no channel left to
+act through: all geometries must produce identical trajectories at alpha = 0.
+Any difference there indicates a leak of geometry into non-peer dynamics.
+
+Note on COSINE vs MANIFOLD: under coverage matching their gates admit the
+same pairs (1 - cos θ is monotone in θ), so they differ only in the update
+rule (chordal vs geodesic step).
 
 Modelling note
 --------------
-The manifold approach (geodesic distances on S^(d-1)) is theoretically the
-most defensible for bounded opinion spaces but falls between euclidean and
-cosine polarization. Papers using euclidean dynamics — the vast majority of
-computational ABM work — should either justify this choice explicitly or
-demonstrate robustness to alternatives.
+Papers using euclidean dynamics — the vast majority of computational ABM
+work — should either justify this choice explicitly or demonstrate
+robustness to alternatives, with thresholds matched for coverage.
 """
 
 from __future__ import annotations
 
+import dataclasses
 from typing import List, Optional
 import pandas as pd
 import numpy as np
@@ -64,6 +68,8 @@ class GeometryExperiment(BaseExperiment):
         Default all three: EUCLIDEAN, COSINE, MANIFOLD.
     alphas : list of float
         Convergence rate (mu) values to sweep. Default [0.0, 0.05, 0.10, 0.15].
+    epsilon_mode : {"matched", "raw"}
+        How each geometry's bounded-confidence threshold is set.
     """
 
     def __init__(
@@ -74,12 +80,14 @@ class GeometryExperiment(BaseExperiment):
         geometries  : Optional[List[Geometry]] = None,
         alphas      : Optional[List[float]]    = None,
         sim_config  : Optional[SimConfig]      = None,
+        epsilon_mode: str                      = "matched",
     ):
         super().__init__(output_dir, seeds)
-        self.policy_text = policy_text
-        self.geometries  = geometries or list(Geometry)
-        self.alphas      = alphas or [0.0, 0.05, 0.10, 0.15]
-        self.sim_config  = sim_config or SimConfig()
+        self.policy_text  = policy_text
+        self.geometries   = geometries or list(Geometry)
+        self.alphas       = alphas if alphas is not None else [0.0, 0.05, 0.10, 0.15]
+        self.sim_config   = sim_config or SimConfig()
+        self.epsilon_mode = epsilon_mode
 
     def total_units(self) -> int:
         return len(self.geometries) * len(self.alphas) * len(self.seeds)
@@ -93,20 +101,17 @@ class GeometryExperiment(BaseExperiment):
         )
         rows  = []
         total = self.total_units()
+        epsilons = self._geometry_epsilons(
+            self.sim_config, self.geometries, self.epsilon_mode
+        )
 
         for geometry in self.geometries:
             for alpha in self.alphas:
-                # Override mu in a copy of SimConfig
-                sc = SimConfig(
-                    n_agents      = self.sim_config.n_agents,
-                    n_ticks       = self.sim_config.n_ticks,
-                    interactions  = self.sim_config.interactions,
-                    shock_prob    = self.sim_config.shock_prob,
-                    mu            = float(alpha),
-                    epsilon       = self.sim_config.epsilon,
-                    network_type  = self.sim_config.network_type,
-                    ba_m          = self.sim_config.ba_m,
-                    opinion_dim   = self.sim_config.opinion_dim,
+                # Override mu and epsilon, keeping every other field
+                sc = dataclasses.replace(
+                    self.sim_config,
+                    mu      = float(alpha),
+                    epsilon = epsilons[geometry.value],
                 )
 
                 for seed in self.seeds:
@@ -123,12 +128,14 @@ class GeometryExperiment(BaseExperiment):
                     rows.append({
                         "geometry"        : geometry.value,
                         "alpha"           : alpha,
+                        "epsilon"         : sc.epsilon,
                         "seed"            : seed,
                         "variance"        : m["variance"],
                         "polarization"    : m["polarization"],
                         "bifurcation_index": m["bifurcation_index"],
                         "phase_t"         : m["phase_transition_tick"],
                         "cascade_breadth" : m["cascade_breadth"],
+                        "gate_pass_rate"  : m["gate_pass_rate"],
                     })
 
                     self._emit(
@@ -141,9 +148,15 @@ class GeometryExperiment(BaseExperiment):
         return pd.DataFrame(rows)
 
     def analyse(self, df: pd.DataFrame) -> pd.DataFrame:
+        # Right-censor never-stabilised runs at the horizon so means stay finite
+        df = df.copy()
+        df["phase_t"] = df["phase_t"].replace(
+            float("inf"), float(self.sim_config.n_ticks)
+        )
         summary = group_summary(
             df, ["geometry", "alpha"],
-            ["variance", "polarization", "bifurcation_index", "phase_t"]
+            ["variance", "polarization", "bifurcation_index", "phase_t",
+             "gate_pass_rate"]
         )
         print("\n=== Exp 6: Geometry of Opinion Space ===")
         print(summary.to_string(index=False))
@@ -152,7 +165,8 @@ class GeometryExperiment(BaseExperiment):
     def plot(self, df: pd.DataFrame, stats_df: pd.DataFrame) -> List[str]:
         from ..visualization import plot_geometry_ptt
         paths = [
-            plot_geometry_comparison(df, self.output_dir),   # existing: PI + OV boxplots
-            plot_geometry_ptt(df, self.output_dir),           # new: PTT line plot
-    ]
+            plot_geometry_comparison(df, self.output_dir),
+            plot_geometry_ptt(df, self.output_dir,
+                              n_ticks=self.sim_config.n_ticks),
+        ]
         return [p for p in paths if p]

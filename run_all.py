@@ -103,11 +103,16 @@ VALID_EXPERIMENTS = [
     "oversight",
     "lag",
     "media",
+
     "counterfactual",
+    "topology",
+    "epsilon",
+
     "centrality",
+    # "mechanism",
+
     "geometry",
 ]
-
 
 # ---------------------------------------------------------------------------
 # Policy construction helpers

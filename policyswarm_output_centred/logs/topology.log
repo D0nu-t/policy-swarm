@@ -1,0 +1,247 @@
+
+PolicySwarm v1.1.0
+Policy source : keyword
+Seeds         : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
+Output dir    : policyswarm_output_centred
+Experiments   : ['topology']
+Policy dims   : 4
+
+
+============================================================
+Running experiment: topology
+============================================================
+##EVENT## {"type": "start", "experiment": "TopologyValidationExperiment", "total": 180}
+Coverage-matched epsilon (target neighbour pass fraction 0.147): euclidean=1.0000, cosine=0.4072
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 1, "total": 180, "condition": {"geometry": "euclidean", "lag": 0, "topology": "sbm"}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 2, "total": 180, "condition": {"geometry": "euclidean", "lag": 0, "topology": "sbm"}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 3, "total": 180, "condition": {"geometry": "euclidean", "lag": 0, "topology": "sbm"}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 4, "total": 180, "condition": {"geometry": "euclidean", "lag": 0, "topology": "sbm"}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 5, "total": 180, "condition": {"geometry": "euclidean", "lag": 0, "topology": "sbm"}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 6, "total": 180, "condition": {"geometry": "euclidean", "lag": 0, "topology": "sbm"}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 7, "total": 180, "condition": {"geometry": "euclidean", "lag": 0, "topology": "sbm"}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 8, "total": 180, "condition": {"geometry": "euclidean", "lag": 0, "topology": "sbm"}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 9, "total": 180, "condition": {"geometry": "euclidean", "lag": 0, "topology": "sbm"}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 10, "total": 180, "condition": {"geometry": "euclidean", "lag": 0, "topology": "sbm"}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 11, "total": 180, "condition": {"geometry": "euclidean", "lag": 0, "topology": "sbm"}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 12, "total": 180, "condition": {"geometry": "euclidean", "lag": 0, "topology": "sbm"}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 13, "total": 180, "condition": {"geometry": "euclidean", "lag": 0, "topology": "sbm"}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 14, "total": 180, "condition": {"geometry": "euclidean", "lag": 0, "topology": "sbm"}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 15, "total": 180, "condition": {"geometry": "euclidean", "lag": 0, "topology": "sbm"}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 16, "total": 180, "condition": {"geometry": "euclidean", "lag": 0, "topology": "sbm"}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 17, "total": 180, "condition": {"geometry": "euclidean", "lag": 0, "topology": "sbm"}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 18, "total": 180, "condition": {"geometry": "euclidean", "lag": 0, "topology": "sbm"}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 19, "total": 180, "condition": {"geometry": "euclidean", "lag": 0, "topology": "sbm"}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 20, "total": 180, "condition": {"geometry": "euclidean", "lag": 0, "topology": "sbm"}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 21, "total": 180, "condition": {"geometry": "euclidean", "lag": 0, "topology": "sbm"}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 22, "total": 180, "condition": {"geometry": "euclidean", "lag": 0, "topology": "sbm"}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 23, "total": 180, "condition": {"geometry": "euclidean", "lag": 0, "topology": "sbm"}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 24, "total": 180, "condition": {"geometry": "euclidean", "lag": 0, "topology": "sbm"}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 25, "total": 180, "condition": {"geometry": "euclidean", "lag": 0, "topology": "sbm"}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 26, "total": 180, "condition": {"geometry": "euclidean", "lag": 0, "topology": "sbm"}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 27, "total": 180, "condition": {"geometry": "euclidean", "lag": 0, "topology": "sbm"}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 28, "total": 180, "condition": {"geometry": "euclidean", "lag": 0, "topology": "sbm"}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 29, "total": 180, "condition": {"geometry": "euclidean", "lag": 0, "topology": "sbm"}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 30, "total": 180, "condition": {"geometry": "euclidean", "lag": 0, "topology": "sbm"}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 31, "total": 180, "condition": {"geometry": "euclidean", "lag": 20, "topology": "sbm"}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 32, "total": 180, "condition": {"geometry": "euclidean", "lag": 20, "topology": "sbm"}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 33, "total": 180, "condition": {"geometry": "euclidean", "lag": 20, "topology": "sbm"}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 34, "total": 180, "condition": {"geometry": "euclidean", "lag": 20, "topology": "sbm"}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 35, "total": 180, "condition": {"geometry": "euclidean", "lag": 20, "topology": "sbm"}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 36, "total": 180, "condition": {"geometry": "euclidean", "lag": 20, "topology": "sbm"}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 37, "total": 180, "condition": {"geometry": "euclidean", "lag": 20, "topology": "sbm"}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 38, "total": 180, "condition": {"geometry": "euclidean", "lag": 20, "topology": "sbm"}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 39, "total": 180, "condition": {"geometry": "euclidean", "lag": 20, "topology": "sbm"}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 40, "total": 180, "condition": {"geometry": "euclidean", "lag": 20, "topology": "sbm"}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 41, "total": 180, "condition": {"geometry": "euclidean", "lag": 20, "topology": "sbm"}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 42, "total": 180, "condition": {"geometry": "euclidean", "lag": 20, "topology": "sbm"}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 43, "total": 180, "condition": {"geometry": "euclidean", "lag": 20, "topology": "sbm"}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 44, "total": 180, "condition": {"geometry": "euclidean", "lag": 20, "topology": "sbm"}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 45, "total": 180, "condition": {"geometry": "euclidean", "lag": 20, "topology": "sbm"}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 46, "total": 180, "condition": {"geometry": "euclidean", "lag": 20, "topology": "sbm"}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 47, "total": 180, "condition": {"geometry": "euclidean", "lag": 20, "topology": "sbm"}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 48, "total": 180, "condition": {"geometry": "euclidean", "lag": 20, "topology": "sbm"}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 49, "total": 180, "condition": {"geometry": "euclidean", "lag": 20, "topology": "sbm"}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 50, "total": 180, "condition": {"geometry": "euclidean", "lag": 20, "topology": "sbm"}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 51, "total": 180, "condition": {"geometry": "euclidean", "lag": 20, "topology": "sbm"}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 52, "total": 180, "condition": {"geometry": "euclidean", "lag": 20, "topology": "sbm"}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 53, "total": 180, "condition": {"geometry": "euclidean", "lag": 20, "topology": "sbm"}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 54, "total": 180, "condition": {"geometry": "euclidean", "lag": 20, "topology": "sbm"}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 55, "total": 180, "condition": {"geometry": "euclidean", "lag": 20, "topology": "sbm"}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 56, "total": 180, "condition": {"geometry": "euclidean", "lag": 20, "topology": "sbm"}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 57, "total": 180, "condition": {"geometry": "euclidean", "lag": 20, "topology": "sbm"}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 58, "total": 180, "condition": {"geometry": "euclidean", "lag": 20, "topology": "sbm"}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 59, "total": 180, "condition": {"geometry": "euclidean", "lag": 20, "topology": "sbm"}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 60, "total": 180, "condition": {"geometry": "euclidean", "lag": 20, "topology": "sbm"}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 61, "total": 180, "condition": {"geometry": "euclidean", "lag": 40, "topology": "sbm"}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 62, "total": 180, "condition": {"geometry": "euclidean", "lag": 40, "topology": "sbm"}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 63, "total": 180, "condition": {"geometry": "euclidean", "lag": 40, "topology": "sbm"}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 64, "total": 180, "condition": {"geometry": "euclidean", "lag": 40, "topology": "sbm"}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 65, "total": 180, "condition": {"geometry": "euclidean", "lag": 40, "topology": "sbm"}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 66, "total": 180, "condition": {"geometry": "euclidean", "lag": 40, "topology": "sbm"}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 67, "total": 180, "condition": {"geometry": "euclidean", "lag": 40, "topology": "sbm"}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 68, "total": 180, "condition": {"geometry": "euclidean", "lag": 40, "topology": "sbm"}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 69, "total": 180, "condition": {"geometry": "euclidean", "lag": 40, "topology": "sbm"}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 70, "total": 180, "condition": {"geometry": "euclidean", "lag": 40, "topology": "sbm"}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 71, "total": 180, "condition": {"geometry": "euclidean", "lag": 40, "topology": "sbm"}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 72, "total": 180, "condition": {"geometry": "euclidean", "lag": 40, "topology": "sbm"}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 73, "total": 180, "condition": {"geometry": "euclidean", "lag": 40, "topology": "sbm"}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 74, "total": 180, "condition": {"geometry": "euclidean", "lag": 40, "topology": "sbm"}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 75, "total": 180, "condition": {"geometry": "euclidean", "lag": 40, "topology": "sbm"}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 76, "total": 180, "condition": {"geometry": "euclidean", "lag": 40, "topology": "sbm"}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 77, "total": 180, "condition": {"geometry": "euclidean", "lag": 40, "topology": "sbm"}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 78, "total": 180, "condition": {"geometry": "euclidean", "lag": 40, "topology": "sbm"}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 79, "total": 180, "condition": {"geometry": "euclidean", "lag": 40, "topology": "sbm"}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 80, "total": 180, "condition": {"geometry": "euclidean", "lag": 40, "topology": "sbm"}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 81, "total": 180, "condition": {"geometry": "euclidean", "lag": 40, "topology": "sbm"}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 82, "total": 180, "condition": {"geometry": "euclidean", "lag": 40, "topology": "sbm"}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 83, "total": 180, "condition": {"geometry": "euclidean", "lag": 40, "topology": "sbm"}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 84, "total": 180, "condition": {"geometry": "euclidean", "lag": 40, "topology": "sbm"}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 85, "total": 180, "condition": {"geometry": "euclidean", "lag": 40, "topology": "sbm"}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 86, "total": 180, "condition": {"geometry": "euclidean", "lag": 40, "topology": "sbm"}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 87, "total": 180, "condition": {"geometry": "euclidean", "lag": 40, "topology": "sbm"}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 88, "total": 180, "condition": {"geometry": "euclidean", "lag": 40, "topology": "sbm"}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 89, "total": 180, "condition": {"geometry": "euclidean", "lag": 40, "topology": "sbm"}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 90, "total": 180, "condition": {"geometry": "euclidean", "lag": 40, "topology": "sbm"}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 91, "total": 180, "condition": {"geometry": "cosine", "lag": 0, "topology": "sbm"}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 92, "total": 180, "condition": {"geometry": "cosine", "lag": 0, "topology": "sbm"}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 93, "total": 180, "condition": {"geometry": "cosine", "lag": 0, "topology": "sbm"}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 94, "total": 180, "condition": {"geometry": "cosine", "lag": 0, "topology": "sbm"}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 95, "total": 180, "condition": {"geometry": "cosine", "lag": 0, "topology": "sbm"}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 96, "total": 180, "condition": {"geometry": "cosine", "lag": 0, "topology": "sbm"}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 97, "total": 180, "condition": {"geometry": "cosine", "lag": 0, "topology": "sbm"}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 98, "total": 180, "condition": {"geometry": "cosine", "lag": 0, "topology": "sbm"}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 99, "total": 180, "condition": {"geometry": "cosine", "lag": 0, "topology": "sbm"}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 100, "total": 180, "condition": {"geometry": "cosine", "lag": 0, "topology": "sbm"}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 101, "total": 180, "condition": {"geometry": "cosine", "lag": 0, "topology": "sbm"}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 102, "total": 180, "condition": {"geometry": "cosine", "lag": 0, "topology": "sbm"}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 103, "total": 180, "condition": {"geometry": "cosine", "lag": 0, "topology": "sbm"}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 104, "total": 180, "condition": {"geometry": "cosine", "lag": 0, "topology": "sbm"}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 105, "total": 180, "condition": {"geometry": "cosine", "lag": 0, "topology": "sbm"}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 106, "total": 180, "condition": {"geometry": "cosine", "lag": 0, "topology": "sbm"}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 107, "total": 180, "condition": {"geometry": "cosine", "lag": 0, "topology": "sbm"}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 108, "total": 180, "condition": {"geometry": "cosine", "lag": 0, "topology": "sbm"}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 109, "total": 180, "condition": {"geometry": "cosine", "lag": 0, "topology": "sbm"}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 110, "total": 180, "condition": {"geometry": "cosine", "lag": 0, "topology": "sbm"}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 111, "total": 180, "condition": {"geometry": "cosine", "lag": 0, "topology": "sbm"}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 112, "total": 180, "condition": {"geometry": "cosine", "lag": 0, "topology": "sbm"}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 113, "total": 180, "condition": {"geometry": "cosine", "lag": 0, "topology": "sbm"}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 114, "total": 180, "condition": {"geometry": "cosine", "lag": 0, "topology": "sbm"}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 115, "total": 180, "condition": {"geometry": "cosine", "lag": 0, "topology": "sbm"}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 116, "total": 180, "condition": {"geometry": "cosine", "lag": 0, "topology": "sbm"}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 117, "total": 180, "condition": {"geometry": "cosine", "lag": 0, "topology": "sbm"}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 118, "total": 180, "condition": {"geometry": "cosine", "lag": 0, "topology": "sbm"}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 119, "total": 180, "condition": {"geometry": "cosine", "lag": 0, "topology": "sbm"}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 120, "total": 180, "condition": {"geometry": "cosine", "lag": 0, "topology": "sbm"}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 121, "total": 180, "condition": {"geometry": "cosine", "lag": 20, "topology": "sbm"}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 122, "total": 180, "condition": {"geometry": "cosine", "lag": 20, "topology": "sbm"}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 123, "total": 180, "condition": {"geometry": "cosine", "lag": 20, "topology": "sbm"}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 124, "total": 180, "condition": {"geometry": "cosine", "lag": 20, "topology": "sbm"}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 125, "total": 180, "condition": {"geometry": "cosine", "lag": 20, "topology": "sbm"}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 126, "total": 180, "condition": {"geometry": "cosine", "lag": 20, "topology": "sbm"}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 127, "total": 180, "condition": {"geometry": "cosine", "lag": 20, "topology": "sbm"}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 128, "total": 180, "condition": {"geometry": "cosine", "lag": 20, "topology": "sbm"}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 129, "total": 180, "condition": {"geometry": "cosine", "lag": 20, "topology": "sbm"}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 130, "total": 180, "condition": {"geometry": "cosine", "lag": 20, "topology": "sbm"}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 131, "total": 180, "condition": {"geometry": "cosine", "lag": 20, "topology": "sbm"}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 132, "total": 180, "condition": {"geometry": "cosine", "lag": 20, "topology": "sbm"}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 133, "total": 180, "condition": {"geometry": "cosine", "lag": 20, "topology": "sbm"}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 134, "total": 180, "condition": {"geometry": "cosine", "lag": 20, "topology": "sbm"}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 135, "total": 180, "condition": {"geometry": "cosine", "lag": 20, "topology": "sbm"}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 136, "total": 180, "condition": {"geometry": "cosine", "lag": 20, "topology": "sbm"}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 137, "total": 180, "condition": {"geometry": "cosine", "lag": 20, "topology": "sbm"}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 138, "total": 180, "condition": {"geometry": "cosine", "lag": 20, "topology": "sbm"}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 139, "total": 180, "condition": {"geometry": "cosine", "lag": 20, "topology": "sbm"}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 140, "total": 180, "condition": {"geometry": "cosine", "lag": 20, "topology": "sbm"}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 141, "total": 180, "condition": {"geometry": "cosine", "lag": 20, "topology": "sbm"}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 142, "total": 180, "condition": {"geometry": "cosine", "lag": 20, "topology": "sbm"}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 143, "total": 180, "condition": {"geometry": "cosine", "lag": 20, "topology": "sbm"}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 144, "total": 180, "condition": {"geometry": "cosine", "lag": 20, "topology": "sbm"}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 145, "total": 180, "condition": {"geometry": "cosine", "lag": 20, "topology": "sbm"}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 146, "total": 180, "condition": {"geometry": "cosine", "lag": 20, "topology": "sbm"}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 147, "total": 180, "condition": {"geometry": "cosine", "lag": 20, "topology": "sbm"}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 148, "total": 180, "condition": {"geometry": "cosine", "lag": 20, "topology": "sbm"}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 149, "total": 180, "condition": {"geometry": "cosine", "lag": 20, "topology": "sbm"}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 150, "total": 180, "condition": {"geometry": "cosine", "lag": 20, "topology": "sbm"}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 151, "total": 180, "condition": {"geometry": "cosine", "lag": 40, "topology": "sbm"}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 152, "total": 180, "condition": {"geometry": "cosine", "lag": 40, "topology": "sbm"}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 153, "total": 180, "condition": {"geometry": "cosine", "lag": 40, "topology": "sbm"}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 154, "total": 180, "condition": {"geometry": "cosine", "lag": 40, "topology": "sbm"}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 155, "total": 180, "condition": {"geometry": "cosine", "lag": 40, "topology": "sbm"}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 156, "total": 180, "condition": {"geometry": "cosine", "lag": 40, "topology": "sbm"}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 157, "total": 180, "condition": {"geometry": "cosine", "lag": 40, "topology": "sbm"}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 158, "total": 180, "condition": {"geometry": "cosine", "lag": 40, "topology": "sbm"}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 159, "total": 180, "condition": {"geometry": "cosine", "lag": 40, "topology": "sbm"}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 160, "total": 180, "condition": {"geometry": "cosine", "lag": 40, "topology": "sbm"}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 161, "total": 180, "condition": {"geometry": "cosine", "lag": 40, "topology": "sbm"}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 162, "total": 180, "condition": {"geometry": "cosine", "lag": 40, "topology": "sbm"}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 163, "total": 180, "condition": {"geometry": "cosine", "lag": 40, "topology": "sbm"}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 164, "total": 180, "condition": {"geometry": "cosine", "lag": 40, "topology": "sbm"}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 165, "total": 180, "condition": {"geometry": "cosine", "lag": 40, "topology": "sbm"}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 166, "total": 180, "condition": {"geometry": "cosine", "lag": 40, "topology": "sbm"}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 167, "total": 180, "condition": {"geometry": "cosine", "lag": 40, "topology": "sbm"}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 168, "total": 180, "condition": {"geometry": "cosine", "lag": 40, "topology": "sbm"}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 169, "total": 180, "condition": {"geometry": "cosine", "lag": 40, "topology": "sbm"}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 170, "total": 180, "condition": {"geometry": "cosine", "lag": 40, "topology": "sbm"}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 171, "total": 180, "condition": {"geometry": "cosine", "lag": 40, "topology": "sbm"}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 172, "total": 180, "condition": {"geometry": "cosine", "lag": 40, "topology": "sbm"}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 173, "total": 180, "condition": {"geometry": "cosine", "lag": 40, "topology": "sbm"}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 174, "total": 180, "condition": {"geometry": "cosine", "lag": 40, "topology": "sbm"}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 175, "total": 180, "condition": {"geometry": "cosine", "lag": 40, "topology": "sbm"}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 176, "total": 180, "condition": {"geometry": "cosine", "lag": 40, "topology": "sbm"}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 177, "total": 180, "condition": {"geometry": "cosine", "lag": 40, "topology": "sbm"}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 178, "total": 180, "condition": {"geometry": "cosine", "lag": 40, "topology": "sbm"}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 179, "total": 180, "condition": {"geometry": "cosine", "lag": 40, "topology": "sbm"}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "TopologyValidationExperiment", "completed": 180, "total": 180, "condition": {"geometry": "cosine", "lag": 40, "topology": "sbm"}, "seed": 29}
+
+============================================================
+EXPERIMENT: Exp 4b: Cross-Topology Geometry Validation (SBM)
+============================================================
+  ** geometry=cosine | lag=0                  Δ=-0.00612  95% CI [-0.00701, -0.00524]  p=0.0000
+  ** geometry=cosine | lag=20                 Δ=-0.00651  95% CI [-0.00743, -0.00560]  p=0.0000
+  ** geometry=cosine | lag=40                 Δ=-0.01036  95% CI [-0.01165, -0.00907]  p=0.0000
+  ** geometry=euclidean | lag=0               Δ=-0.00661  95% CI [-0.00779, -0.00542]  p=0.0000
+  ** geometry=euclidean | lag=20              Δ=-0.00963  95% CI [-0.01090, -0.00836]  p=0.0000
+  ** geometry=euclidean | lag=40              Δ=-0.01599  95% CI [-0.01789, -0.01409]  p=0.0000
+============================================================
+** = significant at α=0.05
+
+Epsilon and realised gate pass rate (control runs):
+               epsilon  gate_pass_ctrl
+geometry  lag                         
+cosine    0    0.40725        0.414269
+          20   0.40725        0.324336
+          40   0.40725        0.285098
+euclidean 0    1.00000        0.760282
+          20   1.00000        0.565430
+          40   1.00000        0.443969
+
+--- Lag x geometry interaction (delta)
+  cosine     [delta] lag 40 - lag 0 = -0.00424 [-0.00479, -0.00368] p=0.0000  -> lag amplifies |effect|
+  euclidean  [delta] lag 40 - lag 0 = -0.00938 [-0.01110, -0.00767] p=0.0000  -> lag amplifies |effect|
+  cosine vs euclidean [delta] interaction = +0.00515 [+0.00370, +0.00659] p=0.0000
+
+--- Lag x geometry interaction (rel_delta)
+  cosine     [rel_delta] lag 40 - lag 0 = -0.02354 [-0.02721, -0.01987] p=0.0000  -> lag amplifies |effect|
+  euclidean  [rel_delta] lag 40 - lag 0 = -0.05848 [-0.07618, -0.04079] p=0.0000  -> lag amplifies |effect|
+  cosine vs euclidean [rel_delta] interaction = +0.03494 [+0.01885, +0.05104] p=0.0001
+ geometry  lag     t_stat      p_value    effect  effect_ci_low  effect_ci_high  significant  rel_effect  rel_effect_ci_low  rel_effect_ci_high
+   cosine    0 -14.211530 1.340982e-14 -0.006124      -0.007005       -0.005242         True   -0.060299          -0.068895           -0.051704
+   cosine   20 -14.606866 6.650582e-15 -0.006514      -0.007426       -0.005602         True   -0.063197          -0.071983           -0.054410
+   cosine   40 -16.451613 3.029411e-16 -0.010360      -0.011648       -0.009072         True   -0.083840          -0.094239           -0.073440
+euclidean    0 -11.425982 2.952167e-12 -0.006608      -0.007790       -0.005425         True   -0.099429          -0.114514           -0.084345
+euclidean   20 -15.506887 1.420920e-15 -0.009630      -0.010900       -0.008359         True   -0.130546          -0.146078           -0.115014
+euclidean   40 -17.222418 9.047222e-17 -0.015991      -0.017890       -0.014092         True   -0.157913          -0.176325           -0.139502
+
+CSV  → policyswarm_output_centred\topology\TopologyValidationExperiment_results_20260926_194240.csv
+Stats → policyswarm_output_centred\topology\TopologyValidationExperiment_stats_20260926_194240.csv
+Plots → ['policyswarm_output_centred\\topology\\sbm_phase_diagram.png', 'policyswarm_output_centred\\topology\\sbm_phase_diagram_relative.png']
+##EVENT## {"type": "complete", "experiment": "TopologyValidationExperiment", "figures": 2, "rows": 180}
+
+============================================================
+ALL EXPERIMENTS COMPLETE
+============================================================
+  [OK]   topology
+         figures : 2
+         latex   : 1 table written
+
+All outputs saved to: policyswarm_output_centred/

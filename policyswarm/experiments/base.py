@@ -107,6 +107,36 @@ class BaseExperiment(ABC):
         return len(self.seeds)
 
     # ------------------------------------------------------------------
+    # Geometry-aware bounded-confidence thresholds
+    # ------------------------------------------------------------------
+
+    def _geometry_epsilons(self, sim_config, geometries, mode: str = "matched") -> dict:
+        """Epsilon to use for each geometry, keyed by Geometry.value.
+
+        mode="matched" (default): Euclidean keeps sim_config.epsilon and every
+            other geometry gets the epsilon admitting the same fraction of
+            network-neighbour pairs at initialisation (geometry.matched_epsilons).
+        mode="raw": sim_config.epsilon for every geometry. A raw epsilon means
+            different coverage under each metric, so this confounds geometry
+            with threshold; use only for sensitivity analysis.
+        """
+        from ..config import Geometry
+        from ..geometry import matched_epsilons
+
+        if mode == "raw":
+            return {g.value: sim_config.epsilon for g in geometries}
+        if mode != "matched":
+            raise ValueError(f"Unknown epsilon mode: {mode!r}")
+
+        eps, target = matched_epsilons(
+            sim_config, geometries, reference_geometry=Geometry.EUCLIDEAN,
+            seeds=self.seeds,
+        )
+        print(f"Coverage-matched epsilon (target neighbour pass fraction "
+              f"{target:.3f}): " + ", ".join(f"{g}={e:.4f}" for g, e in eps.items()))
+        return eps
+
+    # ------------------------------------------------------------------
     # Structured progress events (consumed by tui/)
     # ------------------------------------------------------------------
 

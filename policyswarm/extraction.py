@@ -30,7 +30,7 @@ from typing import Dict, List, Optional, Tuple, Union
 import networkx as nx
 import numpy as np
 
-from .config import Policy
+from .config import CENTRED_SCALE, Policy, unit_to_centred
 
 # ---------------------------------------------------------------------------
 # spaCy import guard
@@ -137,7 +137,11 @@ def policy_from_kg(
     lag      : int = 10,
     text     : Optional[str] = None,
 ) -> Policy:
-    """Map KG entities to a 4-D Policy object."""
+    """Map KG entities to a 4-D Policy object.
+
+    Keyword deltas accumulate on the unit interval from a neutral 0.5 and are
+    clipped to [0.05, 0.95], then converted to the centred [-1, 1] space.
+    """
     dims = {
         "deployment_cap" : 0.5,
         "transparency"   : 0.5,
@@ -151,14 +155,14 @@ def policy_from_kg(
             dims[dim] = np.clip(dims[dim] + delta, 0.05, 0.95)
 
     narrative = extract_narrative_scores(text) if text else {
-        "safety": 0.5, "innovation": 0.5, "transparency": 0.5
+        "safety": 0, "innovation": 0, "transparency": 0
     }
 
     return Policy(
-        deployment_cap  = float(dims["deployment_cap"]),
-        transparency    = float(dims["transparency"]),
-        enforcement     = float(dims["enforcement"]),
-        audit_intensity = float(dims["audit_intensity"]),
+        deployment_cap  = unit_to_centred(dims["deployment_cap"]),
+        transparency    = unit_to_centred(dims["transparency"]),
+        enforcement     = unit_to_centred(dims["enforcement"]),
+        audit_intensity = unit_to_centred(dims["audit_intensity"]),
         lag             = lag,
         narrative       = narrative,
     )
@@ -201,18 +205,23 @@ def perceived_policy(
     trust : float
         Institutional trust in [0, 1]. Beta(2,2)-distributed.
     dimension_salience : np.ndarray, shape (d,), optional
-        Per-dimension ideology sensitivity. When None, falls back to the
-        legacy hardcoded AI-policy bias for 4-dim vectors, or zeros otherwise.
+        Per-dimension ideology sensitivity, in unit-interval units. When None,
+        falls back to the legacy hardcoded AI-policy bias for 4-dim vectors,
+        or zeros otherwise.
     noise_scale : float or np.ndarray, shape (d,)
-        Standard deviation of perceptual noise. Passing an array allows
-        per-dimension noise (used to scale by inverse confidence in Tier 1/2).
-        Default 0.05 (scalar, applied to all dimensions equally).
+        Standard deviation of perceptual noise, in unit-interval units.
+        Passing an array allows per-dimension noise (used to scale by inverse
+        confidence in Tier 1/2). Default 0.05 (scalar).
+
+    Bias and noise are additive offsets specified on the unit interval, so
+    both are multiplied by CENTRED_SCALE here. Trust scales the policy signal
+    toward the neutral origin: a zero-trust agent perceives a neutral policy.
     rng : np.random.Generator, optional
 
     Returns
     -------
     np.ndarray, shape (d,)
-        Agent's perceived policy vector, clamped to [0, 1].
+        Agent's perceived policy vector, clamped to [-1, 1].
     """
     d = len(policy_vector)
 
@@ -222,15 +231,16 @@ def perceived_policy(
         else:
             dimension_salience = np.zeros(d)
 
-    bias = ideology * np.asarray(dimension_salience)
+    bias = CENTRED_SCALE * ideology * np.asarray(dimension_salience)
+    scale = CENTRED_SCALE * np.asarray(noise_scale)
 
     if rng is not None:
-        noise = rng.normal(0.0, noise_scale, size=d)
+        noise = rng.normal(0.0, scale, size=d)
     else:
-        noise = np.random.normal(0.0, noise_scale, size=d)
+        noise = np.random.normal(0.0, scale, size=d)
 
     perceived = trust * (policy_vector + bias) + noise
-    return np.clip(perceived, 0.0, 1.0)
+    return np.clip(perceived, -1.0, 1.0)
 
 
 # ---------------------------------------------------------------------------

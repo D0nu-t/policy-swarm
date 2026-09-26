@@ -103,7 +103,7 @@ def polarization_index(
 def bifurcation_index(
     opinions   : np.ndarray,
     dim        : int   = 0,
-    bandwidth  : float = 0.08,
+    bandwidth  : float = 0.16,
     n_eval     : int   = 200,
 ) -> int:
     """Count local maxima in the KDE of a 1D projection of opinions.
@@ -117,9 +117,12 @@ def bifurcation_index(
     dim : int
         Opinion dimension to project onto. Default 0 (deployment_cap).
     bandwidth : float
-        KDE bandwidth. Default 0.08.
+        Absolute KDE bandwidth (kernel standard deviation) in opinion units.
+        Default 0.16 on the [-1, 1] scale (= 0.08 on the unit interval).
+        scipy's ``bw_method`` scalar is a *factor* on the sample standard
+        deviation, so the absolute bandwidth is converted to that factor.
     n_eval : int
-        Number of evaluation points for the KDE. Default 200.
+        Number of evaluation points for the KDE on [-1, 1]. Default 200.
 
     Returns
     -------
@@ -127,9 +130,12 @@ def bifurcation_index(
         Number of local maxima (peaks) in the estimated density.
     """
     x    = opinions[:, dim]
-    grid = np.linspace(0, 1, n_eval)
+    grid = np.linspace(-1, 1, n_eval)
+    sd   = float(np.std(x, ddof=1)) if len(x) > 1 else 0.0
+    if sd < 1e-12:
+        return 1
     try:
-        kde  = gaussian_kde(x, bw_method=bandwidth)
+        kde  = gaussian_kde(x, bw_method=bandwidth / sd)
         dens = kde(grid)
     except np.linalg.LinAlgError:
         # Degenerate case: all agents identical
@@ -348,7 +354,7 @@ def compute_all_metrics(sim) -> Dict[str, float]:
     -------
     dict
         Keys: variance, polarization, bifurcation_index, cascade_breadth,
-              phase_transition_tick, delta_variance
+              phase_transition_tick, delta_variance, gate_pass_rate
     """
     final = sim.final_opinions
     return {
@@ -363,4 +369,5 @@ def compute_all_metrics(sim) -> Dict[str, float]:
         ),
         "phase_transition_tick": phase_transition_tick(sim.history),
         "delta_variance"     : delta_variance(sim.pre_opinions, sim.post_opinions),
+        "gate_pass_rate"     : float(getattr(sim, "gate_pass_rate", float("nan"))),
     }

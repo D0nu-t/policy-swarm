@@ -58,6 +58,7 @@ def plot_phase_diagram(
     df         : pd.DataFrame,
     output_dir : str,
     filename   : str = "phase_diagram.png",
+    delta_col  : Optional[str] = None,
 ) -> str:
     """Plot mean Δvariance vs enforcement lag, with separate lines per geometry.
 
@@ -67,12 +68,18 @@ def plot_phase_diagram(
         Must contain columns: geometry, lag, delta (or delta_variance).
     output_dir : str
     filename : str
+    delta_col : str, optional
+        Column to plot. Default "delta" (falls back to "delta_variance").
+        Pass "rel_delta" for the relative effect (Δ / control variance).
 
     Returns
     -------
     str : file path of saved figure.
     """
-    delta_col = "delta" if "delta" in df.columns else "delta_variance"
+    if delta_col is None:
+        delta_col = "delta" if "delta" in df.columns else "delta_variance"
+    if delta_col not in df.columns:
+        return ""
 
     fig, ax = plt.subplots(figsize=(7, 4))
     for i, (geom, sub) in enumerate(df.groupby("geometry")):
@@ -87,7 +94,10 @@ def plot_phase_diagram(
 
     ax.axhline(0, color="grey", linestyle="--", linewidth=0.8, alpha=0.6)
     ax.set_xlabel("Enforcement Lag (ticks)")
-    ax.set_ylabel("Δ Opinion Variance (treat − control)")
+    ax.set_ylabel(
+        "Relative Δ Opinion Variance ((treat − control) / control)"
+        if delta_col == "rel_delta" else "Δ Opinion Variance (treat − control)"
+    )
     ax.set_title("Phase Diagram: Shock Effect vs Enforcement Lag")
     ax.legend(title="Geometry", frameon=False)
 
@@ -371,26 +381,44 @@ def plot_geometry_comparison(
     ----------
     df : pd.DataFrame
         Must contain: geometry, polarization (and optionally variance).
+        If an ``alpha`` column is present, boxes are grouped by alpha
+        (one box per geometry within each alpha) instead of pooling runs
+        with different convergence rates into one box.
     """
-    fig, axes = plt.subplots(1, 2, figsize=(10, 4))
+    fig, axes = plt.subplots(1, 2, figsize=(12, 4))
 
     metrics = [
         ("polarization", "Polarization Index"),
         ("variance",     "Opinion Variance"),
     ]
+    geoms  = sorted(df["geometry"].unique())
+    alphas = sorted(df["alpha"].unique()) if "alpha" in df.columns else [None]
+    width  = 0.8 / max(len(geoms), 1)
 
     for ax, (col, label) in zip(axes, metrics):
         if col not in df.columns:
             ax.set_visible(False)
             continue
-        groups = [sub[col].values for _, sub in df.groupby("geometry")]
-        labels = [str(g) for g, _ in df.groupby("geometry")]
-        bp = ax.boxplot(groups, patch_artist=True, labels=labels)
-        for patch, color in zip(bp["boxes"], _COLORS):
-            patch.set_facecolor(color)
-            patch.set_alpha(0.7)
+        for gi, geom in enumerate(geoms):
+            sub = df[df["geometry"] == geom]
+            groups = [
+                (sub if a is None else sub[sub["alpha"] == a])[col].values
+                for a in alphas
+            ]
+            positions = [ai + (gi - (len(geoms) - 1) / 2) * width
+                         for ai in range(len(alphas))]
+            bp = ax.boxplot(groups, positions=positions, widths=width * 0.9,
+                            patch_artist=True, manage_ticks=False)
+            for patch in bp["boxes"]:
+                patch.set_facecolor(_COLORS[gi % len(_COLORS)])
+                patch.set_alpha(0.7)
+            ax.plot([], [], color=_COLORS[gi % len(_COLORS)], lw=6,
+                    alpha=0.7, label=str(geom))
+        ax.set_xticks(range(len(alphas)))
+        ax.set_xticklabels(["all" if a is None else f"µ={a:g}" for a in alphas])
         ax.set_ylabel(label)
         ax.set_title(f"{label} by Geometry")
+        ax.legend(frameon=False, fontsize=8)
 
     return _save(fig, os.path.join(output_dir, filename))
 
@@ -489,12 +517,12 @@ def plot_geometry_ptt(
     df         : pd.DataFrame,
     output_dir : str,
     filename   : str = "geometry_ptt.png",
+    n_ticks    : Optional[int] = None,
 ) -> str:
     """PTT vs convergence rate (mu), one line per geometry.
 
-    This is the sharpest geometry signature in Experiment 6: Euclidean PTT
-    increases with mu while cosine PTT decreases — opposite directions that
-    are not visible in the OV or PI boxplots.
+    PTT trends across mu are not visible in the OV or PI boxplots. PTT values
+    of inf (never stabilised) are right-censored at ``n_ticks``.
 
     Parameters
     ----------
@@ -503,15 +531,22 @@ def plot_geometry_ptt(
         geometry, alpha, phase_t.
     output_dir : str
     filename : str
+    n_ticks : int, optional
+        Simulation horizon, used to censor inf PTT values. Required if any
+        run never stabilised.
     """
     col = "phase_t"
     if col not in df.columns:
         return ""
 
-    # Replace inf PTT values (system never stabilised) with n_ticks
-    # so they don't break the mean calculation silently.
+    # Replace inf PTT values (system never stabilised) with the horizon,
+    # i.e. right-censor at n_ticks, so they don't break the mean silently.
     df = df.copy()
-    df[col] = df[col].replace(float("inf"), df[col].replace(float("inf"), None).max())
+    n_inf = int(np.isinf(df[col]).sum())
+    if n_inf:
+        if n_ticks is None:
+            raise ValueError("phase_t contains inf; pass n_ticks to censor it")
+        df[col] = df[col].replace(float("inf"), float(n_ticks))
 
     fig, ax = plt.subplots(figsize=(7, 4))
 

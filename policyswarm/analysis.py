@@ -16,7 +16,7 @@ from __future__ import annotations
 from typing import List, Dict, Tuple, Optional
 import numpy as np
 import pandas as pd
-from scipy.stats import ttest_rel, sem, t as t_dist
+from scipy.stats import ttest_1samp, ttest_rel, sem, t as t_dist
 
 
 # ---------------------------------------------------------------------------
@@ -61,14 +61,15 @@ def paired_ttest(
     control_vals  : np.ndarray,
     treatment_vals: np.ndarray,
 ) -> Tuple[float, float, float]:
-    """Paired one-sample t-test between control and treatment values.
+    """Paired t-test between control and treatment values.
 
     Returns
     -------
     (t_stat, p_value, effect)
-        effect = mean(treatment) - mean(control)
+        effect = mean(treatment) - mean(control). t_stat has the same sign
+        as effect.
     """
-    t_stat, p = ttest_rel(control_vals, treatment_vals)
+    t_stat, p = ttest_rel(treatment_vals, control_vals)
     effect = float(np.mean(treatment_vals) - np.mean(control_vals))
     return float(t_stat), float(p), effect
 
@@ -135,7 +136,12 @@ def stat_test_table(
     """Run paired t-tests for each group and return a results table.
 
     Output columns: <groupby_cols> | t_stat | p_value | <label> |
-                    effect_ci_low | effect_ci_high | significant
+                    effect_ci_low | effect_ci_high | significant |
+                    rel_effect | rel_effect_ci_low | rel_effect_ci_high
+
+    rel_effect is the mean per-seed relative change (treat - ctrl) / ctrl.
+    It makes effects comparable across conditions with different baseline
+    levels (e.g. geometries whose control variance differs).
     """
     rows = []
     for keys, sub in df.groupby(groupby_cols):
@@ -158,6 +164,16 @@ def stat_test_table(
         row["effect_ci_high"]= ci_high
         row["significant"]   = p_val < 0.05
 
+        with np.errstate(divide="ignore", invalid="ignore"):
+            rel = diffs / ctrl
+        rel = rel[np.isfinite(rel)]
+        rel_mean, rel_lo, rel_hi = (
+            confidence_interval(rel) if rel.size else (np.nan,) * 3
+        )
+        row["rel_effect"]         = rel_mean
+        row["rel_effect_ci_low"]  = rel_lo
+        row["rel_effect_ci_high"] = rel_hi
+
         rows.append(row)
 
     return pd.DataFrame(rows)
@@ -168,7 +184,8 @@ def stat_test_table(
 # ---------------------------------------------------------------------------
 
 _STAT_COLS = {"t_stat", "p_value", "significant", "effect",
-              "effect_ci_low", "effect_ci_high"}
+              "effect_ci_low", "effect_ci_high",
+              "rel_effect", "rel_effect_ci_low", "rel_effect_ci_high"}
 
 
 def executive_summary(
@@ -202,6 +219,150 @@ def executive_summary(
 
     lines.append("=" * 60)
     lines.append("** = significant at α=0.05")
+    return "\n".join(lines)
+
+
+# ---------------------------------------------------------------------------
+# Geometry x lag interaction
+# ---------------------------------------------------------------------------
+
+def _one_sample(vals: np.ndarray) -> Dict[str, float]:
+    vals = np.asarray(vals, dtype=float)
+    mean_, lo, hi = confidence_interval(vals)
+    if len(vals) > 1 and np.std(vals, ddof=1) > 0:
+        t_stat, p = ttest_1samp(vals, 0.0)
+    else:
+        t_stat, p = np.nan, np.nan
+    return {"mean": mean_, "ci_low": lo, "ci_high": hi,
+            "t_stat": float(t_stat), "p_value": float(p), "n": len(vals)}
+
+
+def lag_geometry_interaction(
+    df           : pd.DataFrame,
+    value_col    : str,
+    lag_lo       : Optional[int] = None,
+    lag_hi       : Optional[int] = None,
+    geometry_col : str = "geometry",
+    lag_col      : str = "lag",
+    seed_col     : str = "seed",
+    alpha        : float = 0.05,
+) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    """Test how a paired shock effect changes with lag, and whether that
+    change differs between geometries.
+
+    Each seed is its own control: within a geometry, the per-seed lag
+    contrast is  c_s = value(lag_hi) - value(lag_lo).  Because every
+    geometry uses the same seeds (network, initial opinions, shock
+    schedule), the geometry x lag interaction is the paired difference of
+    contrasts between two geometries.
+
+    Testing each cell's effect against zero (stat_test_table) does NOT test
+    this: a claim that lag amplifies the shock effect under one geometry and
+    attenuates it under another needs both per-geometry contrasts and the
+    between-geometry interaction.
+
+    Parameters
+    ----------
+    value_col : str
+        Per-seed effect column, e.g. "delta" or "rel_delta".
+    lag_lo, lag_hi : int, optional
+        Lags to contrast. Default: smallest and largest lag in df.
+
+    Returns
+    -------
+    per_geometry : DataFrame
+        geometry | contrast mean/CI/t/p | effect_at_lo/hi | trend
+        trend in {"amplifies", "attenuates", "n.s."}: whether |effect|
+        grows or shrinks from lag_lo to lag_hi (significant at alpha).
+    pairwise : DataFrame
+        geometry_a | geometry_b | interaction mean/CI/t/p
+        (contrast_a - contrast_b, paired by seed).
+    """
+    lags   = sorted(df[lag_col].unique())
+    lag_lo = lags[0]  if lag_lo is None else lag_lo
+    lag_hi = lags[-1] if lag_hi is None else lag_hi
+
+    contrasts: Dict[str, pd.Series] = {}
+    per_rows = []
+    for geom, sub in df.groupby(geometry_col):
+        wide = sub.pivot_table(index=seed_col, columns=lag_col, values=value_col)
+        if lag_lo not in wide or lag_hi not in wide:
+            continue
+        c = (wide[lag_hi] - wide[lag_lo]).dropna()
+        contrasts[geom] = c
+        stats = _one_sample(c.values)
+        at_lo = float(wide[lag_lo].mean())
+
+        if not stats["p_value"] < alpha:
+            trend = "n.s."
+        elif np.sign(stats["mean"]) == np.sign(at_lo):
+            trend = "amplifies"
+        else:
+            trend = "attenuates"
+
+        per_rows.append({
+            geometry_col       : geom,
+            "value"            : value_col,
+            "lag_lo"           : lag_lo,
+            "lag_hi"           : lag_hi,
+            "effect_at_lo"     : at_lo,
+            "effect_at_hi"     : float(wide[lag_hi].mean()),
+            "contrast"         : stats["mean"],
+            "contrast_ci_low"  : stats["ci_low"],
+            "contrast_ci_high" : stats["ci_high"],
+            "t_stat"           : stats["t_stat"],
+            "p_value"          : stats["p_value"],
+            "n"                : stats["n"],
+            "trend"            : trend,
+        })
+
+    pair_rows = []
+    geoms = sorted(contrasts)
+    for i, ga in enumerate(geoms):
+        for gb in geoms[i + 1:]:
+            joined = pd.concat(
+                [contrasts[ga].rename("a"), contrasts[gb].rename("b")], axis=1
+            ).dropna()
+            stats = _one_sample((joined["a"] - joined["b"]).values)
+            pair_rows.append({
+                "geometry_a"          : ga,
+                "geometry_b"          : gb,
+                "value"               : value_col,
+                "lag_lo"              : lag_lo,
+                "lag_hi"              : lag_hi,
+                "interaction"         : stats["mean"],
+                "interaction_ci_low"  : stats["ci_low"],
+                "interaction_ci_high" : stats["ci_high"],
+                "t_stat"              : stats["t_stat"],
+                "p_value"             : stats["p_value"],
+                "n"                   : stats["n"],
+                "significant"         : bool(stats["p_value"] < alpha),
+            })
+
+    return pd.DataFrame(per_rows), pd.DataFrame(pair_rows)
+
+
+def interaction_summary(
+    per_geometry : pd.DataFrame,
+    pairwise     : pd.DataFrame,
+    title        : str = "",
+) -> str:
+    """Human-readable summary of lag_geometry_interaction() output."""
+    lines = [f"\n--- Lag x geometry interaction {title}".rstrip()]
+    for _, r in per_geometry.iterrows():
+        lines.append(
+            f"  {r['geometry']:<10} [{r['value']}] "
+            f"lag {r['lag_hi']} - lag {r['lag_lo']} = {r['contrast']:+.5f} "
+            f"[{r['contrast_ci_low']:+.5f}, {r['contrast_ci_high']:+.5f}] "
+            f"p={r['p_value']:.4f}  -> lag {r['trend']} |effect|"
+        )
+    for _, r in pairwise.iterrows():
+        lines.append(
+            f"  {r['geometry_a']} vs {r['geometry_b']} [{r['value']}] "
+            f"interaction = {r['interaction']:+.5f} "
+            f"[{r['interaction_ci_low']:+.5f}, {r['interaction_ci_high']:+.5f}] "
+            f"p={r['p_value']:.4f}"
+        )
     return "\n".join(lines)
 
 

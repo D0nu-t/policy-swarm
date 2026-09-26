@@ -1,0 +1,194 @@
+
+PolicySwarm v1.1.0
+Policy source : keyword
+Seeds         : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
+Output dir    : policyswarm_output_decoupled
+Experiments   : ['lag']
+Policy dims   : 4
+
+
+============================================================
+Running experiment: lag
+============================================================
+##EVENT## {"type": "start", "experiment": "EnforcementLagExperiment", "total": 150}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 1, "total": 150, "condition": {"lag": 0}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 2, "total": 150, "condition": {"lag": 0}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 3, "total": 150, "condition": {"lag": 0}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 4, "total": 150, "condition": {"lag": 0}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 5, "total": 150, "condition": {"lag": 0}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 6, "total": 150, "condition": {"lag": 0}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 7, "total": 150, "condition": {"lag": 0}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 8, "total": 150, "condition": {"lag": 0}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 9, "total": 150, "condition": {"lag": 0}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 10, "total": 150, "condition": {"lag": 0}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 11, "total": 150, "condition": {"lag": 0}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 12, "total": 150, "condition": {"lag": 0}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 13, "total": 150, "condition": {"lag": 0}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 14, "total": 150, "condition": {"lag": 0}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 15, "total": 150, "condition": {"lag": 0}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 16, "total": 150, "condition": {"lag": 0}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 17, "total": 150, "condition": {"lag": 0}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 18, "total": 150, "condition": {"lag": 0}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 19, "total": 150, "condition": {"lag": 0}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 20, "total": 150, "condition": {"lag": 0}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 21, "total": 150, "condition": {"lag": 0}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 22, "total": 150, "condition": {"lag": 0}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 23, "total": 150, "condition": {"lag": 0}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 24, "total": 150, "condition": {"lag": 0}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 25, "total": 150, "condition": {"lag": 0}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 26, "total": 150, "condition": {"lag": 0}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 27, "total": 150, "condition": {"lag": 0}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 28, "total": 150, "condition": {"lag": 0}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 29, "total": 150, "condition": {"lag": 0}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 30, "total": 150, "condition": {"lag": 0}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 31, "total": 150, "condition": {"lag": 5}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 32, "total": 150, "condition": {"lag": 5}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 33, "total": 150, "condition": {"lag": 5}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 34, "total": 150, "condition": {"lag": 5}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 35, "total": 150, "condition": {"lag": 5}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 36, "total": 150, "condition": {"lag": 5}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 37, "total": 150, "condition": {"lag": 5}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 38, "total": 150, "condition": {"lag": 5}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 39, "total": 150, "condition": {"lag": 5}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 40, "total": 150, "condition": {"lag": 5}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 41, "total": 150, "condition": {"lag": 5}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 42, "total": 150, "condition": {"lag": 5}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 43, "total": 150, "condition": {"lag": 5}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 44, "total": 150, "condition": {"lag": 5}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 45, "total": 150, "condition": {"lag": 5}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 46, "total": 150, "condition": {"lag": 5}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 47, "total": 150, "condition": {"lag": 5}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 48, "total": 150, "condition": {"lag": 5}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 49, "total": 150, "condition": {"lag": 5}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 50, "total": 150, "condition": {"lag": 5}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 51, "total": 150, "condition": {"lag": 5}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 52, "total": 150, "condition": {"lag": 5}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 53, "total": 150, "condition": {"lag": 5}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 54, "total": 150, "condition": {"lag": 5}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 55, "total": 150, "condition": {"lag": 5}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 56, "total": 150, "condition": {"lag": 5}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 57, "total": 150, "condition": {"lag": 5}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 58, "total": 150, "condition": {"lag": 5}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 59, "total": 150, "condition": {"lag": 5}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 60, "total": 150, "condition": {"lag": 5}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 61, "total": 150, "condition": {"lag": 10}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 62, "total": 150, "condition": {"lag": 10}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 63, "total": 150, "condition": {"lag": 10}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 64, "total": 150, "condition": {"lag": 10}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 65, "total": 150, "condition": {"lag": 10}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 66, "total": 150, "condition": {"lag": 10}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 67, "total": 150, "condition": {"lag": 10}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 68, "total": 150, "condition": {"lag": 10}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 69, "total": 150, "condition": {"lag": 10}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 70, "total": 150, "condition": {"lag": 10}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 71, "total": 150, "condition": {"lag": 10}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 72, "total": 150, "condition": {"lag": 10}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 73, "total": 150, "condition": {"lag": 10}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 74, "total": 150, "condition": {"lag": 10}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 75, "total": 150, "condition": {"lag": 10}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 76, "total": 150, "condition": {"lag": 10}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 77, "total": 150, "condition": {"lag": 10}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 78, "total": 150, "condition": {"lag": 10}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 79, "total": 150, "condition": {"lag": 10}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 80, "total": 150, "condition": {"lag": 10}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 81, "total": 150, "condition": {"lag": 10}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 82, "total": 150, "condition": {"lag": 10}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 83, "total": 150, "condition": {"lag": 10}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 84, "total": 150, "condition": {"lag": 10}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 85, "total": 150, "condition": {"lag": 10}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 86, "total": 150, "condition": {"lag": 10}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 87, "total": 150, "condition": {"lag": 10}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 88, "total": 150, "condition": {"lag": 10}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 89, "total": 150, "condition": {"lag": 10}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 90, "total": 150, "condition": {"lag": 10}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 91, "total": 150, "condition": {"lag": 20}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 92, "total": 150, "condition": {"lag": 20}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 93, "total": 150, "condition": {"lag": 20}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 94, "total": 150, "condition": {"lag": 20}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 95, "total": 150, "condition": {"lag": 20}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 96, "total": 150, "condition": {"lag": 20}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 97, "total": 150, "condition": {"lag": 20}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 98, "total": 150, "condition": {"lag": 20}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 99, "total": 150, "condition": {"lag": 20}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 100, "total": 150, "condition": {"lag": 20}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 101, "total": 150, "condition": {"lag": 20}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 102, "total": 150, "condition": {"lag": 20}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 103, "total": 150, "condition": {"lag": 20}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 104, "total": 150, "condition": {"lag": 20}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 105, "total": 150, "condition": {"lag": 20}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 106, "total": 150, "condition": {"lag": 20}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 107, "total": 150, "condition": {"lag": 20}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 108, "total": 150, "condition": {"lag": 20}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 109, "total": 150, "condition": {"lag": 20}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 110, "total": 150, "condition": {"lag": 20}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 111, "total": 150, "condition": {"lag": 20}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 112, "total": 150, "condition": {"lag": 20}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 113, "total": 150, "condition": {"lag": 20}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 114, "total": 150, "condition": {"lag": 20}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 115, "total": 150, "condition": {"lag": 20}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 116, "total": 150, "condition": {"lag": 20}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 117, "total": 150, "condition": {"lag": 20}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 118, "total": 150, "condition": {"lag": 20}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 119, "total": 150, "condition": {"lag": 20}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 120, "total": 150, "condition": {"lag": 20}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 121, "total": 150, "condition": {"lag": 40}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 122, "total": 150, "condition": {"lag": 40}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 123, "total": 150, "condition": {"lag": 40}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 124, "total": 150, "condition": {"lag": 40}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 125, "total": 150, "condition": {"lag": 40}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 126, "total": 150, "condition": {"lag": 40}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 127, "total": 150, "condition": {"lag": 40}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 128, "total": 150, "condition": {"lag": 40}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 129, "total": 150, "condition": {"lag": 40}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 130, "total": 150, "condition": {"lag": 40}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 131, "total": 150, "condition": {"lag": 40}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 132, "total": 150, "condition": {"lag": 40}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 133, "total": 150, "condition": {"lag": 40}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 134, "total": 150, "condition": {"lag": 40}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 135, "total": 150, "condition": {"lag": 40}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 136, "total": 150, "condition": {"lag": 40}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 137, "total": 150, "condition": {"lag": 40}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 138, "total": 150, "condition": {"lag": 40}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 139, "total": 150, "condition": {"lag": 40}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 140, "total": 150, "condition": {"lag": 40}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 141, "total": 150, "condition": {"lag": 40}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 142, "total": 150, "condition": {"lag": 40}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 143, "total": 150, "condition": {"lag": 40}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 144, "total": 150, "condition": {"lag": 40}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 145, "total": 150, "condition": {"lag": 40}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 146, "total": 150, "condition": {"lag": 40}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 147, "total": 150, "condition": {"lag": 40}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 148, "total": 150, "condition": {"lag": 40}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 149, "total": 150, "condition": {"lag": 40}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "EnforcementLagExperiment", "completed": 150, "total": 150, "condition": {"lag": 40}, "seed": 29}
+
+============================================================
+EXPERIMENT: Exp 2: Enforcement Lag Sensitivity
+============================================================
+  ** lag=0                                    Δ=-0.01048  95% CI [-0.01228, -0.00868]  p=0.0000
+  ** lag=5                                    Δ=-0.01048  95% CI [-0.01228, -0.00868]  p=0.0000
+  ** lag=10                                   Δ=-0.01048  95% CI [-0.01228, -0.00868]  p=0.0000
+  ** lag=20                                   Δ=-0.01049  95% CI [-0.01229, -0.00868]  p=0.0000
+  ** lag=40                                   Δ=-0.01048  95% CI [-0.01229, -0.00868]  p=0.0000
+============================================================
+** = significant at α=0.05
+ lag     t_stat      p_value    effect  effect_ci_low  effect_ci_high  significant  rel_effect  rel_effect_ci_low  rel_effect_ci_high
+   0 -11.904964 1.098866e-12 -0.010478      -0.012278       -0.008678         True   -0.122340          -0.142252           -0.102428
+   5 -11.909882 1.087922e-12 -0.010478      -0.012277       -0.008679         True   -0.122347          -0.142255           -0.102440
+  10 -11.903093 1.103057e-12 -0.010482      -0.012283       -0.008681         True   -0.122391          -0.142318           -0.102464
+  20 -11.903913 1.101219e-12 -0.010485      -0.012286       -0.008684         True   -0.122419          -0.142351           -0.102488
+  40 -11.903818 1.101432e-12 -0.010485      -0.012286       -0.008683         True   -0.122417          -0.142348           -0.102485
+
+CSV  → policyswarm_output_decoupled\lag\EnforcementLagExperiment_results_20260926_205646.csv
+Stats → policyswarm_output_decoupled\lag\EnforcementLagExperiment_stats_20260926_205646.csv
+Plots → ['policyswarm_output_decoupled\\lag\\phase_diagram.png']
+##EVENT## {"type": "complete", "experiment": "EnforcementLagExperiment", "figures": 1, "rows": 150}
+
+============================================================
+ALL EXPERIMENTS COMPLETE
+============================================================
+  [OK]   lag
+         figures : 1
+         latex   : 1 table written
+
+All outputs saved to: policyswarm_output_decoupled/

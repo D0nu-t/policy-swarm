@@ -26,6 +26,28 @@ from typing import Dict, List, Optional, Union
 
 
 # ---------------------------------------------------------------------------
+# Opinion-space convention
+# ---------------------------------------------------------------------------
+#
+# Opinions and policy vectors live in the centred cube [-1, 1]^d; 0 is the
+# neutral position on every dimension. Extractors, schema YAMLs and LLM
+# prompts use the more readable unit interval [0, 1] (0.5 = neutral), and are
+# converted at the Policy boundary with unit_to_centred(). Quantities that are
+# additive offsets in unit-interval terms (ideology bias, perceptual noise,
+# polarizing shock strength, policy tightening deltas) are multiplied by
+# CENTRED_SCALE so their effect matches the original unit-interval model.
+
+CENTRED_SCALE = 2.0
+
+
+def unit_to_centred(x):
+    """Map a value (or array) from the unit interval [0, 1] to [-1, 1]."""
+    if np.ndim(x) == 0:
+        return CENTRED_SCALE * float(x) - 1.0
+    return CENTRED_SCALE * np.asarray(x, dtype=float) - 1.0
+
+
+# ---------------------------------------------------------------------------
 # Enumerations
 # ---------------------------------------------------------------------------
 
@@ -75,14 +97,27 @@ class SimConfig:
     interactions     : int         = 150
     shock_prob       : float       = 0.2
     mu               : float       = 0.15
-    epsilon          : float       = 0.5
+    # Bounded-confidence threshold in the units of the active geometry's
+    # distance. 1.0 is the centred-space equivalent of the original Euclidean
+    # 0.5 in [0, 1]^d. Geometry comparisons should not reuse one raw value
+    # across metrics; use geometry.matched_epsilons() instead.
+    epsilon          : float       = 1.0
+    # Per-tick pull of every agent toward the policy vector. Previously this
+    # was applied inside the peer loop only when the bounded-confidence gate
+    # passed, which made its strength depend on geometry/epsilon. 0.004
+    # matches the old expected per-agent Euclidean rate
+    # (150 attempts / 120 agents * 0.5 cap * ~13% gate pass * 0.05).
+    policy_anchor_rate: float      = 0.004
     network_type     : NetworkType = NetworkType.BARABASI_ALBERT
     ba_m             : int         = 3
     sbm_n_communities: int         = 3
     sbm_p_in         : float       = 0.2
     sbm_p_out        : float       = 0.02
     opinion_dim      : int         = 4
-    policy_split_tick: int         = 40
+    # Tick at which the policy tightens (enforcement +0.15, audit +0.10 on
+    # the unit scale). 30 sits between the lag grid points {20, 40} so the
+    # tightening never coincides with an enforcement-lag onset.
+    policy_split_tick: int         = 30
 
     def to_dict(self) -> dict:
         d = asdict(self)
@@ -103,6 +138,11 @@ class GovernanceConfig:
     enforcement_lag     : int                     = 10
     enable_media        : bool                    = True
     media_strength      : float                   = 0.1
+    # Tick at which the trust-weighted perceived-policy pull switches on.
+    # Fixed at 10 (the default Policy.lag) independently of enforcement lag,
+    # so varying lag changes only when the violator penalty applies.
+    # None restores the legacy coupling (pull starts at Policy.lag).
+    policy_pull_onset   : Optional[int]           = 10
 
     def __post_init__(self):
         if self.oversight_regime is not None:
@@ -126,24 +166,27 @@ class Policy:
     """
     N-dimensional regulatory policy object.
 
+    All positions (vector, legacy named fields, violator_threshold) are in
+    the centred opinion space [-1, 1], 0 = neutral. Extractors that work in
+    the unit interval convert with config.unit_to_centred().
+
     Two construction modes:
 
-    Legacy (4-dim AI policy, fully backward compatible — all existing
-    experiments continue to work without any changes):
+    Legacy (4-dim AI policy):
 
-        Policy(deployment_cap=0.5, transparency=0.7, enforcement=0.8,
-               audit_intensity=0.6, lag=10)
+        Policy(deployment_cap=0.0, transparency=0.4, enforcement=0.6,
+               audit_intensity=0.2, lag=10)
 
     Generic (N-dim, produced by LLMPolicyExtractor or EmbeddingPolicyExtractor):
 
         Policy(
-            vector=np.array([0.5, 0.7, 0.8, 0.6]),
+            vector=np.array([0.0, 0.4, 0.6, 0.2]),
             dimension_names=["deployment_cap", "transparency",
                               "enforcement", "audit_intensity"],
             confidence=np.array([0.9, 0.8, 0.7, 0.6]),
             dimension_salience=np.array([-0.3, 0.1, 0.2, 0.15]),
             violator_dim_index=0,
-            violator_threshold=0.8,
+            violator_threshold=0.6,
             lag=10,
         )
 
@@ -151,7 +194,7 @@ class Policy:
     ----------
     vector : np.ndarray, shape (n_dims,), optional
         Policy position vector. Takes precedence over named legacy fields
-        when provided. All values in [0, 1].
+        when provided. All values in [-1, 1].
     dimension_names : list of str, optional
         Human-readable name for each dimension. Required for shift_dimension()
         and for _apply_policy_shift() to locate "enforcement"/"audit_intensity".
@@ -159,15 +202,16 @@ class Policy:
         Per-dimension extraction confidence in [0, 1]. Used by perceived_policy()
         to scale perceptual noise: low-confidence dims get higher noise.
     dimension_salience : np.ndarray, shape (n_dims,), optional
-        Per-dimension ideology sensitivity. Replaces the hardcoded
-        [-0.3, 0.1, 0.2, 0.15] bias in perceived_policy(). Loaded from schema
-        YAML or computed from PCA loadings (Tier 2).
+        Per-dimension ideology sensitivity, in unit-interval units (scaled by
+        CENTRED_SCALE inside perceived_policy()). Replaces the hardcoded
+        [-0.3, 0.1, 0.2, 0.15] bias. Loaded from schema YAML or computed from
+        PCA loadings (Tier 2).
     violator_dim_index : int
         Index of the dimension used for violator detection. Default 0
         (deployment_cap in the legacy schema).
     violator_threshold : float
         Threshold above which an agent on violator_dim_index is a "violator".
-        Default 0.8.
+        Default 0.6 (= 0.8 on the unit interval).
     """
 
     # Generic fields (N-dim, optional — set by extractors)
@@ -176,17 +220,17 @@ class Policy:
     confidence         : Optional[np.ndarray] = None
     dimension_salience : Optional[np.ndarray] = None
     violator_dim_index : int                  = 0
-    violator_threshold : float                = 0.8
+    violator_threshold : float                = 0.6
 
     # Legacy named fields (4-dim AI policy, always present for compat)
-    deployment_cap  : float = 0.5
-    transparency    : float = 0.5
-    enforcement     : float = 0.5
-    audit_intensity : float = 0.5
+    deployment_cap  : float = 0
+    transparency    : float = 0
+    enforcement     : float = 0
+    audit_intensity : float = 0
     lag             : int   = 10
     narrative       : Dict[str, float] = field(
         default_factory=lambda: {
-            "safety": 0.5, "innovation": 0.5, "transparency": 0.5
+            "safety": 0, "innovation": 0, "transparency": 0
         }
     )
 
@@ -298,7 +342,7 @@ class Policy:
 
     def shift_dimension(self, name: str, delta: float) -> None:
         """
-        Shift a named dimension by delta, clamped to [0, 1].
+        Shift a named dimension by delta, clamped to [-1, 1].
 
         Used by _apply_policy_shift() in Simulation. If the name is not in
         dimension_names (e.g., domain-agnostic schema without "enforcement"),
@@ -317,7 +361,7 @@ class Policy:
                 f"Available: {self.dimension_names}"
             )
         idx = self.dimension_names.index(name)
-        self.vector[idx] = float(np.clip(self.vector[idx] + delta, 0.0, 1.0))
+        self.vector[idx] = float(np.clip(self.vector[idx] + delta, -1.0, 1.0))
         # Keep legacy field in sync
         if name in ("deployment_cap", "transparency", "enforcement", "audit_intensity"):
             object.__setattr__(self, name, float(self.vector[idx]))

@@ -19,7 +19,9 @@ from .exp3_media_interaction import MediaInteractionExperiment
 from .exp4_counterfactual    import CounterfactualShockExperiment
 from .exp5_centrality        import CentralitySweepExperiment
 from .exp6_geometry          import GeometryExperiment
-
+from .exp4b_topology_validation import TopologyValidationExperiment
+from .exp4c_epsilon_calibration import EpsilonCalibrationExperiment
+# from .exp5_mechanism_check import MechanismCheckExperiment
 __all__ = [
     "OversightPhaseExperiment",
     "EnforcementLagExperiment",
@@ -27,4 +29,7 @@ __all__ = [
     "CounterfactualShockExperiment",
     "CentralitySweepExperiment",
     "GeometryExperiment",
+    "TopologyValidationExperiment",
+    "EpsilonCalibrationExperiment",
+    # "MechanismCheckExperiment",
 ]

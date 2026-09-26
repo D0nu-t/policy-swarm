@@ -1,0 +1,8 @@
+oversight exit=0
+lag exit=0
+media exit=0
+counterfactual exit=0
+topology exit=0
+geometry exit=0
+centrality exit=0
+epsilon exit=0

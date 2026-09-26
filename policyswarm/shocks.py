@@ -16,13 +16,17 @@ only ``apply_shocks`` differs.
 
 Shock modes
 -----------
-COORDINATING : opinions[i] += strength * (0.5 - opinions[i])
-               Mean-reverting toward the centre of opinion space. Models
-               crisis-induced consensus, emergency coordinated messaging.
+Opinions live in [-1, 1]^d with 0 = neutral (see config.CENTRED_SCALE).
 
-POLARIZING   : direction = sign(opinions[i] - 0.5)
-               opinions[i] += strength * direction
+COORDINATING : opinions[i] += strength * (0 - opinions[i])
+               Mean-reverting toward the neutral centre of opinion space.
+               Models crisis-induced consensus, emergency coordinated messaging.
+
+POLARIZING   : direction = sign(opinions[i])
+               opinions[i] += CENTRED_SCALE * strength * direction
                Centrifugal. Models wedge events, disinformation campaigns.
+               ``strength`` is an additive offset in unit-interval terms,
+               hence the CENTRED_SCALE factor.
 
 DIRECTIONAL  : opinions[i] += strength * (policy_vector - opinions[i])
                Pulls toward the current policy position. Used in Experiment 5
@@ -35,7 +39,7 @@ from __future__ import annotations
 from typing import List, Dict, Any, Optional
 import numpy as np
 
-from .config import ShockConfig, ShockMode
+from .config import CENTRED_SCALE, ShockConfig, ShockMode
 
 
 # Type alias for a single shock event
@@ -160,14 +164,14 @@ def apply_shock_to_opinions(
     before = opinions[targets].copy()
 
     if mode == ShockMode.COORDINATING.value:
-        # Mean-reverting: pull toward 0.5
-        opinions[targets] += strength * (0.5 - opinions[targets])
+        # Mean-reverting: pull toward the neutral centre
+        opinions[targets] += strength * (0.0 - opinions[targets])
 
     elif mode == ShockMode.POLARIZING.value:
-        # Centrifugal: push away from 0.5
-        directions = np.sign(opinions[targets] - 0.5)
+        # Centrifugal: push away from the neutral centre
+        directions = np.sign(opinions[targets])
         directions[directions == 0] = 1.0  # break ties outward
-        opinions[targets] += strength * directions
+        opinions[targets] += CENTRED_SCALE * strength * directions
 
     elif mode == ShockMode.DIRECTIONAL.value:
         if policy_vector is None:
@@ -179,8 +183,8 @@ def apply_shock_to_opinions(
     else:
         raise ValueError(f"Unknown shock mode: {mode!r}")
 
-    # Clamp to [0, 1]
-    opinions[targets] = np.clip(opinions[targets], 0.0, 1.0)
+    # Clamp to [-1, 1]
+    opinions[targets] = np.clip(opinions[targets], -1.0, 1.0)
 
     return opinions[targets] - before
 

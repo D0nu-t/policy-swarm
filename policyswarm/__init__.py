@@ -74,7 +74,13 @@ from .experiments import (
     EnforcementLagExperiment,
     MediaInteractionExperiment,
     CounterfactualShockExperiment,
+
+    TopologyValidationExperiment,
+    EpsilonCalibrationExperiment,
+
     CentralitySweepExperiment,
+    # MechanismCheckExperiment,
+
     GeometryExperiment,
 )
 
@@ -116,14 +122,19 @@ except ImportError:
 # Experiment registry (module-level for use by run_all.py)
 # ---------------------------------------------------------------------------
 _EXPERIMENT_MAP = {
-    "oversight"      : OversightPhaseExperiment,
-    "lag"            : EnforcementLagExperiment,
-    "media"          : MediaInteractionExperiment,
-    "counterfactual" : CounterfactualShockExperiment,
-    "centrality"     : CentralitySweepExperiment,
-    "geometry"       : GeometryExperiment,
-}
+    "oversight": OversightPhaseExperiment,
+    "lag": EnforcementLagExperiment,
+    "media": MediaInteractionExperiment,
 
+    "counterfactual": CounterfactualShockExperiment,
+    "topology": TopologyValidationExperiment,
+    "epsilon": EpsilonCalibrationExperiment,
+
+    "centrality": CentralitySweepExperiment,
+    #  "mechanism": MechanismCheckExperiment,
+
+    "geometry": GeometryExperiment,
+}
 
 # ---------------------------------------------------------------------------
 # Structured progress events (consumed by tui/)

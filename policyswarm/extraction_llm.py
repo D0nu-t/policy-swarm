@@ -75,7 +75,7 @@ from typing import List, Optional, Union
 import numpy as np
 import yaml
 
-from .config import Policy
+from .config import Policy, unit_to_centred
 
 log = logging.getLogger("policyswarm.extraction_llm")
 
@@ -621,13 +621,15 @@ class LLMPolicyExtractor:
 
         lag = int(np.clip(parsed.get("enforcement_lag", 10), 0, 40))
 
+        # LLM output and schema thresholds are on the unit interval; the
+        # simulation works in the centred [-1, 1] space.
         return Policy(
-            vector             = vector,
+            vector             = unit_to_centred(vector),
             dimension_names    = self.schema.dimension_names,
             confidence         = confidence,
             dimension_salience = self.schema.dimension_salience,
             violator_dim_index = self.schema.violator_dim_index,
-            violator_threshold = self.schema.violator_threshold,
+            violator_threshold = unit_to_centred(self.schema.violator_threshold),
             lag                = lag,
             narrative          = narrative,
         )
@@ -647,12 +649,12 @@ class LLMPolicyExtractor:
         if hits >= 2 and self.schema.n_dims == 4:
             kw_policy = _kw(text)
             return Policy(
-                vector             = kw_policy.as_vector(),
+                vector             = kw_policy.as_vector(),   # already centred
                 dimension_names    = self.schema.dimension_names,
                 confidence         = np.full(4, 0.3),  # low: keyword match only
                 dimension_salience = self.schema.dimension_salience,
                 violator_dim_index = self.schema.violator_dim_index,
-                violator_threshold = self.schema.violator_threshold,
+                violator_threshold = unit_to_centred(self.schema.violator_threshold),
                 lag                = kw_policy.lag,
                 narrative          = kw_policy.narrative,
             )
@@ -662,12 +664,12 @@ class LLMPolicyExtractor:
             "Returning uniform prior."
         )
         return Policy(
-            vector             = np.full(self.schema.n_dims, 0.5),
+            vector             = np.zeros(self.schema.n_dims),  # neutral
             dimension_names    = self.schema.dimension_names,
             confidence         = np.full(self.schema.n_dims, 0.1),
             dimension_salience = self.schema.dimension_salience,
             violator_dim_index = self.schema.violator_dim_index,
-            violator_threshold = self.schema.violator_threshold,
+            violator_threshold = unit_to_centred(self.schema.violator_threshold),
             lag                = 10,
             narrative          = {f: 0.5 for f in self.schema.narrative_frames},
         )

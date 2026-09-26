@@ -1,0 +1,416 @@
+
+PolicySwarm v1.1.0
+Policy source : keyword
+Seeds         : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
+Output dir    : policyswarm_output_decoupled
+Experiments   : ['geometry']
+Policy dims   : 4
+
+
+============================================================
+Running experiment: geometry
+============================================================
+##EVENT## {"type": "start", "experiment": "GeometryExperiment", "total": 360}
+Coverage-matched epsilon (target neighbour pass fraction 0.148): euclidean=1.0000, cosine=0.4019, manifold=0.9297
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 1, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.0}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 2, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.0}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 3, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.0}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 4, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.0}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 5, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.0}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 6, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.0}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 7, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.0}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 8, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.0}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 9, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.0}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 10, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.0}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 11, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.0}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 12, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.0}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 13, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.0}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 14, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.0}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 15, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.0}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 16, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.0}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 17, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.0}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 18, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.0}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 19, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.0}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 20, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.0}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 21, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.0}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 22, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.0}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 23, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.0}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 24, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.0}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 25, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.0}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 26, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.0}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 27, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.0}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 28, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.0}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 29, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.0}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 30, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.0}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 31, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.05}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 32, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.05}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 33, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.05}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 34, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.05}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 35, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.05}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 36, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.05}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 37, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.05}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 38, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.05}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 39, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.05}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 40, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.05}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 41, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.05}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 42, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.05}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 43, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.05}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 44, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.05}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 45, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.05}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 46, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.05}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 47, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.05}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 48, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.05}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 49, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.05}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 50, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.05}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 51, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.05}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 52, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.05}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 53, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.05}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 54, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.05}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 55, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.05}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 56, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.05}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 57, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.05}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 58, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.05}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 59, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.05}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 60, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.05}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 61, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.1}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 62, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.1}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 63, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.1}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 64, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.1}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 65, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.1}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 66, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.1}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 67, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.1}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 68, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.1}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 69, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.1}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 70, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.1}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 71, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.1}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 72, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.1}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 73, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.1}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 74, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.1}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 75, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.1}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 76, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.1}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 77, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.1}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 78, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.1}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 79, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.1}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 80, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.1}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 81, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.1}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 82, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.1}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 83, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.1}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 84, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.1}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 85, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.1}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 86, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.1}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 87, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.1}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 88, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.1}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 89, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.1}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 90, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.1}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 91, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.15}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 92, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.15}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 93, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.15}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 94, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.15}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 95, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.15}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 96, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.15}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 97, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.15}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 98, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.15}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 99, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.15}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 100, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.15}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 101, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.15}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 102, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.15}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 103, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.15}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 104, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.15}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 105, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.15}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 106, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.15}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 107, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.15}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 108, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.15}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 109, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.15}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 110, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.15}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 111, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.15}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 112, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.15}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 113, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.15}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 114, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.15}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 115, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.15}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 116, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.15}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 117, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.15}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 118, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.15}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 119, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.15}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 120, "total": 360, "condition": {"geometry": "euclidean", "alpha": 0.15}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 121, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.0}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 122, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.0}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 123, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.0}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 124, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.0}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 125, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.0}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 126, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.0}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 127, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.0}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 128, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.0}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 129, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.0}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 130, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.0}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 131, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.0}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 132, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.0}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 133, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.0}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 134, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.0}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 135, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.0}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 136, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.0}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 137, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.0}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 138, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.0}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 139, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.0}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 140, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.0}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 141, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.0}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 142, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.0}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 143, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.0}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 144, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.0}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 145, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.0}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 146, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.0}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 147, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.0}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 148, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.0}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 149, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.0}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 150, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.0}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 151, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.05}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 152, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.05}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 153, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.05}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 154, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.05}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 155, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.05}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 156, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.05}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 157, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.05}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 158, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.05}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 159, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.05}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 160, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.05}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 161, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.05}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 162, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.05}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 163, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.05}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 164, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.05}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 165, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.05}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 166, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.05}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 167, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.05}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 168, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.05}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 169, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.05}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 170, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.05}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 171, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.05}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 172, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.05}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 173, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.05}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 174, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.05}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 175, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.05}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 176, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.05}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 177, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.05}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 178, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.05}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 179, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.05}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 180, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.05}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 181, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.1}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 182, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.1}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 183, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.1}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 184, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.1}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 185, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.1}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 186, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.1}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 187, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.1}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 188, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.1}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 189, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.1}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 190, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.1}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 191, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.1}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 192, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.1}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 193, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.1}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 194, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.1}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 195, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.1}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 196, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.1}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 197, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.1}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 198, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.1}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 199, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.1}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 200, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.1}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 201, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.1}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 202, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.1}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 203, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.1}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 204, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.1}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 205, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.1}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 206, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.1}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 207, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.1}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 208, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.1}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 209, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.1}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 210, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.1}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 211, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.15}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 212, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.15}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 213, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.15}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 214, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.15}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 215, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.15}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 216, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.15}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 217, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.15}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 218, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.15}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 219, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.15}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 220, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.15}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 221, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.15}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 222, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.15}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 223, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.15}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 224, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.15}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 225, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.15}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 226, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.15}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 227, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.15}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 228, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.15}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 229, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.15}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 230, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.15}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 231, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.15}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 232, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.15}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 233, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.15}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 234, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.15}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 235, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.15}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 236, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.15}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 237, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.15}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 238, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.15}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 239, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.15}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 240, "total": 360, "condition": {"geometry": "cosine", "alpha": 0.15}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 241, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.0}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 242, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.0}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 243, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.0}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 244, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.0}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 245, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.0}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 246, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.0}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 247, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.0}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 248, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.0}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 249, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.0}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 250, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.0}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 251, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.0}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 252, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.0}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 253, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.0}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 254, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.0}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 255, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.0}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 256, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.0}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 257, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.0}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 258, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.0}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 259, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.0}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 260, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.0}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 261, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.0}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 262, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.0}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 263, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.0}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 264, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.0}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 265, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.0}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 266, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.0}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 267, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.0}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 268, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.0}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 269, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.0}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 270, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.0}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 271, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.05}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 272, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.05}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 273, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.05}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 274, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.05}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 275, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.05}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 276, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.05}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 277, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.05}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 278, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.05}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 279, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.05}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 280, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.05}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 281, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.05}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 282, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.05}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 283, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.05}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 284, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.05}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 285, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.05}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 286, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.05}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 287, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.05}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 288, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.05}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 289, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.05}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 290, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.05}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 291, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.05}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 292, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.05}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 293, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.05}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 294, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.05}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 295, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.05}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 296, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.05}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 297, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.05}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 298, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.05}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 299, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.05}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 300, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.05}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 301, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.1}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 302, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.1}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 303, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.1}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 304, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.1}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 305, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.1}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 306, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.1}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 307, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.1}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 308, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.1}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 309, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.1}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 310, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.1}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 311, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.1}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 312, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.1}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 313, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.1}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 314, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.1}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 315, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.1}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 316, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.1}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 317, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.1}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 318, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.1}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 319, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.1}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 320, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.1}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 321, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.1}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 322, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.1}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 323, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.1}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 324, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.1}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 325, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.1}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 326, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.1}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 327, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.1}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 328, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.1}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 329, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.1}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 330, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.1}, "seed": 29}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 331, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.15}, "seed": 0}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 332, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.15}, "seed": 1}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 333, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.15}, "seed": 2}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 334, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.15}, "seed": 3}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 335, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.15}, "seed": 4}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 336, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.15}, "seed": 5}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 337, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.15}, "seed": 6}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 338, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.15}, "seed": 7}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 339, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.15}, "seed": 8}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 340, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.15}, "seed": 9}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 341, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.15}, "seed": 10}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 342, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.15}, "seed": 11}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 343, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.15}, "seed": 12}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 344, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.15}, "seed": 13}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 345, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.15}, "seed": 14}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 346, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.15}, "seed": 15}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 347, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.15}, "seed": 16}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 348, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.15}, "seed": 17}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 349, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.15}, "seed": 18}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 350, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.15}, "seed": 19}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 351, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.15}, "seed": 20}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 352, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.15}, "seed": 21}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 353, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.15}, "seed": 22}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 354, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.15}, "seed": 23}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 355, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.15}, "seed": 24}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 356, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.15}, "seed": 25}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 357, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.15}, "seed": 26}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 358, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.15}, "seed": 27}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 359, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.15}, "seed": 28}
+##EVENT## {"type": "seed_complete", "experiment": "GeometryExperiment", "completed": 360, "total": 360, "condition": {"geometry": "manifold", "alpha": 0.15}, "seed": 29}
+
+=== Exp 6: Geometry of Opinion Space ===
+ geometry  alpha  variance_mean  variance_std  variance_ci_low  variance_ci_high  polarization_mean  polarization_std  polarization_ci_low  polarization_ci_high  bifurcation_index_mean  bifurcation_index_std  bifurcation_index_ci_low  bifurcation_index_ci_high  phase_t_mean  phase_t_std  phase_t_ci_low  phase_t_ci_high  gate_pass_rate_mean  gate_pass_rate_std  gate_pass_rate_ci_low  gate_pass_rate_ci_high  n
+   cosine   0.00       0.098345      0.009232         0.094898          0.101792           0.733435          0.034256             0.720643              0.746226                     1.0                    0.0                       1.0                        1.0     29.366667     1.884297       28.663059        30.070275             0.366990            0.028343               0.356407                0.377574 30
+   cosine   0.05       0.098192      0.009241         0.094742          0.101643           0.732089          0.034487             0.719211              0.744967                     1.0                    0.0                       1.0                        1.0     29.333333     1.863133       28.637628        30.029039             0.369950            0.028659               0.359249                0.380652 30
+   cosine   0.10       0.098052      0.009241         0.094601          0.101502           0.731299          0.034670             0.718353              0.744245                     1.0                    0.0                       1.0                        1.0     29.400000     1.904622       28.688802        30.111198             0.372568            0.028827               0.361804                0.383332 30
+   cosine   0.15       0.097917      0.009240         0.094467          0.101368           0.730759          0.034818             0.717758              0.743761                     1.0                    0.0                       1.0                        1.0     29.300000     1.950243       28.571767        30.028233             0.374774            0.028635               0.364082                0.385466 30
+euclidean   0.00       0.098345      0.009232         0.094898          0.101792           0.733435          0.034256             0.720643              0.746226                     1.0                    0.0                       1.0                        1.0     29.366667     1.884297       28.663059        30.070275             0.610597            0.036019               0.597147                0.624047 30
+euclidean   0.05       0.090088      0.010137         0.086303          0.093873           0.700038          0.039523             0.685280              0.714797                     1.0                    0.0                       1.0                        1.0     30.066667     2.164499       29.258429        30.874904             0.633388            0.038182               0.619131                0.647646 30
+euclidean   0.10       0.082630      0.011467         0.078348          0.086912           0.668426          0.046545             0.651045              0.685806                     1.0                    0.0                       1.0                        1.0     30.766667     2.314621       29.902373        31.630960             0.652644            0.041606               0.637108                0.668180 30
+euclidean   0.15       0.075800      0.012823         0.071012          0.080588           0.638077          0.054019             0.617906              0.658248                     1.0                    0.0                       1.0                        1.0     31.066667     2.333169       30.195447        31.937886             0.671576            0.044588               0.654926                0.688225 30
+ manifold   0.00       0.098345      0.009232         0.094898          0.101792           0.733435          0.034256             0.720643              0.746226                     1.0                    0.0                       1.0                        1.0     29.366667     1.884297       28.663059        30.070275             0.366990            0.028343               0.356407                0.377574 30
+ manifold   0.05       0.098185      0.009241         0.094734          0.101636           0.732055          0.034499             0.719173              0.744937                     1.0                    0.0                       1.0                        1.0     29.433333     1.869600       28.735213        30.131453             0.370216            0.028688               0.359503                0.380928 30
+ manifold   0.10       0.098041      0.009241         0.094590          0.101492           0.731273          0.034683             0.718322              0.744224                     1.0                    0.0                       1.0                        1.0     29.400000     1.904622       28.688802        30.111198             0.372930            0.028929               0.362128                0.383732 30
+ manifold   0.15       0.097901      0.009241         0.094451          0.101352           0.730711          0.034835             0.717703              0.743718                     1.0                    0.0                       1.0                        1.0     29.300000     1.950243       28.571767        30.028233             0.375290            0.028656               0.364590                0.385991 30
+ geometry  alpha  variance_mean  variance_std  variance_ci_low  variance_ci_high  polarization_mean  polarization_std  polarization_ci_low  polarization_ci_high  bifurcation_index_mean  bifurcation_index_std  bifurcation_index_ci_low  bifurcation_index_ci_high  phase_t_mean  phase_t_std  phase_t_ci_low  phase_t_ci_high  gate_pass_rate_mean  gate_pass_rate_std  gate_pass_rate_ci_low  gate_pass_rate_ci_high  n
+   cosine   0.00       0.098345      0.009232         0.094898          0.101792           0.733435          0.034256             0.720643              0.746226                     1.0                    0.0                       1.0                        1.0     29.366667     1.884297       28.663059        30.070275             0.366990            0.028343               0.356407                0.377574 30
+   cosine   0.05       0.098192      0.009241         0.094742          0.101643           0.732089          0.034487             0.719211              0.744967                     1.0                    0.0                       1.0                        1.0     29.333333     1.863133       28.637628        30.029039             0.369950            0.028659               0.359249                0.380652 30
+   cosine   0.10       0.098052      0.009241         0.094601          0.101502           0.731299          0.034670             0.718353              0.744245                     1.0                    0.0                       1.0                        1.0     29.400000     1.904622       28.688802        30.111198             0.372568            0.028827               0.361804                0.383332 30
+   cosine   0.15       0.097917      0.009240         0.094467          0.101368           0.730759          0.034818             0.717758              0.743761                     1.0                    0.0                       1.0                        1.0     29.300000     1.950243       28.571767        30.028233             0.374774            0.028635               0.364082                0.385466 30
+euclidean   0.00       0.098345      0.009232         0.094898          0.101792           0.733435          0.034256             0.720643              0.746226                     1.0                    0.0                       1.0                        1.0     29.366667     1.884297       28.663059        30.070275             0.610597            0.036019               0.597147                0.624047 30
+euclidean   0.05       0.090088      0.010137         0.086303          0.093873           0.700038          0.039523             0.685280              0.714797                     1.0                    0.0                       1.0                        1.0     30.066667     2.164499       29.258429        30.874904             0.633388            0.038182               0.619131                0.647646 30
+euclidean   0.10       0.082630      0.011467         0.078348          0.086912           0.668426          0.046545             0.651045              0.685806                     1.0                    0.0                       1.0                        1.0     30.766667     2.314621       29.902373        31.630960             0.652644            0.041606               0.637108                0.668180 30
+euclidean   0.15       0.075800      0.012823         0.071012          0.080588           0.638077          0.054019             0.617906              0.658248                     1.0                    0.0                       1.0                        1.0     31.066667     2.333169       30.195447        31.937886             0.671576            0.044588               0.654926                0.688225 30
+ manifold   0.00       0.098345      0.009232         0.094898          0.101792           0.733435          0.034256             0.720643              0.746226                     1.0                    0.0                       1.0                        1.0     29.366667     1.884297       28.663059        30.070275             0.366990            0.028343               0.356407                0.377574 30
+ manifold   0.05       0.098185      0.009241         0.094734          0.101636           0.732055          0.034499             0.719173              0.744937                     1.0                    0.0                       1.0                        1.0     29.433333     1.869600       28.735213        30.131453             0.370216            0.028688               0.359503                0.380928 30
+ manifold   0.10       0.098041      0.009241         0.094590          0.101492           0.731273          0.034683             0.718322              0.744224                     1.0                    0.0                       1.0                        1.0     29.400000     1.904622       28.688802        30.111198             0.372930            0.028929               0.362128                0.383732 30
+ manifold   0.15       0.097901      0.009241         0.094451          0.101352           0.730711          0.034835             0.717703              0.743718                     1.0                    0.0                       1.0                        1.0     29.300000     1.950243       28.571767        30.028233             0.375290            0.028656               0.364590                0.385991 30
+
+CSV  → policyswarm_output_decoupled\geometry\GeometryExperiment_results_20260926_205819.csv
+Stats → policyswarm_output_decoupled\geometry\GeometryExperiment_stats_20260926_205819.csv
+Plots → ['policyswarm_output_decoupled\\geometry\\geometry_comparison.png', 'policyswarm_output_decoupled\\geometry\\geometry_ptt.png']
+##EVENT## {"type": "complete", "experiment": "GeometryExperiment", "figures": 2, "rows": 360}
+
+============================================================
+ALL EXPERIMENTS COMPLETE
+============================================================
+  [OK]   geometry
+         figures : 2
+         latex   : 1 table written
+
+All outputs saved to: policyswarm_output_decoupled/

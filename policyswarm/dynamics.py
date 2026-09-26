@@ -8,8 +8,21 @@ The Simulation class implements the full multi-component step() loop:
   1. Time-varying policy update (once, at policy_split_tick)
   2. Shock application   (exogenous perturbation)
   3. Media broadcast     (ideology-aligned competing media)
-  4. Peer interactions   (bounded-confidence update)
-  5. Perceived-policy pull (trust-weighted)
+  4. Peer interactions   (bounded-confidence update, geometry-dependent)
+  5. Policy anchor       (weak ungated pull toward the policy vector)
+  6. Perceived-policy pull (trust-weighted, after the pull onset)
+
+Opinions live in the centred cube [-1, 1]^d (0 = neutral); see config.py.
+Distance and update rules for each geometry live in geometry.py.
+
+Random streams
+--------------
+Three independent generators are derived from the seed so that the paired
+control/treatment design differs *only* in shock application:
+  _rng        agent initialisation
+  _shock_rng  shock target sampling (consumed only when shocks are applied)
+  _pull_rng   perceived-policy noise
+Peer sampling uses the stdlib ``random`` module, seeded per simulation.
 
 Changes from original
 ---------------------
@@ -38,8 +51,9 @@ from typing import List, Optional
 import networkx as nx
 import numpy as np
 
+from . import geometry as _geom
 from .config import (
-    Geometry, GovernanceConfig, Policy, ShockMode, SimConfig,
+    CENTRED_SCALE, Geometry, GovernanceConfig, Policy, ShockMode, SimConfig,
 )
 from .extraction import perceived_policy as _perceived_policy
 from .network import build_neighbour_cache, build_network, top_hub_indices
@@ -91,9 +105,15 @@ class Simulation:
 
         np.random.seed(seed)
         random.seed(seed)
-        self._rng = np.random.default_rng(seed)
+        self._rng       = np.random.default_rng(seed)
+        self._shock_rng = np.random.default_rng([seed, 1])
+        self._pull_rng  = np.random.default_rng([seed, 2])
 
         self._init_agents()
+
+        # Bounded-confidence gate bookkeeping (see gate_pass_rate)
+        self.gate_attempts = 0
+        self.gate_passes   = 0
         self.history        : List[np.ndarray] = []
         self.influence_graph: nx.DiGraph        = nx.DiGraph()
 
@@ -111,7 +131,7 @@ class Simulation:
         n   = self.sim_config.n_agents
         dim = self.sim_config.opinion_dim
 
-        self.opinions = self._rng.random((n, dim))
+        self.opinions = self._rng.uniform(-1.0, 1.0, size=(n, dim))
         self.initial_opinions = self.opinions.copy()
 
         self.graph, self.influence, self.community_labels = build_network(
@@ -128,52 +148,13 @@ class Simulation:
     # -----------------------------------------------------------------------
 
     def _distance(self, a: np.ndarray, b: np.ndarray) -> float:
-        if self.geometry == Geometry.EUCLIDEAN:
-            return float(np.linalg.norm(a - b))
+        return _geom.distance(self.geometry, a, b)
 
-        elif self.geometry == Geometry.COSINE:
-            na = np.linalg.norm(a)
-            nb = np.linalg.norm(b)
-            if na < 1e-9 or nb < 1e-9:
-                return 1.0
-            cos = np.clip(np.dot(a, b) / (na * nb), -1.0, 1.0)
-            return float(1.0 - cos)
-
-        elif self.geometry == Geometry.MANIFOLD:
-            na = np.linalg.norm(a)
-            nb = np.linalg.norm(b)
-            if na < 1e-9 or nb < 1e-9:
-                return 1.0
-            dot = np.clip(np.dot(a / na, b / nb), -1.0, 1.0)
-            return float(np.arccos(dot))
-
-        raise ValueError(f"Unknown geometry: {self.geometry}")
-
-    def _update_direction(self, op_i: np.ndarray, op_j: np.ndarray) -> np.ndarray:
-        if self.geometry == Geometry.EUCLIDEAN:
-            return op_j - op_i
-
-        elif self.geometry == Geometry.COSINE:
-            nj = np.linalg.norm(op_j)
-            ni = np.linalg.norm(op_i)
-            if nj < 1e-9 or ni < 1e-9:
-                return np.zeros_like(op_i)
-            return op_j / nj - op_i / ni
-
-        elif self.geometry == Geometry.MANIFOLD:
-            na = np.linalg.norm(op_i)
-            nb = np.linalg.norm(op_j)
-            if na < 1e-9 or nb < 1e-9:
-                return np.zeros_like(op_i)
-            a_n = op_i / na
-            b_n = op_j / nb
-            tangent = b_n - np.dot(a_n, b_n) * a_n
-            return tangent
-
-        raise ValueError(f"Unknown geometry: {self.geometry}")
+    def _step_toward(self, op_i: np.ndarray, op_j: np.ndarray, rate: float) -> np.ndarray:
+        return _geom.step(self.geometry, op_i, op_j, rate)
 
     def _retract(self, op: np.ndarray) -> np.ndarray:
-        return np.clip(op, 0.0, 1.0)
+        return np.clip(op, -1.0, 1.0)
 
     # -----------------------------------------------------------------------
     # Shock step
@@ -186,7 +167,7 @@ class Simulation:
             if shock["type"] == "hub":
                 targets = self._hub_indices[:self.sim_config.ba_m * 3]
             else:
-                targets = list(self._rng.choice(
+                targets = list(self._shock_rng.choice(
                     self.sim_config.n_agents,
                     size=min(10, self.sim_config.n_agents),
                     replace=False,
@@ -201,7 +182,7 @@ class Simulation:
             old = self.opinions[targets].copy()
             apply_shock_to_opinions(
                 self.opinions, targets, shock,
-                policy_vector=policy_vec, rng=self._rng,
+                policy_vector=policy_vec, rng=self._shock_rng,
             )
             for idx, t in enumerate(targets):
                 change = float(np.linalg.norm(self.opinions[t] - old[idx]))
@@ -229,13 +210,13 @@ class Simulation:
                 mag    = strength * ideology * trust
                 source = "media_pro"
             else:
-                target = 1.0 - policy_vec
+                target = - policy_vec
                 mag    = strength * (-ideology) * trust
                 source = "media_anti"
 
             old = self.opinions[i].copy()
             self.opinions[i] += mag * (target - self.opinions[i])
-            self.opinions[i] = np.clip(self.opinions[i], 0.0, 1.0)
+            self.opinions[i] = np.clip(self.opinions[i], -1.0, 1.0)
 
             change = float(np.linalg.norm(self.opinions[i] - old))
             if change > _LOG_THRESHOLD:
@@ -261,8 +242,10 @@ class Simulation:
             if random.random() > gov.deployment_rate_cap:
                 continue
 
+            self.gate_attempts += 1
             if self._distance(self.opinions[i], self.opinions[j]) > epsilon:
                 continue
+            self.gate_passes += 1
 
             infl = self.influence[j]
 
@@ -272,20 +255,36 @@ class Simulation:
 
             old = self.opinions[i].copy()
 
-            direction = self._update_direction(self.opinions[i], self.opinions[j])
             self.opinions[i] = self._retract(
-                self.opinions[i] + mu * infl * direction
-            )
-
-            policy_vec = self.policy.as_vector()
-            self.opinions[i] = np.clip(
-                self.opinions[i] + 0.05 * (policy_vec - self.opinions[i]),
-                0.0, 1.0,
+                self._step_toward(self.opinions[i], self.opinions[j], mu * infl)
             )
 
             change = float(np.linalg.norm(self.opinions[i] - old))
             if change > _LOG_THRESHOLD:
                 self._log_influence(j, i, change, tick)
+
+    # -----------------------------------------------------------------------
+    # Policy anchor step
+    # -----------------------------------------------------------------------
+
+    def _policy_anchor_step(self, tick: int) -> None:
+        """Weak, ungated pull of every agent toward the policy vector.
+
+        Replaces the 0.05 * (p - o_i) nudge that used to be applied inside the
+        peer loop only when the bounded-confidence gate passed. Keeping it
+        there made the policy pull scale with the gate pass rate, i.e. with
+        geometry and epsilon, which confounded geometry comparisons.
+        """
+        rate = self.sim_config.policy_anchor_rate
+        if rate <= 0:
+            return
+        old = self.opinions.copy()
+        self.opinions = self._retract(
+            self.opinions + rate * (self.policy.as_vector() - self.opinions)
+        )
+        changes = np.linalg.norm(self.opinions - old, axis=1)
+        for i in np.flatnonzero(changes > _LOG_THRESHOLD):
+            self._log_influence("policy", int(i), float(changes[i]), tick)
 
     # -----------------------------------------------------------------------
     # Policy pull step — UPDATED for generic N-dim policy
@@ -300,7 +299,8 @@ class Simulation:
         noise by inverse confidence: dimensions the extractor was uncertain about
         get more perceptual noise in agents' interpretation.
         """
-        if tick < self.policy.lag:
+        onset = self.gov_config.policy_pull_onset
+        if tick < (self.policy.lag if onset is None else onset):
             return
 
         policy_vec = self.policy.as_vector()
@@ -318,12 +318,12 @@ class Simulation:
                 trust              = self.trust[i],
                 dimension_salience = self.policy.dimension_salience,
                 noise_scale        = noise_scale,
-                rng                = self._rng,
+                rng                = self._pull_rng,
             )
             old = self.opinions[i].copy()
             self.opinions[i] = np.clip(
                 self.opinions[i] + 0.04 * (pp - self.opinions[i]),
-                0.0, 1.0,
+                -1.0, 1.0,
             )
             change = float(np.linalg.norm(self.opinions[i] - old))
             if change > _LOG_THRESHOLD:
@@ -343,6 +343,9 @@ class Simulation:
         """
         Tighten enforcement at policy_split_tick.
 
+        Deltas are specified on the unit interval (+0.15 enforcement,
+        +0.10 audit) and scaled by CENTRED_SCALE for the [-1, 1] space.
+
         Uses Policy.shift_dimension() which works for any schema. If the
         schema doesn't include "enforcement" or "audit_intensity" (domain-
         agnostic case), the KeyError is caught and the shift skipped. Domain-
@@ -351,7 +354,7 @@ class Simulation:
         """
         for name, delta in [("enforcement", 0.15), ("audit_intensity", 0.10)]:
             try:
-                self.policy.shift_dimension(name, delta)
+                self.policy.shift_dimension(name, CENTRED_SCALE * delta)
             except KeyError:
                 log.debug(
                     f"_apply_policy_shift: dimension '{name}' not in schema, skipping."
@@ -393,6 +396,7 @@ class Simulation:
         self._shock_step(tick)
         self._media_step(tick)
         self._peer_step(tick)
+        self._policy_anchor_step(tick)
         self._policy_pull_step(tick)
         self.history.append(self.opinions.copy())
 
@@ -404,6 +408,16 @@ class Simulation:
     # -----------------------------------------------------------------------
     # Public accessors
     # -----------------------------------------------------------------------
+
+    @property
+    def gate_pass_rate(self) -> float:
+        """Fraction of peer interaction attempts that passed the
+        bounded-confidence gate over the whole run (after the deployment-cap
+        gate). Reported so geometry comparisons can verify coverage matching
+        holds beyond initialisation."""
+        if self.gate_attempts == 0:
+            return float("nan")
+        return self.gate_passes / self.gate_attempts
 
     @property
     def final_opinions(self) -> np.ndarray:
