@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PolicySwarm dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>PolicySwarm</h1>
+    <span id="status" class="badge idle">idle</span>
+  </header>
+
+  <main>
+    <section id="setup" aria-labelledby="setup-title">
+      <h2 id="setup-title">Run setup</h2>
+
+      <label class="field">
+        <span>Seeds</span>
+        <input id="seeds" type="text" value="0-2" autocomplete="off"
+               aria-describedby="seeds-help">
+        <small id="seeds-help">Ranges and lists, e.g. <code>0-29</code> or <code>0,1,5-9</code>.
+          The paper uses 0-29.</small>
+      </label>
+
+      <h3>Experiments</h3>
+      <div id="experiments" class="cards"></div>
+
+      <details>
+        <summary>Simulation settings</summary>
+        <p class="hint">Shared by every selected experiment. Only values you change are sent.</p>
+        <div id="sim-config" class="grid"></div>
+      </details>
+
+      <details id="space-details">
+        <summary>Opinion space</summary>
+        <p class="hint">What agents hold opinions about, where the policy sits, and which words
+          in the policy text move it. Every value runs from &minus;1 to 1, with 0 neutral.</p>
+        <label class="checks"><input id="space-custom" type="checkbox">
+          Customise the opinion space (otherwise the built-in AI-governance space is used)</label>
+
+        <div id="space-editor" hidden>
+          <label class="field">
+            <span>Start from</span>
+            <select id="space-preset"></select>
+          </label>
+
+          <details id="suggest">
+            <summary>Suggest from text</summary>
+            <p class="hint">Drafts an opinion space from the policy text in two steps. Both only
+              make suggestions: nothing in the tables below changes until you choose to use them,
+              and everything stays editable.</p>
+
+            <h3>1. Find topics</h3>
+            <p class="hint">A topic model groups the sentences of the policy text into themes. Each
+              theme is a list of words that tend to appear together, and could serve as a
+              dimension. It cannot name a theme or say which way is "positive", so give each one
+              a name and, after using it, a description of what its positive end means.</p>
+            <div class="grid">
+              <label class="param"><span>Number of topics</span>
+                <input id="sg-n" type="number" min="2" max="12" step="1" value="4"></label>
+              <label class="param"><span>Folder of documents (optional)</span>
+                <input id="sg-corpus" type="text" autocomplete="off" placeholder="C:\path\to\documents">
+                <small>.txt, .md and .pdf files on this computer. More text gives steadier topics.</small></label>
+            </div>
+            <div class="actions">
+              <button id="sg-topics" type="button">Find topics</button>
+              <span id="sg-topics-status" class="hint" role="status"></span>
+            </div>
+            <div id="sg-topic-list" class="geo-cards"></div>
+            <div id="sg-use" class="actions" hidden>
+              <button id="sg-replace" type="button">Use as the dimensions</button>
+              <button id="sg-append" type="button">Add to the dimensions</button>
+            </div>
+
+            <h3>2. Suggest keyword rules <span class="tag">experimental</span></h3>
+            <p class="hint">A decision model (Laya) is asked, for each distinctive topic term that
+              occurs in the policy text: which dimension in the table does it bear on, does it
+              raise or lower it, and how strongly? It reads the dimension descriptions, so write
+              those first. Treat the answers as a first draft. On 104 held-out test phrases about
+              two thirds of the rules it suggested were right (0.66), it found about half of the
+              phrases that deserved a rule (0.49), and it gave a rule to 1 in 6 generic phrases
+              that deserved none. A rule marked with a probability of 0.5 or more is somewhat more
+              likely to be right; that is a weak guide, so check every row.</p>
+            <div class="actions">
+              <button id="sg-rules" type="button">Suggest keyword rules</button>
+              <span id="sg-rules-status" class="hint" role="status"></span>
+            </div>
+          </details>
+
+          <h3>Dimensions</h3>
+          <div class="table-wrap">
+            <table id="dim-table" class="edit">
+              <thead><tr>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col" title="What a positive value on this dimension stands for, in a few words">Positive end means</th>
+                <th scope="col" title="What a negative value on this dimension stands for, in a few words">Negative end means</th>
+                <th scope="col" title="How far an agent's ideology shifts its reading of the policy on this dimension">Ideology sensitivity</th>
+                <th scope="col" title="How far the policy moves on this dimension at the policy split tick">Tightening</th>
+                <th scope="col" class="hand-only">Policy position</th>
+                <th scope="col"><span class="sr-only">Remove</span></th>
+              </tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <button id="dim-add" type="button">Add dimension</button>
+          <p id="dim-ends-note" class="hint" hidden></p>
+          <p class="hint">The Bifurcation Index and the Exp 5 density figure read the first dimension.</p>
+
+          <div class="grid">
+            <label class="param"><span>Violator dimension</span>
+              <select id="violator-dim"></select>
+              <small>Agents above the threshold on it are penalised once enforcement starts.</small></label>
+            <label class="param"><span>Violator threshold</span>
+              <input id="violator-threshold" type="number" step="any" min="-1" max="1"></label>
+          </div>
+
+          <fieldset class="mode">
+            <legend>Policy position</legend>
+            <div class="checks">
+              <label><input type="radio" name="space-mode" value="text"> From the policy text (keyword rules)</label>
+              <label><input type="radio" name="space-mode" value="hand"> Set by hand</label>
+            </div>
+          </fieldset>
+
+          <div id="keyword-block">
+            <h3>Keyword rules</h3>
+            <p class="hint">Each rule that matches the policy text adds its delta to one dimension,
+              starting from 0 and capped at &plusmn;0.9.</p>
+            <div class="table-wrap">
+              <table id="kw-table" class="edit">
+                <thead><tr><th scope="col">Word or phrase</th><th scope="col">Dimension</th>
+                  <th scope="col">Delta</th><th scope="col"><span class="sr-only">Remove</span></th>
+                  <th scope="col"><span class="sr-only">Source</span></th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <button id="kw-add" type="button">Add rule</button>
+          </div>
+
+          <div class="actions">
+            <button id="space-preview" type="button">Preview policy position</button>
+            <span id="preview-out" class="hint" role="status"></span>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Policy text</summary>
+        <p class="hint">Leave empty to use the built-in policy document.</p>
+        <textarea id="policy-text" rows="6" aria-label="Policy text"></textarea>
+      </details>
+
+      <div class="actions">
+        <button id="run" type="button" class="primary">Run experiments</button>
+        <button id="cancel" type="button" hidden>Cancel run</button>
+        <span id="estimate" class="hint"></span>
+      </div>
+      <p id="error" class="error" role="alert" hidden></p>
+    </section>
+
+    <section id="viewer" aria-labelledby="viewer-title">
+      <h2 id="viewer-title">Watch one simulation</h2>
+      <p class="hint">Runs one scenario and replays it tick by tick, showing every conversation
+        between agents. Tick two or three geometries to watch the same scenario side by side:
+        same network, same starting opinions, same shocks; only the way distance is measured
+        differs. It uses the simulation settings, opinion space and policy text from the run
+        setup above. Nothing is saved.</p>
+      <details>
+        <summary>Scenario and geometries</summary>
+        <div id="viewer-params" class="grid"></div>
+        <h3>What each geometry measures</h3>
+        <div id="viewer-geometries" class="geo-cards"></div>
+      </details>
+      <div class="actions">
+        <button id="viewer-run" type="button" class="primary">Simulate and watch</button>
+        <span id="viewer-status" class="hint" role="status"></span>
+      </div>
+      <p id="viewer-error" class="error" role="alert" hidden></p>
+
+      <div id="viewer-stage" hidden>
+        <div class="transport">
+          <button id="v-prev" type="button" aria-label="Previous tick">&#9664;&#9664;</button>
+          <button id="v-play" type="button" class="primary">Play</button>
+          <button id="v-next" type="button" aria-label="Next tick">&#9654;&#9654;</button>
+          <label class="inline">Speed
+            <select id="v-speed">
+              <option value="0.15">very slow</option><option value="0.4">slow</option>
+              <option value="1" selected>normal</option><option value="2.5">fast</option>
+              <option value="6">very fast</option>
+            </select></label>
+          <label class="inline">Colour by <select id="v-colour"></select></label>
+          <span id="v-tick" class="tick-label"></span>
+        </div>
+
+        <ol id="v-phases" class="phases" aria-label="Phases of a tick">
+          <li data-phase="shock"><b>1 Shock</b><span>a group is pushed</span></li>
+          <li data-phase="media"><b>2 Media</b><span>broadcast to everyone</span></li>
+          <li data-phase="peer"><b>3 Conversations</b><span>listeners hear neighbours</span></li>
+          <li data-phase="policy"><b>4 Policy</b><span>drift toward the policy</span></li>
+        </ol>
+
+        <div class="viewbar">
+          <div id="v-picture" class="seg" role="group" aria-label="Picture" hidden>
+            <button type="button" data-value="space">Opinions</button>
+            <button type="button" data-value="net">Network</button>
+          </div>
+          <div id="v-view" class="seg" role="group" aria-label="Opinion view">
+            <button type="button" data-value="slice">2-D slice</button>
+            <button type="button" data-value="cube">3-D</button>
+            <button type="button" data-value="map">Distance map</button>
+          </div>
+          <span id="v-dims" class="inline">
+            <label class="inline">across <select id="v-x"></select></label>
+            <label class="inline">up <select id="v-y"></select></label>
+            <label class="inline" id="v-z-wrap">depth <select id="v-z"></select></label>
+          </span>
+          <label class="inline" id="v-sphere-wrap"><input id="v-sphere" type="checkbox"> directions only</label>
+          <label class="inline" id="v-spin-wrap"><input id="v-spin" type="checkbox"> spin</label>
+        </div>
+        <p id="v-view-hint" class="hint"></p>
+
+        <div id="v-panes" class="panels"></div>
+        <p id="v-focus-hint" class="hint" hidden>Click a picture to make the text below describe that geometry.</p>
+
+        <h3>How far apart are neighbours?</h3>
+        <p class="hint">Only network neighbours can talk, and only when their distance is within &epsilon;.
+          Each chart counts neighbour pairs by distance at this tick. Pairs left of the &epsilon; line
+          (green) can talk; the rest (red) cannot.</p>
+        <div id="v-hists" class="hists"></div>
+
+        <h3>Timeline</h3>
+        <p class="hint">Conversation outcomes per tick (bars), opinion variance (line), shocks (white
+          wedges) and when each rule switches on. Click it to jump to a tick.</p>
+        <canvas id="v-timeline" role="img" aria-label="Timeline of opinion variance and conversation outcomes per tick"></canvas>
+        <input id="v-scrub" type="range" min="0" value="0" step="1" aria-label="Tick">
+        <ul class="legend">
+          <li><i class="k heard"></i>heard: the listener moves toward the speaker</li>
+          <li><i class="k far"></i>ignored: opinions too far apart</li>
+          <li><i class="k blocked"></i>blocked by the deployment cap</li>
+          <li><i class="k violator"></i>violator</li>
+          <li><i class="k policy"></i>the policy</li>
+        </ul>
+
+        <div class="below">
+          <div>
+            <h3 id="v-rules-title">How agents converse</h3>
+            <ol id="v-rules" class="rules"></ol>
+            <h3 id="v-agent-title">Agent</h3>
+            <div id="v-agent" class="hint">Click an agent in any picture to follow it.</div>
+          </div>
+          <div>
+            <h3 id="v-log-title">This tick</h3>
+            <ul id="v-events" class="events"></ul>
+            <div class="checks">
+              <label><input id="v-show-far" type="checkbox" checked> ignored</label>
+              <label><input id="v-show-blocked" type="checkbox"> blocked</label>
+              <label><input id="v-only-agent" type="checkbox"> only the selected agent</label>
+            </div>
+            <ol id="v-log" class="convo" aria-label="Conversations in this tick"></ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="progress" aria-labelledby="progress-title" hidden>
+      <h2 id="progress-title">Progress</h2>
+      <div id="bars"></div>
+      <details open>
+        <summary>Log</summary>
+        <pre id="log" tabindex="0" aria-label="Run log"></pre>
+      </details>
+    </section>
+
+    <section id="results" aria-labelledby="results-title" hidden>
+      <h2 id="results-title">Results</h2>
+      <div id="result-list"></div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+  <script src="opinion-space.js"></script>
+  <script src="viewer.js"></script>
+  <script src="viewer-views.js"></script>
+  <script src="viewer-draw.js"></script>
+  <script src="viewer-panels.js"></script>
+</body>
+</html>
