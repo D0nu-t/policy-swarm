@@ -32,15 +32,22 @@ from __future__ import annotations
 import dataclasses
 import os
 from typing import List, Optional
+
 import pandas as pd
 
-from ..config import SimConfig, ShockMode, Geometry
 from ..analysis import (
-    stat_test_table, executive_summary,
-    lag_geometry_interaction, interaction_summary,
+    executive_summary, interaction_summary, lag_geometry_interaction, stat_test_table,
 )
+from ..config import Geometry, Policy, ShockMode, SimConfig
+from ..extraction import DEFAULT_POLICY_TEXT
+from ..visualization import plot_phase_diagram
 from .base import BaseExperiment
-from .exp4_counterfactual import _DEFAULT_TEXT, run_paired_geometry_lag
+from .exp4_counterfactual import (
+    GEOMETRIES_PARAM, LAGS_PARAM, SHOCK_MODE_PARAM, run_paired_geometry_lag,
+)
+from .params import ParamSpec
+
+_DEFAULT_EPSILONS = [0.6, 1.0, 1.4]
 
 
 class EpsilonCalibrationExperiment(BaseExperiment):
@@ -55,26 +62,36 @@ class EpsilonCalibrationExperiment(BaseExperiment):
         (COVERAGE_MATCHED arm). Default [0.6, 1.0, 1.4].
     geometries : list of Geometry
         Default [EUCLIDEAN, COSINE].
+    output_dir, seeds, policy_text, policy, sim_config
+        See ``BaseExperiment``.
     """
+
+    name  = "epsilon"
+    title = "Exp 4c: Raw vs coverage-matched threshold sensitivity"
+    PARAMS = (
+        LAGS_PARAM,
+        ParamSpec("epsilons", "float", _DEFAULT_EPSILONS, many=True, minimum=0.0,
+                  help="Raw thresholds, also used as the Euclidean reference when matching."),
+        GEOMETRIES_PARAM, SHOCK_MODE_PARAM,
+    )
 
     def __init__(
         self,
         output_dir  : str,
         seeds       : Optional[List[int]]      = None,
-        policy_text : str                      = _DEFAULT_TEXT,
+        policy_text : str                      = DEFAULT_POLICY_TEXT,
         lags        : Optional[List[int]]      = None,
         epsilons    : Optional[List[float]]    = None,
         geometries  : Optional[List[Geometry]] = None,
         shock_mode  : ShockMode                = ShockMode.COORDINATING,
         sim_config  : Optional[SimConfig]      = None,
+        policy      : Optional[Policy]         = None,
     ):
-        super().__init__(output_dir, seeds)
-        self.policy_text = policy_text
-        self.lags        = lags or [0, 20, 40]
-        self.epsilons    = epsilons or [0.6, 1.0, 1.4]
+        super().__init__(output_dir, seeds, policy_text, policy, sim_config)
+        self.lags        = lags or list(LAGS_PARAM.default)
+        self.epsilons    = epsilons or list(_DEFAULT_EPSILONS)
         self.geometries  = geometries or [Geometry.EUCLIDEAN, Geometry.COSINE]
         self.shock_mode  = shock_mode
-        self.sim_config  = sim_config or SimConfig()
 
         # Populated by run(): {ref_epsilon: {geometry: epsilon}}
         self.calibrated_epsilon: dict = {}
@@ -156,7 +173,6 @@ class EpsilonCalibrationExperiment(BaseExperiment):
         return results["coverage_matched"]
 
     def plot(self, df: pd.DataFrame, stats_df: pd.DataFrame) -> List[str]:
-        from ..visualization import plot_phase_diagram
         paths = []
         for mode in ["raw", "coverage_matched"]:
             for ref_eps, cell in df[df["mode"] == mode].groupby("ref_epsilon"):

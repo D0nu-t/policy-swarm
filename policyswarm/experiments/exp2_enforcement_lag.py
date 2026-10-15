@@ -23,25 +23,17 @@ onset (GovernanceConfig.policy_pull_onset) and the policy tightening tick
 
 from __future__ import annotations
 
-import copy
 from typing import List, Optional
+
 import pandas as pd
-import numpy as np
 
-from ..config import SimConfig, GovernanceConfig, ShockConfig, ShockMode
-from ..extraction import policy_from_text
+from ..analysis import executive_summary, stat_test_table
+from ..config import GovernanceConfig, Policy, ShockConfig, ShockMode, SimConfig
+from ..extraction import DEFAULT_POLICY_TEXT
 from ..shocks import generate_shocks
-from ..dynamics import Simulation
-from ..metrics import compute_all_metrics, bifurcation_index
-from ..analysis import stat_test_table, executive_summary
-from ..visualization import plot_phase_diagram, plot_variance_timeline
-from .base import BaseExperiment
-
-_DEFAULT_TEXT = """
-The government introduces strict AI safety regulations requiring transparency
-audits, limiting deployment of high-risk systems, and enforcing penalties for
-non-compliance. The policy prioritises public safety over innovation risks.
-"""
+from ..visualization import plot_phase_diagram
+from .base import BASELINE_GOVERNANCE, BaseExperiment, run_paired
+from .params import ParamSpec
 
 
 class EnforcementLagExperiment(BaseExperiment):
@@ -51,64 +43,51 @@ class EnforcementLagExperiment(BaseExperiment):
     ----------
     lags : list of int
         Enforcement lag values to sweep. Default [0, 5, 10, 20, 40].
+    shock_config : ShockConfig, optional
+        Default: COORDINATING shocks.
+    output_dir, seeds, policy_text, policy, sim_config
+        See ``BaseExperiment``.
     """
+
+    name  = "lag"
+    title = "Exp 2: Enforcement lag sensitivity"
+    PARAMS = (
+        ParamSpec("lags", "int", [0, 5, 10, 20, 40], many=True, minimum=0,
+                  help="Enforcement lag values (ticks) to sweep."),
+    )
 
     def __init__(
         self,
         output_dir   : str,
-        seeds        : Optional[List[int]] = None,
-        policy_text  : str                 = _DEFAULT_TEXT,
-        lags         : Optional[List[int]] = None,
+        seeds        : Optional[List[int]]   = None,
+        policy_text  : str                   = DEFAULT_POLICY_TEXT,
+        lags         : Optional[List[int]]   = None,
         sim_config   : Optional[SimConfig]   = None,
         shock_config : Optional[ShockConfig] = None,
+        policy       : Optional[Policy]      = None,
     ):
-        super().__init__(output_dir, seeds)
-        self.policy_text  = policy_text
+        super().__init__(output_dir, seeds, policy_text, policy, sim_config)
         self.lags         = lags or [0, 5, 10, 20, 40]
-        self.sim_config   = sim_config or SimConfig()
         self.shock_config = shock_config or ShockConfig(mode=ShockMode.COORDINATING)
 
     def total_units(self) -> int:
         return len(self.lags) * len(self.seeds)
 
     def run(self) -> pd.DataFrame:
-        base_policy = policy_from_text(self.policy_text)
-        rows = []
+        rows  = []
         total = self.total_units()
 
         for lag in self.lags:
-            # copy.copy isolates each lag iteration: policy.lag assignment and
-            # any _apply_policy_shift() mutations inside Simulation.run() cannot
-            # bleed into the next iteration or into base_policy.
-            policy = copy.copy(base_policy)
+            # A fresh policy per lag: the lag assignment cannot bleed into the
+            # next iteration.
+            policy = self._policy()
             policy.lag = lag
 
-            gov_config = GovernanceConfig(
-                oversight_regime = None,
-                deployment_rate_cap = 0.5,
-                penalty_severity    = 0.5,
-                enforcement_lag     = lag,
-            )
+            gov_config = GovernanceConfig(**BASELINE_GOVERNANCE, enforcement_lag=lag)
 
             for seed in self.seeds:
-                shocks = generate_shocks(
-                    self.shock_config, self.sim_config.n_ticks, seed
-                )
-
-                sim_c = Simulation(
-                    self.sim_config, gov_config, policy, shocks,
-                    apply_shocks=False, seed=seed,
-                )
-                sim_c.run()
-
-                sim_t = Simulation(
-                    self.sim_config, gov_config, policy, shocks,
-                    apply_shocks=True, seed=seed,
-                )
-                sim_t.run()
-
-                m_c = compute_all_metrics(sim_c)
-                m_t = compute_all_metrics(sim_t)
+                shocks = generate_shocks(self.shock_config, self.sim_config.n_ticks, seed)
+                m_c, m_t = run_paired(self.sim_config, gov_config, policy, shocks, seed)
 
                 rows.append({
                     "lag"              : lag,
@@ -121,7 +100,7 @@ class EnforcementLagExperiment(BaseExperiment):
                     "polarization"     : m_t["polarization"],
                     "bifurcation_index": m_t["bifurcation_index"],
                     "cascade_breadth"  : m_t["cascade_breadth"],
-                    "phase_t"         : m_t["phase_transition_tick"],
+                    "phase_t"          : m_t["phase_transition_tick"],
                     "delta_variance"   : m_t["delta_variance"],
                     "num_shocks"       : len(shocks),
                 })

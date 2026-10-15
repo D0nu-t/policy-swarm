@@ -41,33 +41,38 @@ empirically real phenomena requiring different implementations.
 
 from __future__ import annotations
 
-import copy
 import dataclasses
 import os
 from typing import List, Optional
+
 import pandas as pd
 
-from ..config import (
-    SimConfig, GovernanceConfig, ShockConfig, ShockMode, Geometry
-)
-from ..extraction import policy_from_text
-from ..shocks import generate_shocks
-from ..dynamics import Simulation
-from ..metrics import compute_all_metrics
 from ..analysis import (
-    stat_test_table, executive_summary,
-    lag_geometry_interaction, interaction_summary,
+    executive_summary, interaction_summary, lag_geometry_interaction, stat_test_table,
 )
-from ..visualization import (
-    plot_phase_diagram, plot_variance_comparison,
-)
-from .base import BaseExperiment
+from ..config import Geometry, GovernanceConfig, Policy, ShockConfig, ShockMode, SimConfig
+from ..dynamics import Simulation
+from ..extraction import DEFAULT_POLICY_TEXT
+from ..shocks import generate_shocks
+from ..visualization import plot_phase_diagram, plot_variance_comparison
+from .base import BASELINE_GOVERNANCE, BaseExperiment, run_paired
+from .exp6_geometry import EPSILON_MODES
+from .params import ParamSpec
 
-_DEFAULT_TEXT = """
-The government introduces strict AI safety regulations requiring transparency
-audits, limiting deployment of high-risk systems, and enforcing penalties for
-non-compliance. The policy prioritises public safety over innovation risks.
-"""
+_DEFAULT_LAGS = [0, 20, 40]
+_DEFAULT_GEOMETRIES = [Geometry.EUCLIDEAN, Geometry.COSINE]
+
+#: ParamSpecs shared by the three geometry x lag experiments (4, 4b, 4c).
+LAGS_PARAM = ParamSpec("lags", "int", _DEFAULT_LAGS, many=True, minimum=0,
+                       help="Enforcement lag values (ticks) to sweep.")
+GEOMETRIES_PARAM = ParamSpec("geometries", "choice", [g.value for g in _DEFAULT_GEOMETRIES],
+                             many=True, enum=Geometry,
+                             help="Opinion-space geometries to compare.")
+SHOCK_MODE_PARAM = ParamSpec("shock_mode", "choice", ShockMode.COORDINATING.value,
+                             enum=ShockMode, help="Directional character of the shocks.")
+EPSILON_MODE_PARAM = ParamSpec(
+    "epsilon_mode", "choice", "matched", choices=EPSILON_MODES,
+    help="matched: coverage-matched threshold per geometry; raw: one shared value.")
 
 
 def run_paired_geometry_lag(
@@ -84,11 +89,10 @@ def run_paired_geometry_lag(
 ) -> pd.DataFrame:
     """Shared paired control/treatment loop for Experiments 4, 4b and 4c.
 
-    ``exp`` supplies policy_text, seeds and _emit(). One row per
+    ``exp`` supplies the policy, seeds and _emit(). One row per
     (geometry, lag, seed). ``progress_offset``/``progress_total`` let callers
     that invoke this several times emit cumulative progress events.
     """
-    base_policy = policy_from_text(exp.policy_text)
     rows  = []
     total = progress_total or len(geometries) * len(lags) * len(exp.seeds)
     extra_fields = extra_fields or {}
@@ -97,34 +101,19 @@ def run_paired_geometry_lag(
         sc = dataclasses.replace(sim_config, epsilon=epsilons[geometry.value])
 
         for lag in lags:
-            policy = copy.copy(base_policy)
+            policy = exp._policy()
             policy.lag = lag
             shock_config = ShockConfig(mode=shock_mode)
 
             gov_config = GovernanceConfig(
-                deployment_rate_cap = 0.5,
-                penalty_severity    = 0.5,
-                enforcement_lag     = lag,
-                policy_pull_onset   = pull_onset,
+                **BASELINE_GOVERNANCE,
+                enforcement_lag   = lag,
+                policy_pull_onset = pull_onset,
             )
 
             for seed in exp.seeds:
                 shocks = generate_shocks(shock_config, sc.n_ticks, seed)
-
-                sim_c = Simulation(
-                    sc, gov_config, policy, shocks,
-                    apply_shocks=False, seed=seed, geometry=geometry,
-                )
-                sim_c.run()
-
-                sim_t = Simulation(
-                    sc, gov_config, policy, shocks,
-                    apply_shocks=True, seed=seed, geometry=geometry,
-                )
-                sim_t.run()
-
-                m_c = compute_all_metrics(sim_c)
-                m_t = compute_all_metrics(sim_t)
+                m_c, m_t = run_paired(sc, gov_config, policy, shocks, seed, geometry)
                 delta = m_t["variance"] - m_c["variance"]
 
                 rows.append({
@@ -203,26 +192,35 @@ class CounterfactualShockExperiment(BaseExperiment):
         Perceived-policy pull onset. Defaults to GovernanceConfig's fixed
         onset, so "lag" varies only the enforcement penalty. None restores
         the legacy coupling (pull starts at the enforcement lag).
+    output_dir, seeds, policy_text, policy, sim_config
+        See ``BaseExperiment``.
     """
+
+    name  = "counterfactual"
+    title = "Exp 4: Counterfactual shocks (geometry × lag)"
+    PARAMS = (
+        LAGS_PARAM, GEOMETRIES_PARAM, SHOCK_MODE_PARAM, EPSILON_MODE_PARAM,
+        ParamSpec("pull_onset", "int", GovernanceConfig.policy_pull_onset, optional=True,
+                  minimum=0, help="Tick the perceived-policy pull starts. Empty = start at the lag."),
+    )
 
     def __init__(
         self,
         output_dir   : str,
-        seeds        : Optional[List[int]]   = None,
-        policy_text  : str                   = _DEFAULT_TEXT,
-        lags         : Optional[List[int]]   = None,
+        seeds        : Optional[List[int]]      = None,
+        policy_text  : str                      = DEFAULT_POLICY_TEXT,
+        lags         : Optional[List[int]]      = None,
         geometries   : Optional[List[Geometry]] = None,
-        shock_mode   : ShockMode             = ShockMode.COORDINATING,
-        sim_config   : Optional[SimConfig]   = None,
-        epsilon_mode : str                   = "matched",
-        pull_onset   : Optional[int]         = GovernanceConfig.policy_pull_onset,
+        shock_mode   : ShockMode                = ShockMode.COORDINATING,
+        sim_config   : Optional[SimConfig]      = None,
+        epsilon_mode : str                      = "matched",
+        pull_onset   : Optional[int]            = GovernanceConfig.policy_pull_onset,
+        policy       : Optional[Policy]         = None,
     ):
-        super().__init__(output_dir, seeds)
-        self.policy_text  = policy_text
-        self.lags         = lags or [0, 20, 40]
-        self.geometries   = geometries or [Geometry.EUCLIDEAN, Geometry.COSINE]
+        super().__init__(output_dir, seeds, policy_text, policy, sim_config)
+        self.lags         = lags or list(_DEFAULT_LAGS)
+        self.geometries   = geometries or list(_DEFAULT_GEOMETRIES)
         self.shock_mode   = shock_mode
-        self.sim_config   = sim_config or SimConfig()
         self.epsilon_mode = epsilon_mode
         self.pull_onset   = pull_onset
 
@@ -254,11 +252,11 @@ class CounterfactualShockExperiment(BaseExperiment):
         # lag, Euclidean geometry — using the experiment's own configuration.
         seed = self.seeds[0]
         lag  = min(self.lags)
-        plot_policy = copy.copy(policy_from_text(self.policy_text))
+        plot_policy = self._policy()
         plot_policy.lag = lag
         sc = ShockConfig(mode=self.shock_mode)
         gov = GovernanceConfig(
-            deployment_rate_cap=0.5, penalty_severity=0.5,
+            **BASELINE_GOVERNANCE,
             enforcement_lag=lag, policy_pull_onset=self.pull_onset,
         )
         eps = df.loc[df["geometry"] == Geometry.EUCLIDEAN.value, "epsilon"]

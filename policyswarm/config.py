@@ -19,10 +19,12 @@ extraction). The legacy mode keeps all existing experiments working unchanged.
 
 from __future__ import annotations
 
-import numpy as np
-from dataclasses import dataclass, field, asdict
+import json
+from dataclasses import asdict, dataclass, field
 from enum import Enum
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Optional
+
+import numpy as np
 
 
 # ---------------------------------------------------------------------------
@@ -45,6 +47,14 @@ def unit_to_centred(x):
     if np.ndim(x) == 0:
         return CENTRED_SCALE * float(x) - 1.0
     return CENTRED_SCALE * np.asarray(x, dtype=float) - 1.0
+
+
+#: Built-in policy tightening at ``SimConfig.policy_split_tick``, in centred
+#: units (+0.15 enforcement and +0.10 audit intensity on the unit interval).
+DEFAULT_SPLIT_DELTAS = {
+    "enforcement"    : CENTRED_SCALE * 0.15,
+    "audit_intensity": CENTRED_SCALE * 0.10,
+}
 
 
 # ---------------------------------------------------------------------------
@@ -212,6 +222,10 @@ class Policy:
     violator_threshold : float
         Threshold above which an agent on violator_dim_index is a "violator".
         Default 0.6 (= 0.8 on the unit interval).
+    split_deltas : dict of str -> float, optional
+        How far each named dimension tightens at ``SimConfig.policy_split_tick``,
+        in centred units. None (default) means the built-in AI-governance
+        tightening, ``DEFAULT_SPLIT_DELTAS``; ``{}`` means no tightening.
     """
 
     # Generic fields (N-dim, optional — set by extractors)
@@ -221,6 +235,7 @@ class Policy:
     dimension_salience : Optional[np.ndarray] = None
     violator_dim_index : int                  = 0
     violator_threshold : float                = 0.6
+    split_deltas       : Optional[Dict[str, float]] = None
 
     # Legacy named fields (4-dim AI policy, always present for compat)
     deployment_cap  : float = 0
@@ -276,6 +291,8 @@ class Policy:
 
         # Keep legacy named fields in sync with vector for any code that reads them
         self._sync_legacy_fields()
+        # From here on, assigning a legacy field also updates the vector.
+        object.__setattr__(self, "_initialised", True)
 
     def _sync_legacy_fields(self) -> None:
         """Sync the 4 legacy named fields from the vector when dimension names match."""
@@ -303,13 +320,14 @@ class Policy:
         corresponding vector element in-place.  This preserves backward
         compatibility with code that does ``policy.enforcement = 0.9``.
 
-        During __init__ / __post_init__, when vector or dimension_names are
-        not yet set, the AttributeError is silently caught so construction
-        still works.
+        Nothing is synced during construction. The dataclass __init__ assigns
+        the legacy fields (default 0) *after* ``vector``, so syncing there
+        would overwrite a generic policy's vector with zeros whenever its
+        dimension names include a legacy name.
         """
         object.__setattr__(self, name, value)
         _LEGACY = {"deployment_cap", "transparency", "enforcement", "audit_intensity"}
-        if name in _LEGACY:
+        if name in _LEGACY and self.__dict__.get("_initialised", False):
             try:
                 vec       = object.__getattribute__(self, "vector")
                 dim_names = object.__getattribute__(self, "dimension_names")
@@ -391,3 +409,66 @@ class ShockConfig:
     max_strength : float     = 0.4
     mode         : ShockMode = ShockMode.COORDINATING
     n_targets    : int       = 10
+
+
+# ---------------------------------------------------------------------------
+# Run description
+# ---------------------------------------------------------------------------
+
+@dataclass
+class RunSpec:
+    """A complete, JSON-serialisable description of one batch of experiments.
+
+    This is the single hand-off format between front ends (CLI ``--spec``,
+    the dashboard) and the experiment runner. It holds plain JSON values
+    only; validation and conversion to constructor arguments happen in
+    ``policyswarm.registry``.
+
+    Parameters
+    ----------
+    experiments : list of str
+        Registry names, in run order (e.g. ["lag", "geometry"]).
+    seeds : list of int
+        Monte Carlo seeds shared by every experiment.
+    output_dir : str
+        Root output directory; each experiment writes to ``<output_dir>/<name>``.
+    policy_text : str, optional
+        Policy document for keyword extraction. None = the package default.
+    sim_config : dict
+        Overrides for ``SimConfig`` fields, e.g. {"n_agents": 200}.
+    params : dict
+        Per-experiment parameter overrides, keyed by experiment name, e.g.
+        {"lag": {"lags": [0, 10]}}.
+    """
+    experiments : List[str]
+    seeds       : List[int]
+    output_dir  : str                       = "policyswarm_output"
+    policy_text : Optional[str]             = None
+    sim_config  : Dict[str, object]         = field(default_factory=dict)
+    params      : Dict[str, Dict[str, object]] = field(default_factory=dict)
+    #: Custom opinion space (see ``policyswarm.opinion_space.OpinionSpace``).
+    #: None = the built-in four AI-governance dimensions and keyword rules.
+    opinion_space : Optional[Dict[str, object]] = None
+
+    def to_dict(self) -> dict:
+        return asdict(self)
+
+    @classmethod
+    def from_dict(cls, data: dict) -> "RunSpec":
+        known = {f for f in cls.__dataclass_fields__}
+        unknown = sorted(set(data) - known)
+        if unknown:
+            raise ValueError(f"Unknown RunSpec field(s): {unknown}")
+        missing = [f for f in ("experiments", "seeds") if f not in data]
+        if missing:
+            raise ValueError(f"RunSpec is missing required field(s): {missing}")
+        return cls(**data)
+
+    def save(self, path) -> None:
+        with open(path, "w", encoding="utf-8") as fh:
+            json.dump(self.to_dict(), fh, indent=2)
+
+    @classmethod
+    def load(cls, path) -> "RunSpec":
+        with open(path, encoding="utf-8") as fh:
+            return cls.from_dict(json.load(fh))

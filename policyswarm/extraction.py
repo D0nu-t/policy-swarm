@@ -72,6 +72,9 @@ _KEYWORD_MAP: Dict[str, Tuple[str, float]] = {
     "strict"         : ("enforcement",     +0.25),
 }
 
+#: Public name for the built-in keyword rule table (unit-interval deltas).
+DEFAULT_KEYWORD_MAP = _KEYWORD_MAP
+
 _NARRATIVE_KEYWORDS: Dict[str, List[str]] = {
     "safety"      : ["safety", "safe", "risk", "harm", "secure", "dangerous"],
     "innovation"  : ["innovation", "progress", "competitive", "economic", "growth"],
@@ -80,11 +83,53 @@ _NARRATIVE_KEYWORDS: Dict[str, List[str]] = {
 
 
 # ---------------------------------------------------------------------------
+# Default policy text
+# ---------------------------------------------------------------------------
+
+#: The policy document used when an experiment is given no text and no
+#: pre-built Policy. Every committed results CSV was produced with it.
+DEFAULT_POLICY_TEXT = """
+1. OBJECTIVE AND GUIDING PRINCIPLE
+The government hereby establishes a comprehensive, risk-based regulatory framework for Artificial Intelligence (AI). This policy explicitly prioritizes public safety, fundamental human rights, and systemic security over unrestrained technical innovation. Where severe or irreversible risks to public welfare are identified, the absence of full scientific certainty shall not be used as a reason for postponing precautionary regulations.
+
+2. CLASSIFICATION OF RISK TIERS
+AI systems shall be categorized into distinct risk tiers, drawing direct inspiration from the European Union AI Act framework:
+  * Prohibited Systems: AI practices that present an unacceptable risk to human safety and civil liberties are banned outright. This includes systems utilizing subliminal techniques to manipulate behavior, untargeted scraping of facial images for biometric surveillance, and state-backed social scoring systems.
+  * High-Risk Systems: AI deployed in critical infrastructure (such as water, electricity, and transport networks), medical devices, biometric identification, law enforcement, and systemic employment or education algorithms are subject to rigorous pre-market and post-market obligations.
+
+3. MANDATORY TRANSPARENCY AUDITS AND LIFECYCLE MANAGEMENT
+Providers and deployers of High-Risk and General-Purpose AI (GPAI) models must adhere to strict transparency and technical documentation standards:
+  * Conformity Assessments: Developers must perform independent or third-party conformity assessments before any high-risk system can be placed on the open market.
+  * Traceability & Explainability: System architectures must maintain automated logs (audit trails) ensuring transparency. AI systems interacting directly with humans must be designed to explicitly notify users that they are interacting with an AI. Synthetic content (e.g., text, video, audio) must be digitally watermarked in a machine-readable format.
+  * NIST Risk Management Alignment: Entities must implement continuous risk-mitigation frameworks detailing model architecture, dataset curation, bias testing, and human-in-the-loop oversight mechanisms that allow real-time intervention and system overrides.
+
+4. PENALTIES FOR NON-COMPLIANCE AND ENFORCEMENT
+To enforce compliance, the regulatory authority establishes a tiered, dissuasive penalty regime based on global annual turnover:
+  * Tier 1 (Prohibited Practices): Violations involving banned AI applications shall face administrative fines of up to €35,000,000 or up to 7% of the offending entity's total worldwide annual turnover for the preceding financial year, whichever is higher.
+  * Tier 2 (High-Risk Failures): Non-compliance with mandatory high-risk obligations, data governance gaps, or structural transparency failures shall be subject to fines of up to €15,000,000 or 3% of global annual turnover.
+  * Tier 3 (Procedural & Information Violations): Supplying incorrect, incomplete, or misleading information to auditing bodies or national competent authorities during an inspection shall carry penalties of up to €7,500,000 or 1% of global annual turnover.
+"""
+
+
+# ---------------------------------------------------------------------------
 # Entity extraction
 # ---------------------------------------------------------------------------
 
-def extract_entities(text: str) -> List[str]:
-    """Extract relevant policy entities from raw text."""
+#: The four dimensions of the default (AI governance) opinion space, in order.
+DEFAULT_DIMENSIONS: Tuple[str, ...] = (
+    "deployment_cap", "transparency", "enforcement", "audit_intensity",
+)
+
+KeywordMap = Dict[str, Tuple[str, float]]
+
+
+def extract_entities(text: str, keyword_map: Optional[KeywordMap] = None) -> List[str]:
+    """Extract relevant policy entities from raw text.
+
+    ``keyword_map`` is the ``{keyword: (dimension, delta)}`` rule table to
+    match against; default: the built-in AI-governance table.
+    """
+    keyword_map = _KEYWORD_MAP if keyword_map is None else keyword_map
     found: set = set()
 
     if _SPACY_AVAILABLE and _NLP is not None:
@@ -93,11 +138,31 @@ def extract_entities(text: str) -> List[str]:
             found.add(ent.text.lower().strip())
 
     text_lower = text.lower()
-    for kw in _KEYWORD_MAP:
+    for kw in keyword_map:
         if re.search(r'\b' + re.escape(kw) + r'\b', text_lower):
             found.add(kw)
 
     return sorted(found)
+
+
+def keyword_positions(
+    entities        : List[str],
+    keyword_map     : Optional[KeywordMap]  = None,
+    dimension_names : Optional[List[str]]   = None,
+) -> Dict[str, float]:
+    """Accumulate keyword deltas into a policy position per dimension.
+
+    Each dimension starts at the neutral 0.5 on the unit interval; every
+    matched keyword adds its delta, clipped to [0.05, 0.95] after each step.
+    Returns unit-interval values (convert with ``config.unit_to_centred``).
+    """
+    keyword_map = _KEYWORD_MAP if keyword_map is None else keyword_map
+    dims = dict.fromkeys(dimension_names or DEFAULT_DIMENSIONS, 0.5)
+    for entity in entities:
+        if entity in keyword_map:
+            dim, delta = keyword_map[entity]
+            dims[dim] = np.clip(dims[dim] + delta, 0.05, 0.95)
+    return dims
 
 
 def extract_narrative_scores(text: str) -> Dict[str, float]:
@@ -142,17 +207,7 @@ def policy_from_kg(
     Keyword deltas accumulate on the unit interval from a neutral 0.5 and are
     clipped to [0.05, 0.95], then converted to the centred [-1, 1] space.
     """
-    dims = {
-        "deployment_cap" : 0.5,
-        "transparency"   : 0.5,
-        "enforcement"    : 0.5,
-        "audit_intensity": 0.5,
-    }
-
-    for entity in entities:
-        if entity in _KEYWORD_MAP:
-            dim, delta = _KEYWORD_MAP[entity]
-            dims[dim] = np.clip(dims[dim] + delta, 0.05, 0.95)
+    dims = keyword_positions(entities)
 
     narrative = extract_narrative_scores(text) if text else {
         "safety": 0, "innovation": 0, "transparency": 0

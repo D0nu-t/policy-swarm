@@ -213,7 +213,6 @@ def plot_variance_comparison(
     from .metrics import opinion_variance
     var_c = [opinion_variance(h) for h in history_control]
     var_t = [opinion_variance(h) for h in history_treatment]
-    ticks = list(range(max(len(var_c), len(var_t))))
 
     fig, ax = plt.subplots(figsize=(9, 4))
     ax.plot(range(len(var_c)), var_c, label="Control",

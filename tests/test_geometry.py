@@ -13,7 +13,8 @@ from policyswarm.config import (
 from policyswarm.dynamics import Simulation
 from policyswarm.extraction import perceived_policy
 from policyswarm.geometry import (
-    calibrate_epsilon, distance, matched_epsilons, pass_fraction, step,
+    GEOMETRIES, GeometrySpec, calibrate_epsilon, describe_geometries, distance,
+    geometry_spec, matched_epsilons, pass_fraction, register_geometry, step,
 )
 from policyswarm.metrics import bifurcation_index
 from policyswarm.shocks import generate_shocks, override_strength
@@ -205,3 +206,35 @@ def test_lag_geometry_interaction_detects_opposite_trends():
     assert trends == {"a": "amplifies", "b": "attenuates"}
     assert pair.iloc[0]["interaction"] == pytest.approx(-1.0, abs=0.02)
     assert pair.iloc[0]["significant"]
+
+
+# ---------------------------------------------------------------------------
+# Geometry registry
+# ---------------------------------------------------------------------------
+
+def test_every_geometry_is_registered_and_described():
+    assert list(GEOMETRIES) == [g.value for g in Geometry]
+    assert geometry_spec(Geometry.COSINE) is geometry_spec("cosine")
+    assert [g["angular"] for g in describe_geometries()] == [False, True, True]
+    for spec in GEOMETRIES.values():
+        assert spec.label and spec.summary and spec.distance_text and spec.step_text
+        assert spec.max_distance(4) > 0
+    with pytest.raises(ValueError, match="Unknown geometry"):
+        distance("hyperbolic", np.zeros(2), np.ones(2))
+
+
+def test_a_registered_geometry_runs_through_the_simulation():
+    """Adding a geometry is one register_geometry call; the engine needs no change."""
+    register_geometry(GeometrySpec(
+        key="test_manhattan", label="Manhattan", summary="s", distance_text="d",
+        step_text="t", epsilon_text="e",
+        pairwise=lambda a, b: np.abs(a - b).sum(axis=-1),
+        step=lambda op_i, op_j, rate: op_i + rate * (op_j - op_i),
+        max_distance=lambda dim: 2.0 * dim,
+    ))
+    try:
+        assert distance("test_manhattan", np.array([0.0, 0.0]), np.array([0.5, -0.5])) == 1.0
+        sim = _run("test_manhattan")
+        assert sim.gate_attempts > 0 and np.all(np.abs(sim.final_opinions) <= 1)
+    finally:
+        del GEOMETRIES["test_manhattan"]

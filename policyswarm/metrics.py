@@ -30,7 +30,7 @@ References
 
 from __future__ import annotations
 
-from typing import List, Optional, Dict, Tuple
+from typing import List, Dict
 import numpy as np
 import networkx as nx
 from scipy.stats import gaussian_kde

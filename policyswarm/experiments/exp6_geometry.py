@@ -38,25 +38,23 @@ from __future__ import annotations
 
 import dataclasses
 from typing import List, Optional
+
 import pandas as pd
-import numpy as np
 
-from ..config import (
-    SimConfig, GovernanceConfig, ShockConfig, ShockMode, Geometry
-)
-from ..extraction import policy_from_text
-from ..shocks import generate_shocks
+from ..analysis import group_summary
+from ..config import Geometry, GovernanceConfig, Policy, ShockConfig, ShockMode, SimConfig
 from ..dynamics import Simulation
+from ..extraction import DEFAULT_POLICY_TEXT
 from ..metrics import compute_all_metrics
-from ..analysis import group_summary, executive_summary
-from ..visualization import plot_geometry_comparison
+from ..shocks import generate_shocks
+from ..visualization import plot_geometry_comparison, plot_geometry_ptt
 from .base import BaseExperiment
+from .params import ParamSpec
 
-_DEFAULT_TEXT = """
-The government introduces strict AI safety regulations requiring transparency
-audits, limiting deployment of high-risk systems, and enforcing penalties for
-non-compliance. The policy prioritises public safety over innovation risks.
-"""
+# Pinned by name so a geometry added to the registry later does not change this experiment.
+_DEFAULT_GEOMETRIES = ["euclidean", "cosine", "manifold"]
+_DEFAULT_ALPHAS = [0.0, 0.05, 0.10, 0.15]
+EPSILON_MODES = ("matched", "raw")
 
 
 class GeometryExperiment(BaseExperiment):
@@ -70,37 +68,50 @@ class GeometryExperiment(BaseExperiment):
         Convergence rate (mu) values to sweep. Default [0.0, 0.05, 0.10, 0.15].
     epsilon_mode : {"matched", "raw"}
         How each geometry's bounded-confidence threshold is set.
+    output_dir, seeds, policy_text, policy, sim_config
+        See ``BaseExperiment``.
     """
+
+    name  = "geometry"
+    title = "Exp 6: Opinion-space geometry × convergence rate"
+    PARAMS = (
+        ParamSpec("geometries", "choice", _DEFAULT_GEOMETRIES, many=True, enum=Geometry,
+                  help="Opinion-space geometries to compare."),
+        ParamSpec("alphas", "float", _DEFAULT_ALPHAS, many=True, minimum=0.0, maximum=1.0,
+                  help="Convergence rates (mu) to sweep."),
+        ParamSpec("epsilon_mode", "choice", "matched", choices=EPSILON_MODES,
+                  help="matched: coverage-matched threshold per geometry; raw: one shared value."),
+    )
+
+    # Note: this experiment has always used penalty_severity = 0.3, not the
+    # 0.5 baseline of the other experiments. Kept as is: changing it would
+    # alter the published Experiment 6 numbers.
+    gov_config   = GovernanceConfig(deployment_rate_cap=0.5, penalty_severity=0.3)
+    shock_config = ShockConfig(mode=ShockMode.COORDINATING)
 
     def __init__(
         self,
-        output_dir  : str,
-        seeds       : Optional[List[int]]      = None,
-        policy_text : str                      = _DEFAULT_TEXT,
-        geometries  : Optional[List[Geometry]] = None,
-        alphas      : Optional[List[float]]    = None,
-        sim_config  : Optional[SimConfig]      = None,
-        epsilon_mode: str                      = "matched",
+        output_dir   : str,
+        seeds        : Optional[List[int]]      = None,
+        policy_text  : str                      = DEFAULT_POLICY_TEXT,
+        geometries   : Optional[List[Geometry]] = None,
+        alphas       : Optional[List[float]]    = None,
+        sim_config   : Optional[SimConfig]      = None,
+        epsilon_mode : str                      = "matched",
+        policy       : Optional[Policy]         = None,
     ):
-        super().__init__(output_dir, seeds)
-        self.policy_text  = policy_text
-        self.geometries   = geometries or list(Geometry)
-        self.alphas       = alphas if alphas is not None else [0.0, 0.05, 0.10, 0.15]
-        self.sim_config   = sim_config or SimConfig()
+        super().__init__(output_dir, seeds, policy_text, policy, sim_config)
+        self.geometries   = geometries or [Geometry(g) for g in _DEFAULT_GEOMETRIES]
+        self.alphas       = alphas if alphas is not None else list(_DEFAULT_ALPHAS)
         self.epsilon_mode = epsilon_mode
 
     def total_units(self) -> int:
         return len(self.geometries) * len(self.alphas) * len(self.seeds)
 
     def run(self) -> pd.DataFrame:
-        base_policy  = policy_from_text(self.policy_text)
-        shock_config = ShockConfig(mode=ShockMode.COORDINATING)
-        gov_config   = GovernanceConfig(
-            deployment_rate_cap = 0.5,
-            penalty_severity    = 0.3,
-        )
-        rows  = []
-        total = self.total_units()
+        policy = self._policy()
+        rows   = []
+        total  = self.total_units()
         epsilons = self._geometry_epsilons(
             self.sim_config, self.geometries, self.epsilon_mode
         )
@@ -115,27 +126,25 @@ class GeometryExperiment(BaseExperiment):
                 )
 
                 for seed in self.seeds:
-                    shocks = generate_shocks(
-                        shock_config, sc.n_ticks, seed
-                    )
+                    shocks = generate_shocks(self.shock_config, sc.n_ticks, seed)
                     sim = Simulation(
-                        sc, gov_config, base_policy, shocks,
+                        sc, self.gov_config, policy, shocks,
                         apply_shocks=True, seed=seed, geometry=geometry,
                     )
                     sim.run()
                     m = compute_all_metrics(sim)
 
                     rows.append({
-                        "geometry"        : geometry.value,
-                        "alpha"           : alpha,
-                        "epsilon"         : sc.epsilon,
-                        "seed"            : seed,
-                        "variance"        : m["variance"],
-                        "polarization"    : m["polarization"],
+                        "geometry"         : geometry.value,
+                        "alpha"            : alpha,
+                        "epsilon"          : sc.epsilon,
+                        "seed"             : seed,
+                        "variance"         : m["variance"],
+                        "polarization"     : m["polarization"],
                         "bifurcation_index": m["bifurcation_index"],
-                        "phase_t"         : m["phase_transition_tick"],
-                        "cascade_breadth" : m["cascade_breadth"],
-                        "gate_pass_rate"  : m["gate_pass_rate"],
+                        "phase_t"          : m["phase_transition_tick"],
+                        "cascade_breadth"  : m["cascade_breadth"],
+                        "gate_pass_rate"   : m["gate_pass_rate"],
                     })
 
                     self._emit(
@@ -163,10 +172,8 @@ class GeometryExperiment(BaseExperiment):
         return summary
 
     def plot(self, df: pd.DataFrame, stats_df: pd.DataFrame) -> List[str]:
-        from ..visualization import plot_geometry_ptt
         paths = [
             plot_geometry_comparison(df, self.output_dir),
-            plot_geometry_ptt(df, self.output_dir,
-                              n_ticks=self.sim_config.n_ticks),
+            plot_geometry_ptt(df, self.output_dir, n_ticks=self.sim_config.n_ticks),
         ]
         return [p for p in paths if p]

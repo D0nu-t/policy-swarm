@@ -345,6 +345,48 @@ def summary_table_to_latex(
 
 
 # ---------------------------------------------------------------------------
+# centrality_table_to_latex
+# ---------------------------------------------------------------------------
+
+def centrality_table_to_latex(
+    df        : pd.DataFrame,
+    caption   : str,
+    label     : str,
+    precision : int = 4,
+) -> str:
+    """Convert the centrality sweep's group_summary() table to LaTeX.
+
+    One row per (target_type, shock_strength): the paired variance effect
+    with its 95% CI, and mean cascade breadth.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Required columns: target_type, shock_strength, delta_mean,
+        delta_ci_low, delta_ci_high, cascade_breadth_mean.
+    """
+    lines = [
+        "\\begin{table}[t]",
+        "  \\centering",
+        f"  \\caption{{{caption}}}",
+        f"  \\label{{{label}}}",
+        "  \\begin{tabular}{llccc}",
+        "    \\toprule",
+        "    Target & Strength & $\\Delta$OV & 95\\% CI & CB (mean) \\\\",
+        "    \\midrule",
+    ]
+    for _, row in df.sort_values(["target_type", "shock_strength"]).iterrows():
+        lines.append(
+            f"    {str(row['target_type']).capitalize()} & {row['shock_strength']:.2f} & "
+            f"{_fmt_signed(row['delta_mean'], precision)} & "
+            f"{_fmt_ci(row['delta_ci_low'], row['delta_ci_high'], precision)} & "
+            f"{_fmt(row['cascade_breadth_mean'], 2)} \\\\"
+        )
+    lines += ["    \\bottomrule", "  \\end{tabular}", "\\end{table}"]
+    return "\n".join(lines)
+
+
+# ---------------------------------------------------------------------------
 # Convenience: write tables directly to file
 # ---------------------------------------------------------------------------
 

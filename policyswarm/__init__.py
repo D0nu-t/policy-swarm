@@ -11,14 +11,20 @@ Quick start — keyword extraction (no extra dependencies)
     ps.run_experiment("lag")
     ps.run_all()
 
+Quick start — command line and dashboard
+-----------------------------------------
+    python run_all.py --experiments lag geometry --seeds 0 1 2
+    python run_all.py --spec my_run.json          # a saved RunSpec
+    python -m policyswarm.gui                     # local web dashboard
+
 Quick start — Tier 1 LLM extraction
 -------------------------------------
     from policyswarm.extraction_llm import LLMPolicyExtractor
     extractor = LLMPolicyExtractor.from_yaml(
-        "schemas/ai_policy.yaml", backend="ollama", model="llama3.2:3b"
+        "policyswarm/schemas/ai_policy.yaml", backend="ollama", model="llama3.2:3b"
     )
     policy = extractor.extract("data/eu_ai_act.pdf")
-    # Then: python run_all.py --policy-source llm --schema schemas/ai_policy.yaml ...
+    PolicySwarm(policy=policy).run_all()
 
 Quick start — Tier 2 embedding extraction
 ------------------------------------------
@@ -27,87 +33,86 @@ Quick start — Tier 2 embedding extraction
     from policyswarm.extraction_embedding import EmbeddingPolicyExtractor
     extractor = EmbeddingPolicyExtractor.load("models/enc.pkl")
     policy = extractor.extract("data/new_regulation.pdf")
-    # Then: python run_all.py --policy-source embedding --encoder models/enc.pkl ...
+    PolicySwarm(policy=policy).run_all()
 
 Module map
 ----------
-policyswarm.config              — Configuration dataclasses and enumerations
+policyswarm.config              — Configuration dataclasses, enumerations, RunSpec
 policyswarm.extraction          — Keyword/KG policy ingestion (Tier 0)
 policyswarm.extraction_llm      — LLM-based schema-driven extraction (Tier 1)
 policyswarm.extraction_embedding— Corpus PCA embedding extraction (Tier 2)
 policyswarm.network             — Social network topology builders
 policyswarm.shocks              — Exogenous shock schedule generation
+policyswarm.geometry            — Opinion-space distances, updates, epsilon calibration
 policyswarm.dynamics            — Core ABM simulation engine (Simulation)
 policyswarm.metrics             — Outcome metric computations
 policyswarm.analysis            — Statistical analysis utilities
 policyswarm.visualization       — Publication-ready plot generation
-policyswarm.experiments         — Individual experiment classes (Exp 1-6)
+policyswarm.experiments         — Experiment classes (Exp 1-6, 4b, 4c), events, params
+policyswarm.registry            — Experiment registry and RunSpec validation
+policyswarm.facade              — PolicySwarm high-level runner
+policyswarm.cli                 — Command-line entry point (run_all.py)
+policyswarm.gui                 — Local web dashboard (FastAPI + SSE)
 policyswarm.latex               — LaTeX table generation
 policyswarm.schema              — Runtime schema validation
 policyswarm.tools.fit_encoder   — CLI for fitting a Tier 2 CorpusEncoder
 """
 
+from .analysis import (
+    cohens_d, executive_summary, group_summary, paired_ttest, stat_test_table,
+)
 from .config import (
-    SimConfig, GovernanceConfig, Policy, ShockConfig,
-    OverlapRegime, NetworkType, Geometry, ShockMode,
-    REGIME_PARAMS,
+    REGIME_PARAMS, Geometry, GovernanceConfig, NetworkType, OverlapRegime,
+    Policy, RunSpec, ShockConfig, ShockMode, SimConfig,
+)
+from .dynamics import Simulation
+from .experiments import (
+    CentralitySweepExperiment,
+    CounterfactualShockExperiment,
+    EnforcementLagExperiment,
+    EpsilonCalibrationExperiment,
+    GeometryExperiment,
+    MediaInteractionExperiment,
+    OversightPhaseExperiment,
+    TopologyValidationExperiment,
 )
 from .extraction import (
-    policy_from_text, policy_from_kg, extract_entities,
-    extract_narrative_scores, build_kg, perceived_policy,
-    describe_extraction,
+    DEFAULT_POLICY_TEXT, build_kg, describe_extraction, extract_entities,
+    extract_narrative_scores, perceived_policy, policy_from_kg, policy_from_text,
 )
-from .network   import build_network, compute_influence, top_hub_indices
-from .shocks    import generate_shocks, override_strength, summarise_schedule
-from .dynamics  import Simulation
-from .metrics   import (
-    opinion_variance, polarization_index, bifurcation_index,
-    cascade_breadth, phase_transition_tick, causal_centrality,
-    delta_variance, effect_size, compute_all_metrics,
+from .facade import PolicySwarm
+from .metrics import (
+    bifurcation_index, cascade_breadth, causal_centrality, compute_all_metrics,
+    delta_variance, effect_size, opinion_variance, phase_transition_tick,
+    polarization_index,
 )
-from .analysis  import (
-    paired_ttest, group_summary, stat_test_table,
-    executive_summary, cohens_d,
-)
-from .experiments import (
-    OversightPhaseExperiment,
-    EnforcementLagExperiment,
-    MediaInteractionExperiment,
-    CounterfactualShockExperiment,
+from .network import build_network, compute_influence, top_hub_indices
+from .registry import EXPERIMENTS
+from .shocks import generate_shocks, override_strength, summarise_schedule
 
-    TopologyValidationExperiment,
-    EpsilonCalibrationExperiment,
-
-    CentralitySweepExperiment,
-    # MechanismCheckExperiment,
-
-    GeometryExperiment,
-)
-
-import json
-import os
-
-__version__ = "1.1.0"
+__version__ = "1.2.0"
 __author__  = "krishnasai-addala"
 
 # ---------------------------------------------------------------------------
-# Optional Tier 1 exports (requires: pip install pyyaml requests pdfplumber)
-# Optional HuggingFace backend (requires: pip install transformers torch)
+# Optional Tier 1 exports (requires: pip install policyswarm[llm])
 # ---------------------------------------------------------------------------
 try:
     from .extraction_llm import (
-        LLMPolicyExtractor,
-        PolicySchema,
         DimensionSpec,
-        OllamaBackend,
         HuggingFaceBackend,
+        LLMPolicyExtractor,
+        OllamaBackend,
+        PolicySchema,
     )
     _TIER1_AVAILABLE = True
+    _TIER1_EXPORTS = ["LLMPolicyExtractor", "PolicySchema", "DimensionSpec",
+                      "OllamaBackend", "HuggingFaceBackend"]
 except ImportError:
     _TIER1_AVAILABLE = False
+    _TIER1_EXPORTS = []
 
 # ---------------------------------------------------------------------------
-# Optional Tier 2 exports (requires: pip install sentence-transformers scikit-learn)
+# Optional Tier 2 exports (requires: pip install policyswarm[embedding])
 # ---------------------------------------------------------------------------
 try:
     from .extraction_embedding import (
@@ -115,122 +120,30 @@ try:
         EmbeddingPolicyExtractor,
     )
     _TIER2_AVAILABLE = True
+    _TIER2_EXPORTS = ["CorpusEncoder", "EmbeddingPolicyExtractor"]
 except ImportError:
     _TIER2_AVAILABLE = False
+    _TIER2_EXPORTS = []
 
-# ---------------------------------------------------------------------------
-# Experiment registry (module-level for use by run_all.py)
-# ---------------------------------------------------------------------------
-_EXPERIMENT_MAP = {
-    "oversight": OversightPhaseExperiment,
-    "lag": EnforcementLagExperiment,
-    "media": MediaInteractionExperiment,
-
-    "counterfactual": CounterfactualShockExperiment,
-    "topology": TopologyValidationExperiment,
-    "epsilon": EpsilonCalibrationExperiment,
-
-    "centrality": CentralitySweepExperiment,
-    #  "mechanism": MechanismCheckExperiment,
-
-    "geometry": GeometryExperiment,
-}
-
-# ---------------------------------------------------------------------------
-# Structured progress events (consumed by tui/)
-# ---------------------------------------------------------------------------
-
-def _emit_event(**fields) -> None:
-    """Module-level counterpart to BaseExperiment._emit().
-
-    Used here for run-level events (e.g. "error") that originate above any
-    individual experiment instance, inside PolicySwarm.run_all()'s exception
-    handler. Same sentinel-prefixed JSON-line format, see
-    policyswarm.experiments.base.BaseExperiment._emit for rationale.
-    """
-    print("##EVENT## " + json.dumps(fields), flush=True)
-
-
-# ---------------------------------------------------------------------------
-# PolicySwarm facade
-# ---------------------------------------------------------------------------
-
-class PolicySwarm:
-    """High-level facade for running PolicySwarm experiments.
-
-    Parameters
-    ----------
-    output_dir : str
-        Root directory for all experiment outputs. Default 'policyswarm_output'.
-    seeds : list of int, optional
-        Monte Carlo seeds shared across all experiments. Default list(range(30)).
-    policy_text : str, optional
-        Raw policy text for the default keyword extraction path.
-    """
-
-    DEFAULT_POLICY_TEXT = """
-    The government introduces strict AI safety regulations requiring transparency
-    audits, limiting deployment of high-risk systems, and enforcing penalties for
-    non-compliance. The policy prioritises public safety over innovation risks.
-    """
-
-    def __init__(self, output_dir="policyswarm_output", seeds=None, policy_text=None):
-        self.output_dir  = output_dir
-        self.seeds       = seeds or list(range(30))
-        self.policy_text = policy_text or self.DEFAULT_POLICY_TEXT
-        os.makedirs(output_dir, exist_ok=True)
-
-    def run_experiment(self, name: str, **kwargs) -> dict:
-        """Run a single named experiment.
-
-        Extra kwargs (e.g. sim_config, shock_config) are forwarded to the
-        experiment constructor. This allows run_all.py to inject a custom
-        SimConfig when using Tier 1/2 policy extraction.
-        """
-        if name not in _EXPERIMENT_MAP:
-            raise ValueError(
-                f"Unknown experiment: {name!r}. "
-                f"Choose from: {list(_EXPERIMENT_MAP)}"
-            )
-        ExperimentClass = _EXPERIMENT_MAP[name]
-        exp_dir = os.path.join(self.output_dir, name)
-        exp = ExperimentClass(
-            output_dir  = exp_dir,
-            seeds       = self.seeds,
-            policy_text = kwargs.pop("policy_text", self.policy_text),
-            **kwargs,
-        )
-        return exp.report()
-
-    def run_all(self, experiments=None) -> dict:
-        """Run all (or a subset of) experiments sequentially.
-
-        Uses the keyword extraction path. For Tier 1/2, call
-        run_all.py with --policy-source, which uses run_experiment()
-        directly with policy injection.
-        """
-        to_run = experiments or list(_EXPERIMENT_MAP)
-        reports = {}
-        for name in to_run:
-            print(f"\n{'='*60}\nRunning experiment: {name}\n{'='*60}")
-            try:
-                reports[name] = self.run_experiment(name)
-            except Exception as exc:
-                print(f"[ERROR] Experiment '{name}' failed: {exc}")
-                _emit_event(type="error", experiment=name, message=str(exc))
-                reports[name] = {"error": str(exc)}
-        return reports
-
-    @staticmethod
-    def describe_policy(text: str) -> None:
-        """Print the KG extraction summary for a policy text."""
-        print(describe_extraction(text))
-
-    @staticmethod
-    def tier_status() -> dict:
-        """Report which extraction tiers are available given installed packages."""
-        return {
-            "tier0_keyword"  : True,
-            "tier1_llm"      : _TIER1_AVAILABLE,
-            "tier2_embedding": _TIER2_AVAILABLE,
-        }
+__all__ = [
+    # configuration
+    "SimConfig", "GovernanceConfig", "Policy", "ShockConfig", "RunSpec",
+    "OverlapRegime", "NetworkType", "Geometry", "ShockMode", "REGIME_PARAMS",
+    # policy ingestion
+    "DEFAULT_POLICY_TEXT", "policy_from_text", "policy_from_kg", "extract_entities",
+    "extract_narrative_scores", "build_kg", "perceived_policy", "describe_extraction",
+    # model
+    "Simulation", "build_network", "compute_influence", "top_hub_indices",
+    "generate_shocks", "override_strength", "summarise_schedule",
+    # metrics and analysis
+    "opinion_variance", "polarization_index", "bifurcation_index", "cascade_breadth",
+    "phase_transition_tick", "causal_centrality", "delta_variance", "effect_size",
+    "compute_all_metrics", "paired_ttest", "group_summary", "stat_test_table",
+    "executive_summary", "cohens_d",
+    # experiments
+    "PolicySwarm", "EXPERIMENTS",
+    "OversightPhaseExperiment", "EnforcementLagExperiment", "MediaInteractionExperiment",
+    "CounterfactualShockExperiment", "TopologyValidationExperiment",
+    "EpsilonCalibrationExperiment", "CentralitySweepExperiment", "GeometryExperiment",
+]
+__all__ += _TIER1_EXPORTS + _TIER2_EXPORTS

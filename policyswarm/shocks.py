@@ -159,7 +159,6 @@ def apply_shock_to_opinions(
     """
     strength = shock["strength"]
     mode     = shock.get("mode", ShockMode.COORDINATING.value)
-    dim      = opinions.shape[1]
 
     before = opinions[targets].copy()
 

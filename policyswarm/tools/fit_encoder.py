@@ -270,10 +270,10 @@ def main():
     print(f"Encoder saved to: {args.output}")
     print()
     print("Usage in experiments:")
-    print(f"  python run_all.py \\")
-    print(f"      --policy-source embedding \\")
+    print("  python run_all.py \\")
+    print("      --policy-source embedding \\")
     print(f"      --encoder {args.output} \\")
-    print(f"      --policy-doc data/new_regulation.pdf")
+    print("      --policy-doc data/new_regulation.pdf")
 
 
 if __name__ == "__main__":

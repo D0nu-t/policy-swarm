@@ -1,6 +1,9 @@
 """
-policyswarm.experiments.exp5_centrality_sweep  (PATCH: mechanism measurement)
-==============================================================================
+policyswarm.experiments.exp5_mechanism_check
+============================================
+Post-hoc mechanism measurement for Experiment 5, called from
+CentralitySweepExperiment.analyse(). Not a registered experiment.
+
 Addendum to Experiment 5 addressing the advisor review's core remaining
 request: "at least one proposed mechanism should actually be measured."
 
@@ -36,18 +39,19 @@ Usage
 from __future__ import annotations
 
 from typing import List
-import numpy as np
-import pandas as pd
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 from scipy.stats import gaussian_kde
 
-from ..config import SimConfig, GovernanceConfig, ShockConfig, ShockMode
-from ..extraction import policy_from_text
-from ..shocks import generate_shocks, override_strength
 from ..dynamics import Simulation
 from ..metrics import bifurcation_index
+from ..shocks import generate_shocks, override_strength
+
+_KDE_COLORS = {"hub": "#D85A30", "random": "#1D9E75"}
 
 
 def _final_opinions_for_condition(
@@ -60,15 +64,11 @@ def _final_opinions_for_condition(
     CentralitySweepExperiment and return the treatment run's final
     opinion matrix. Mirrors exp.run()'s per-cell logic exactly so the
     mechanism check uses identical dynamics to the reported results."""
-    base_policy = policy_from_text(exp.policy_text)
-    base_shock_config = ShockConfig(shock_prob=0.2, mode=ShockMode.DIRECTIONAL)
-    gov_config = GovernanceConfig(deployment_rate_cap=0.5, penalty_severity=0.5)
-
-    base_schedule = generate_shocks(base_shock_config, exp.sim_config.n_ticks, seed)
+    base_schedule = generate_shocks(exp.shock_config, exp.sim_config.n_ticks, seed)
     schedule = override_strength(base_schedule, strength, target_type)
 
     sim_t = Simulation(
-        exp.sim_config, gov_config, base_policy, schedule,
+        exp.sim_config, exp.gov_config, exp._policy(), schedule,
         apply_shocks=True, seed=seed,
     )
     sim_t.run()
@@ -139,7 +139,8 @@ def run_bimodality_check(
     grid = np.linspace(-1, 1, 300)
     bandwidth = 0.16   # absolute, same as metrics.bifurcation_index
 
-    for target_type, color in [("hub", "#D85A30"), ("random", "#1D9E75")]:
+    for target_type in exp.target_types:
+        color = _KDE_COLORS.get(target_type, "#555555")
         pooled = np.concatenate([
             finals[:, dim] for finals in all_finals[(target_type, high_strength)]
         ])
@@ -172,6 +173,9 @@ def run_bimodality_check(
     ).reset_index()
     print(summary.to_string(index=False))
     print(f"\nKDE comparison saved to: {out_path}")
+
+    if not {"hub", "random"} <= set(exp.target_types):
+        return bi_df    # the verdict compares hub against random; needs both
 
     mean_bi_hub_high = bi_df[
         (bi_df.target_type == "hub") & (bi_df.strength == high_strength)

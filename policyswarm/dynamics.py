@@ -46,14 +46,14 @@ from __future__ import annotations
 import copy
 import logging
 import random
-from typing import List, Optional
+from typing import List
 
 import networkx as nx
 import numpy as np
 
 from . import geometry as _geom
 from .config import (
-    CENTRED_SCALE, Geometry, GovernanceConfig, Policy, ShockMode, SimConfig,
+    DEFAULT_SPLIT_DELTAS, Geometry, GovernanceConfig, Policy, ShockMode, SimConfig,
 )
 from .extraction import perceived_policy as _perceived_policy
 from .network import build_neighbour_cache, build_network, top_hub_indices
@@ -81,6 +81,11 @@ class Simulation:
     apply_shocks : bool
     seed : int
     geometry : Geometry
+    recorder : object, optional
+        Observer of what happens inside each tick (see
+        ``policyswarm.trace.TraceRecorder``). It is only ever told what
+        happened; it draws no random numbers and changes no state, so a
+        recorded run is numerically identical to an unrecorded one.
     """
 
     def __init__(
@@ -92,6 +97,7 @@ class Simulation:
         apply_shocks : bool     = True,
         seed         : int      = 0,
         geometry     : Geometry = Geometry.EUCLIDEAN,
+        recorder                = None,
     ):
         self.sim_config   = sim_config
         self.gov_config   = gov_config
@@ -102,6 +108,7 @@ class Simulation:
         self.apply_shocks = apply_shocks
         self.seed         = seed
         self.geometry     = geometry
+        self.recorder     = recorder
 
         np.random.seed(seed)
         random.seed(seed)
@@ -184,6 +191,8 @@ class Simulation:
                 self.opinions, targets, shock,
                 policy_vector=policy_vec, rng=self._shock_rng,
             )
+            if self.recorder is not None:
+                self.recorder.shock(shock, targets)
             for idx, t in enumerate(targets):
                 change = float(np.linalg.norm(self.opinions[t] - old[idx]))
                 if change > _LOG_THRESHOLD:
@@ -232,6 +241,7 @@ class Simulation:
         epsilon = self.sim_config.epsilon
         lag     = self.policy.lag
         gov     = self.gov_config
+        rec     = self.recorder
 
         for _ in range(self.sim_config.interactions):
             i = random.randrange(n)
@@ -240,18 +250,25 @@ class Simulation:
             j = random.choice(self.neighbors[i])
 
             if random.random() > gov.deployment_rate_cap:
+                if rec is not None:
+                    rec.conversation(i, j, "blocked")
                 continue
 
             self.gate_attempts += 1
-            if self._distance(self.opinions[i], self.opinions[j]) > epsilon:
+            dist = self._distance(self.opinions[i], self.opinions[j])
+            if dist > epsilon:
+                if rec is not None:
+                    rec.conversation(i, j, "too_far", dist)
                 continue
             self.gate_passes += 1
 
             infl = self.influence[j]
 
+            penalised = False
             if tick >= lag:
                 if self._is_violator(j):
                     infl *= (1.0 - gov.penalty_severity)
+                    penalised = True
 
             old = self.opinions[i].copy()
 
@@ -262,6 +279,8 @@ class Simulation:
             change = float(np.linalg.norm(self.opinions[i] - old))
             if change > _LOG_THRESHOLD:
                 self._log_influence(j, i, change, tick)
+            if rec is not None:
+                rec.conversation(i, j, "penalised" if penalised else "heard", dist, change)
 
     # -----------------------------------------------------------------------
     # Policy anchor step
@@ -341,20 +360,20 @@ class Simulation:
 
     def _apply_policy_shift(self) -> None:
         """
-        Tighten enforcement at policy_split_tick.
+        Tighten the policy at policy_split_tick.
 
-        Deltas are specified on the unit interval (+0.15 enforcement,
-        +0.10 audit) and scaled by CENTRED_SCALE for the [-1, 1] space.
-
-        Uses Policy.shift_dimension() which works for any schema. If the
-        schema doesn't include "enforcement" or "audit_intensity" (domain-
-        agnostic case), the KeyError is caught and the shift skipped. Domain-
-        specific experiment subclasses should override this method to implement
-        their own policy update semantics.
+        Each dimension named in ``Policy.split_deltas`` shifts by its delta
+        (centred units). A policy that does not set ``split_deltas`` gets the
+        built-in ``DEFAULT_SPLIT_DELTAS`` (enforcement and audit intensity);
+        names the policy does not have are skipped, so a schema without those
+        dimensions is simply not tightened.
         """
-        for name, delta in [("enforcement", 0.15), ("audit_intensity", 0.10)]:
+        deltas = self.policy.split_deltas
+        if deltas is None:
+            deltas = DEFAULT_SPLIT_DELTAS
+        for name, delta in deltas.items():
             try:
-                self.policy.shift_dimension(name, CENTRED_SCALE * delta)
+                self.policy.shift_dimension(name, delta)
             except KeyError:
                 log.debug(
                     f"_apply_policy_shift: dimension '{name}' not in schema, skipping."
@@ -393,12 +412,25 @@ class Simulation:
 
     def step(self, tick: int) -> None:
         self._check_policy_update(tick)
-        self._shock_step(tick)
-        self._media_step(tick)
-        self._peer_step(tick)
-        self._policy_anchor_step(tick)
-        self._policy_pull_step(tick)
+        if self.recorder is not None:
+            self.recorder.begin_tick(tick, self)
+        self._phase("shock",  self._shock_step, tick)
+        self._phase("media",  self._media_step, tick)
+        self._phase("peer",   self._peer_step, tick)
+        self._phase("policy", self._policy_anchor_step, tick)
+        self._phase("policy", self._policy_pull_step, tick)
         self.history.append(self.opinions.copy())
+        if self.recorder is not None:
+            self.recorder.end_tick(tick, self)
+
+    def _phase(self, name: str, phase_step, tick: int) -> None:
+        """Run one phase of a tick, telling the recorder how far it moved each agent."""
+        if self.recorder is None:
+            phase_step(tick)
+            return
+        before = self.opinions.copy()
+        phase_step(tick)
+        self.recorder.phase(name, np.linalg.norm(self.opinions - before, axis=1))
 
     def run(self) -> List[np.ndarray]:
         for t in range(self.sim_config.n_ticks):

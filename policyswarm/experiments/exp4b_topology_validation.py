@@ -28,14 +28,18 @@ from __future__ import annotations
 
 import dataclasses
 from typing import List, Optional
+
 import pandas as pd
 
-from ..config import SimConfig, ShockMode, Geometry, NetworkType
+from ..config import Geometry, NetworkType, Policy, ShockMode, SimConfig
+from ..extraction import DEFAULT_POLICY_TEXT
 from ..visualization import plot_phase_diagram
 from .base import BaseExperiment
 from .exp4_counterfactual import (
-    _DEFAULT_TEXT, analyse_geometry_lag, run_paired_geometry_lag,
+    EPSILON_MODE_PARAM, GEOMETRIES_PARAM, LAGS_PARAM, SHOCK_MODE_PARAM,
+    analyse_geometry_lag, run_paired_geometry_lag,
 )
+from .params import ParamSpec
 
 
 class TopologyValidationExperiment(BaseExperiment):
@@ -53,13 +57,26 @@ class TopologyValidationExperiment(BaseExperiment):
     epsilon_mode : {"matched", "raw"}
     sbm_communities, sbm_p_in, sbm_p_out : SBM topology parameters,
         matching the defaults documented in Section 4.3 of the paper.
+    output_dir, seeds, policy_text, policy, sim_config
+        See ``BaseExperiment``. ``sim_config.network_type`` is overridden.
     """
+
+    name  = "topology"
+    title = "Exp 4b: Geometry × lag on SBM networks"
+    PARAMS = (
+        LAGS_PARAM, GEOMETRIES_PARAM, SHOCK_MODE_PARAM, EPSILON_MODE_PARAM,
+        ParamSpec("sbm_communities", "int", 3, minimum=1, help="Number of SBM communities."),
+        ParamSpec("sbm_p_in", "float", 0.20, minimum=0.0, maximum=1.0,
+                  help="Within-community edge probability."),
+        ParamSpec("sbm_p_out", "float", 0.02, minimum=0.0, maximum=1.0,
+                  help="Cross-community edge probability."),
+    )
 
     def __init__(
         self,
         output_dir      : str,
         seeds           : Optional[List[int]]      = None,
-        policy_text     : str                       = _DEFAULT_TEXT,
+        policy_text     : str                       = DEFAULT_POLICY_TEXT,
         lags            : Optional[List[int]]       = None,
         geometries      : Optional[List[Geometry]]  = None,
         shock_mode      : ShockMode                 = ShockMode.COORDINATING,
@@ -68,17 +85,17 @@ class TopologyValidationExperiment(BaseExperiment):
         sbm_p_in        : float                     = 0.20,
         sbm_p_out       : float                     = 0.02,
         epsilon_mode    : str                       = "matched",
+        policy          : Optional[Policy]          = None,
     ):
-        super().__init__(output_dir, seeds)
-        self.policy_text  = policy_text
-        self.lags         = lags or [0, 20, 40]
+        super().__init__(output_dir, seeds, policy_text, policy, sim_config)
+        self.lags         = lags or list(LAGS_PARAM.default)
         self.geometries   = geometries or [Geometry.EUCLIDEAN, Geometry.COSINE]
         self.shock_mode   = shock_mode
         self.epsilon_mode = epsilon_mode
 
         # Force SBM topology; keep every other parameter identical to Exp 4
         self.sim_config = dataclasses.replace(
-            sim_config or SimConfig(),
+            self.sim_config,
             network_type      = NetworkType.STOCHASTIC_BLOCK,
             sbm_n_communities = sbm_communities,
             sbm_p_in          = sbm_p_in,

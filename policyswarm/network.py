@@ -89,7 +89,6 @@ def build_stochastic_block_model(
     community_labels : np.ndarray, shape (n,), dtype int
         Community membership for each agent.
     """
-    rng = np.random.default_rng(seed)
     # Distribute agents roughly evenly across communities
     base, rem = divmod(n, n_communities)
     sizes = [base + (1 if i < rem else 0) for i in range(n_communities)]

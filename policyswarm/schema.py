@@ -85,3 +85,18 @@ STATS_SCHEMA = ResultSchema(
         "significant",
     ],
 )
+
+# ---------------------------------------------------------------------------
+# Centrality sweep — expects group_summary() output columns
+# ---------------------------------------------------------------------------
+CENTRALITY_SCHEMA = ResultSchema(
+    name="centrality_stats",
+    required_columns=[
+        "target_type",
+        "shock_strength",
+        "delta_mean",
+        "delta_ci_low",
+        "delta_ci_high",
+        "cascade_breadth_mean",
+    ],
+)

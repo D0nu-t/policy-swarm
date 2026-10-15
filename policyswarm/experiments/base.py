@@ -13,25 +13,72 @@ Every experiment follows the same contract:
 Structured progress events
 ---------------------------
 In addition to the human-readable prose this class and its subclasses print,
-report() and run() also emit single-line JSON progress events prefixed with
-the sentinel token "##EVENT## ". These are consumed by tooling that wraps
-this process (e.g. tui/), which can safely grep for the prefix without
-risking a false match against the prose output or the stats_df.to_string()
-dump below. See _emit().
+report() and run() emit progress events in the format defined in
+``events.py``, consumed by the front ends that wrap this process (tui/, gui/).
+
+Shared building blocks
+----------------------
+``run_paired`` runs one control / treatment pair, the unit every paired
+experiment is built from. ``BASELINE_GOVERNANCE`` holds the governance
+parameters the lag, media, counterfactual and centrality experiments share.
 """
 
 from __future__ import annotations
 
-import os
-import json
+import copy
 import logging
+import os
 from abc import ABC, abstractmethod
 from datetime import datetime
-from typing import Optional, List
+from typing import ClassVar, Dict, List, Optional, Tuple
 
 import pandas as pd
 
+from ..config import Geometry, GovernanceConfig, Policy, SimConfig
+from ..dynamics import Simulation
+from ..extraction import DEFAULT_POLICY_TEXT, policy_from_text
+from ..metrics import compute_all_metrics
+from ..shocks import ShockSchedule
+from .events import emit_event
+from .params import ParamSpec
+
 log = logging.getLogger("policyswarm")
+
+#: Governance parameters shared by the experiments that do not sweep the regime.
+BASELINE_GOVERNANCE = {"deployment_rate_cap": 0.5, "penalty_severity": 0.5}
+
+
+def run_paired(
+    sim_config : SimConfig,
+    gov_config : GovernanceConfig,
+    policy     : Policy,
+    shocks     : ShockSchedule,
+    seed       : int,
+    geometry   : Geometry = Geometry.EUCLIDEAN,
+) -> Tuple[Dict[str, float], Dict[str, float]]:
+    """Run one paired control / treatment simulation.
+
+    Both runs share the seed (network, initial opinions) and the shock
+    schedule; only ``apply_shocks`` differs, so the difference between the
+    two metric dicts is the within-seed effect of the shocks.
+
+    Returns
+    -------
+    (control_metrics, treatment_metrics)
+        Each as returned by ``metrics.compute_all_metrics``.
+    """
+    control   = _simulate(sim_config, gov_config, policy, shocks, seed, geometry, False)
+    treatment = _simulate(sim_config, gov_config, policy, shocks, seed, geometry, True)
+    return control, treatment
+
+
+def _simulate(sim_config, gov_config, policy, shocks, seed, geometry, apply_shocks):
+    sim = Simulation(
+        sim_config, gov_config, policy, shocks,
+        apply_shocks=apply_shocks, seed=seed, geometry=geometry,
+    )
+    sim.run()
+    return compute_all_metrics(sim)
 
 
 class BaseExperiment(ABC):
@@ -43,15 +90,42 @@ class BaseExperiment(ABC):
         Directory to write CSV, JSON, and PNG outputs. Created if absent.
     seeds : list of int
         Random seeds for Monte Carlo runs. Default list(range(5)).
+    policy_text : str
+        Policy document to ingest with the keyword extractor. Ignored when
+        ``policy`` is given.
+    policy : Policy, optional
+        Pre-built policy object (e.g. from the LLM or embedding extractor).
+        Takes precedence over ``policy_text``.
+    sim_config : SimConfig, optional
+        Simulation mechanics. Default ``SimConfig()``.
+
+    Class attributes
+    ----------------
+    name : str
+        Registry key and output sub-directory (e.g. "lag").
+    title : str
+        Human-readable title.
+    PARAMS : tuple of ParamSpec
+        The sweepable constructor arguments, beyond the common ones above.
     """
+
+    name   : ClassVar[str] = ""
+    title  : ClassVar[str] = ""
+    PARAMS : ClassVar[Tuple[ParamSpec, ...]] = ()
 
     def __init__(
         self,
-        output_dir : str,
-        seeds      : Optional[List[int]] = None,
+        output_dir  : str,
+        seeds       : Optional[List[int]] = None,
+        policy_text : str                 = DEFAULT_POLICY_TEXT,
+        policy      : Optional[Policy]    = None,
+        sim_config  : Optional[SimConfig] = None,
     ):
-        self.output_dir = output_dir
-        self.seeds      = seeds if seeds is not None else list(range(5))
+        self.output_dir  = output_dir
+        self.seeds       = seeds if seeds is not None else list(range(5))
+        self.policy_text = policy_text
+        self.policy      = policy
+        self.sim_config  = sim_config or SimConfig()
         os.makedirs(output_dir, exist_ok=True)
 
         self._results_df : Optional[pd.DataFrame] = None
@@ -107,6 +181,21 @@ class BaseExperiment(ABC):
         return len(self.seeds)
 
     # ------------------------------------------------------------------
+    # Policy
+    # ------------------------------------------------------------------
+
+    def _policy(self) -> Policy:
+        """A fresh Policy for this experiment.
+
+        Returns a copy of the injected ``policy`` if one was given, otherwise
+        extracts one from ``policy_text``. Always a new object, so callers
+        may set ``lag`` on it freely.
+        """
+        if self.policy is not None:
+            return copy.copy(self.policy)
+        return policy_from_text(self.policy_text)
+
+    # ------------------------------------------------------------------
     # Geometry-aware bounded-confidence thresholds
     # ------------------------------------------------------------------
 
@@ -120,7 +209,6 @@ class BaseExperiment(ABC):
             different coverage under each metric, so this confounds geometry
             with threshold; use only for sensitivity analysis.
         """
-        from ..config import Geometry
         from ..geometry import matched_epsilons
 
         if mode == "raw":
@@ -141,25 +229,12 @@ class BaseExperiment(ABC):
     # ------------------------------------------------------------------
 
     def _emit(self, **fields) -> None:
-        """Emit a structured progress event as a single JSON line on stdout.
+        """Emit a structured progress event (see ``events.emit_event``).
 
-        Parameters
-        ----------
-        **fields
-            Arbitrary JSON-serialisable key/value pairs. Callers always
-            include "type" (e.g. "start", "seed_complete", "complete",
-            "error") and "experiment" (self.__class__.__name__).
-
-        Notes
-        -----
-        flush=True is required: when this process is spawned as a child
-        (e.g. by the TUI via child_process.spawn), stdout is not a TTY, so
-        CPython switches from line-buffered to fully block-buffered. Without
-        an explicit flush, events queue up invisibly until the OS pipe
-        buffer fills or the process exits, which defeats the purpose of a
-        live progress stream.
+        Callers always include "type" (e.g. "start", "seed_complete",
+        "complete") and "experiment" (self.__class__.__name__).
         """
-        print("##EVENT## " + json.dumps(fields), flush=True)
+        emit_event(**fields)
 
     # ------------------------------------------------------------------
     # Convenience: full pipeline

@@ -48,11 +48,35 @@ returns, for each geometry, the epsilon that makes a target fraction of
 that can ever interact. Geometry comparisons should use calibrated epsilon;
 ``Simulation`` additionally records the realised gate pass rate so coverage
 can be checked over the whole trajectory.
+
+Adding a geometry
+-----------------
+A geometry is one ``GeometrySpec``: its two functions plus the plain-language
+text the dashboard shows. To add one:
+
+  1. add a member to ``config.Geometry`` (its value is the name users type);
+  2. write ``pairwise(a, b)`` (row-wise distances) and ``step(o_i, o_j, rate)``;
+  3. call ``register_geometry(GeometrySpec(...))`` at the bottom of this module.
+
+Nothing else needs to change: ``Simulation``, epsilon calibration, the trace
+and the dashboard all go through ``geometry_spec``.
+
+Future note: function-space geometries (set aside, not implemented)
+-------------------------------------------------------------------
+Candidates considered for treating an opinion as a function rather than a
+point: the Lp family (p = 1 total disagreement, p = infinity the single most
+contested dimension), a Sobolev H1 "profile" distance that also compares the
+differences between adjacent dimensions, and a Gaussian-kernel (RKHS)
+distance that saturates beyond a bandwidth. The policy dimensions have no
+natural order, so the Sobolev variant is only meaningful once an order is
+defined; the Lp family needs none.
 """
 
 from __future__ import annotations
 
-from typing import Iterable, Optional
+import math
+from dataclasses import dataclass
+from typing import Callable, Dict, Iterable, List, Optional
 
 import numpy as np
 
@@ -62,16 +86,69 @@ _NORM_EPS = 1e-9
 
 
 # ---------------------------------------------------------------------------
-# Distances
+# Registry
 # ---------------------------------------------------------------------------
 
-def _unit_rows(x: np.ndarray):
-    """Return (unit vectors, norms, valid mask) for the rows of x."""
-    norms = np.linalg.norm(x, axis=-1)
-    valid = norms > _NORM_EPS
-    safe  = np.where(valid, norms, 1.0)
-    return x / safe[..., None], norms, valid
+@dataclass(frozen=True)
+class GeometrySpec:
+    """One opinion-space geometry: its maths and how to describe it.
 
+    Parameters
+    ----------
+    key : str
+        Registry name; the ``value`` of the matching ``config.Geometry`` member.
+    label, summary, distance_text, step_text, epsilon_text : str
+        Plain-language description shown in the dashboard.
+    pairwise : callable (a, b) -> ndarray
+        Row-wise distance between two arrays of shape (..., d).
+    step : callable (o_i, o_j, rate) -> ndarray
+        Agent i's opinion after moving toward j by ``rate``. Not clipped.
+    max_distance : callable (dim) -> float
+        Largest possible distance in a d-dimensional opinion cube.
+    angular : bool
+        True if the geometry compares directions only (ignores magnitude).
+    """
+    key           : str
+    label         : str
+    summary       : str
+    distance_text : str
+    step_text     : str
+    epsilon_text  : str
+    pairwise      : Callable[[np.ndarray, np.ndarray], np.ndarray]
+    step          : Callable[[np.ndarray, np.ndarray, float], np.ndarray]
+    max_distance  : Callable[[int], float]
+    angular       : bool = False
+
+
+GEOMETRIES: Dict[str, GeometrySpec] = {}
+
+
+def register_geometry(spec: GeometrySpec) -> GeometrySpec:
+    """Make a geometry available to ``Simulation`` and the dashboard."""
+    GEOMETRIES[spec.key] = spec
+    return spec
+
+
+def geometry_spec(geometry) -> GeometrySpec:
+    """Look up a geometry by ``config.Geometry`` member or by name."""
+    try:
+        return GEOMETRIES[getattr(geometry, "value", geometry)]
+    except KeyError:
+        raise ValueError(f"Unknown geometry: {geometry}") from None
+
+
+def describe_geometries() -> List[dict]:
+    """JSON-serialisable description of every registered geometry."""
+    return [
+        {"key": s.key, "label": s.label, "summary": s.summary, "distance": s.distance_text,
+         "step": s.step_text, "epsilon": s.epsilon_text, "angular": s.angular}
+        for s in GEOMETRIES.values()
+    ]
+
+
+# ---------------------------------------------------------------------------
+# Public dispatch
+# ---------------------------------------------------------------------------
 
 def pairwise_distance(geometry: Geometry, a: np.ndarray, b: np.ndarray) -> np.ndarray:
     """Row-wise distance between a and b (same shape (..., d)).
@@ -81,32 +158,13 @@ def pairwise_distance(geometry: Geometry, a: np.ndarray, b: np.ndarray) -> np.nd
     """
     a = np.asarray(a, dtype=float)
     b = np.asarray(b, dtype=float)
-
-    if geometry == Geometry.EUCLIDEAN:
-        return np.linalg.norm(a - b, axis=-1)
-
-    ua, _, va = _unit_rows(a)
-    ub, _, vb = _unit_rows(b)
-    cos = np.clip(np.sum(ua * ub, axis=-1), -1.0, 1.0)
-
-    if geometry == Geometry.COSINE:
-        d = 1.0 - cos
-    elif geometry == Geometry.MANIFOLD:
-        d = np.arccos(cos)
-    else:
-        raise ValueError(f"Unknown geometry: {geometry}")
-
-    return np.where(va & vb, d, np.inf)
+    return geometry_spec(geometry).pairwise(a, b)
 
 
 def distance(geometry: Geometry, a: np.ndarray, b: np.ndarray) -> float:
     """Scalar distance between two opinion vectors."""
     return float(pairwise_distance(geometry, a, b))
 
-
-# ---------------------------------------------------------------------------
-# Update step
-# ---------------------------------------------------------------------------
 
 def step(
     geometry : Geometry,
@@ -120,37 +178,135 @@ def step(
     the simulation). The result is not clipped; the caller retracts it into
     the opinion cube.
     """
-    if geometry == Geometry.EUCLIDEAN:
-        return op_i + rate * (op_j - op_i)
+    return geometry_spec(geometry).step(op_i, op_j, rate)
 
+
+# ---------------------------------------------------------------------------
+# Euclidean
+# ---------------------------------------------------------------------------
+
+def _euclidean_pairwise(a: np.ndarray, b: np.ndarray) -> np.ndarray:
+    return np.linalg.norm(a - b, axis=-1)
+
+
+def _euclidean_step(op_i: np.ndarray, op_j: np.ndarray, rate: float) -> np.ndarray:
+    return op_i + rate * (op_j - op_i)
+
+
+# ---------------------------------------------------------------------------
+# Angular geometries (cosine, manifold)
+# ---------------------------------------------------------------------------
+
+def _unit_rows(x: np.ndarray):
+    """Return (unit vectors, norms, valid mask) for the rows of x."""
+    norms = np.linalg.norm(x, axis=-1)
+    valid = norms > _NORM_EPS
+    safe  = np.where(valid, norms, 1.0)
+    return x / safe[..., None], norms, valid
+
+
+def _cosines(a: np.ndarray, b: np.ndarray):
+    """Cosine of the angle between rows of a and b, and where it is defined."""
+    ua, _, va = _unit_rows(a)
+    ub, _, vb = _unit_rows(b)
+    return np.clip(np.sum(ua * ub, axis=-1), -1.0, 1.0), va & vb
+
+
+def _cosine_pairwise(a: np.ndarray, b: np.ndarray) -> np.ndarray:
+    cos, valid = _cosines(a, b)
+    return np.where(valid, 1.0 - cos, np.inf)
+
+
+def _manifold_pairwise(a: np.ndarray, b: np.ndarray) -> np.ndarray:
+    cos, valid = _cosines(a, b)
+    return np.where(valid, np.arccos(cos), np.inf)
+
+
+def _directions(op_i: np.ndarray, op_j: np.ndarray):
+    """(norm of i, unit i, unit j), or None if either opinion has no direction."""
     ni = np.linalg.norm(op_i)
     nj = np.linalg.norm(op_j)
     if ni < _NORM_EPS or nj < _NORM_EPS:
+        return None
+    return ni, op_i / ni, op_j / nj
+
+
+def _cosine_step(op_i: np.ndarray, op_j: np.ndarray, rate: float) -> np.ndarray:
+    directions = _directions(op_i, op_j)
+    if directions is None:
         return op_i.copy()
-    u_i = op_i / ni
-    u_j = op_j / nj
+    ni, u_i, u_j = directions
+    moved = u_i + rate * (u_j - u_i)
+    nm = np.linalg.norm(moved)
+    if nm < _NORM_EPS:          # exactly antipodal and rate = 0.5
+        return op_i.copy()
+    return ni * moved / nm
 
-    if geometry == Geometry.COSINE:
-        moved = u_i + rate * (u_j - u_i)
-        nm = np.linalg.norm(moved)
-        if nm < _NORM_EPS:          # exactly antipodal and rate = 0.5
-            return op_i.copy()
-        return ni * moved / nm
 
-    if geometry == Geometry.MANIFOLD:
-        cos   = float(np.clip(np.dot(u_i, u_j), -1.0, 1.0))
-        theta = np.arccos(cos)
-        if theta < 1e-12:
-            return op_i.copy()
-        tangent = u_j - cos * u_i
-        nt = np.linalg.norm(tangent)
-        if nt < _NORM_EPS:          # antipodal: geodesic direction undefined
-            return op_i.copy()
-        angle = rate * theta
-        moved = np.cos(angle) * u_i + np.sin(angle) * (tangent / nt)
-        return ni * moved
+def _manifold_step(op_i: np.ndarray, op_j: np.ndarray, rate: float) -> np.ndarray:
+    directions = _directions(op_i, op_j)
+    if directions is None:
+        return op_i.copy()
+    ni, u_i, u_j = directions
+    cos   = float(np.clip(np.dot(u_i, u_j), -1.0, 1.0))
+    theta = np.arccos(cos)
+    if theta < 1e-12:
+        return op_i.copy()
+    tangent = u_j - cos * u_i
+    nt = np.linalg.norm(tangent)
+    if nt < _NORM_EPS:          # antipodal: geodesic direction undefined
+        return op_i.copy()
+    angle = rate * theta
+    moved = np.cos(angle) * u_i + np.sin(angle) * (tangent / nt)
+    return ni * moved
 
-    raise ValueError(f"Unknown geometry: {geometry}")
+
+register_geometry(GeometrySpec(
+    key           = Geometry.EUCLIDEAN.value,
+    label         = "Euclidean",
+    summary       = "Straight-line distance: how far apart two opinions are on every "
+                    "dimension, strength of feeling included.",
+    distance_text = "The length of the line between the two opinions. 0 means identical; "
+                    "the most it can be is the diagonal of the opinion cube.",
+    step_text     = "The listener moves in a straight line toward the speaker, changing "
+                    "both what it believes and how strongly.",
+    epsilon_text  = "ε is a length in opinion units (each dimension runs from −1 to 1).",
+    pairwise      = _euclidean_pairwise,
+    step          = _euclidean_step,
+    max_distance  = lambda dim: 2.0 * math.sqrt(dim),
+))
+
+register_geometry(GeometrySpec(
+    key           = Geometry.COSINE.value,
+    label         = "Cosine",
+    summary       = "Direction only: do two opinions lean the same way, seen from neutral, "
+                    "however strongly each is held?",
+    distance_text = "1 − cos(angle between them): 0 = same direction, 1 = unrelated, "
+                    "2 = opposite. An agent exactly at neutral has no direction and is never heard.",
+    step_text     = "The listener turns its direction toward the speaker's. How strongly it "
+                    "feels does not change.",
+    epsilon_text  = "ε is a value of 1 − cos; 0.5 lets pairs up to 60° apart talk.",
+    pairwise      = _cosine_pairwise,
+    step          = _cosine_step,
+    max_distance  = lambda dim: 2.0,
+    angular       = True,
+))
+
+register_geometry(GeometrySpec(
+    key           = Geometry.MANIFOLD.value,
+    label         = "Manifold (geodesic)",
+    summary       = "Direction only, like cosine, but distance is the angle itself, "
+                    "measured along the sphere of directions.",
+    distance_text = "The angle between the two opinions in radians: 0 = same direction, "
+                    "π (3.14) = opposite.",
+    step_text     = "The listener rotates toward the speaker along the shortest arc between "
+                    "them. How strongly it feels does not change.",
+    epsilon_text  = "ε is an angle in radians; 0.5 is about 29°.",
+    pairwise      = _manifold_pairwise,
+    step          = _manifold_step,
+    max_distance  = lambda dim: math.pi,
+    angular       = True,
+))
 
 
 # ---------------------------------------------------------------------------

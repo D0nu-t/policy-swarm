@@ -1,6 +1,6 @@
 """
-policyswarm.experiments.exp5_centrality_sweep
-==============================================
+policyswarm.experiments.exp5_centrality
+=======================================
 Experiment 5: Centrality × Shock Strength Sweep (Iteration 11)
 
 Design
@@ -26,23 +26,21 @@ The crossover connects to the debate between threshold contagion models
 from __future__ import annotations
 
 from typing import List, Optional
+
 import numpy as np
 import pandas as pd
 
-from ..config import SimConfig, GovernanceConfig, ShockConfig, ShockMode
-from ..extraction import policy_from_text
+from ..analysis import group_summary
+from ..config import GovernanceConfig, Policy, ShockConfig, ShockMode, SimConfig
+from ..extraction import DEFAULT_POLICY_TEXT
 from ..shocks import generate_shocks, override_strength
-from ..dynamics import Simulation
-from ..metrics import compute_all_metrics
-from ..analysis import group_summary, executive_summary
 from ..visualization import plot_centrality_sweep
-from .base import BaseExperiment
-from policyswarm.experiments.exp5_mechanism_check import run_bimodality_check
-_DEFAULT_TEXT = """
-The government introduces strict AI safety regulations requiring transparency
-audits, limiting deployment of high-risk systems, and enforcing penalties for
-non-compliance. The policy prioritises public safety over innovation risks.
-"""
+from .base import BASELINE_GOVERNANCE, BaseExperiment, run_paired
+from .exp5_mechanism_check import run_bimodality_check
+from .params import ParamSpec
+
+_DEFAULT_STRENGTHS = [float(s) for s in np.linspace(0.05, 0.60, 8)]
+_TARGET_TYPES = ("hub", "random")
 
 
 class CentralitySweepExperiment(BaseExperiment):
@@ -54,73 +52,65 @@ class CentralitySweepExperiment(BaseExperiment):
         Shock strength values to sweep. Default linspace(0.05, 0.60, 8).
     target_types : list of str
         Targeting strategies. Default ["hub", "random"].
+    output_dir, seeds, policy_text, policy, sim_config
+        See ``BaseExperiment``.
     """
+
+    name  = "centrality"
+    title = "Exp 5: Centrality × shock strength sweep"
+    PARAMS = (
+        ParamSpec("strengths", "float", _DEFAULT_STRENGTHS, many=True, minimum=0.0, maximum=1.0,
+                  help="Shock strengths to sweep. The bimodality check needs 0.05 and 0.6."),
+        ParamSpec("target_types", "choice", list(_TARGET_TYPES), many=True, choices=_TARGET_TYPES,
+                  help="Shock targeting strategies. The KDE figure needs both."),
+    )
 
     def __init__(
         self,
         output_dir   : str,
-        seeds        : Optional[List[int]]  = None,
-        policy_text  : str                  = _DEFAULT_TEXT,
+        seeds        : Optional[List[int]]   = None,
+        policy_text  : str                   = DEFAULT_POLICY_TEXT,
         strengths    : Optional[List[float]] = None,
         target_types : Optional[List[str]]   = None,
         sim_config   : Optional[SimConfig]   = None,
+        policy       : Optional[Policy]      = None,
     ):
-        super().__init__(output_dir, seeds)
-        self.policy_text  = policy_text
-        self.strengths    = strengths or list(np.linspace(0.05, 0.60, 8))
-        self.target_types = target_types or ["hub", "random"]
-        self.sim_config   = sim_config or SimConfig()
+        super().__init__(output_dir, seeds, policy_text, policy, sim_config)
+        self.strengths    = strengths or list(_DEFAULT_STRENGTHS)
+        self.target_types = target_types or list(_TARGET_TYPES)
 
     def total_units(self) -> int:
         return len(self.seeds) * len(self.target_types) * len(self.strengths)
 
+    # Shared with exp5_mechanism_check so both use identical conditions.
+    shock_config = ShockConfig(shock_prob=0.2, mode=ShockMode.DIRECTIONAL)
+    gov_config   = GovernanceConfig(**BASELINE_GOVERNANCE)
+
     def run(self) -> pd.DataFrame:
-        base_policy = policy_from_text(self.policy_text)
-        # Use directional shock mode for Exp 5
-        base_shock_config = ShockConfig(
-            shock_prob = 0.2,
-            mode       = ShockMode.DIRECTIONAL,
-        )
-        gov_config = GovernanceConfig(
-            deployment_rate_cap = 0.5, penalty_severity = 0.5
-        )
-        rows  = []
-        total = self.total_units()
+        policy = self._policy()
+        rows   = []
+        total  = self.total_units()
 
         for seed in self.seeds:
-            base_schedule = generate_shocks(
-                base_shock_config, self.sim_config.n_ticks, seed
-            )
+            base_schedule = generate_shocks(self.shock_config, self.sim_config.n_ticks, seed)
 
             for target_type in self.target_types:
                 for strength in self.strengths:
                     schedule = override_strength(base_schedule, strength, target_type)
-
-                    sim_c = Simulation(
-                        self.sim_config, gov_config, base_policy, schedule,
-                        apply_shocks=False, seed=seed,
+                    m_c, m_t = run_paired(
+                        self.sim_config, self.gov_config, policy, schedule, seed
                     )
-                    sim_c.run()
-
-                    sim_t = Simulation(
-                        self.sim_config, gov_config, base_policy, schedule,
-                        apply_shocks=True, seed=seed,
-                    )
-                    sim_t.run()
-
-                    m_c = compute_all_metrics(sim_c)
-                    m_t = compute_all_metrics(sim_t)
 
                     rows.append({
-                        "seed"          : seed,
-                        "target_type"   : target_type,
-                        "shock_strength": round(float(strength), 4),
-                        "control_var"   : m_c["variance"],
-                        "treat_var"     : m_t["variance"],
-                        "delta"         : m_t["variance"] - m_c["variance"],
-                        "delta_variance": m_t["delta_variance"],
+                        "seed"           : seed,
+                        "target_type"    : target_type,
+                        "shock_strength" : round(float(strength), 4),
+                        "control_var"    : m_c["variance"],
+                        "treat_var"      : m_t["variance"],
+                        "delta"          : m_t["variance"] - m_c["variance"],
+                        "delta_variance" : m_t["delta_variance"],
                         "cascade_breadth": m_t["cascade_breadth"],
-                        "num_shocks"    : len(schedule),
+                        "num_shocks"     : len(schedule),
                     })
 
                     self._emit(
@@ -145,7 +135,7 @@ class CentralitySweepExperiment(BaseExperiment):
         print("\n=== Exp 5: Centrality × Shock Strength ===")
         print(summary.to_string(index=False))
 
-        # Additional mechanism validation
+        # Post-hoc mechanism measurement (bifurcation index + KDE figure)
         self.mechanism_summary = run_bimodality_check(self)
 
         return summary
