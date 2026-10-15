@@ -1,0 +1,3957 @@
+{
+ "note": "Training phrases for fine-tuning the keyword-suggestion model. Labels drafted by an AI assistant (Claude) on 2026-10-12 and spot-checked by the project author; see README. No domain here appears in keyword_benchmark.json. Direction is relative to each dimension's positive end.",
+ "domains": {
+  "tax": {
+   "split": "train",
+   "dimensions": [
+    {
+     "name": "progressivity",
+     "description": "How the income tax burden is spread across earners.",
+     "positive_means": "higher earners pay a larger share",
+     "negative_means": "flat or regressive: the same or lower rates for high earners"
+    },
+    {
+     "name": "corporate_taxation",
+     "description": "How heavily companies are taxed.",
+     "positive_means": "higher taxes on company profits",
+     "negative_means": "lower company taxes and more reliefs"
+    },
+    {
+     "name": "consumption_taxes",
+     "description": "Taxes on spending such as sales tax, VAT and excise.",
+     "positive_means": "higher taxes on purchases",
+     "negative_means": "lower or no taxes on purchases"
+    },
+    {
+     "name": "wealth_taxation",
+     "description": "Taxes on assets, inheritance and property.",
+     "positive_means": "wealth, estates and property are taxed",
+     "negative_means": "assets and inheritances go untaxed"
+    },
+    {
+     "name": "tax_enforcement",
+     "description": "How strictly evasion and avoidance are pursued.",
+     "positive_means": "strict audits and penalties for evasion",
+     "negative_means": "lenient treatment of evasion"
+    }
+   ],
+   "items": [
+    {
+     "phrase": "top rate",
+     "sentence": "The top rate of income tax rises to 50 percent.",
+     "dimension": "progressivity",
+     "direction": "raises"
+    },
+    {
+     "phrase": "flat tax",
+     "sentence": "A flat tax of 15 percent replaces all income bands.",
+     "dimension": "progressivity",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "surtax",
+     "sentence": "A surtax applies to incomes above one million.",
+     "dimension": "progressivity",
+     "direction": "raises"
+    },
+    {
+     "phrase": "personal allowance",
+     "sentence": "The personal allowance is raised so low earners pay nothing.",
+     "dimension": "progressivity",
+     "direction": "raises"
+    },
+    {
+     "phrase": "single rate",
+     "sentence": "All earners will pay a single rate regardless of income.",
+     "dimension": "progressivity",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "higher band",
+     "sentence": "A new higher band is introduced for the best-paid tenth of workers.",
+     "dimension": "progressivity",
+     "direction": "raises"
+    },
+    {
+     "phrase": "cap on contributions",
+     "sentence": "A cap on contributions means income above the ceiling is not charged.",
+     "dimension": "progressivity",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "graduated rates",
+     "sentence": "Graduated rates increase with each income bracket.",
+     "dimension": "progressivity",
+     "direction": "raises"
+    },
+    {
+     "phrase": "abolishes the upper bracket",
+     "sentence": "The bill abolishes the upper bracket of income tax.",
+     "dimension": "progressivity",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "corporation tax",
+     "sentence": "Corporation tax increases from 19 to 25 percent.",
+     "dimension": "corporate_taxation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "tax holiday",
+     "sentence": "New factories enjoy a ten-year tax holiday.",
+     "dimension": "corporate_taxation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "windfall levy",
+     "sentence": "A windfall levy is imposed on bank profits.",
+     "dimension": "corporate_taxation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "minimum tax",
+     "sentence": "A global minimum tax of 15 percent applies to large multinationals.",
+     "dimension": "corporate_taxation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "full expensing",
+     "sentence": "Full expensing lets firms deduct all investment at once.",
+     "dimension": "corporate_taxation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "patent box",
+     "sentence": "The patent box halves the rate on income from intellectual property.",
+     "dimension": "corporate_taxation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "profit surcharge",
+     "sentence": "A profit surcharge applies to energy producers.",
+     "dimension": "corporate_taxation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "rate cut for companies",
+     "sentence": "The budget includes a rate cut for companies of all sizes.",
+     "dimension": "corporate_taxation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "digital services tax",
+     "sentence": "A digital services tax is charged on the revenues of large platforms.",
+     "dimension": "corporate_taxation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "value added tax",
+     "sentence": "Value added tax rises to 22 percent.",
+     "dimension": "consumption_taxes",
+     "direction": "raises"
+    },
+    {
+     "phrase": "zero-rated",
+     "sentence": "Children's clothing and food are zero-rated.",
+     "dimension": "consumption_taxes",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "excise duty",
+     "sentence": "Excise duty on tobacco increases every year.",
+     "dimension": "consumption_taxes",
+     "direction": "raises"
+    },
+    {
+     "phrase": "sales tax holiday",
+     "sentence": "A sales tax holiday applies to school supplies in August.",
+     "dimension": "consumption_taxes",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "sugar levy",
+     "sentence": "A sugar levy is added to soft drinks.",
+     "dimension": "consumption_taxes",
+     "direction": "raises"
+    },
+    {
+     "phrase": "reduced rate",
+     "sentence": "A reduced rate applies to restaurant meals.",
+     "dimension": "consumption_taxes",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "luxury tax",
+     "sentence": "A luxury tax is charged on yachts and private jets.",
+     "dimension": "consumption_taxes",
+     "direction": "raises"
+    },
+    {
+     "phrase": "duty-free",
+     "sentence": "Travellers may bring in goods duty-free up to a higher limit.",
+     "dimension": "consumption_taxes",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "broadens the base",
+     "sentence": "The reform broadens the base of the sales tax to cover services.",
+     "dimension": "consumption_taxes",
+     "direction": "raises"
+    },
+    {
+     "phrase": "inheritance tax",
+     "sentence": "Inheritance tax applies to estates above half a million.",
+     "dimension": "wealth_taxation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "net worth tax",
+     "sentence": "A net worth tax of one percent applies to large fortunes.",
+     "dimension": "wealth_taxation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "estate duty is abolished",
+     "sentence": "Estate duty is abolished from next April.",
+     "dimension": "wealth_taxation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "mansion tax",
+     "sentence": "A mansion tax is charged on homes worth over two million.",
+     "dimension": "wealth_taxation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "capital gains exemption",
+     "sentence": "A capital gains exemption covers the sale of family businesses.",
+     "dimension": "wealth_taxation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "land value tax",
+     "sentence": "A land value tax is levied on undeveloped plots.",
+     "dimension": "wealth_taxation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "stepped-up basis",
+     "sentence": "Heirs keep the stepped-up basis, so gains made before death are never taxed.",
+     "dimension": "wealth_taxation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "gift tax",
+     "sentence": "A gift tax closes the route around estate charges.",
+     "dimension": "wealth_taxation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "no charge on inherited assets",
+     "sentence": "There is no charge on inherited assets passed to children.",
+     "dimension": "wealth_taxation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "tax audits",
+     "sentence": "The agency will double the number of tax audits.",
+     "dimension": "tax_enforcement",
+     "direction": "raises"
+    },
+    {
+     "phrase": "amnesty",
+     "sentence": "An amnesty lets evaders declare hidden income without penalty.",
+     "dimension": "tax_enforcement",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "whistleblower rewards",
+     "sentence": "Whistleblower rewards are paid for reports of evasion.",
+     "dimension": "tax_enforcement",
+     "direction": "raises"
+    },
+    {
+     "phrase": "automatic exchange",
+     "sentence": "Automatic exchange of bank data with other countries begins next year.",
+     "dimension": "tax_enforcement",
+     "direction": "raises"
+    },
+    {
+     "phrase": "penalties are waived",
+     "sentence": "Late-filing penalties are waived for the next two years.",
+     "dimension": "tax_enforcement",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "anti-avoidance rule",
+     "sentence": "A general anti-avoidance rule lets the agency disregard artificial schemes.",
+     "dimension": "tax_enforcement",
+     "direction": "raises"
+    },
+    {
+     "phrase": "staff cuts",
+     "sentence": "Staff cuts at the revenue agency reduce its capacity to investigate.",
+     "dimension": "tax_enforcement",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "prison sentences",
+     "sentence": "Prison sentences are introduced for serious tax fraud.",
+     "dimension": "tax_enforcement",
+     "direction": "raises"
+    },
+    {
+     "phrase": "voluntary disclosure",
+     "sentence": "Voluntary disclosure carries no fine under the new scheme.",
+     "dimension": "tax_enforcement",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "fiscal year",
+     "sentence": "The measures take effect at the start of the fiscal year.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "treasury",
+     "sentence": "The treasury published its forecast on Tuesday.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "taxpayers",
+     "sentence": "Taxpayers will receive a letter explaining the changes.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "budget",
+     "sentence": "The budget was presented to parliament in March.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "revenue",
+     "sentence": "Revenue is forecast to grow in line with the economy.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "consultation",
+     "sentence": "A consultation on the proposals closes in June.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "schedule",
+     "sentence": "Schedule 3 lists the affected instruments.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "economy",
+     "sentence": "The economy grew by two percent last year.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "households",
+     "sentence": "Households differ widely in their circumstances.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "legislation",
+     "sentence": "The legislation runs to four hundred pages.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "minister",
+     "sentence": "The minister answered questions for an hour.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "forecast",
+     "sentence": "The forecast assumes stable interest rates.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "explanatory notes",
+     "sentence": "Explanatory notes accompany each clause.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "statistics",
+     "sentence": "Official statistics are published quarterly.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "committee",
+     "sentence": "The committee will scrutinise the bill in the autumn.",
+     "dimension": null,
+     "direction": null
+    }
+   ]
+  },
+  "immigration": {
+   "split": "train",
+   "dimensions": [
+    {
+     "name": "admission_levels",
+     "description": "How many people are allowed to come.",
+     "positive_means": "more people admitted; wider legal routes",
+     "negative_means": "fewer admitted; caps and closed routes"
+    },
+    {
+     "name": "border_control",
+     "description": "How strictly borders are policed and removals carried out.",
+     "positive_means": "strict border policing, detention and removals",
+     "negative_means": "light enforcement and few removals"
+    },
+    {
+     "name": "migrant_rights",
+     "description": "The rights and services available to migrants.",
+     "positive_means": "broad access to work, services and legal protection",
+     "negative_means": "restricted access to work and services"
+    },
+    {
+     "name": "path_to_citizenship",
+     "description": "How easily residents can become citizens.",
+     "positive_means": "a short, open route to citizenship",
+     "negative_means": "a long or closed route to citizenship"
+    }
+   ],
+   "items": [
+    {
+     "phrase": "annual cap",
+     "sentence": "An annual cap limits skilled visas to twenty thousand.",
+     "dimension": "admission_levels",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "quota is doubled",
+     "sentence": "The refugee resettlement quota is doubled.",
+     "dimension": "admission_levels",
+     "direction": "raises"
+    },
+    {
+     "phrase": "points-based system",
+     "sentence": "A points-based system raises the bar for entry.",
+     "dimension": "admission_levels",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "family reunification",
+     "sentence": "Family reunification is extended to siblings and grandparents.",
+     "dimension": "admission_levels",
+     "direction": "raises"
+    },
+    {
+     "phrase": "salary threshold",
+     "sentence": "The salary threshold for work visas rises sharply.",
+     "dimension": "admission_levels",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "seasonal worker scheme",
+     "sentence": "The seasonal worker scheme is expanded to forty thousand places.",
+     "dimension": "admission_levels",
+     "direction": "raises"
+    },
+    {
+     "phrase": "visa lottery is ended",
+     "sentence": "The diversity visa lottery is ended.",
+     "dimension": "admission_levels",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "humanitarian corridors",
+     "sentence": "Humanitarian corridors open new legal routes for people fleeing war.",
+     "dimension": "admission_levels",
+     "direction": "raises"
+    },
+    {
+     "phrase": "suspends new applications",
+     "sentence": "The government suspends new applications for student visas.",
+     "dimension": "admission_levels",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "shortage occupation list",
+     "sentence": "The shortage occupation list is widened to admit more care workers.",
+     "dimension": "admission_levels",
+     "direction": "raises"
+    },
+    {
+     "phrase": "net migration target",
+     "sentence": "A net migration target of under one hundred thousand is reinstated.",
+     "dimension": "admission_levels",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "border wall",
+     "sentence": "Funding is approved for a border wall along the southern frontier.",
+     "dimension": "border_control",
+     "direction": "raises"
+    },
+    {
+     "phrase": "deportation flights",
+     "sentence": "Deportation flights will run weekly.",
+     "dimension": "border_control",
+     "direction": "raises"
+    },
+    {
+     "phrase": "detention centres",
+     "sentence": "Two new detention centres will hold people awaiting removal.",
+     "dimension": "border_control",
+     "direction": "raises"
+    },
+    {
+     "phrase": "sanctuary",
+     "sentence": "Sanctuary cities may decline to cooperate with removal orders.",
+     "dimension": "border_control",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "carrier fines",
+     "sentence": "Carrier fines are raised for airlines that board passengers without documents.",
+     "dimension": "border_control",
+     "direction": "raises"
+    },
+    {
+     "phrase": "ends workplace raids",
+     "sentence": "The directive ends workplace raids.",
+     "dimension": "border_control",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "biometric checks",
+     "sentence": "Biometric checks become mandatory at every crossing.",
+     "dimension": "border_control",
+     "direction": "raises"
+    },
+    {
+     "phrase": "moratorium on removals",
+     "sentence": "A moratorium on removals applies during the review.",
+     "dimension": "border_control",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "expedited removal",
+     "sentence": "Expedited removal applies to anyone arriving without a visa.",
+     "dimension": "border_control",
+     "direction": "raises"
+    },
+    {
+     "phrase": "alternatives to detention",
+     "sentence": "Alternatives to detention replace custody for families.",
+     "dimension": "border_control",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "patrol vessels",
+     "sentence": "Additional patrol vessels are deployed in the strait.",
+     "dimension": "border_control",
+     "direction": "raises"
+    },
+    {
+     "phrase": "right to work",
+     "sentence": "Asylum seekers gain the right to work after three months.",
+     "dimension": "migrant_rights",
+     "direction": "raises"
+    },
+    {
+     "phrase": "no recourse to public funds",
+     "sentence": "Visa holders have no recourse to public funds.",
+     "dimension": "migrant_rights",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "legal aid",
+     "sentence": "Legal aid is guaranteed in all removal hearings.",
+     "dimension": "migrant_rights",
+     "direction": "raises"
+    },
+    {
+     "phrase": "health surcharge",
+     "sentence": "A health surcharge is charged to every visa applicant.",
+     "dimension": "migrant_rights",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "access to schooling",
+     "sentence": "All children have access to schooling whatever their status.",
+     "dimension": "migrant_rights",
+     "direction": "raises"
+    },
+    {
+     "phrase": "barred from renting",
+     "sentence": "People without status are barred from renting a home.",
+     "dimension": "migrant_rights",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "right of appeal",
+     "sentence": "A right of appeal applies to every refusal.",
+     "dimension": "migrant_rights",
+     "direction": "raises"
+    },
+    {
+     "phrase": "work ban",
+     "sentence": "A work ban applies to applicants while their claim is pending.",
+     "dimension": "migrant_rights",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "anti-discrimination protections",
+     "sentence": "Anti-discrimination protections are extended to temporary workers.",
+     "dimension": "migrant_rights",
+     "direction": "raises"
+    },
+    {
+     "phrase": "tied to a single employer",
+     "sentence": "Visas are tied to a single employer, who may cancel them.",
+     "dimension": "migrant_rights",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "language classes",
+     "sentence": "Free language classes are offered to all new arrivals.",
+     "dimension": "migrant_rights",
+     "direction": "raises"
+    },
+    {
+     "phrase": "naturalisation",
+     "sentence": "Naturalisation is possible after three years of residence.",
+     "dimension": "path_to_citizenship",
+     "direction": "raises"
+    },
+    {
+     "phrase": "ten-year wait",
+     "sentence": "A ten-year wait applies before any settlement application.",
+     "dimension": "path_to_citizenship",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "regularisation",
+     "sentence": "A regularisation programme grants status to long-term residents.",
+     "dimension": "path_to_citizenship",
+     "direction": "raises"
+    },
+    {
+     "phrase": "citizenship test",
+     "sentence": "A harder citizenship test must be passed in the national language.",
+     "dimension": "path_to_citizenship",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "birthright citizenship",
+     "sentence": "Birthright citizenship is granted to every child born in the country.",
+     "dimension": "path_to_citizenship",
+     "direction": "raises"
+    },
+    {
+     "phrase": "application fee",
+     "sentence": "The application fee for settlement triples.",
+     "dimension": "path_to_citizenship",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "dual nationality",
+     "sentence": "Dual nationality is permitted for the first time.",
+     "dimension": "path_to_citizenship",
+     "direction": "raises"
+    },
+    {
+     "phrase": "revoke citizenship",
+     "sentence": "Ministers may revoke citizenship from naturalised persons.",
+     "dimension": "path_to_citizenship",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "earned settlement",
+     "sentence": "Earned settlement is open to anyone who has worked for five years.",
+     "dimension": "path_to_citizenship",
+     "direction": "raises"
+    },
+    {
+     "phrase": "temporary status only",
+     "sentence": "Protected persons receive temporary status only, with no route to stay.",
+     "dimension": "path_to_citizenship",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "dreamers",
+     "sentence": "Dreamers brought as children may apply for permanent residence.",
+     "dimension": "path_to_citizenship",
+     "direction": "raises"
+    },
+    {
+     "phrase": "home office",
+     "sentence": "The home office handles all applications.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "migration",
+     "sentence": "Migration has shaped the country for centuries.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "statistics",
+     "sentence": "Statistics are released every quarter.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "countries of origin",
+     "sentence": "Countries of origin vary from year to year.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "white paper",
+     "sentence": "The white paper was published in the spring.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "department",
+     "sentence": "The department employs several thousand staff.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "review",
+     "sentence": "An independent review will report next year.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "population",
+     "sentence": "The population has grown steadily.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "applicants",
+     "sentence": "Applicants come from many backgrounds.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "regulations",
+     "sentence": "The regulations come into force in October.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "debate",
+     "sentence": "The debate lasted three hours.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "guidance",
+     "sentence": "Updated guidance is available online.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "section",
+     "sentence": "Section 12 defines the terms used.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "airports",
+     "sentence": "Airports handled record passenger numbers.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "decade",
+     "sentence": "Patterns have shifted over the past decade.",
+     "dimension": null,
+     "direction": null
+    }
+   ]
+  },
+  "education": {
+   "split": "train",
+   "dimensions": [
+    {
+     "name": "school_funding",
+     "description": "How much public money goes to schools and students.",
+     "positive_means": "more public funding per pupil",
+     "negative_means": "funding cuts and higher fees"
+    },
+    {
+     "name": "standardised_accountability",
+     "description": "How far schools are judged by tests and inspections.",
+     "positive_means": "heavy testing, inspection and league tables",
+     "negative_means": "little testing; schools are trusted"
+    },
+    {
+     "name": "school_choice",
+     "description": "How far families can choose, and providers compete.",
+     "positive_means": "wide choice: charters, vouchers and private options",
+     "negative_means": "pupils attend their assigned public school"
+    }
+   ],
+   "items": [
+    {
+     "phrase": "per-pupil funding",
+     "sentence": "Per-pupil funding rises by eight percent.",
+     "dimension": "school_funding",
+     "direction": "raises"
+    },
+    {
+     "phrase": "tuition fees",
+     "sentence": "Tuition fees for universities triple.",
+     "dimension": "school_funding",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "free school meals",
+     "sentence": "Free school meals are extended to all primary pupils.",
+     "dimension": "school_funding",
+     "direction": "raises"
+    },
+    {
+     "phrase": "budget cuts",
+     "sentence": "Budget cuts force schools to reduce staff.",
+     "dimension": "school_funding",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "pupil premium",
+     "sentence": "The pupil premium gives schools extra money for disadvantaged children.",
+     "dimension": "school_funding",
+     "direction": "raises"
+    },
+    {
+     "phrase": "maintenance grants are abolished",
+     "sentence": "Maintenance grants are abolished and replaced by loans.",
+     "dimension": "school_funding",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "capital programme",
+     "sentence": "A capital programme will rebuild five hundred schools.",
+     "dimension": "school_funding",
+     "direction": "raises"
+    },
+    {
+     "phrase": "funding freeze",
+     "sentence": "A funding freeze holds budgets flat for three years.",
+     "dimension": "school_funding",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "teacher pay rise",
+     "sentence": "A fully funded teacher pay rise of six percent is agreed.",
+     "dimension": "school_funding",
+     "direction": "raises"
+    },
+    {
+     "phrase": "parents must pay",
+     "sentence": "Parents must pay for textbooks and materials.",
+     "dimension": "school_funding",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "free childcare",
+     "sentence": "Thirty hours of free childcare are offered from age two.",
+     "dimension": "school_funding",
+     "direction": "raises"
+    },
+    {
+     "phrase": "scholarships are withdrawn",
+     "sentence": "State scholarships are withdrawn from next year.",
+     "dimension": "school_funding",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "smaller class sizes",
+     "sentence": "Money is provided for smaller class sizes in early years.",
+     "dimension": "school_funding",
+     "direction": "raises"
+    },
+    {
+     "phrase": "student loans",
+     "sentence": "Interest on student loans rises above inflation.",
+     "dimension": "school_funding",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "universal pre-school",
+     "sentence": "Universal pre-school is funded for every four-year-old.",
+     "dimension": "school_funding",
+     "direction": "raises"
+    },
+    {
+     "phrase": "national tests",
+     "sentence": "National tests are introduced at ages seven, eleven and fourteen.",
+     "dimension": "standardised_accountability",
+     "direction": "raises"
+    },
+    {
+     "phrase": "league tables",
+     "sentence": "League tables rank every school by exam results.",
+     "dimension": "standardised_accountability",
+     "direction": "raises"
+    },
+    {
+     "phrase": "scraps the tests",
+     "sentence": "The reform scraps the tests for seven-year-olds.",
+     "dimension": "standardised_accountability",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "inspections",
+     "sentence": "Unannounced inspections take place every two years.",
+     "dimension": "standardised_accountability",
+     "direction": "raises"
+    },
+    {
+     "phrase": "teacher assessment",
+     "sentence": "Teacher assessment replaces external exams at sixteen.",
+     "dimension": "standardised_accountability",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "special measures",
+     "sentence": "Failing schools are placed in special measures.",
+     "dimension": "standardised_accountability",
+     "direction": "raises"
+    },
+    {
+     "phrase": "no published rankings",
+     "sentence": "There will be no published rankings of schools.",
+     "dimension": "standardised_accountability",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "performance-related pay",
+     "sentence": "Performance-related pay ties teacher salaries to pupil results.",
+     "dimension": "standardised_accountability",
+     "direction": "raises"
+    },
+    {
+     "phrase": "inspection-free",
+     "sentence": "Schools rated good become inspection-free for six years.",
+     "dimension": "standardised_accountability",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "exit exam",
+     "sentence": "An exit exam must be passed to graduate.",
+     "dimension": "standardised_accountability",
+     "direction": "raises"
+    },
+    {
+     "phrase": "professional judgement",
+     "sentence": "Schools are trusted to use professional judgement instead of set targets.",
+     "dimension": "standardised_accountability",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "attainment targets",
+     "sentence": "Binding attainment targets are set for every district.",
+     "dimension": "standardised_accountability",
+     "direction": "raises"
+    },
+    {
+     "phrase": "moratorium on testing",
+     "sentence": "A moratorium on testing applies for two years.",
+     "dimension": "standardised_accountability",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "baseline assessment",
+     "sentence": "A baseline assessment is required in the first weeks of school.",
+     "dimension": "standardised_accountability",
+     "direction": "raises"
+    },
+    {
+     "phrase": "portfolio",
+     "sentence": "A portfolio of coursework replaces the final examination.",
+     "dimension": "standardised_accountability",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "vouchers",
+     "sentence": "Vouchers let parents spend public money at private schools.",
+     "dimension": "school_choice",
+     "direction": "raises"
+    },
+    {
+     "phrase": "charter schools",
+     "sentence": "The cap on charter schools is lifted.",
+     "dimension": "school_choice",
+     "direction": "raises"
+    },
+    {
+     "phrase": "catchment areas",
+     "sentence": "Strict catchment areas assign each child to the nearest school.",
+     "dimension": "school_choice",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "open enrolment",
+     "sentence": "Open enrolment lets families apply to any school in the state.",
+     "dimension": "school_choice",
+     "direction": "raises"
+    },
+    {
+     "phrase": "ban on new academies",
+     "sentence": "A ban on new academies takes effect immediately.",
+     "dimension": "school_choice",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "education savings accounts",
+     "sentence": "Education savings accounts fund tutoring and private tuition.",
+     "dimension": "school_choice",
+     "direction": "raises"
+    },
+    {
+     "phrase": "selective admission is ended",
+     "sentence": "Selective admission is ended in all state schools.",
+     "dimension": "school_choice",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "free schools",
+     "sentence": "Parents and charities may set up free schools.",
+     "dimension": "school_choice",
+     "direction": "raises"
+    },
+    {
+     "phrase": "returned to local authority control",
+     "sentence": "Independent state schools are returned to local authority control.",
+     "dimension": "school_choice",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "tax credit for private tuition",
+     "sentence": "A tax credit for private tuition is offered to families.",
+     "dimension": "school_choice",
+     "direction": "raises"
+    },
+    {
+     "phrase": "assigned school",
+     "sentence": "Every pupil attends the assigned school for their district.",
+     "dimension": "school_choice",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "home schooling",
+     "sentence": "Home schooling is recognised and supported with grants.",
+     "dimension": "school_choice",
+     "direction": "raises"
+    },
+    {
+     "phrase": "private schools lose",
+     "sentence": "Private schools lose their charitable status.",
+     "dimension": "school_choice",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "magnet programmes",
+     "sentence": "Magnet programmes accept pupils from across the city.",
+     "dimension": "school_choice",
+     "direction": "raises"
+    },
+    {
+     "phrase": "single comprehensive system",
+     "sentence": "The plan creates a single comprehensive system with no opt-outs.",
+     "dimension": "school_choice",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "curriculum",
+     "sentence": "The curriculum is reviewed every ten years.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "teachers",
+     "sentence": "Teachers were consulted during the review.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "pupils",
+     "sentence": "Pupils return to school in September.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "ministry",
+     "sentence": "The ministry published its annual report.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "academic year",
+     "sentence": "The changes begin in the next academic year.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "stakeholders",
+     "sentence": "Stakeholders responded to the consultation.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "classrooms",
+     "sentence": "Classrooms vary in size and condition.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "districts",
+     "sentence": "Districts differ in population.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "parents",
+     "sentence": "Parents receive a newsletter each term.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "framework",
+     "sentence": "The framework sets out general aims.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "green paper",
+     "sentence": "The green paper invites comments.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "learning",
+     "sentence": "Learning takes many forms.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "buildings",
+     "sentence": "Many buildings date from the 1960s.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "commission",
+     "sentence": "A commission will report in two years.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "timetable",
+     "sentence": "The timetable for implementation is set out in annex B.",
+     "dimension": null,
+     "direction": null
+    }
+   ]
+  },
+  "housing": {
+   "split": "train",
+   "dimensions": [
+    {
+     "name": "rent_regulation",
+     "description": "How far rents and evictions are controlled.",
+     "positive_means": "strong rent controls and tenant protection",
+     "negative_means": "rents and evictions left to landlords"
+    },
+    {
+     "name": "public_housing",
+     "description": "The state's role in providing homes.",
+     "positive_means": "the state builds and funds social housing",
+     "negative_means": "social housing is sold off or unfunded"
+    },
+    {
+     "name": "planning_liberalisation",
+     "description": "How easy it is to get permission to build.",
+     "positive_means": "loose planning rules; building is easy",
+     "negative_means": "tight planning rules; building is hard"
+    },
+    {
+     "name": "homeownership_support",
+     "description": "Help for people buying a home.",
+     "positive_means": "subsidies and relief for buyers",
+     "negative_means": "no help for buyers"
+    },
+    {
+     "name": "property_speculation_curbs",
+     "description": "Measures against empty homes and speculative buying.",
+     "positive_means": "taxes and bans on speculation and vacant homes",
+     "negative_means": "no limits on investment buying"
+    }
+   ],
+   "items": [
+    {
+     "phrase": "rent cap",
+     "sentence": "A rent cap limits increases to two percent a year.",
+     "dimension": "rent_regulation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "no-fault evictions",
+     "sentence": "No-fault evictions are banned.",
+     "dimension": "rent_regulation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "decontrol",
+     "sentence": "Vacancy decontrol lets landlords reset the rent between tenants.",
+     "dimension": "rent_regulation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "rent freeze",
+     "sentence": "A rent freeze applies for the next twelve months.",
+     "dimension": "rent_regulation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "market rents",
+     "sentence": "Landlords may charge market rents without restriction.",
+     "dimension": "rent_regulation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "indefinite tenancies",
+     "sentence": "Indefinite tenancies replace fixed-term contracts.",
+     "dimension": "rent_regulation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "eviction notice period is shortened",
+     "sentence": "The eviction notice period is shortened to two weeks.",
+     "dimension": "rent_regulation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "rent tribunal",
+     "sentence": "A rent tribunal may order excessive rents to be reduced.",
+     "dimension": "rent_regulation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "repeals rent stabilisation",
+     "sentence": "The act repeals rent stabilisation in the capital.",
+     "dimension": "rent_regulation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "council homes",
+     "sentence": "Fifty thousand council homes will be built each year.",
+     "dimension": "public_housing",
+     "direction": "raises"
+    },
+    {
+     "phrase": "right to buy",
+     "sentence": "Right to buy lets tenants purchase their social home at a discount.",
+     "dimension": "public_housing",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "social housing grant",
+     "sentence": "The social housing grant is doubled.",
+     "dimension": "public_housing",
+     "direction": "raises"
+    },
+    {
+     "phrase": "stock transfer",
+     "sentence": "Stock transfer hands public estates to private owners.",
+     "dimension": "public_housing",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "housing associations",
+     "sentence": "Housing associations receive funds for new affordable homes.",
+     "dimension": "public_housing",
+     "direction": "raises"
+    },
+    {
+     "phrase": "demolition of estates",
+     "sentence": "The demolition of estates proceeds without replacement.",
+     "dimension": "public_housing",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "public land",
+     "sentence": "Public land is reserved for homes at social rent.",
+     "dimension": "public_housing",
+     "direction": "raises"
+    },
+    {
+     "phrase": "grant is cut",
+     "sentence": "The affordable homes grant is cut by half.",
+     "dimension": "public_housing",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "municipal builder",
+     "sentence": "A municipal builder is set up to construct homes directly.",
+     "dimension": "public_housing",
+     "direction": "raises"
+    },
+    {
+     "phrase": "upzoning",
+     "sentence": "Upzoning allows apartment blocks near every station.",
+     "dimension": "planning_liberalisation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "green belt",
+     "sentence": "Green belt protections are strengthened against new estates.",
+     "dimension": "planning_liberalisation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "permitted development",
+     "sentence": "Permitted development lets offices become flats without permission.",
+     "dimension": "planning_liberalisation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "height limits",
+     "sentence": "New height limits restrict buildings to four storeys.",
+     "dimension": "planning_liberalisation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "fast-track approval",
+     "sentence": "Fast-track approval is given to schemes that meet the design code.",
+     "dimension": "planning_liberalisation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "heritage designation",
+     "sentence": "Wider heritage designation blocks redevelopment of older districts.",
+     "dimension": "planning_liberalisation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "minimum lot sizes are abolished",
+     "sentence": "Minimum lot sizes are abolished statewide.",
+     "dimension": "planning_liberalisation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "local veto",
+     "sentence": "A local veto lets residents reject any new development.",
+     "dimension": "planning_liberalisation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "by-right",
+     "sentence": "Housing that complies with the plan is approved by-right.",
+     "dimension": "planning_liberalisation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "help to buy",
+     "sentence": "Help to buy offers equity loans to first-time purchasers.",
+     "dimension": "homeownership_support",
+     "direction": "raises"
+    },
+    {
+     "phrase": "stamp duty relief",
+     "sentence": "Stamp duty relief applies to first homes.",
+     "dimension": "homeownership_support",
+     "direction": "raises"
+    },
+    {
+     "phrase": "mortgage interest deduction is ended",
+     "sentence": "The mortgage interest deduction is ended.",
+     "dimension": "homeownership_support",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "deposit guarantee",
+     "sentence": "A deposit guarantee lets buyers borrow with five percent down.",
+     "dimension": "homeownership_support",
+     "direction": "raises"
+    },
+    {
+     "phrase": "buyer subsidies are withdrawn",
+     "sentence": "Buyer subsidies are withdrawn in the spending review.",
+     "dimension": "homeownership_support",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "shared ownership",
+     "sentence": "Shared ownership lets households buy a part of a home.",
+     "dimension": "homeownership_support",
+     "direction": "raises"
+    },
+    {
+     "phrase": "no assistance for purchasers",
+     "sentence": "The plan offers no assistance for purchasers.",
+     "dimension": "homeownership_support",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "first-time buyer grant",
+     "sentence": "A first-time buyer grant of ten thousand is paid.",
+     "dimension": "homeownership_support",
+     "direction": "raises"
+    },
+    {
+     "phrase": "savings bonus is scrapped",
+     "sentence": "The home savings bonus is scrapped.",
+     "dimension": "homeownership_support",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "empty homes tax",
+     "sentence": "An empty homes tax doubles the charge on vacant property.",
+     "dimension": "property_speculation_curbs",
+     "direction": "raises"
+    },
+    {
+     "phrase": "foreign buyer ban",
+     "sentence": "A foreign buyer ban applies to residential property.",
+     "dimension": "property_speculation_curbs",
+     "direction": "raises"
+    },
+    {
+     "phrase": "second-home surcharge",
+     "sentence": "A second-home surcharge is added to local taxes.",
+     "dimension": "property_speculation_curbs",
+     "direction": "raises"
+    },
+    {
+     "phrase": "no restrictions on investors",
+     "sentence": "There are no restrictions on investors buying entire developments.",
+     "dimension": "property_speculation_curbs",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "short-term lets",
+     "sentence": "Short-term lets are limited to ninety nights a year.",
+     "dimension": "property_speculation_curbs",
+     "direction": "raises"
+    },
+    {
+     "phrase": "flipping tax",
+     "sentence": "A flipping tax applies to homes resold within a year.",
+     "dimension": "property_speculation_curbs",
+     "direction": "raises"
+    },
+    {
+     "phrase": "tax break for landlords",
+     "sentence": "A tax break for landlords encourages buy-to-let purchases.",
+     "dimension": "property_speculation_curbs",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "vacancy levy is repealed",
+     "sentence": "The vacancy levy is repealed.",
+     "dimension": "property_speculation_curbs",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "bulk purchases",
+     "sentence": "Bulk purchases by investment funds are capped.",
+     "dimension": "property_speculation_curbs",
+     "direction": "raises"
+    },
+    {
+     "phrase": "households",
+     "sentence": "Households are forming later than before.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "local authorities",
+     "sentence": "Local authorities publish annual statements.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "census",
+     "sentence": "The census records the number of dwellings.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "strategy",
+     "sentence": "This strategy covers ten years.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "regions",
+     "sentence": "Regions face different pressures.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "minister",
+     "sentence": "The minister visited three sites.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "neighbourhoods",
+     "sentence": "Neighbourhoods change over time.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "statistics",
+     "sentence": "Statistics on completions appear monthly.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "appendix",
+     "sentence": "Appendix C lists the consultees.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "population growth",
+     "sentence": "Population growth has slowed.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "report",
+     "sentence": "The report was commissioned in 2024.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "stakeholders",
+     "sentence": "Stakeholders met in January.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "architecture",
+     "sentence": "Architecture reflects the period of construction.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "department",
+     "sentence": "The department was reorganised last year.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "timetable",
+     "sentence": "The timetable is set out below.",
+     "dimension": null,
+     "direction": null
+    }
+   ]
+  },
+  "labour": {
+   "split": "train",
+   "dimensions": [
+    {
+     "name": "minimum_wage",
+     "description": "The legal wage floor.",
+     "positive_means": "a higher and broader minimum wage",
+     "negative_means": "a low, frozen or absent minimum wage"
+    },
+    {
+     "name": "job_security",
+     "description": "How hard it is to dismiss workers.",
+     "positive_means": "strong protection against dismissal",
+     "negative_means": "easy hiring and firing"
+    },
+    {
+     "name": "union_power",
+     "description": "The legal strength of trade unions.",
+     "positive_means": "strong collective bargaining and strike rights",
+     "negative_means": "restricted unions and strikes"
+    },
+    {
+     "name": "working_time",
+     "description": "Limits on hours and rights to leave.",
+     "positive_means": "shorter hours and generous leave",
+     "negative_means": "long hours and little leave"
+    },
+    {
+     "name": "gig_worker_status",
+     "description": "Whether platform and casual workers count as employees.",
+     "positive_means": "gig workers get employee rights",
+     "negative_means": "gig workers are independent contractors"
+    },
+    {
+     "name": "unemployment_support",
+     "description": "Income support for people out of work.",
+     "positive_means": "generous, long-lasting benefits",
+     "negative_means": "low, short or conditional benefits"
+    }
+   ],
+   "items": [
+    {
+     "phrase": "living wage",
+     "sentence": "A statutory living wage replaces the old minimum.",
+     "dimension": "minimum_wage",
+     "direction": "raises"
+    },
+    {
+     "phrase": "youth rate",
+     "sentence": "A lower youth rate applies to workers under twenty-one.",
+     "dimension": "minimum_wage",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "indexed to inflation",
+     "sentence": "The wage floor is indexed to inflation each April.",
+     "dimension": "minimum_wage",
+     "direction": "raises"
+    },
+    {
+     "phrase": "wage floor is frozen",
+     "sentence": "The wage floor is frozen for three years.",
+     "dimension": "minimum_wage",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "fifteen an hour",
+     "sentence": "The minimum rises to fifteen an hour by 2027.",
+     "dimension": "minimum_wage",
+     "direction": "raises"
+    },
+    {
+     "phrase": "tipped workers",
+     "sentence": "Tipped workers may be paid below the standard minimum.",
+     "dimension": "minimum_wage",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "sectoral minimums",
+     "sentence": "Sectoral minimums set higher pay floors in care and retail.",
+     "dimension": "minimum_wage",
+     "direction": "raises"
+    },
+    {
+     "phrase": "exempts small firms",
+     "sentence": "The law exempts small firms from the wage floor.",
+     "dimension": "minimum_wage",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "unfair dismissal",
+     "sentence": "Protection from unfair dismissal starts on the first day of work.",
+     "dimension": "job_security",
+     "direction": "raises"
+    },
+    {
+     "phrase": "at-will employment",
+     "sentence": "At-will employment lets employers dismiss staff without giving a reason.",
+     "dimension": "job_security",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "severance pay",
+     "sentence": "Severance pay of one month per year of service is mandatory.",
+     "dimension": "job_security",
+     "direction": "raises"
+    },
+    {
+     "phrase": "probation period is extended",
+     "sentence": "The probation period is extended to two years.",
+     "dimension": "job_security",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "notice period",
+     "sentence": "A longer notice period of three months protects long-serving staff.",
+     "dimension": "job_security",
+     "direction": "raises"
+    },
+    {
+     "phrase": "fire and rehire",
+     "sentence": "Fire and rehire remains lawful under the bill.",
+     "dimension": "job_security",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "redundancy consultation",
+     "sentence": "Redundancy consultation with staff is required before any layoffs.",
+     "dimension": "job_security",
+     "direction": "raises"
+    },
+    {
+     "phrase": "cap on compensation",
+     "sentence": "A cap on compensation limits tribunal awards to six months' pay.",
+     "dimension": "job_security",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "collective bargaining",
+     "sentence": "Collective bargaining is extended to whole sectors.",
+     "dimension": "union_power",
+     "direction": "raises"
+    },
+    {
+     "phrase": "strike ballots",
+     "sentence": "Strike ballots need a turnout of at least half the members.",
+     "dimension": "union_power",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "right to strike",
+     "sentence": "The right to strike is written into the constitution.",
+     "dimension": "union_power",
+     "direction": "raises"
+    },
+    {
+     "phrase": "minimum service levels",
+     "sentence": "Minimum service levels must be kept during transport strikes.",
+     "dimension": "union_power",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "union recognition",
+     "sentence": "Union recognition is automatic once a majority of staff sign up.",
+     "dimension": "union_power",
+     "direction": "raises"
+    },
+    {
+     "phrase": "right-to-work law",
+     "sentence": "A right-to-work law bans compulsory union dues.",
+     "dimension": "union_power",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "workplace access",
+     "sentence": "Organisers gain workplace access to meet employees.",
+     "dimension": "union_power",
+     "direction": "raises"
+    },
+    {
+     "phrase": "agency staff may replace strikers",
+     "sentence": "Agency staff may replace strikers under the new rules.",
+     "dimension": "union_power",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "four-day week",
+     "sentence": "A four-day week is piloted across the public sector.",
+     "dimension": "working_time",
+     "direction": "raises"
+    },
+    {
+     "phrase": "opt-out",
+     "sentence": "Staff may sign an opt-out from the weekly hours limit.",
+     "dimension": "working_time",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "paid parental leave",
+     "sentence": "Paid parental leave is extended to twelve months.",
+     "dimension": "working_time",
+     "direction": "raises"
+    },
+    {
+     "phrase": "overtime threshold",
+     "sentence": "The overtime threshold rises, so fewer workers qualify for extra pay.",
+     "dimension": "working_time",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "right to disconnect",
+     "sentence": "A right to disconnect bars emails outside working hours.",
+     "dimension": "working_time",
+     "direction": "raises"
+    },
+    {
+     "phrase": "sunday trading",
+     "sentence": "Sunday trading restrictions are lifted.",
+     "dimension": "working_time",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "statutory sick pay",
+     "sentence": "Statutory sick pay is payable from the first day of illness.",
+     "dimension": "working_time",
+     "direction": "raises"
+    },
+    {
+     "phrase": "holiday entitlement is reduced",
+     "sentence": "Holiday entitlement is reduced to the legal minimum.",
+     "dimension": "working_time",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "presumption of employment",
+     "sentence": "A presumption of employment applies to platform couriers.",
+     "dimension": "gig_worker_status",
+     "direction": "raises"
+    },
+    {
+     "phrase": "independent contractors",
+     "sentence": "Drivers are classed as independent contractors by statute.",
+     "dimension": "gig_worker_status",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "zero-hours contracts",
+     "sentence": "Zero-hours contracts are banned.",
+     "dimension": "gig_worker_status",
+     "direction": "raises"
+    },
+    {
+     "phrase": "third category",
+     "sentence": "A third category of worker gets flexibility without employee rights.",
+     "dimension": "gig_worker_status",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "guaranteed hours",
+     "sentence": "Casual staff gain a right to guaranteed hours after twelve weeks.",
+     "dimension": "gig_worker_status",
+     "direction": "raises"
+    },
+    {
+     "phrase": "platform exemption",
+     "sentence": "A platform exemption removes app companies from employment law.",
+     "dimension": "gig_worker_status",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "holiday pay for couriers",
+     "sentence": "Holiday pay for couriers is made mandatory.",
+     "dimension": "gig_worker_status",
+     "direction": "raises"
+    },
+    {
+     "phrase": "self-employed by default",
+     "sentence": "App workers are treated as self-employed by default.",
+     "dimension": "gig_worker_status",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "replacement rate",
+     "sentence": "The replacement rate of benefits rises to seventy percent of past wages.",
+     "dimension": "unemployment_support",
+     "direction": "raises"
+    },
+    {
+     "phrase": "benefit sanctions",
+     "sentence": "Benefit sanctions stop payments to claimants who miss appointments.",
+     "dimension": "unemployment_support",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "duration of benefits is extended",
+     "sentence": "The duration of benefits is extended to two years.",
+     "dimension": "unemployment_support",
+     "direction": "raises"
+    },
+    {
+     "phrase": "waiting days",
+     "sentence": "Five waiting days apply before any payment is made.",
+     "dimension": "unemployment_support",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "short-time work scheme",
+     "sentence": "A short-time work scheme tops up wages when hours are cut.",
+     "dimension": "unemployment_support",
+     "direction": "raises"
+    },
+    {
+     "phrase": "workfare",
+     "sentence": "Workfare requires unpaid placements in return for benefits.",
+     "dimension": "unemployment_support",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "job guarantee",
+     "sentence": "A job guarantee offers paid work to the long-term unemployed.",
+     "dimension": "unemployment_support",
+     "direction": "raises"
+    },
+    {
+     "phrase": "benefit cap",
+     "sentence": "A benefit cap limits total payments to any household.",
+     "dimension": "unemployment_support",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "workforce",
+     "sentence": "The workforce has aged over two decades.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "employers",
+     "sentence": "Employers were surveyed in the spring.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "labour market",
+     "sentence": "The labour market changes with technology.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "statistics",
+     "sentence": "Statistics are published each month.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "ministry",
+     "sentence": "The ministry will issue guidance.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "sectors",
+     "sentence": "Sectors vary in size.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "review",
+     "sentence": "A review is due in three years.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "productivity",
+     "sentence": "Productivity is measured per hour worked.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "consultation",
+     "sentence": "The consultation received many responses.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "regions",
+     "sentence": "Regions have different industries.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "clause",
+     "sentence": "Clause 9 gives definitions.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "economy",
+     "sentence": "The economy employs thirty million people.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "commencement",
+     "sentence": "Commencement is by ministerial order.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "occupations",
+     "sentence": "Occupations are classified by code.",
+     "dimension": null,
+     "direction": null
+    }
+   ]
+  },
+  "trade": {
+   "split": "train",
+   "dimensions": [
+    {
+     "name": "tariff_protection",
+     "description": "Taxes and limits on imported goods.",
+     "positive_means": "high tariffs and quotas protecting domestic producers",
+     "negative_means": "low tariffs and open markets"
+    },
+    {
+     "name": "standards_in_agreements",
+     "description": "Whether trade deals carry labour and environmental conditions.",
+     "positive_means": "binding labour and environmental conditions in deals",
+     "negative_means": "deals without such conditions"
+    },
+    {
+     "name": "export_promotion",
+     "description": "State support for exporters.",
+     "positive_means": "active state support for exporters",
+     "negative_means": "no state support for exporters"
+    }
+   ],
+   "items": [
+    {
+     "phrase": "import tariffs",
+     "sentence": "Import tariffs on steel rise to twenty-five percent.",
+     "dimension": "tariff_protection",
+     "direction": "raises"
+    },
+    {
+     "phrase": "free trade agreement",
+     "sentence": "A free trade agreement removes duties on most goods.",
+     "dimension": "tariff_protection",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "anti-dumping duties",
+     "sentence": "Anti-dumping duties are imposed on cheap solar panels.",
+     "dimension": "tariff_protection",
+     "direction": "raises"
+    },
+    {
+     "phrase": "tariff-free access",
+     "sentence": "Developing countries gain tariff-free access to the market.",
+     "dimension": "tariff_protection",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "import quotas",
+     "sentence": "Import quotas limit foreign beef to a fixed tonnage.",
+     "dimension": "tariff_protection",
+     "direction": "raises"
+    },
+    {
+     "phrase": "unilateral liberalisation",
+     "sentence": "Unilateral liberalisation cuts duties to zero on components.",
+     "dimension": "tariff_protection",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "safeguard measures",
+     "sentence": "Safeguard measures shield the domestic car industry from a surge of imports.",
+     "dimension": "tariff_protection",
+     "direction": "raises"
+    },
+    {
+     "phrase": "customs union",
+     "sentence": "Joining the customs union abolishes border duties with neighbours.",
+     "dimension": "tariff_protection",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "buy-national rules",
+     "sentence": "Buy-national rules reserve public contracts for domestic suppliers.",
+     "dimension": "tariff_protection",
+     "direction": "raises"
+    },
+    {
+     "phrase": "duties are eliminated",
+     "sentence": "Duties are eliminated on medical equipment.",
+     "dimension": "tariff_protection",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "local content requirements",
+     "sentence": "Local content requirements oblige carmakers to source parts at home.",
+     "dimension": "tariff_protection",
+     "direction": "raises"
+    },
+    {
+     "phrase": "mutual recognition",
+     "sentence": "Mutual recognition lets goods approved abroad be sold without further checks.",
+     "dimension": "tariff_protection",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "retaliatory tariffs",
+     "sentence": "Retaliatory tariffs are placed on whisky and motorcycles.",
+     "dimension": "tariff_protection",
+     "direction": "raises"
+    },
+    {
+     "phrase": "zero-for-zero",
+     "sentence": "A zero-for-zero deal scraps duties on industrial goods on both sides.",
+     "dimension": "tariff_protection",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "infant industry",
+     "sentence": "Infant industry protection keeps foreign competitors out for ten years.",
+     "dimension": "tariff_protection",
+     "direction": "raises"
+    },
+    {
+     "phrase": "labour chapter",
+     "sentence": "An enforceable labour chapter lets unions bring complaints under the deal.",
+     "dimension": "standards_in_agreements",
+     "direction": "raises"
+    },
+    {
+     "phrase": "no binding commitments",
+     "sentence": "The text contains no binding commitments on workers' rights.",
+     "dimension": "standards_in_agreements",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "deforestation clause",
+     "sentence": "A deforestation clause suspends preferences if forests are cleared.",
+     "dimension": "standards_in_agreements",
+     "direction": "raises"
+    },
+    {
+     "phrase": "side letter",
+     "sentence": "Environmental matters are left to a non-binding side letter.",
+     "dimension": "standards_in_agreements",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "forced labour ban",
+     "sentence": "A forced labour ban blocks imports made with coerced work.",
+     "dimension": "standards_in_agreements",
+     "direction": "raises"
+    },
+    {
+     "phrase": "standards are excluded",
+     "sentence": "Labour standards are excluded from the scope of the agreement.",
+     "dimension": "standards_in_agreements",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "sanctions for violations",
+     "sentence": "Sanctions for violations of climate pledges are built into the treaty.",
+     "dimension": "standards_in_agreements",
+     "direction": "raises"
+    },
+    {
+     "phrase": "aspirational language",
+     "sentence": "The sustainability section uses only aspirational language.",
+     "dimension": "standards_in_agreements",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "due diligence",
+     "sentence": "Supply chain due diligence on human rights is mandatory for importers.",
+     "dimension": "standards_in_agreements",
+     "direction": "raises"
+    },
+    {
+     "phrase": "investor arbitration",
+     "sentence": "Investor arbitration lets firms challenge new environmental rules.",
+     "dimension": "standards_in_agreements",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "core conventions",
+     "sentence": "Partners must ratify the core conventions of the labour organisation.",
+     "dimension": "standards_in_agreements",
+     "direction": "raises"
+    },
+    {
+     "phrase": "regulatory chill",
+     "sentence": "Critics warn the deal creates a regulatory chill and binds no one on standards.",
+     "dimension": "standards_in_agreements",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "rapid response mechanism",
+     "sentence": "A rapid response mechanism investigates factories that deny union rights.",
+     "dimension": "standards_in_agreements",
+     "direction": "raises"
+    },
+    {
+     "phrase": "purely commercial",
+     "sentence": "The agreement is purely commercial and omits social clauses.",
+     "dimension": "standards_in_agreements",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "animal welfare conditions",
+     "sentence": "Animal welfare conditions apply to all imported meat under the pact.",
+     "dimension": "standards_in_agreements",
+     "direction": "raises"
+    },
+    {
+     "phrase": "export credit",
+     "sentence": "Export credit guarantees back sales to risky markets.",
+     "dimension": "export_promotion",
+     "direction": "raises"
+    },
+    {
+     "phrase": "trade missions",
+     "sentence": "Trade missions led by ministers promote national firms abroad.",
+     "dimension": "export_promotion",
+     "direction": "raises"
+    },
+    {
+     "phrase": "agency is closed",
+     "sentence": "The export promotion agency is closed.",
+     "dimension": "export_promotion",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "export subsidies",
+     "sentence": "Export subsidies are paid on each tonne of grain shipped.",
+     "dimension": "export_promotion",
+     "direction": "raises"
+    },
+    {
+     "phrase": "no public support",
+     "sentence": "Exporters receive no public support under the new policy.",
+     "dimension": "export_promotion",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "trade finance",
+     "sentence": "Cheap trade finance is offered to small exporters.",
+     "dimension": "export_promotion",
+     "direction": "raises"
+    },
+    {
+     "phrase": "grants are ended",
+     "sentence": "Overseas marketing grants are ended.",
+     "dimension": "export_promotion",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "commercial attaches",
+     "sentence": "More commercial attaches are posted to embassies.",
+     "dimension": "export_promotion",
+     "direction": "raises"
+    },
+    {
+     "phrase": "guarantee scheme is wound up",
+     "sentence": "The export guarantee scheme is wound up.",
+     "dimension": "export_promotion",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "free zones",
+     "sentence": "Free zones give exporters relief from duties and taxes.",
+     "dimension": "export_promotion",
+     "direction": "raises"
+    },
+    {
+     "phrase": "leaves exporters to the market",
+     "sentence": "The white paper leaves exporters to the market.",
+     "dimension": "export_promotion",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "export insurance",
+     "sentence": "State export insurance covers losses from non-payment.",
+     "dimension": "export_promotion",
+     "direction": "raises"
+    },
+    {
+     "phrase": "budget for promotion is cut",
+     "sentence": "The budget for promotion is cut to zero.",
+     "dimension": "export_promotion",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "trade fairs",
+     "sentence": "Firms are funded to attend trade fairs overseas.",
+     "dimension": "export_promotion",
+     "direction": "raises"
+    },
+    {
+     "phrase": "state aid is prohibited",
+     "sentence": "State aid is prohibited for exporting firms.",
+     "dimension": "export_promotion",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "ports",
+     "sentence": "Ports handled more containers last year.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "negotiations",
+     "sentence": "Negotiations began in Geneva.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "partners",
+     "sentence": "Trading partners differ in size.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "goods",
+     "sentence": "Goods cross the border daily.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "ministry",
+     "sentence": "The ministry leads the talks.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "annex",
+     "sentence": "Annex 4 lists product codes.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "currency",
+     "sentence": "The currency was stable through the year.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "statistics",
+     "sentence": "Statistics are compiled by customs.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "delegation",
+     "sentence": "The delegation returned on Friday.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "ratification",
+     "sentence": "Ratification requires a vote in parliament.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "shipping",
+     "sentence": "Shipping times vary by route.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "rounds",
+     "sentence": "Several rounds of talks were held.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "chapter",
+     "sentence": "Chapter 1 contains general provisions.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "businesses",
+     "sentence": "Businesses were briefed on the outcome.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "summit",
+     "sentence": "The summit ended without a statement.",
+     "dimension": null,
+     "direction": null
+    }
+   ]
+  },
+  "energy_markets": {
+   "split": "train",
+   "dimensions": [
+    {
+     "name": "price_regulation",
+     "description": "Whether the state sets or caps energy prices.",
+     "positive_means": "prices are capped or set by the state",
+     "negative_means": "prices are set by the market"
+    },
+    {
+     "name": "public_ownership",
+     "description": "Who owns generators, grids and suppliers.",
+     "positive_means": "the state owns energy assets",
+     "negative_means": "energy assets are privately owned"
+    },
+    {
+     "name": "market_competition",
+     "description": "How open the sector is to rival firms.",
+     "positive_means": "many competing firms; unbundled monopolies",
+     "negative_means": "protected monopolies and barriers to entry"
+    },
+    {
+     "name": "supply_security",
+     "description": "Measures to guarantee that supply does not fail.",
+     "positive_means": "reserves, capacity payments and stockpiles",
+     "negative_means": "no reserves; reliance on spot supply"
+    }
+   ],
+   "items": [
+    {
+     "phrase": "price cap",
+     "sentence": "A price cap limits household bills.",
+     "dimension": "price_regulation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "regulated tariff",
+     "sentence": "A regulated tariff is set each quarter by the watchdog.",
+     "dimension": "price_regulation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "price controls are lifted",
+     "sentence": "Price controls are lifted for all customers.",
+     "dimension": "price_regulation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "social tariff",
+     "sentence": "A social tariff gives a fixed low rate to poorer households.",
+     "dimension": "price_regulation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "wholesale prices",
+     "sentence": "Bills will follow wholesale prices without intervention.",
+     "dimension": "price_regulation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "ceiling on margins",
+     "sentence": "A ceiling on margins limits supplier profits.",
+     "dimension": "price_regulation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "deregulated rates",
+     "sentence": "Deregulated rates let suppliers charge what the market will bear.",
+     "dimension": "price_regulation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "tariff freeze",
+     "sentence": "A tariff freeze holds electricity prices until 2028.",
+     "dimension": "price_regulation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "dynamic pricing",
+     "sentence": "Dynamic pricing passes hourly market costs straight to consumers.",
+     "dimension": "price_regulation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "maximum resale price",
+     "sentence": "A maximum resale price applies to bottled gas.",
+     "dimension": "price_regulation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "cap is abolished",
+     "sentence": "The default tariff cap is abolished.",
+     "dimension": "price_regulation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "nationalisation",
+     "sentence": "Nationalisation of the transmission grid is completed.",
+     "dimension": "public_ownership",
+     "direction": "raises"
+    },
+    {
+     "phrase": "privatisation",
+     "sentence": "Privatisation of the state generator raises two billion.",
+     "dimension": "public_ownership",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "public energy company",
+     "sentence": "A public energy company will build wind farms.",
+     "dimension": "public_ownership",
+     "direction": "raises"
+    },
+    {
+     "phrase": "stake is sold",
+     "sentence": "The government's stake is sold to pension funds.",
+     "dimension": "public_ownership",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "municipal utilities",
+     "sentence": "Cities may set up municipal utilities to supply power.",
+     "dimension": "public_ownership",
+     "direction": "raises"
+    },
+    {
+     "phrase": "concession",
+     "sentence": "A thirty-year concession hands the network to a private operator.",
+     "dimension": "public_ownership",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "taken into public hands",
+     "sentence": "The failed supplier is taken into public hands.",
+     "dimension": "public_ownership",
+     "direction": "raises"
+    },
+    {
+     "phrase": "flotation",
+     "sentence": "A stock market flotation transfers the gas company to investors.",
+     "dimension": "public_ownership",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "golden share",
+     "sentence": "A golden share gives the state control over strategic decisions.",
+     "dimension": "public_ownership",
+     "direction": "raises"
+    },
+    {
+     "phrase": "divest",
+     "sentence": "The state will divest its remaining power stations.",
+     "dimension": "public_ownership",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "state buys back",
+     "sentence": "The state buys back the distribution network.",
+     "dimension": "public_ownership",
+     "direction": "raises"
+    },
+    {
+     "phrase": "unbundling",
+     "sentence": "Unbundling separates the grid from the companies that sell power.",
+     "dimension": "market_competition",
+     "direction": "raises"
+    },
+    {
+     "phrase": "exclusive licence",
+     "sentence": "An exclusive licence gives one firm the whole region.",
+     "dimension": "market_competition",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "switching",
+     "sentence": "Faster switching lets customers change supplier in a day.",
+     "dimension": "market_competition",
+     "direction": "raises"
+    },
+    {
+     "phrase": "incumbent",
+     "sentence": "The incumbent keeps its statutory monopoly on supply.",
+     "dimension": "market_competition",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "third-party access",
+     "sentence": "Third-party access opens pipelines to rival shippers.",
+     "dimension": "market_competition",
+     "direction": "raises"
+    },
+    {
+     "phrase": "barriers to entry",
+     "sentence": "New licensing fees raise barriers to entry for small suppliers.",
+     "dimension": "market_competition",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "market opening",
+     "sentence": "Full market opening lets households choose among suppliers.",
+     "dimension": "market_competition",
+     "direction": "raises"
+    },
+    {
+     "phrase": "merger is approved",
+     "sentence": "A merger is approved that leaves two generators controlling the market.",
+     "dimension": "market_competition",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "power exchange",
+     "sentence": "A power exchange lets any producer sell electricity openly.",
+     "dimension": "market_competition",
+     "direction": "raises"
+    },
+    {
+     "phrase": "single buyer",
+     "sentence": "A single buyer model requires all producers to sell to the state utility.",
+     "dimension": "market_competition",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "breaks up",
+     "sentence": "The regulator breaks up the dominant gas supplier.",
+     "dimension": "market_competition",
+     "direction": "raises"
+    },
+    {
+     "phrase": "strategic reserve",
+     "sentence": "A strategic reserve of gas covers ninety days of demand.",
+     "dimension": "supply_security",
+     "direction": "raises"
+    },
+    {
+     "phrase": "capacity payments",
+     "sentence": "Capacity payments keep backup plants available.",
+     "dimension": "supply_security",
+     "direction": "raises"
+    },
+    {
+     "phrase": "storage sites are closed",
+     "sentence": "Gas storage sites are closed to save costs.",
+     "dimension": "supply_security",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "stockpiling obligation",
+     "sentence": "A stockpiling obligation requires suppliers to hold fuel for the winter.",
+     "dimension": "supply_security",
+     "direction": "raises"
+    },
+    {
+     "phrase": "just-in-time",
+     "sentence": "The system relies on just-in-time imports with no buffer.",
+     "dimension": "supply_security",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "interconnectors",
+     "sentence": "New interconnectors allow emergency imports from neighbours.",
+     "dimension": "supply_security",
+     "direction": "raises"
+    },
+    {
+     "phrase": "reserve margin is cut",
+     "sentence": "The required reserve margin is cut.",
+     "dimension": "supply_security",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "supplier of last resort",
+     "sentence": "A supplier of last resort guarantees service if a company fails.",
+     "dimension": "supply_security",
+     "direction": "raises"
+    },
+    {
+     "phrase": "spot market",
+     "sentence": "Buyers depend entirely on the spot market for winter gas.",
+     "dimension": "supply_security",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "black-start",
+     "sentence": "Black-start plants are contracted to restore the grid after a blackout.",
+     "dimension": "supply_security",
+     "direction": "raises"
+    },
+    {
+     "phrase": "mothballed",
+     "sentence": "Backup stations are mothballed and not replaced.",
+     "dimension": "supply_security",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "kilowatt-hours",
+     "sentence": "Usage is billed in kilowatt-hours.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "regulator",
+     "sentence": "The regulator has offices in two cities.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "consumers",
+     "sentence": "Consumers use more power in winter.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "infrastructure",
+     "sentence": "Infrastructure ages over decades.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "demand",
+     "sentence": "Demand peaks in the early evening.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "ministry",
+     "sentence": "The ministry published a discussion paper.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "engineers",
+     "sentence": "Engineers maintain the network.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "annual report",
+     "sentence": "The annual report is due in May.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "regions",
+     "sentence": "Regions differ in climate.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "meters",
+     "sentence": "Meters are read every quarter.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "stakeholders",
+     "sentence": "Stakeholders attended the hearing.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "legislation",
+     "sentence": "The legislation has ninety clauses.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "decade",
+     "sentence": "Consumption has been flat for a decade.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "appendix",
+     "sentence": "Appendix A contains the data tables.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "industry",
+     "sentence": "The industry employs many technicians.",
+     "dimension": null,
+     "direction": null
+    }
+   ]
+  },
+  "policing": {
+   "split": "train",
+   "dimensions": [
+    {
+     "name": "police_powers",
+     "description": "What officers are allowed to do.",
+     "positive_means": "wide powers to stop, search and detain",
+     "negative_means": "narrow powers with strict limits"
+    },
+    {
+     "name": "sentencing_severity",
+     "description": "How harshly offenders are punished.",
+     "positive_means": "long, mandatory sentences",
+     "negative_means": "short sentences and alternatives to prison"
+    },
+    {
+     "name": "police_oversight",
+     "description": "How police conduct is scrutinised.",
+     "positive_means": "strong independent scrutiny of police",
+     "negative_means": "little outside scrutiny"
+    },
+    {
+     "name": "surveillance",
+     "description": "State monitoring of the public.",
+     "positive_means": "extensive monitoring and data retention",
+     "negative_means": "tight limits on monitoring"
+    },
+    {
+     "name": "prevention_spending",
+     "description": "Investment in social programmes to prevent crime.",
+     "positive_means": "more spending on prevention and rehabilitation",
+     "negative_means": "prevention programmes are cut"
+    }
+   ],
+   "items": [
+    {
+     "phrase": "stop and search",
+     "sentence": "Stop and search no longer requires reasonable suspicion.",
+     "dimension": "police_powers",
+     "direction": "raises"
+    },
+    {
+     "phrase": "warrant requirement",
+     "sentence": "A warrant requirement applies to every home search.",
+     "dimension": "police_powers",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "pre-charge detention",
+     "sentence": "Pre-charge detention is extended to twenty-eight days.",
+     "dimension": "police_powers",
+     "direction": "raises"
+    },
+    {
+     "phrase": "no-knock raids are banned",
+     "sentence": "No-knock raids are banned.",
+     "dimension": "police_powers",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "dispersal orders",
+     "sentence": "Dispersal orders let officers clear any public gathering.",
+     "dimension": "police_powers",
+     "direction": "raises"
+    },
+    {
+     "phrase": "use of force",
+     "sentence": "Use of force is limited to situations of imminent danger.",
+     "dimension": "police_powers",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "civil asset forfeiture",
+     "sentence": "Civil asset forfeiture lets police seize property without a conviction.",
+     "dimension": "police_powers",
+     "direction": "raises"
+    },
+    {
+     "phrase": "chokeholds are prohibited",
+     "sentence": "Chokeholds are prohibited.",
+     "dimension": "police_powers",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "protest restrictions",
+     "sentence": "New protest restrictions let police impose conditions on marches.",
+     "dimension": "police_powers",
+     "direction": "raises"
+    },
+    {
+     "phrase": "mandatory minimum",
+     "sentence": "A mandatory minimum of five years applies to knife offences.",
+     "dimension": "sentencing_severity",
+     "direction": "raises"
+    },
+    {
+     "phrase": "community sentences",
+     "sentence": "Community sentences replace short prison terms.",
+     "dimension": "sentencing_severity",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "three strikes",
+     "sentence": "A three strikes rule imposes life for a third serious offence.",
+     "dimension": "sentencing_severity",
+     "direction": "raises"
+    },
+    {
+     "phrase": "early release",
+     "sentence": "Early release is available after a third of the sentence.",
+     "dimension": "sentencing_severity",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "whole-life orders",
+     "sentence": "Whole-life orders are extended to more crimes.",
+     "dimension": "sentencing_severity",
+     "direction": "raises"
+    },
+    {
+     "phrase": "decriminalised",
+     "sentence": "Possession of small amounts of drugs is decriminalised.",
+     "dimension": "sentencing_severity",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "sentence uplift",
+     "sentence": "A sentence uplift applies to assaults on shop workers.",
+     "dimension": "sentencing_severity",
+     "direction": "raises"
+    },
+    {
+     "phrase": "diversion schemes",
+     "sentence": "Diversion schemes send first offenders to treatment instead of court.",
+     "dimension": "sentencing_severity",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "parole is abolished",
+     "sentence": "Parole is abolished for violent offenders.",
+     "dimension": "sentencing_severity",
+     "direction": "raises"
+    },
+    {
+     "phrase": "independent complaints body",
+     "sentence": "An independent complaints body investigates every death in custody.",
+     "dimension": "police_oversight",
+     "direction": "raises"
+    },
+    {
+     "phrase": "qualified immunity",
+     "sentence": "Qualified immunity shields officers from civil claims.",
+     "dimension": "police_oversight",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "body-worn cameras",
+     "sentence": "Body-worn cameras must record every stop.",
+     "dimension": "police_oversight",
+     "direction": "raises"
+    },
+    {
+     "phrase": "internal review only",
+     "sentence": "Complaints are subject to internal review only.",
+     "dimension": "police_oversight",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "civilian review board",
+     "sentence": "A civilian review board may discipline officers.",
+     "dimension": "police_oversight",
+     "direction": "raises"
+    },
+    {
+     "phrase": "misconduct records are sealed",
+     "sentence": "Misconduct records are sealed from the public.",
+     "dimension": "police_oversight",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "publish stop data",
+     "sentence": "Forces must publish stop data broken down by ethnicity.",
+     "dimension": "police_oversight",
+     "direction": "raises"
+    },
+    {
+     "phrase": "inspectorate is abolished",
+     "sentence": "The police inspectorate is abolished.",
+     "dimension": "police_oversight",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "duty of candour",
+     "sentence": "A duty of candour obliges officers to cooperate with inquiries.",
+     "dimension": "police_oversight",
+     "direction": "raises"
+    },
+    {
+     "phrase": "facial recognition",
+     "sentence": "Live facial recognition is deployed in city centres.",
+     "dimension": "surveillance",
+     "direction": "raises"
+    },
+    {
+     "phrase": "data retention",
+     "sentence": "Data retention of phone records for two years is mandatory.",
+     "dimension": "surveillance",
+     "direction": "raises"
+    },
+    {
+     "phrase": "ban on bulk interception",
+     "sentence": "A ban on bulk interception takes effect.",
+     "dimension": "surveillance",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "number plate cameras",
+     "sentence": "Number plate cameras are installed on every main road.",
+     "dimension": "surveillance",
+     "direction": "raises"
+    },
+    {
+     "phrase": "judicial authorisation",
+     "sentence": "Judicial authorisation is required before any phone is tapped.",
+     "dimension": "surveillance",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "encryption backdoors",
+     "sentence": "Messaging services must provide encryption backdoors.",
+     "dimension": "surveillance",
+     "direction": "raises"
+    },
+    {
+     "phrase": "deletion of dna profiles",
+     "sentence": "The law requires deletion of dna profiles of people not convicted.",
+     "dimension": "surveillance",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "predictive policing",
+     "sentence": "Predictive policing software monitors neighbourhoods for likely offenders.",
+     "dimension": "surveillance",
+     "direction": "raises"
+    },
+    {
+     "phrase": "cctv is removed",
+     "sentence": "Public cctv is removed from residential streets.",
+     "dimension": "surveillance",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "youth services",
+     "sentence": "Youth services receive new funding to keep teenagers out of gangs.",
+     "dimension": "prevention_spending",
+     "direction": "raises"
+    },
+    {
+     "phrase": "rehabilitation budget is cut",
+     "sentence": "The prison rehabilitation budget is cut.",
+     "dimension": "prevention_spending",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "violence reduction units",
+     "sentence": "Violence reduction units are set up in every region.",
+     "dimension": "prevention_spending",
+     "direction": "raises"
+    },
+    {
+     "phrase": "probation service loses",
+     "sentence": "The probation service loses a quarter of its staff.",
+     "dimension": "prevention_spending",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "drug treatment",
+     "sentence": "Drug treatment places are doubled.",
+     "dimension": "prevention_spending",
+     "direction": "raises"
+    },
+    {
+     "phrase": "youth clubs are closed",
+     "sentence": "Youth clubs are closed to save money.",
+     "dimension": "prevention_spending",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "mental health responders",
+     "sentence": "Mental health responders attend crisis calls alongside officers.",
+     "dimension": "prevention_spending",
+     "direction": "raises"
+    },
+    {
+     "phrase": "education in prisons is ended",
+     "sentence": "Funding for education in prisons is ended.",
+     "dimension": "prevention_spending",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "early intervention",
+     "sentence": "Early intervention teams work with families at risk.",
+     "dimension": "prevention_spending",
+     "direction": "raises"
+    },
+    {
+     "phrase": "crime",
+     "sentence": "Crime varies by season.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "officers",
+     "sentence": "Officers are trained at the academy.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "courts",
+     "sentence": "The courts sit in every county.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "statistics",
+     "sentence": "Statistics are released twice a year.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "home secretary",
+     "sentence": "The home secretary made a statement.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "communities",
+     "sentence": "Communities differ in size.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "report",
+     "sentence": "The report runs to two volumes.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "districts",
+     "sentence": "Districts are redrawn every decade.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "justice system",
+     "sentence": "The justice system has many parts.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "bill",
+     "sentence": "The bill had its second reading.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "victims",
+     "sentence": "Victims were among those surveyed.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "uniform",
+     "sentence": "The uniform was redesigned in 2020.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "headquarters",
+     "sentence": "The headquarters moved last year.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "schedule",
+     "sentence": "Schedule 1 lists the relevant offences.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "consultation",
+     "sentence": "The consultation ran for twelve weeks.",
+     "dimension": null,
+     "direction": null
+    }
+   ]
+  },
+  "food_safety": {
+   "split": "train",
+   "dimensions": [
+    {
+     "name": "safety_standards",
+     "description": "How strict the rules on what may be sold are.",
+     "positive_means": "strict limits and bans on risky ingredients and practices",
+     "negative_means": "permissive rules on what may be sold"
+    },
+    {
+     "name": "labelling_requirements",
+     "description": "What must be disclosed to consumers.",
+     "positive_means": "detailed mandatory labels",
+     "negative_means": "few or voluntary labels"
+    },
+    {
+     "name": "inspection_regime",
+     "description": "How often and how thoroughly producers are checked.",
+     "positive_means": "frequent official inspections and testing",
+     "negative_means": "few inspections; firms check themselves"
+    }
+   ],
+   "items": [
+    {
+     "phrase": "maximum residue limits",
+     "sentence": "Lower maximum residue limits apply to pesticides on fruit.",
+     "dimension": "safety_standards",
+     "direction": "raises"
+    },
+    {
+     "phrase": "banned additives",
+     "sentence": "The list of banned additives is extended to six colourings.",
+     "dimension": "safety_standards",
+     "direction": "raises"
+    },
+    {
+     "phrase": "approval of growth hormones",
+     "sentence": "The approval of growth hormones in beef is granted.",
+     "dimension": "safety_standards",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "precautionary principle",
+     "sentence": "The precautionary principle bars novel foods until proven safe.",
+     "dimension": "safety_standards",
+     "direction": "raises"
+    },
+    {
+     "phrase": "chlorine-washed",
+     "sentence": "Chlorine-washed poultry may be sold.",
+     "dimension": "safety_standards",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "zero tolerance",
+     "sentence": "Zero tolerance applies to salmonella in eggs.",
+     "dimension": "safety_standards",
+     "direction": "raises"
+    },
+    {
+     "phrase": "raw milk",
+     "sentence": "Raw milk may be sold directly to the public.",
+     "dimension": "safety_standards",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "antibiotic ban",
+     "sentence": "An antibiotic ban covers routine use in healthy livestock.",
+     "dimension": "safety_standards",
+     "direction": "raises"
+    },
+    {
+     "phrase": "tolerance levels are raised",
+     "sentence": "Tolerance levels are raised for contaminants in grain.",
+     "dimension": "safety_standards",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "pre-market authorisation",
+     "sentence": "Pre-market authorisation is required for every new additive.",
+     "dimension": "safety_standards",
+     "direction": "raises"
+    },
+    {
+     "phrase": "generally recognised as safe",
+     "sentence": "Firms may declare an ingredient generally recognised as safe without review.",
+     "dimension": "safety_standards",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "trans fats are prohibited",
+     "sentence": "Industrial trans fats are prohibited.",
+     "dimension": "safety_standards",
+     "direction": "raises"
+    },
+    {
+     "phrase": "deregulates novel foods",
+     "sentence": "The act deregulates novel foods such as insect protein.",
+     "dimension": "safety_standards",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "temperature controls",
+     "sentence": "Stricter temperature controls apply throughout the cold chain.",
+     "dimension": "safety_standards",
+     "direction": "raises"
+    },
+    {
+     "phrase": "relaxes hygiene rules",
+     "sentence": "The order relaxes hygiene rules for small abattoirs.",
+     "dimension": "safety_standards",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "allergen labelling",
+     "sentence": "Allergen labelling is mandatory on all pre-packed food.",
+     "dimension": "labelling_requirements",
+     "direction": "raises"
+    },
+    {
+     "phrase": "country of origin",
+     "sentence": "Country of origin must be shown on all meat.",
+     "dimension": "labelling_requirements",
+     "direction": "raises"
+    },
+    {
+     "phrase": "voluntary labelling",
+     "sentence": "Nutrition information is left to voluntary labelling.",
+     "dimension": "labelling_requirements",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "front-of-pack",
+     "sentence": "Front-of-pack traffic lights are compulsory.",
+     "dimension": "labelling_requirements",
+     "direction": "raises"
+    },
+    {
+     "phrase": "exempt from labelling",
+     "sentence": "Small producers are exempt from labelling rules.",
+     "dimension": "labelling_requirements",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "calorie counts",
+     "sentence": "Calorie counts must appear on restaurant menus.",
+     "dimension": "labelling_requirements",
+     "direction": "raises"
+    },
+    {
+     "phrase": "no requirement to disclose",
+     "sentence": "There is no requirement to disclose genetically modified ingredients.",
+     "dimension": "labelling_requirements",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "full ingredient list",
+     "sentence": "A full ingredient list is required on alcoholic drinks.",
+     "dimension": "labelling_requirements",
+     "direction": "raises"
+    },
+    {
+     "phrase": "labels may omit",
+     "sentence": "Labels may omit processing aids and trace additives.",
+     "dimension": "labelling_requirements",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "date marking",
+     "sentence": "Clear date marking is mandatory on perishable goods.",
+     "dimension": "labelling_requirements",
+     "direction": "raises"
+    },
+    {
+     "phrase": "digital labels",
+     "sentence": "Details may be moved off the pack to optional digital labels.",
+     "dimension": "labelling_requirements",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "method of production",
+     "sentence": "Method of production must be stated on eggs and poultry.",
+     "dimension": "labelling_requirements",
+     "direction": "raises"
+    },
+    {
+     "phrase": "warning labels are dropped",
+     "sentence": "Mandatory warning labels are dropped for high-caffeine drinks.",
+     "dimension": "labelling_requirements",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "traceability codes",
+     "sentence": "Traceability codes must be printed on every batch.",
+     "dimension": "labelling_requirements",
+     "direction": "raises"
+    },
+    {
+     "phrase": "simplified packaging rules",
+     "sentence": "Simplified packaging rules remove most disclosure duties.",
+     "dimension": "labelling_requirements",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "unannounced visits",
+     "sentence": "Unannounced visits by inspectors occur at least twice a year.",
+     "dimension": "inspection_regime",
+     "direction": "raises"
+    },
+    {
+     "phrase": "self-certification",
+     "sentence": "Self-certification replaces official checks at processing plants.",
+     "dimension": "inspection_regime",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "sampling programme",
+     "sentence": "A national sampling programme tests imported seafood.",
+     "dimension": "inspection_regime",
+     "direction": "raises"
+    },
+    {
+     "phrase": "inspector numbers are halved",
+     "sentence": "Inspector numbers are halved.",
+     "dimension": "inspection_regime",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "hygiene ratings",
+     "sentence": "Hygiene ratings from official visits must be displayed at the door.",
+     "dimension": "inspection_regime",
+     "direction": "raises"
+    },
+    {
+     "phrase": "earned recognition",
+     "sentence": "Earned recognition means trusted firms are rarely visited.",
+     "dimension": "inspection_regime",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "border checks",
+     "sentence": "Full border checks apply to animal products.",
+     "dimension": "inspection_regime",
+     "direction": "raises"
+    },
+    {
+     "phrase": "checks are suspended",
+     "sentence": "Import checks are suspended to ease trade.",
+     "dimension": "inspection_regime",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "veterinary presence",
+     "sentence": "A permanent veterinary presence is required in every abattoir.",
+     "dimension": "inspection_regime",
+     "direction": "raises"
+    },
+    {
+     "phrase": "industry-led audits",
+     "sentence": "Industry-led audits take the place of government inspectors.",
+     "dimension": "inspection_regime",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "laboratory testing",
+     "sentence": "Routine laboratory testing of dairy is expanded.",
+     "dimension": "inspection_regime",
+     "direction": "raises"
+    },
+    {
+     "phrase": "risk-based exemptions",
+     "sentence": "Risk-based exemptions remove low-risk premises from the visiting schedule.",
+     "dimension": "inspection_regime",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "recall powers",
+     "sentence": "Officials gain recall powers and may test products at any time.",
+     "dimension": "inspection_regime",
+     "direction": "raises"
+    },
+    {
+     "phrase": "inspection frequency is reduced",
+     "sentence": "Inspection frequency is reduced to once every five years.",
+     "dimension": "inspection_regime",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "whistleblower hotline",
+     "sentence": "A whistleblower hotline triggers immediate official inspection.",
+     "dimension": "inspection_regime",
+     "direction": "raises"
+    },
+    {
+     "phrase": "agency",
+     "sentence": "The agency is based in the capital.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "consumers",
+     "sentence": "Consumers buy more prepared meals than before.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "supply chain",
+     "sentence": "The supply chain spans many countries.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "farmers",
+     "sentence": "Farmers attended the regional meeting.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "regulations",
+     "sentence": "The regulations were laid before parliament.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "retailers",
+     "sentence": "Retailers operate thousands of stores.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "annual report",
+     "sentence": "The annual report is published each summer.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "stakeholders",
+     "sentence": "Stakeholders gave evidence.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "scientific committee",
+     "sentence": "The scientific committee meets monthly.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "produce",
+     "sentence": "Produce is shipped overnight.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "ministry",
+     "sentence": "The ministry shares responsibility with local councils.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "definitions",
+     "sentence": "Definitions are given in article 2.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "sector",
+     "sentence": "The sector employs many seasonal staff.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "guidance",
+     "sentence": "Guidance notes are updated regularly.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "annex",
+     "sentence": "Annex II contains the forms.",
+     "dimension": null,
+     "direction": null
+    }
+   ]
+  },
+  "telecoms": {
+   "split": "train",
+   "dimensions": [
+    {
+     "name": "net_neutrality",
+     "description": "Whether networks must treat all traffic equally.",
+     "positive_means": "all traffic must be treated equally",
+     "negative_means": "providers may prioritise or block traffic"
+    },
+    {
+     "name": "universal_service",
+     "description": "Whether everyone is guaranteed a connection.",
+     "positive_means": "a guaranteed affordable connection for all",
+     "negative_means": "no guarantee; coverage left to the market"
+    },
+    {
+     "name": "content_moderation_duties",
+     "description": "What platforms must do about harmful content.",
+     "positive_means": "platforms must remove harmful content",
+     "negative_means": "platforms have no such duties"
+    },
+    {
+     "name": "spectrum_liberalisation",
+     "description": "How radio spectrum is allocated.",
+     "positive_means": "spectrum is auctioned and tradable",
+     "negative_means": "spectrum is assigned by the state"
+    },
+    {
+     "name": "market_concentration_limits",
+     "description": "Limits on dominant operators.",
+     "positive_means": "strict limits on dominant operators and mergers",
+     "negative_means": "consolidation is allowed"
+    },
+    {
+     "name": "network_security_rules",
+     "description": "Security requirements on network equipment and operators.",
+     "positive_means": "strict security rules and vendor bans",
+     "negative_means": "no special security rules"
+    }
+   ],
+   "items": [
+    {
+     "phrase": "zero-rating is banned",
+     "sentence": "Zero-rating is banned.",
+     "dimension": "net_neutrality",
+     "direction": "raises"
+    },
+    {
+     "phrase": "paid prioritisation",
+     "sentence": "Paid prioritisation lets providers sell faster lanes.",
+     "dimension": "net_neutrality",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "no blocking",
+     "sentence": "A no blocking rule applies to all lawful content.",
+     "dimension": "net_neutrality",
+     "direction": "raises"
+    },
+    {
+     "phrase": "throttling",
+     "sentence": "Providers may engage in throttling of video streams.",
+     "dimension": "net_neutrality",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "open internet",
+     "sentence": "Open internet rules are restored.",
+     "dimension": "net_neutrality",
+     "direction": "raises"
+    },
+    {
+     "phrase": "specialised services",
+     "sentence": "An exception for specialised services allows preferential treatment.",
+     "dimension": "net_neutrality",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "equal treatment of traffic",
+     "sentence": "Equal treatment of traffic is written into law.",
+     "dimension": "net_neutrality",
+     "direction": "raises"
+    },
+    {
+     "phrase": "neutrality rules are repealed",
+     "sentence": "The neutrality rules are repealed.",
+     "dimension": "net_neutrality",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "universal service obligation",
+     "sentence": "A universal service obligation guarantees broadband to every home.",
+     "dimension": "universal_service",
+     "direction": "raises"
+    },
+    {
+     "phrase": "rural subsidy is ended",
+     "sentence": "The rural subsidy is ended.",
+     "dimension": "universal_service",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "social tariff",
+     "sentence": "A social tariff offers low-cost broadband to households on benefits.",
+     "dimension": "universal_service",
+     "direction": "raises"
+    },
+    {
+     "phrase": "commercially viable areas",
+     "sentence": "Roll-out is limited to commercially viable areas.",
+     "dimension": "universal_service",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "coverage obligations",
+     "sentence": "Coverage obligations require service on every road and railway.",
+     "dimension": "universal_service",
+     "direction": "raises"
+    },
+    {
+     "phrase": "payphones are withdrawn",
+     "sentence": "Public payphones are withdrawn with no replacement.",
+     "dimension": "universal_service",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "legal right to broadband",
+     "sentence": "A legal right to broadband at ten megabits is created.",
+     "dimension": "universal_service",
+     "direction": "raises"
+    },
+    {
+     "phrase": "no minimum speed",
+     "sentence": "The law sets no minimum speed for remote premises.",
+     "dimension": "universal_service",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "takedown within 24 hours",
+     "sentence": "Illegal posts require takedown within 24 hours.",
+     "dimension": "content_moderation_duties",
+     "direction": "raises"
+    },
+    {
+     "phrase": "liability shield",
+     "sentence": "A liability shield protects platforms from responsibility for user posts.",
+     "dimension": "content_moderation_duties",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "duty of care",
+     "sentence": "A duty of care obliges platforms to protect children from harm.",
+     "dimension": "content_moderation_duties",
+     "direction": "raises"
+    },
+    {
+     "phrase": "must-carry",
+     "sentence": "A must-carry rule forbids platforms from removing lawful political speech.",
+     "dimension": "content_moderation_duties",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "age verification",
+     "sentence": "Age verification is required for adult content.",
+     "dimension": "content_moderation_duties",
+     "direction": "raises"
+    },
+    {
+     "phrase": "self-regulatory code",
+     "sentence": "Harmful content is left to a self-regulatory code.",
+     "dimension": "content_moderation_duties",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "risk assessments",
+     "sentence": "Large platforms must file risk assessments on illegal content.",
+     "dimension": "content_moderation_duties",
+     "direction": "raises"
+    },
+    {
+     "phrase": "no obligation to monitor",
+     "sentence": "Hosts have no obligation to monitor what users upload.",
+     "dimension": "content_moderation_duties",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "spectrum auction",
+     "sentence": "A spectrum auction sells the new bands to the highest bidders.",
+     "dimension": "spectrum_liberalisation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "administrative assignment",
+     "sentence": "Frequencies are given out by administrative assignment.",
+     "dimension": "spectrum_liberalisation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "spectrum trading",
+     "sentence": "Spectrum trading lets operators sell unused frequencies.",
+     "dimension": "spectrum_liberalisation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "reserved for the state broadcaster",
+     "sentence": "The band is reserved for the state broadcaster.",
+     "dimension": "spectrum_liberalisation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "technology-neutral licences",
+     "sentence": "Technology-neutral licences let holders use bands for any service.",
+     "dimension": "spectrum_liberalisation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "beauty contest",
+     "sentence": "Licences are awarded by beauty contest judged by officials.",
+     "dimension": "spectrum_liberalisation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "secondary market",
+     "sentence": "A secondary market in licences is opened.",
+     "dimension": "spectrum_liberalisation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "non-transferable",
+     "sentence": "Licences are non-transferable and revert to the ministry.",
+     "dimension": "spectrum_liberalisation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "significant market power",
+     "sentence": "Operators with significant market power must open their networks to rivals.",
+     "dimension": "market_concentration_limits",
+     "direction": "raises"
+    },
+    {
+     "phrase": "merger is cleared",
+     "sentence": "The merger is cleared, reducing four mobile networks to three.",
+     "dimension": "market_concentration_limits",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "spectrum caps",
+     "sentence": "Spectrum caps stop any one firm holding more than a third of frequencies.",
+     "dimension": "market_concentration_limits",
+     "direction": "raises"
+    },
+    {
+     "phrase": "regulatory holiday",
+     "sentence": "A regulatory holiday frees the largest operator from access rules.",
+     "dimension": "market_concentration_limits",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "structural separation",
+     "sentence": "Structural separation splits the network arm from the retail arm.",
+     "dimension": "market_concentration_limits",
+     "direction": "raises"
+    },
+    {
+     "phrase": "consolidation is welcomed",
+     "sentence": "Consolidation is welcomed as a way to fund investment.",
+     "dimension": "market_concentration_limits",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "wholesale access",
+     "sentence": "Regulated wholesale access lets small providers use the incumbent's fibre.",
+     "dimension": "market_concentration_limits",
+     "direction": "raises"
+    },
+    {
+     "phrase": "ownership limits are scrapped",
+     "sentence": "Cross-ownership limits are scrapped.",
+     "dimension": "market_concentration_limits",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "high-risk vendors",
+     "sentence": "Equipment from high-risk vendors must be removed by 2027.",
+     "dimension": "network_security_rules",
+     "direction": "raises"
+    },
+    {
+     "phrase": "no vendor restrictions",
+     "sentence": "Operators face no vendor restrictions when buying equipment.",
+     "dimension": "network_security_rules",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "security audits",
+     "sentence": "Annual security audits of core networks are mandatory.",
+     "dimension": "network_security_rules",
+     "direction": "raises"
+    },
+    {
+     "phrase": "voluntary guidelines",
+     "sentence": "Network resilience is covered by voluntary guidelines.",
+     "dimension": "network_security_rules",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "breach reporting",
+     "sentence": "Breach reporting to the regulator is required within a day.",
+     "dimension": "network_security_rules",
+     "direction": "raises"
+    },
+    {
+     "phrase": "security requirements are relaxed",
+     "sentence": "Security requirements are relaxed for small operators.",
+     "dimension": "network_security_rules",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "supply chain vetting",
+     "sentence": "Supply chain vetting applies to all critical components.",
+     "dimension": "network_security_rules",
+     "direction": "raises"
+    },
+    {
+     "phrase": "exempt from certification",
+     "sentence": "Imported routers are exempt from certification.",
+     "dimension": "network_security_rules",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "subscribers",
+     "sentence": "Subscribers number in the millions.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "handsets",
+     "sentence": "Handsets are replaced every few years.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "regulator",
+     "sentence": "The regulator consulted on its work plan.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "operators",
+     "sentence": "Operators attended an industry day.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "data traffic",
+     "sentence": "Data traffic doubles every three years.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "ministry",
+     "sentence": "The ministry will table the bill.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "masts",
+     "sentence": "Masts are painted grey.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "annual review",
+     "sentence": "The annual review covers the calendar year.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "users",
+     "sentence": "Users span all age groups.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "directive",
+     "sentence": "The directive must be transposed within two years.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "technology",
+     "sentence": "Technology changes quickly.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "sector",
+     "sentence": "The sector contributes to national output.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "definitions",
+     "sentence": "Definitions appear in part one.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "engineers",
+     "sentence": "Engineers upgrade equipment overnight.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "statistics",
+     "sentence": "Statistics are collected from each firm.",
+     "dimension": null,
+     "direction": null
+    }
+   ]
+  }
+ }
+}

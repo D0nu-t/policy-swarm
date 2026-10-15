@@ -1,0 +1,1377 @@
+{
+ "note": "Labels were drafted by an AI assistant (Claude) on 2026-10-12 and spot-checked by the project author; see README. Direction is relative to each dimension's positive end. dev = used to choose between variants; test = held out.",
+ "domains": {
+  "ai_governance": {
+   "split": "dev",
+   "dimensions": [
+    {
+     "name": "deployment_cap",
+     "description": "How freely AI systems may be put on the market and used.",
+     "positive_means": "deployment is permissive: few limits on releasing and using AI systems",
+     "negative_means": "deployment is restricted: bans, licences and approvals before release"
+    },
+    {
+     "name": "transparency",
+     "description": "What providers must reveal about their systems and data.",
+     "positive_means": "strict disclosure and explainability duties",
+     "negative_means": "little or no duty to disclose; secrecy is allowed"
+    },
+    {
+     "name": "enforcement",
+     "description": "How breaches of the rules are punished.",
+     "positive_means": "strong penalties and powers to compel compliance",
+     "negative_means": "weak, delayed or no penalties"
+    },
+    {
+     "name": "audit_intensity",
+     "description": "How closely systems are checked and monitored.",
+     "positive_means": "frequent, independent audits and monitoring",
+     "negative_means": "little checking; providers assess themselves"
+    }
+   ],
+   "items": [
+    {
+     "phrase": "banned outright",
+     "sentence": "AI practices that present an unacceptable risk are banned outright.",
+     "dimension": "deployment_cap",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "moratorium",
+     "sentence": "A two-year moratorium applies to the deployment of facial recognition in public spaces.",
+     "dimension": "deployment_cap",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "pre-market approval",
+     "sentence": "High-risk systems require pre-market approval before they may be placed on the market.",
+     "dimension": "deployment_cap",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "regulatory sandbox",
+     "sentence": "A regulatory sandbox lets developers release experimental systems without a licence.",
+     "dimension": "deployment_cap",
+     "direction": "raises"
+    },
+    {
+     "phrase": "exempt",
+     "sentence": "Open-source models released for research are exempt from deployment restrictions.",
+     "dimension": "deployment_cap",
+     "direction": "raises"
+    },
+    {
+     "phrase": "prohibited",
+     "sentence": "The use of social scoring systems by public authorities is prohibited.",
+     "dimension": "deployment_cap",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "licence",
+     "sentence": "No general-purpose model may be deployed without a licence issued by the authority.",
+     "dimension": "deployment_cap",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "freely deploy",
+     "sentence": "Firms may freely deploy low-risk applications without prior notification.",
+     "dimension": "deployment_cap",
+     "direction": "raises"
+    },
+    {
+     "phrase": "safe harbour",
+     "sentence": "A safe harbour allows small developers to launch products without prior review.",
+     "dimension": "deployment_cap",
+     "direction": "raises"
+    },
+    {
+     "phrase": "deployment cap",
+     "sentence": "The authority may impose a deployment cap on the number of users served by an unassessed model.",
+     "dimension": "deployment_cap",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "disclose",
+     "sentence": "Providers must disclose the data sources used to train each model.",
+     "dimension": "transparency",
+     "direction": "raises"
+    },
+    {
+     "phrase": "watermarked",
+     "sentence": "Synthetic audio and video must be watermarked in a machine-readable format.",
+     "dimension": "transparency",
+     "direction": "raises"
+    },
+    {
+     "phrase": "explainability",
+     "sentence": "Decisions affecting individuals must meet explainability standards set by the regulator.",
+     "dimension": "transparency",
+     "direction": "raises"
+    },
+    {
+     "phrase": "trade secret",
+     "sentence": "Developers may withhold model details that constitute a trade secret.",
+     "dimension": "transparency",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "technical documentation",
+     "sentence": "Technical documentation describing model architecture must be published before release.",
+     "dimension": "transparency",
+     "direction": "raises"
+    },
+    {
+     "phrase": "notify users",
+     "sentence": "Systems that interact with people must notify users that they are dealing with an AI.",
+     "dimension": "transparency",
+     "direction": "raises"
+    },
+    {
+     "phrase": "confidential",
+     "sentence": "Risk assessments submitted to the authority remain confidential and are not released to the public.",
+     "dimension": "transparency",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "model cards",
+     "sentence": "Model cards summarising capabilities and limits are mandatory for all general-purpose models.",
+     "dimension": "transparency",
+     "direction": "raises"
+    },
+    {
+     "phrase": "no obligation to publish",
+     "sentence": "Providers are under no obligation to publish evaluation results.",
+     "dimension": "transparency",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "public register",
+     "sentence": "All high-risk systems must be entered in a public register.",
+     "dimension": "transparency",
+     "direction": "raises"
+    },
+    {
+     "phrase": "fines",
+     "sentence": "Violations are punishable by fines of up to 7% of worldwide turnover.",
+     "dimension": "enforcement",
+     "direction": "raises"
+    },
+    {
+     "phrase": "criminal liability",
+     "sentence": "Executives who knowingly conceal safety failures face criminal liability.",
+     "dimension": "enforcement",
+     "direction": "raises"
+    },
+    {
+     "phrase": "voluntary",
+     "sentence": "Compliance with the code of practice is voluntary and carries no sanction.",
+     "dimension": "enforcement",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "warning letter",
+     "sentence": "A first breach results only in a warning letter.",
+     "dimension": "enforcement",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "injunction",
+     "sentence": "The authority may seek an injunction to withdraw a non-compliant system from the market.",
+     "dimension": "enforcement",
+     "direction": "raises"
+    },
+    {
+     "phrase": "grace period",
+     "sentence": "A three-year grace period applies before any penalty can be imposed.",
+     "dimension": "enforcement",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "revoke",
+     "sentence": "The regulator may revoke a provider's licence after repeated breaches.",
+     "dimension": "enforcement",
+     "direction": "raises"
+    },
+    {
+     "phrase": "dissuasive penalties",
+     "sentence": "Member states shall lay down effective and dissuasive penalties.",
+     "dimension": "enforcement",
+     "direction": "raises"
+    },
+    {
+     "phrase": "amnesty",
+     "sentence": "Firms that report their own breaches receive amnesty from penalties.",
+     "dimension": "enforcement",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "strict liability",
+     "sentence": "Providers bear strict liability for harm caused by their systems.",
+     "dimension": "enforcement",
+     "direction": "raises"
+    },
+    {
+     "phrase": "third-party audit",
+     "sentence": "Each high-risk system must pass a third-party audit every year.",
+     "dimension": "audit_intensity",
+     "direction": "raises"
+    },
+    {
+     "phrase": "self-assessment",
+     "sentence": "Providers may rely on a self-assessment instead of external review.",
+     "dimension": "audit_intensity",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "continuous monitoring",
+     "sentence": "Deployed models are subject to continuous monitoring by the supervisory authority.",
+     "dimension": "audit_intensity",
+     "direction": "raises"
+    },
+    {
+     "phrase": "unannounced inspection",
+     "sentence": "Officials may carry out an unannounced inspection of any data centre.",
+     "dimension": "audit_intensity",
+     "direction": "raises"
+    },
+    {
+     "phrase": "incident reporting",
+     "sentence": "Serious malfunctions must be covered by incident reporting within 72 hours.",
+     "dimension": "audit_intensity",
+     "direction": "raises"
+    },
+    {
+     "phrase": "no routine audits",
+     "sentence": "Low-risk systems are subject to no routine audits.",
+     "dimension": "audit_intensity",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "red-teaming",
+     "sentence": "Frontier models must undergo independent red-teaming before release.",
+     "dimension": "audit_intensity",
+     "direction": "raises"
+    },
+    {
+     "phrase": "audit trail",
+     "sentence": "Systems must keep an audit trail of automated decisions for inspection.",
+     "dimension": "audit_intensity",
+     "direction": "raises"
+    },
+    {
+     "phrase": "reduced reporting",
+     "sentence": "Small providers benefit from reduced reporting duties.",
+     "dimension": "audit_intensity",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "conformity assessment",
+     "sentence": "A conformity assessment by a notified body is required before market entry.",
+     "dimension": "audit_intensity",
+     "direction": "raises"
+    },
+    {
+     "phrase": "framework",
+     "sentence": "The government establishes a framework for artificial intelligence.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "artificial intelligence",
+     "sentence": "Artificial intelligence is developing quickly in many sectors.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "member states",
+     "sentence": "Member states shall designate a national contact point.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "annual",
+     "sentence": "The authority publishes an annual work programme.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "stakeholders",
+     "sentence": "Stakeholders were consulted while the bill was drafted.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "definitions",
+     "sentence": "For the purposes of this act the following definitions apply.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "entry into force",
+     "sentence": "The entry into force of this regulation is the twentieth day after publication.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "systems",
+     "sentence": "AI systems are increasingly used across the economy.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "global",
+     "sentence": "AI is a global technology developed in many countries.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "committee",
+     "sentence": "A committee advises the minister on technical matters.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "article",
+     "sentence": "Article 3 sets out the scope of the act.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "technology",
+     "sentence": "Technology evolves faster than legislation.",
+     "dimension": null,
+     "direction": null
+    }
+   ]
+  },
+  "healthcare": {
+   "split": "dev",
+   "dimensions": [
+    {
+     "name": "access_restriction",
+     "description": "How far the policy limits patients' access to treatments and services.",
+     "positive_means": "severe restrictions: authorisations, referrals and gatekeeping before care",
+     "negative_means": "open access: patients reach care without gatekeeping"
+    },
+    {
+     "name": "cost_sharing",
+     "description": "How much of the cost of care patients pay themselves.",
+     "positive_means": "high patient burden: deductibles, copayments and charges",
+     "negative_means": "care is free or nearly free to the patient"
+    },
+    {
+     "name": "provider_regulation",
+     "description": "The regulatory burden on providers and insurers.",
+     "positive_means": "extensive licensing, reporting and compliance duties",
+     "negative_means": "minimal regulation of providers"
+    },
+    {
+     "name": "coverage_mandate",
+     "description": "How much care plans are required to cover.",
+     "positive_means": "comprehensive mandated benefits with few exclusions",
+     "negative_means": "bare-bones coverage with many exclusions permitted"
+    }
+   ],
+   "items": [
+    {
+     "phrase": "prior authorization",
+     "sentence": "Specialist drugs require prior authorization from the insurer.",
+     "dimension": "access_restriction",
+     "direction": "raises"
+    },
+    {
+     "phrase": "step therapy",
+     "sentence": "Step therapy obliges patients to try cheaper drugs first.",
+     "dimension": "access_restriction",
+     "direction": "raises"
+    },
+    {
+     "phrase": "gatekeeping",
+     "sentence": "GP gatekeeping applies to all hospital referrals.",
+     "dimension": "access_restriction",
+     "direction": "raises"
+    },
+    {
+     "phrase": "open access",
+     "sentence": "Patients have open access to any specialist without referral.",
+     "dimension": "access_restriction",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "direct access",
+     "sentence": "Direct access to physiotherapy is guaranteed without seeing a doctor first.",
+     "dimension": "access_restriction",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "referral requirement",
+     "sentence": "A referral requirement applies before any specialist consultation.",
+     "dimension": "access_restriction",
+     "direction": "raises"
+    },
+    {
+     "phrase": "walk-in",
+     "sentence": "Walk-in clinics must accept every patient without an appointment.",
+     "dimension": "access_restriction",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "quantity limits",
+     "sentence": "Insurers may set quantity limits on prescriptions.",
+     "dimension": "access_restriction",
+     "direction": "raises"
+    },
+    {
+     "phrase": "any willing provider",
+     "sentence": "Under the any willing provider rule, patients may choose any licensed clinic.",
+     "dimension": "access_restriction",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "narrow network",
+     "sentence": "Plans may restrict members to a narrow network of contracted hospitals.",
+     "dimension": "access_restriction",
+     "direction": "raises"
+    },
+    {
+     "phrase": "deductible",
+     "sentence": "The annual deductible rises to 3,000 dollars per person.",
+     "dimension": "cost_sharing",
+     "direction": "raises"
+    },
+    {
+     "phrase": "copayment",
+     "sentence": "A copayment is charged for every primary care visit.",
+     "dimension": "cost_sharing",
+     "direction": "raises"
+    },
+    {
+     "phrase": "free at the point of use",
+     "sentence": "Hospital care remains free at the point of use.",
+     "dimension": "cost_sharing",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "out-of-pocket cap",
+     "sentence": "An out-of-pocket cap of 500 dollars protects patients from large bills.",
+     "dimension": "cost_sharing",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "coinsurance",
+     "sentence": "Patients pay 30% coinsurance on specialist procedures.",
+     "dimension": "cost_sharing",
+     "direction": "raises"
+    },
+    {
+     "phrase": "fee waiver",
+     "sentence": "A fee waiver removes all charges for low-income households.",
+     "dimension": "cost_sharing",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "user charges",
+     "sentence": "User charges are introduced for emergency room visits.",
+     "dimension": "cost_sharing",
+     "direction": "raises"
+    },
+    {
+     "phrase": "fully subsidised",
+     "sentence": "Prescriptions for children are fully subsidised.",
+     "dimension": "cost_sharing",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "balance billing",
+     "sentence": "Providers may engage in balance billing for the difference.",
+     "dimension": "cost_sharing",
+     "direction": "raises"
+    },
+    {
+     "phrase": "no patient charges",
+     "sentence": "Preventive screening carries no patient charges.",
+     "dimension": "cost_sharing",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "licensing",
+     "sentence": "Stricter licensing applies to all outpatient surgical centres.",
+     "dimension": "provider_regulation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "quality reporting",
+     "sentence": "Hospitals must submit quality reporting data every quarter.",
+     "dimension": "provider_regulation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "deregulation",
+     "sentence": "The bill pursues deregulation of private clinics.",
+     "dimension": "provider_regulation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "accreditation",
+     "sentence": "Accreditation by the national board is compulsory for every provider.",
+     "dimension": "provider_regulation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "staffing ratios",
+     "sentence": "Mandatory nurse staffing ratios apply to all wards.",
+     "dimension": "provider_regulation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "certificate of need",
+     "sentence": "A certificate of need is required before opening a new facility.",
+     "dimension": "provider_regulation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "red tape",
+     "sentence": "The reform cuts red tape for small practices.",
+     "dimension": "provider_regulation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "exempt from inspection",
+     "sentence": "Rural clinics are exempt from inspection requirements.",
+     "dimension": "provider_regulation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "compliance audits",
+     "sentence": "Insurers face annual compliance audits.",
+     "dimension": "provider_regulation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "light-touch",
+     "sentence": "A light-touch regime applies to telehealth providers.",
+     "dimension": "provider_regulation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "essential health benefits",
+     "sentence": "All plans must cover the essential health benefits.",
+     "dimension": "coverage_mandate",
+     "direction": "raises"
+    },
+    {
+     "phrase": "mental health parity",
+     "sentence": "Mental health parity requires equal coverage for psychiatric care.",
+     "dimension": "coverage_mandate",
+     "direction": "raises"
+    },
+    {
+     "phrase": "exclusions",
+     "sentence": "Insurers may apply exclusions for pre-existing conditions.",
+     "dimension": "coverage_mandate",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "bare-bones",
+     "sentence": "Bare-bones plans covering only catastrophic events are permitted.",
+     "dimension": "coverage_mandate",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "maternity care",
+     "sentence": "Maternity care must be included in every policy.",
+     "dimension": "coverage_mandate",
+     "direction": "raises"
+    },
+    {
+     "phrase": "optional riders",
+     "sentence": "Dental and vision are left to optional riders.",
+     "dimension": "coverage_mandate",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "guaranteed coverage",
+     "sentence": "Guaranteed coverage extends to all chronic conditions.",
+     "dimension": "coverage_mandate",
+     "direction": "raises"
+    },
+    {
+     "phrase": "lifetime limits",
+     "sentence": "Plans may impose lifetime limits on benefits paid.",
+     "dimension": "coverage_mandate",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "preventive services",
+     "sentence": "Preventive services must be covered in full by every plan.",
+     "dimension": "coverage_mandate",
+     "direction": "raises"
+    },
+    {
+     "phrase": "opt out",
+     "sentence": "Employers may opt out of covering prescription drugs.",
+     "dimension": "coverage_mandate",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "ministry",
+     "sentence": "The ministry of health administers the scheme.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "fiscal year",
+     "sentence": "The rules apply from the next fiscal year.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "population",
+     "sentence": "The population is ageing rapidly.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "report",
+     "sentence": "The minister shall report to parliament every two years.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "healthcare",
+     "sentence": "Healthcare spending has grown for a decade.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "section",
+     "sentence": "Section 4 defines the terms used in this act.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "patients",
+     "sentence": "Patients and carers were surveyed during the review.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "budget",
+     "sentence": "The budget is set by the treasury each spring.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "hospital",
+     "sentence": "The hospital sector employs a large workforce.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "white paper",
+     "sentence": "This white paper sets out the government's intentions.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "implementation",
+     "sentence": "Implementation begins in January.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "workforce",
+     "sentence": "The workforce includes nurses, doctors and support staff.",
+     "dimension": null,
+     "direction": null
+    }
+   ]
+  },
+  "data_privacy": {
+   "split": "test",
+   "dimensions": [
+    {
+     "name": "consent_requirement",
+     "description": "What kind of agreement is needed before personal data is used.",
+     "positive_means": "strict: explicit, informed, opt-in consent is required",
+     "negative_means": "loose: implied consent, opt-out or no consent is enough"
+    },
+    {
+     "name": "data_minimisation",
+     "description": "How far collection, reuse and retention of data are limited.",
+     "positive_means": "strict limits on what is collected, how long it is kept and what it is reused for",
+     "negative_means": "data may be collected in bulk, kept and reused freely"
+    },
+    {
+     "name": "individual_rights",
+     "description": "What individuals can demand regarding their own data.",
+     "positive_means": "strong rights to access, correct, delete and move their data",
+     "negative_means": "few rights; requests can be refused or charged for"
+    },
+    {
+     "name": "enforcement",
+     "description": "How breaches of the rules are punished.",
+     "positive_means": "strong penalties and regulator powers",
+     "negative_means": "weak, advisory or no penalties"
+    }
+   ],
+   "items": [
+    {
+     "phrase": "opt-in",
+     "sentence": "Marketing emails require prior opt-in from the recipient.",
+     "dimension": "consent_requirement",
+     "direction": "raises"
+    },
+    {
+     "phrase": "explicit consent",
+     "sentence": "Processing health data requires explicit consent.",
+     "dimension": "consent_requirement",
+     "direction": "raises"
+    },
+    {
+     "phrase": "legitimate interest",
+     "sentence": "Firms may rely on legitimate interest instead of asking permission.",
+     "dimension": "consent_requirement",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "implied consent",
+     "sentence": "Continued use of the service counts as implied consent.",
+     "dimension": "consent_requirement",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "opt-out",
+     "sentence": "Data sharing proceeds unless the user files an opt-out.",
+     "dimension": "consent_requirement",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "withdraw consent",
+     "sentence": "Individuals may withdraw consent at any time, as easily as they gave it.",
+     "dimension": "consent_requirement",
+     "direction": "raises"
+    },
+    {
+     "phrase": "pre-ticked boxes",
+     "sentence": "Pre-ticked boxes are an acceptable way to obtain agreement.",
+     "dimension": "consent_requirement",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "parental consent",
+     "sentence": "Parental consent is mandatory for users under sixteen.",
+     "dimension": "consent_requirement",
+     "direction": "raises"
+    },
+    {
+     "phrase": "freely given",
+     "sentence": "Agreement must be freely given, specific and informed.",
+     "dimension": "consent_requirement",
+     "direction": "raises"
+    },
+    {
+     "phrase": "bundled",
+     "sentence": "Permission may be bundled with acceptance of the terms of service.",
+     "dimension": "consent_requirement",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "purpose limitation",
+     "sentence": "Purpose limitation bars the reuse of data for unrelated ends.",
+     "dimension": "data_minimisation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "maximum retention period",
+     "sentence": "A maximum retention period of six months applies to location data.",
+     "dimension": "data_minimisation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "indefinitely",
+     "sentence": "Companies may store customer records indefinitely.",
+     "dimension": "data_minimisation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "strictly necessary",
+     "sentence": "Only data strictly necessary for the service may be collected.",
+     "dimension": "data_minimisation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "bulk collection",
+     "sentence": "Bulk collection of browsing histories is permitted for analytics.",
+     "dimension": "data_minimisation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "anonymised",
+     "sentence": "Records must be anonymised once the transaction is complete.",
+     "dimension": "data_minimisation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "data brokers",
+     "sentence": "Data brokers may freely combine records from multiple sources.",
+     "dimension": "data_minimisation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "storage limitation",
+     "sentence": "Storage limitation obliges firms to erase data they no longer need.",
+     "dimension": "data_minimisation",
+     "direction": "raises"
+    },
+    {
+     "phrase": "secondary use",
+     "sentence": "Secondary use of collected data is unrestricted.",
+     "dimension": "data_minimisation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "any purpose",
+     "sentence": "Once collected, information may be used for any purpose.",
+     "dimension": "data_minimisation",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "right to erasure",
+     "sentence": "The right to erasure lets individuals have their records deleted.",
+     "dimension": "individual_rights",
+     "direction": "raises"
+    },
+    {
+     "phrase": "data portability",
+     "sentence": "Data portability allows users to move their data to a rival service.",
+     "dimension": "individual_rights",
+     "direction": "raises"
+    },
+    {
+     "phrase": "right of access",
+     "sentence": "The right of access entitles anyone to a copy of their data within a month.",
+     "dimension": "individual_rights",
+     "direction": "raises"
+    },
+    {
+     "phrase": "no right to object",
+     "sentence": "There is no right to object to automated profiling.",
+     "dimension": "individual_rights",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "access fee",
+     "sentence": "Firms may charge an access fee for each request.",
+     "dimension": "individual_rights",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "rectification",
+     "sentence": "Individuals may demand rectification of inaccurate records.",
+     "dimension": "individual_rights",
+     "direction": "raises"
+    },
+    {
+     "phrase": "human review",
+     "sentence": "Anyone subject to an automated decision may request human review.",
+     "dimension": "individual_rights",
+     "direction": "raises"
+    },
+    {
+     "phrase": "refuse requests",
+     "sentence": "Controllers may refuse requests they consider burdensome.",
+     "dimension": "individual_rights",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "right to explanation",
+     "sentence": "A right to explanation covers credit scoring decisions.",
+     "dimension": "individual_rights",
+     "direction": "raises"
+    },
+    {
+     "phrase": "waive",
+     "sentence": "Users may be asked to waive their statutory rights in the contract.",
+     "dimension": "individual_rights",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "fines",
+     "sentence": "Breaches attract fines of up to 4% of global revenue.",
+     "dimension": "enforcement",
+     "direction": "raises"
+    },
+    {
+     "phrase": "audit powers",
+     "sentence": "The commissioner has audit powers to enter premises without notice.",
+     "dimension": "enforcement",
+     "direction": "raises"
+    },
+    {
+     "phrase": "self-regulation",
+     "sentence": "The sector is governed by self-regulation with no statutory penalty.",
+     "dimension": "enforcement",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "cease processing",
+     "sentence": "The regulator may order a company to cease processing immediately.",
+     "dimension": "enforcement",
+     "direction": "raises"
+    },
+    {
+     "phrase": "private right of action",
+     "sentence": "A private right of action lets individuals sue for damages.",
+     "dimension": "enforcement",
+     "direction": "raises"
+    },
+    {
+     "phrase": "advisory",
+     "sentence": "The commissioner's rulings are advisory and cannot be enforced.",
+     "dimension": "enforcement",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "criminal offence",
+     "sentence": "Knowingly selling personal data unlawfully is a criminal offence.",
+     "dimension": "enforcement",
+     "direction": "raises"
+    },
+    {
+     "phrase": "written warning",
+     "sentence": "A first violation leads only to a written warning.",
+     "dimension": "enforcement",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "cure period",
+     "sentence": "Firms have a ninety-day cure period before any penalty applies.",
+     "dimension": "enforcement",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "daily penalties",
+     "sentence": "Daily penalties accrue until the breach is remedied.",
+     "dimension": "enforcement",
+     "direction": "raises"
+    },
+    {
+     "phrase": "personal data",
+     "sentence": "Personal data is central to the digital economy.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "controller",
+     "sentence": "A controller is the body that decides how data is processed.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "digital economy",
+     "sentence": "The digital economy has grown every year this decade.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "commission",
+     "sentence": "The commission will review the act after five years.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "online services",
+     "sentence": "Online services are used by most households.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "cross-border",
+     "sentence": "Cross-border trade depends on data flows.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "act",
+     "sentence": "This act may be cited as the Data Protection Act.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "review",
+     "sentence": "A review of the legislation is scheduled for 2030.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "businesses",
+     "sentence": "Businesses of all sizes hold customer information.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "internet",
+     "sentence": "The internet has changed how people communicate.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "schedule",
+     "sentence": "Schedule 2 lists the bodies consulted.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "interpretation",
+     "sentence": "Part 1 deals with interpretation and commencement.",
+     "dimension": null,
+     "direction": null
+    }
+   ]
+  },
+  "climate": {
+   "split": "test",
+   "dimensions": [
+    {
+     "name": "carbon_pricing",
+     "description": "Whether and how much emitters pay for their emissions.",
+     "positive_means": "a high, broad price on emissions",
+     "negative_means": "low or no carbon price; exemptions and free permits"
+    },
+    {
+     "name": "emission_standards",
+     "description": "Binding limits and technical requirements on polluters and products.",
+     "positive_means": "strict mandatory limits and standards",
+     "negative_means": "lax, voluntary or relaxed standards"
+    },
+    {
+     "name": "green_subsidies",
+     "description": "Public financial support for clean technology.",
+     "positive_means": "generous public funding for clean technology",
+     "negative_means": "little or no public support; left to the market"
+    },
+    {
+     "name": "fossil_phaseout",
+     "description": "Whether fossil fuel use and production are being wound down.",
+     "positive_means": "rapid phase-out of fossil fuels",
+     "negative_means": "continued or expanded fossil fuel production and use"
+    }
+   ],
+   "items": [
+    {
+     "phrase": "carbon tax",
+     "sentence": "A carbon tax of 80 euros per tonne applies from next year.",
+     "dimension": "carbon_pricing",
+     "direction": "raises"
+    },
+    {
+     "phrase": "emissions trading",
+     "sentence": "Emissions trading is extended to shipping and buildings.",
+     "dimension": "carbon_pricing",
+     "direction": "raises"
+    },
+    {
+     "phrase": "free allowances",
+     "sentence": "Heavy industry continues to receive free allowances.",
+     "dimension": "carbon_pricing",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "price floor",
+     "sentence": "A price floor prevents permit prices from falling below 50 euros.",
+     "dimension": "carbon_pricing",
+     "direction": "raises"
+    },
+    {
+     "phrase": "fuel duty freeze",
+     "sentence": "The fuel duty freeze is extended for another year.",
+     "dimension": "carbon_pricing",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "border adjustment",
+     "sentence": "A carbon border adjustment charges imports for their embedded emissions.",
+     "dimension": "carbon_pricing",
+     "direction": "raises"
+    },
+    {
+     "phrase": "exempt",
+     "sentence": "Agriculture is exempt from the levy on emissions.",
+     "dimension": "carbon_pricing",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "rebate",
+     "sentence": "A rebate refunds the emissions levy to energy-intensive firms.",
+     "dimension": "carbon_pricing",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "auctioned",
+     "sentence": "All permits will be auctioned instead of given away.",
+     "dimension": "carbon_pricing",
+     "direction": "raises"
+    },
+    {
+     "phrase": "repeal",
+     "sentence": "The bill would repeal the carbon levy.",
+     "dimension": "carbon_pricing",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "tailpipe limits",
+     "sentence": "Tighter tailpipe limits apply to all new cars.",
+     "dimension": "emission_standards",
+     "direction": "raises"
+    },
+    {
+     "phrase": "zero-emission mandate",
+     "sentence": "A zero-emission mandate requires all new vans to be electric by 2035.",
+     "dimension": "emission_standards",
+     "direction": "raises"
+    },
+    {
+     "phrase": "efficiency standards",
+     "sentence": "Minimum efficiency standards apply to rented homes.",
+     "dimension": "emission_standards",
+     "direction": "raises"
+    },
+    {
+     "phrase": "rollback",
+     "sentence": "The rollback relaxes pollution limits for power plants.",
+     "dimension": "emission_standards",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "waiver",
+     "sentence": "Refineries may apply for a waiver from the sulphur limit.",
+     "dimension": "emission_standards",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "methane limits",
+     "sentence": "Methane limits oblige operators to fix leaks within days.",
+     "dimension": "emission_standards",
+     "direction": "raises"
+    },
+    {
+     "phrase": "voluntary targets",
+     "sentence": "Manufacturers are asked to meet voluntary targets.",
+     "dimension": "emission_standards",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "building codes",
+     "sentence": "Building codes require net-zero construction from 2030.",
+     "dimension": "emission_standards",
+     "direction": "raises"
+    },
+    {
+     "phrase": "grandfathered",
+     "sentence": "Existing plants are grandfathered and need not meet the new limits.",
+     "dimension": "emission_standards",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "performance standard",
+     "sentence": "An emissions performance standard caps new power stations at 450 grams per kilowatt-hour.",
+     "dimension": "emission_standards",
+     "direction": "raises"
+    },
+    {
+     "phrase": "feed-in tariff",
+     "sentence": "A feed-in tariff guarantees a price for rooftop solar.",
+     "dimension": "green_subsidies",
+     "direction": "raises"
+    },
+    {
+     "phrase": "tax credit",
+     "sentence": "A tax credit covers 30% of heat pump costs.",
+     "dimension": "green_subsidies",
+     "direction": "raises"
+    },
+    {
+     "phrase": "grants",
+     "sentence": "Grants help households insulate their homes.",
+     "dimension": "green_subsidies",
+     "direction": "raises"
+    },
+    {
+     "phrase": "subsidy cuts",
+     "sentence": "Subsidy cuts end support for onshore wind.",
+     "dimension": "green_subsidies",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "green investment bank",
+     "sentence": "A green investment bank will lend to clean energy projects.",
+     "dimension": "green_subsidies",
+     "direction": "raises"
+    },
+    {
+     "phrase": "phase out support",
+     "sentence": "The government will phase out support for electric vehicle purchases.",
+     "dimension": "green_subsidies",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "loan guarantees",
+     "sentence": "Loan guarantees back new battery factories.",
+     "dimension": "green_subsidies",
+     "direction": "raises"
+    },
+    {
+     "phrase": "market alone",
+     "sentence": "Clean technology is left to the market alone, without public funding.",
+     "dimension": "green_subsidies",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "contracts for difference",
+     "sentence": "Contracts for difference give offshore wind a stable revenue.",
+     "dimension": "green_subsidies",
+     "direction": "raises"
+    },
+    {
+     "phrase": "funding is withdrawn",
+     "sentence": "Funding is withdrawn from the home retrofit programme.",
+     "dimension": "green_subsidies",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "coal phase-out",
+     "sentence": "The coal phase-out is brought forward to 2030.",
+     "dimension": "fossil_phaseout",
+     "direction": "raises"
+    },
+    {
+     "phrase": "new drilling licences",
+     "sentence": "New drilling licences will be issued in the northern basin.",
+     "dimension": "fossil_phaseout",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "gas boilers",
+     "sentence": "A ban on new gas boilers takes effect in 2028.",
+     "dimension": "fossil_phaseout",
+     "direction": "raises"
+    },
+    {
+     "phrase": "pipeline approval",
+     "sentence": "Pipeline approval is fast-tracked for the new gas link.",
+     "dimension": "fossil_phaseout",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "decommissioning",
+     "sentence": "Decommissioning of the last coal plant is scheduled for next year.",
+     "dimension": "fossil_phaseout",
+     "direction": "raises"
+    },
+    {
+     "phrase": "fracking",
+     "sentence": "Fracking is permitted across the region.",
+     "dimension": "fossil_phaseout",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "combustion engine ban",
+     "sentence": "A combustion engine ban applies to new cars from 2035.",
+     "dimension": "fossil_phaseout",
+     "direction": "raises"
+    },
+    {
+     "phrase": "expand production",
+     "sentence": "Operators are encouraged to expand production from existing oil fields.",
+     "dimension": "fossil_phaseout",
+     "direction": "lowers"
+    },
+    {
+     "phrase": "no new coal",
+     "sentence": "The plan commits to no new coal mines.",
+     "dimension": "fossil_phaseout",
+     "direction": "raises"
+    },
+    {
+     "phrase": "divest",
+     "sentence": "Public pension funds must divest from oil and gas companies.",
+     "dimension": "fossil_phaseout",
+     "direction": "raises"
+    },
+    {
+     "phrase": "climate change",
+     "sentence": "Climate change poses risks to the economy.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "greenhouse gases",
+     "sentence": "Greenhouse gases trap heat in the atmosphere.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "scientific advice",
+     "sentence": "The plan draws on scientific advice from the national academy.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "economy",
+     "sentence": "The economy depends on reliable infrastructure.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "international agreements",
+     "sentence": "International agreements set the wider context.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "energy",
+     "sentence": "Energy is used in every sector.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "parliament",
+     "sentence": "Parliament will debate the plan in the autumn.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "weather",
+     "sentence": "Extreme weather has become more frequent.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "strategy",
+     "sentence": "This strategy covers the next decade.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "regions",
+     "sentence": "Regions differ in their energy mix.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "households",
+     "sentence": "Households and firms both consume energy.",
+     "dimension": null,
+     "direction": null
+    },
+    {
+     "phrase": "chapter",
+     "sentence": "Chapter 2 describes the background.",
+     "dimension": null,
+     "direction": null
+    }
+   ]
+  }
+ }
+}
