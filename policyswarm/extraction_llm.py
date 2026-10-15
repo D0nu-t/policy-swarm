@@ -31,7 +31,7 @@ Usage
 
     # Ollama (recommended for development — start with: ollama serve)
     extractor = LLMPolicyExtractor.from_yaml(
-        "schemas/ai_policy.yaml",
+        "policyswarm/schemas/ai_policy.yaml",
         backend="ollama",
         model="llama3.2:3b",
     )
@@ -44,7 +44,7 @@ Usage
 
     # HuggingFace (no server required)
     extractor = LLMPolicyExtractor.from_yaml(
-        "schemas/healthcare_policy.yaml",
+        "policyswarm/schemas/healthcare_policy.yaml",
         backend="huggingface",
         model="microsoft/Phi-3-mini-4k-instruct",
     )
@@ -68,7 +68,7 @@ import json
 import logging
 import re
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Optional, Union
 
@@ -486,7 +486,7 @@ class LLMPolicyExtractor:
         Parameters
         ----------
         schema_path : str or Path
-            Path to a schema YAML file (e.g. "schemas/ai_policy.yaml").
+            Path to a schema YAML file (e.g. "policyswarm/schemas/ai_policy.yaml").
         backend : str
             "ollama" (default) or "huggingface".
         model : str, optional
@@ -682,7 +682,7 @@ class LLMPolicyExtractor:
         """Human-readable extraction summary. Analogous to describe_extraction()."""
         policy = self.extract_text(text)
         lines  = [
-            f"=== LLM Extraction Summary ===",
+            "=== LLM Extraction Summary ===",
             f"Domain   : {self.schema.domain}",
             f"Backend  : {type(self.backend).__name__}",
             f"Dims     : {self.schema.n_dims}",

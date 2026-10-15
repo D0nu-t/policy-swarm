@@ -1,6 +1,23 @@
 __pycache__/
 *.pyc
+*.egg-info/
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# generated outputs
 results/
-policyswarm_output/
 results_s20/
+policyswarm_output/
+runs/
+*.zip
+
+# node
+node_modules/
+policyswarm/tui/dist/
+
+# tooling
+graphify-out/
 .DS_Store
+.claude/
+models/
