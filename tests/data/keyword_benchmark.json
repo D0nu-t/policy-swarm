@@ -1,5 +1,5 @@
 {
- "note": "Labels were drafted by an AI assistant (Claude) on 2026-10-12 and spot-checked by the project author; see README. Direction is relative to each dimension's positive end. dev = used to choose between variants; test = held out.",
+ "note": "Labels were drafted by an AI assistant (Claude) on 2026-10-12. The author independently labelled a random 40 (2026-10-15) and agreed on 26; for the 14 others the author's reading is kept as also_accept, so either answer scores as correct. Direction is relative to each dimension's positive end. dev = used to choose between variants; test = held out.",
  "domains": {
   "ai_governance": {
    "split": "dev",
@@ -46,7 +46,14 @@
      "phrase": "pre-market approval",
      "sentence": "High-risk systems require pre-market approval before they may be placed on the market.",
      "dimension": "deployment_cap",
-     "direction": "lowers"
+     "direction": "lowers",
+     "also_accept": [
+      {
+       "dimension": "enforcement",
+       "direction": "raises",
+       "source": "author spot-check, 2026-10-15"
+      }
+     ]
     },
     {
      "phrase": "regulatory sandbox",
@@ -148,7 +155,14 @@
      "phrase": "public register",
      "sentence": "All high-risk systems must be entered in a public register.",
      "dimension": "transparency",
-     "direction": "raises"
+     "direction": "raises",
+     "also_accept": [
+      {
+       "dimension": "audit_intensity",
+       "direction": "raises",
+       "source": "author spot-check, 2026-10-15"
+      }
+     ]
     },
     {
      "phrase": "fines",
@@ -322,7 +336,14 @@
      "phrase": "global",
      "sentence": "AI is a global technology developed in many countries.",
      "dimension": null,
-     "direction": null
+     "direction": null,
+     "also_accept": [
+      {
+       "dimension": "deployment_cap",
+       "direction": "raises",
+       "source": "author spot-check, 2026-10-15"
+      }
+     ]
     },
     {
      "phrase": "committee",
@@ -455,7 +476,14 @@
      "phrase": "out-of-pocket cap",
      "sentence": "An out-of-pocket cap of 500 dollars protects patients from large bills.",
      "dimension": "cost_sharing",
-     "direction": "lowers"
+     "direction": "lowers",
+     "also_accept": [
+      {
+       "dimension": "provider_regulation",
+       "direction": "raises",
+       "source": "author spot-check, 2026-10-15"
+      }
+     ]
     },
     {
      "phrase": "coinsurance",
@@ -659,7 +687,14 @@
      "phrase": "budget",
      "sentence": "The budget is set by the treasury each spring.",
      "dimension": null,
-     "direction": null
+     "direction": null,
+     "also_accept": [
+      {
+       "dimension": "provider_regulation",
+       "direction": "raises",
+       "source": "author spot-check, 2026-10-15"
+      }
+     ]
     },
     {
      "phrase": "hospital",
@@ -744,7 +779,14 @@
      "phrase": "opt-out",
      "sentence": "Data sharing proceeds unless the user files an opt-out.",
      "dimension": "consent_requirement",
-     "direction": "lowers"
+     "direction": "lowers",
+     "also_accept": [
+      {
+       "dimension": "individual_rights",
+       "direction": "lowers",
+       "source": "author spot-check, 2026-10-15"
+      }
+     ]
     },
     {
      "phrase": "withdraw consent",
@@ -834,7 +876,14 @@
      "phrase": "any purpose",
      "sentence": "Once collected, information may be used for any purpose.",
      "dimension": "data_minimisation",
-     "direction": "lowers"
+     "direction": "lowers",
+     "also_accept": [
+      {
+       "dimension": "enforcement",
+       "direction": "lowers",
+       "source": "author spot-check, 2026-10-15"
+      }
+     ]
     },
     {
      "phrase": "right to erasure",
@@ -924,7 +973,14 @@
      "phrase": "private right of action",
      "sentence": "A private right of action lets individuals sue for damages.",
      "dimension": "enforcement",
-     "direction": "raises"
+     "direction": "raises",
+     "also_accept": [
+      {
+       "dimension": "individual_rights",
+       "direction": "raises",
+       "source": "author spot-check, 2026-10-15"
+      }
+     ]
     },
     {
      "phrase": "advisory",
@@ -990,7 +1046,14 @@
      "phrase": "cross-border",
      "sentence": "Cross-border trade depends on data flows.",
      "dimension": null,
-     "direction": null
+     "direction": null,
+     "also_accept": [
+      {
+       "dimension": "data_minimisation",
+       "direction": "raises",
+       "source": "author spot-check, 2026-10-15"
+      }
+     ]
     },
     {
      "phrase": "act",
@@ -1099,7 +1162,14 @@
      "phrase": "exempt",
      "sentence": "Agriculture is exempt from the levy on emissions.",
      "dimension": "carbon_pricing",
-     "direction": "lowers"
+     "direction": "lowers",
+     "also_accept": [
+      {
+       "dimension": "emission_standards",
+       "direction": "lowers",
+       "source": "author spot-check, 2026-10-15"
+      }
+     ]
     },
     {
      "phrase": "rebate",
@@ -1243,7 +1313,14 @@
      "phrase": "coal phase-out",
      "sentence": "The coal phase-out is brought forward to 2030.",
      "dimension": "fossil_phaseout",
-     "direction": "raises"
+     "direction": "raises",
+     "also_accept": [
+      {
+       "dimension": "carbon_pricing",
+       "direction": "lowers",
+       "source": "author spot-check, 2026-10-15"
+      }
+     ]
     },
     {
      "phrase": "new drilling licences",
@@ -1273,7 +1350,14 @@
      "phrase": "fracking",
      "sentence": "Fracking is permitted across the region.",
      "dimension": "fossil_phaseout",
-     "direction": "lowers"
+     "direction": "lowers",
+     "also_accept": [
+      {
+       "dimension": "carbon_pricing",
+       "direction": "lowers",
+       "source": "author spot-check, 2026-10-15"
+      }
+     ]
     },
     {
      "phrase": "combustion engine ban",
@@ -1297,13 +1381,27 @@
      "phrase": "divest",
      "sentence": "Public pension funds must divest from oil and gas companies.",
      "dimension": "fossil_phaseout",
-     "direction": "raises"
+     "direction": "raises",
+     "also_accept": [
+      {
+       "dimension": "carbon_pricing",
+       "direction": "raises",
+       "source": "author spot-check, 2026-10-15"
+      }
+     ]
     },
     {
      "phrase": "climate change",
      "sentence": "Climate change poses risks to the economy.",
      "dimension": null,
-     "direction": null
+     "direction": null,
+     "also_accept": [
+      {
+       "dimension": "green_subsidies",
+       "direction": "raises",
+       "source": "author spot-check, 2026-10-15"
+      }
+     ]
     },
     {
      "phrase": "greenhouse gases",

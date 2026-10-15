@@ -1,31 +1,31 @@
 ﻿n,domain,phrase,sentence,choices,your_dimension,your_direction
-1,trade,aspirational language,The sustainability section uses only aspirational language.,tariff_protection | standards_in_agreements | export_promotion | none,,
-2,tax,luxury tax,A luxury tax is charged on yachts and private jets.,progressivity | corporate_taxation | consumption_taxes | wealth_taxation | tax_enforcement | none,,
-3,policing,encryption backdoors,Messaging services must provide encryption backdoors.,police_powers | sentencing_severity | police_oversight | surveillance | prevention_spending | none,,
-4,labour,occupations,Occupations are classified by code.,minimum_wage | job_security | union_power | working_time | gig_worker_status | unemployment_support | none,,
-5,education,league tables,League tables rank every school by exam results.,school_funding | standardised_accountability | school_choice | none,,
-6,labour,sectors,Sectors vary in size.,minimum_wage | job_security | union_power | working_time | gig_worker_status | unemployment_support | none,,
-7,tax,legislation,The legislation runs to four hundred pages.,progressivity | corporate_taxation | consumption_taxes | wealth_taxation | tax_enforcement | none,,
-8,food_safety,tolerance levels are raised,Tolerance levels are raised for contaminants in grain.,safety_standards | labelling_requirements | inspection_regime | none,,
-9,food_safety,raw milk,Raw milk may be sold directly to the public.,safety_standards | labelling_requirements | inspection_regime | none,,
-10,education,catchment areas,Strict catchment areas assign each child to the nearest school.,school_funding | standardised_accountability | school_choice | none,,
-11,education,charter schools,The cap on charter schools is lifted.,school_funding | standardised_accountability | school_choice | none,,
-12,energy_markets,appendix,Appendix A contains the data tables.,price_regulation | public_ownership | market_competition | supply_security | none,,
-13,energy_markets,public energy company,A public energy company will build wind farms.,price_regulation | public_ownership | market_competition | supply_security | none,,
-14,policing,independent complaints body,An independent complaints body investigates every death in custody.,police_powers | sentencing_severity | police_oversight | surveillance | prevention_spending | none,,
-15,immigration,points-based system,A points-based system raises the bar for entry.,admission_levels | border_control | migrant_rights | path_to_citizenship | none,,
-16,labour,minimum service levels,Minimum service levels must be kept during transport strikes.,minimum_wage | job_security | union_power | working_time | gig_worker_status | unemployment_support | none,,
-17,housing,minister,The minister visited three sites.,rent_regulation | public_housing | planning_liberalisation | homeownership_support | property_speculation_curbs | none,,
-18,telecoms,ownership limits are scrapped,Cross-ownership limits are scrapped.,net_neutrality | universal_service | content_moderation_duties | spectrum_liberalisation | market_concentration_limits | network_security_rules | none,,
-19,telecoms,operators,Operators attended an industry day.,net_neutrality | universal_service | content_moderation_duties | spectrum_liberalisation | market_concentration_limits | network_security_rules | none,,
-20,trade,export credit,Export credit guarantees back sales to risky markets.,tariff_protection | standards_in_agreements | export_promotion | none,,
-21,housing,department,The department was reorganised last year.,rent_regulation | public_housing | planning_liberalisation | homeownership_support | property_speculation_curbs | none,,
-22,tax,budget,The budget was presented to parliament in March.,progressivity | corporate_taxation | consumption_taxes | wealth_taxation | tax_enforcement | none,,
-23,immigration,section,Section 12 defines the terms used.,admission_levels | border_control | migrant_rights | path_to_citizenship | none,,
-24,housing,local veto,A local veto lets residents reject any new development.,rent_regulation | public_housing | planning_liberalisation | homeownership_support | property_speculation_curbs | none,,
-25,immigration,access to schooling,All children have access to schooling whatever their status.,admission_levels | border_control | migrant_rights | path_to_citizenship | none,,
-26,energy_markets,industry,The industry employs many technicians.,price_regulation | public_ownership | market_competition | supply_security | none,,
-27,food_safety,farmers,Farmers attended the regional meeting.,safety_standards | labelling_requirements | inspection_regime | none,,
-28,policing,protest restrictions,New protest restrictions let police impose conditions on marches.,police_powers | sentencing_severity | police_oversight | surveillance | prevention_spending | none,,
-29,trade,commercial attaches,More commercial attaches are posted to embassies.,tariff_protection | standards_in_agreements | export_promotion | none,,
-30,telecoms,takedown within 24 hours,Illegal posts require takedown within 24 hours.,net_neutrality | universal_service | content_moderation_duties | spectrum_liberalisation | market_concentration_limits | network_security_rules | none,,
+1,trade,aspirational language,The sustainability section uses only aspirational language.,tariff_protection | standards_in_agreements | export_promotion | none,standards_in_agreements,lowers
+2,tax,luxury tax,A luxury tax is charged on yachts and private jets.,progressivity | corporate_taxation | consumption_taxes | wealth_taxation | tax_enforcement | none,wealth_taxation,raises
+3,policing,encryption backdoors,Messaging services must provide encryption backdoors.,police_powers | sentencing_severity | police_oversight | surveillance | prevention_spending | none,police_powers,raises
+4,labour,occupations,Occupations are classified by code.,minimum_wage | job_security | union_power | working_time | gig_worker_status | unemployment_support | none,job_security,lowers
+5,education,league tables,League tables rank every school by exam results.,school_funding | standardised_accountability | school_choice | none,school_choice,raises
+6,labour,sectors,Sectors vary in size.,minimum_wage | job_security | union_power | working_time | gig_worker_status | unemployment_support | none,none,
+7,tax,legislation,The legislation runs to four hundred pages.,progressivity | corporate_taxation | consumption_taxes | wealth_taxation | tax_enforcement | none,none,
+8,food_safety,tolerance levels are raised,Tolerance levels are raised for contaminants in grain.,safety_standards | labelling_requirements | inspection_regime | none,safety_standards,lowers
+9,food_safety,raw milk,Raw milk may be sold directly to the public.,safety_standards | labelling_requirements | inspection_regime | none,safety_standards,lowers
+10,education,catchment areas,Strict catchment areas assign each child to the nearest school.,school_funding | standardised_accountability | school_choice | none,school_choice,lowers
+11,education,charter schools,The cap on charter schools is lifted.,school_funding | standardised_accountability | school_choice | none,school_choice,raises
+12,energy_markets,appendix,Appendix A contains the data tables.,price_regulation | public_ownership | market_competition | supply_security | none,none,
+13,energy_markets,public energy company,A public energy company will build wind farms.,price_regulation | public_ownership | market_competition | supply_security | none,public_ownership,raises
+14,policing,independent complaints body,An independent complaints body investigates every death in custody.,police_powers | sentencing_severity | police_oversight | surveillance | prevention_spending | none,police_oversight,raises
+15,immigration,points-based system,A points-based system raises the bar for entry.,admission_levels | border_control | migrant_rights | path_to_citizenship | none,path_to_citizenship,lowers
+16,labour,minimum service levels,Minimum service levels must be kept during transport strikes.,minimum_wage | job_security | union_power | working_time | gig_worker_status | unemployment_support | none,union_power,lowers
+17,housing,minister,The minister visited three sites.,rent_regulation | public_housing | planning_liberalisation | homeownership_support | property_speculation_curbs | none,none,
+18,telecoms,ownership limits are scrapped,Cross-ownership limits are scrapped.,net_neutrality | universal_service | content_moderation_duties | spectrum_liberalisation | market_concentration_limits | network_security_rules | none,market_concentration_limits,lowers
+19,telecoms,operators,Operators attended an industry day.,net_neutrality | universal_service | content_moderation_duties | spectrum_liberalisation | market_concentration_limits | network_security_rules | none,none,
+20,trade,export credit,Export credit guarantees back sales to risky markets.,tariff_protection | standards_in_agreements | export_promotion | none,export_promotion,raises
+21,housing,department,The department was reorganised last year.,rent_regulation | public_housing | planning_liberalisation | homeownership_support | property_speculation_curbs | none,none,
+22,tax,budget,The budget was presented to parliament in March.,progressivity | corporate_taxation | consumption_taxes | wealth_taxation | tax_enforcement | none,none,
+23,immigration,section,Section 12 defines the terms used.,admission_levels | border_control | migrant_rights | path_to_citizenship | none,none,
+24,housing,local veto,A local veto lets residents reject any new development.,rent_regulation | public_housing | planning_liberalisation | homeownership_support | property_speculation_curbs | none,planning_liberalisation,lowers
+25,immigration,access to schooling,All children have access to schooling whatever their status.,admission_levels | border_control | migrant_rights | path_to_citizenship | none,admission_levels,raises
+26,energy_markets,industry,The industry employs many technicians.,price_regulation | public_ownership | market_competition | supply_security | none,none,
+27,food_safety,farmers,Farmers attended the regional meeting.,safety_standards | labelling_requirements | inspection_regime | none,none,
+28,policing,protest restrictions,New protest restrictions let police impose conditions on marches.,police_powers | sentencing_severity | police_oversight | surveillance | prevention_spending | none,police_powers,raises
+29,trade,commercial attaches,More commercial attaches are posted to embassies.,tariff_protection | standards_in_agreements | export_promotion | none,none,
+30,telecoms,takedown within 24 hours,Illegal posts require takedown within 24 hours.,net_neutrality | universal_service | content_moderation_duties | spectrum_liberalisation | market_concentration_limits | network_security_rules | none,content_moderation_duties,raises

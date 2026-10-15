@@ -1,41 +1,41 @@
 ﻿n,domain,phrase,sentence,choices,your_dimension,your_direction
-1,ai_governance,third-party audit,Each high-risk system must pass a third-party audit every year.,deployment_cap | transparency | enforcement | audit_intensity | none,,
-2,data_privacy,private right of action,A private right of action lets individuals sue for damages.,consent_requirement | data_minimisation | individual_rights | enforcement | none,,
-3,climate,climate change,Climate change poses risks to the economy.,carbon_pricing | emission_standards | green_subsidies | fossil_phaseout | none,,
-4,data_privacy,cross-border,Cross-border trade depends on data flows.,consent_requirement | data_minimisation | individual_rights | enforcement | none,,
-5,data_privacy,any purpose,"Once collected, information may be used for any purpose.",consent_requirement | data_minimisation | individual_rights | enforcement | none,,
-6,climate,exempt,Agriculture is exempt from the levy on emissions.,carbon_pricing | emission_standards | green_subsidies | fossil_phaseout | none,,
-7,healthcare,out-of-pocket cap,An out-of-pocket cap of 500 dollars protects patients from large bills.,access_restriction | cost_sharing | provider_regulation | coverage_mandate | none,,
-8,healthcare,lifetime limits,Plans may impose lifetime limits on benefits paid.,access_restriction | cost_sharing | provider_regulation | coverage_mandate | none,,
-9,climate,rollback,The rollback relaxes pollution limits for power plants.,carbon_pricing | emission_standards | green_subsidies | fossil_phaseout | none,,
-10,healthcare,exclusions,Insurers may apply exclusions for pre-existing conditions.,access_restriction | cost_sharing | provider_regulation | coverage_mandate | none,,
-11,healthcare,walk-in,Walk-in clinics must accept every patient without an appointment.,access_restriction | cost_sharing | provider_regulation | coverage_mandate | none,,
-12,ai_governance,public register,All high-risk systems must be entered in a public register.,deployment_cap | transparency | enforcement | audit_intensity | none,,
-13,climate,chapter,Chapter 2 describes the background.,carbon_pricing | emission_standards | green_subsidies | fossil_phaseout | none,,
-14,data_privacy,fines,Breaches attract fines of up to 4% of global revenue.,consent_requirement | data_minimisation | individual_rights | enforcement | none,,
-15,ai_governance,global,AI is a global technology developed in many countries.,deployment_cap | transparency | enforcement | audit_intensity | none,,
-16,healthcare,any willing provider,"Under the any willing provider rule, patients may choose any licensed clinic.",access_restriction | cost_sharing | provider_regulation | coverage_mandate | none,,
-17,ai_governance,confidential,Risk assessments submitted to the authority remain confidential and are not released to the public.,deployment_cap | transparency | enforcement | audit_intensity | none,,
-18,climate,fracking,Fracking is permitted across the region.,carbon_pricing | emission_standards | green_subsidies | fossil_phaseout | none,,
-19,climate,grants,Grants help households insulate their homes.,carbon_pricing | emission_standards | green_subsidies | fossil_phaseout | none,,
-20,healthcare,opt out,Employers may opt out of covering prescription drugs.,access_restriction | cost_sharing | provider_regulation | coverage_mandate | none,,
-21,ai_governance,self-assessment,Providers may rely on a self-assessment instead of external review.,deployment_cap | transparency | enforcement | audit_intensity | none,,
-22,ai_governance,revoke,The regulator may revoke a provider's licence after repeated breaches.,deployment_cap | transparency | enforcement | audit_intensity | none,,
-23,data_privacy,cure period,Firms have a ninety-day cure period before any penalty applies.,consent_requirement | data_minimisation | individual_rights | enforcement | none,,
-24,climate,coal phase-out,The coal phase-out is brought forward to 2030.,carbon_pricing | emission_standards | green_subsidies | fossil_phaseout | none,,
-25,data_privacy,bundled,Permission may be bundled with acceptance of the terms of service.,consent_requirement | data_minimisation | individual_rights | enforcement | none,,
-26,ai_governance,grace period,A three-year grace period applies before any penalty can be imposed.,deployment_cap | transparency | enforcement | audit_intensity | none,,
-27,healthcare,deregulation,The bill pursues deregulation of private clinics.,access_restriction | cost_sharing | provider_regulation | coverage_mandate | none,,
-28,data_privacy,commission,The commission will review the act after five years.,consent_requirement | data_minimisation | individual_rights | enforcement | none,,
-29,data_privacy,opt-out,Data sharing proceeds unless the user files an opt-out.,consent_requirement | data_minimisation | individual_rights | enforcement | none,,
-30,healthcare,balance billing,Providers may engage in balance billing for the difference.,access_restriction | cost_sharing | provider_regulation | coverage_mandate | none,,
-31,healthcare,user charges,User charges are introduced for emergency room visits.,access_restriction | cost_sharing | provider_regulation | coverage_mandate | none,,
-32,climate,feed-in tariff,A feed-in tariff guarantees a price for rooftop solar.,carbon_pricing | emission_standards | green_subsidies | fossil_phaseout | none,,
-33,data_privacy,pre-ticked boxes,Pre-ticked boxes are an acceptable way to obtain agreement.,consent_requirement | data_minimisation | individual_rights | enforcement | none,,
-34,ai_governance,continuous monitoring,Deployed models are subject to continuous monitoring by the supervisory authority.,deployment_cap | transparency | enforcement | audit_intensity | none,,
-35,ai_governance,injunction,The authority may seek an injunction to withdraw a non-compliant system from the market.,deployment_cap | transparency | enforcement | audit_intensity | none,,
-36,climate,divest,Public pension funds must divest from oil and gas companies.,carbon_pricing | emission_standards | green_subsidies | fossil_phaseout | none,,
-37,ai_governance,pre-market approval,High-risk systems require pre-market approval before they may be placed on the market.,deployment_cap | transparency | enforcement | audit_intensity | none,,
-38,healthcare,budget,The budget is set by the treasury each spring.,access_restriction | cost_sharing | provider_regulation | coverage_mandate | none,,
-39,climate,market alone,"Clean technology is left to the market alone, without public funding.",carbon_pricing | emission_standards | green_subsidies | fossil_phaseout | none,,
-40,data_privacy,data portability,Data portability allows users to move their data to a rival service.,consent_requirement | data_minimisation | individual_rights | enforcement | none,,
+1,ai_governance,third-party audit,Each high-risk system must pass a third-party audit every year.,deployment_cap | transparency | enforcement | audit_intensity | none,audit_intensity,raises
+2,data_privacy,private right of action,A private right of action lets individuals sue for damages.,consent_requirement | data_minimisation | individual_rights | enforcement | none,individual_rights,raises
+3,climate,climate change,Climate change poses risks to the economy.,carbon_pricing | emission_standards | green_subsidies | fossil_phaseout | none,green_subsidies,raises
+4,data_privacy,cross-border,Cross-border trade depends on data flows.,consent_requirement | data_minimisation | individual_rights | enforcement | none,data_minimisation,raises
+5,data_privacy,any purpose,"Once collected, information may be used for any purpose.",consent_requirement | data_minimisation | individual_rights | enforcement | none,enforcement,lowers
+6,climate,exempt,Agriculture is exempt from the levy on emissions.,carbon_pricing | emission_standards | green_subsidies | fossil_phaseout | none,emission_standards,lowers
+7,healthcare,out-of-pocket cap,An out-of-pocket cap of 500 dollars protects patients from large bills.,access_restriction | cost_sharing | provider_regulation | coverage_mandate | none,provider_regulation,raises
+8,healthcare,lifetime limits,Plans may impose lifetime limits on benefits paid.,access_restriction | cost_sharing | provider_regulation | coverage_mandate | none,coverage_mandate,lowers
+9,climate,rollback,The rollback relaxes pollution limits for power plants.,carbon_pricing | emission_standards | green_subsidies | fossil_phaseout | none,emission_standards,lowers
+10,healthcare,exclusions,Insurers may apply exclusions for pre-existing conditions.,access_restriction | cost_sharing | provider_regulation | coverage_mandate | none,coverage_mandate,lowers
+11,healthcare,walk-in,Walk-in clinics must accept every patient without an appointment.,access_restriction | cost_sharing | provider_regulation | coverage_mandate | none,access_restriction,lowers
+12,ai_governance,public register,All high-risk systems must be entered in a public register.,deployment_cap | transparency | enforcement | audit_intensity | none,audit_intensity,raises
+13,climate,chapter,Chapter 2 describes the background.,carbon_pricing | emission_standards | green_subsidies | fossil_phaseout | none,none,
+14,data_privacy,fines,Breaches attract fines of up to 4% of global revenue.,consent_requirement | data_minimisation | individual_rights | enforcement | none,enforcement,raises
+15,ai_governance,global,AI is a global technology developed in many countries.,deployment_cap | transparency | enforcement | audit_intensity | none,deployment_cap,raises
+16,healthcare,any willing provider,"Under the any willing provider rule, patients may choose any licensed clinic.",access_restriction | cost_sharing | provider_regulation | coverage_mandate | none,access_restriction,lowers
+17,ai_governance,confidential,Risk assessments submitted to the authority remain confidential and are not released to the public.,deployment_cap | transparency | enforcement | audit_intensity | none,transparency,lowers
+18,climate,fracking,Fracking is permitted across the region.,carbon_pricing | emission_standards | green_subsidies | fossil_phaseout | none,carbon_pricing,lowers
+19,climate,grants,Grants help households insulate their homes.,carbon_pricing | emission_standards | green_subsidies | fossil_phaseout | none,green_subsidies,raises
+20,healthcare,opt out,Employers may opt out of covering prescription drugs.,access_restriction | cost_sharing | provider_regulation | coverage_mandate | none,coverage_mandate,lowers
+21,ai_governance,self-assessment,Providers may rely on a self-assessment instead of external review.,deployment_cap | transparency | enforcement | audit_intensity | none,audit_intensity,lowers
+22,ai_governance,revoke,The regulator may revoke a provider's licence after repeated breaches.,deployment_cap | transparency | enforcement | audit_intensity | none,enforcement,raises
+23,data_privacy,cure period,Firms have a ninety-day cure period before any penalty applies.,consent_requirement | data_minimisation | individual_rights | enforcement | none,enforcement,lowers
+24,climate,coal phase-out,The coal phase-out is brought forward to 2030.,carbon_pricing | emission_standards | green_subsidies | fossil_phaseout | none,carbon_pricing,lowers
+25,data_privacy,bundled,Permission may be bundled with acceptance of the terms of service.,consent_requirement | data_minimisation | individual_rights | enforcement | none,consent_requirement,lowers
+26,ai_governance,grace period,A three-year grace period applies before any penalty can be imposed.,deployment_cap | transparency | enforcement | audit_intensity | none,enforcement,lowers
+27,healthcare,deregulation,The bill pursues deregulation of private clinics.,access_restriction | cost_sharing | provider_regulation | coverage_mandate | none,provider_regulation,lowers
+28,data_privacy,commission,The commission will review the act after five years.,consent_requirement | data_minimisation | individual_rights | enforcement | none,none,
+29,data_privacy,opt-out,Data sharing proceeds unless the user files an opt-out.,consent_requirement | data_minimisation | individual_rights | enforcement | none,individual_rights,lowers
+30,healthcare,balance billing,Providers may engage in balance billing for the difference.,access_restriction | cost_sharing | provider_regulation | coverage_mandate | none,cost_sharing,raises
+31,healthcare,user charges,User charges are introduced for emergency room visits.,access_restriction | cost_sharing | provider_regulation | coverage_mandate | none,cost_sharing,raises
+32,climate,feed-in tariff,A feed-in tariff guarantees a price for rooftop solar.,carbon_pricing | emission_standards | green_subsidies | fossil_phaseout | none,green_subsidies,raises
+33,data_privacy,pre-ticked boxes,Pre-ticked boxes are an acceptable way to obtain agreement.,consent_requirement | data_minimisation | individual_rights | enforcement | none,consent_requirement,lowers
+34,ai_governance,continuous monitoring,Deployed models are subject to continuous monitoring by the supervisory authority.,deployment_cap | transparency | enforcement | audit_intensity | none,audit_intensity,raises
+35,ai_governance,injunction,The authority may seek an injunction to withdraw a non-compliant system from the market.,deployment_cap | transparency | enforcement | audit_intensity | none,enforcement,raises
+36,climate,divest,Public pension funds must divest from oil and gas companies.,carbon_pricing | emission_standards | green_subsidies | fossil_phaseout | none,carbon_pricing,raises
+37,ai_governance,pre-market approval,High-risk systems require pre-market approval before they may be placed on the market.,deployment_cap | transparency | enforcement | audit_intensity | none,enforcement,raises
+38,healthcare,budget,The budget is set by the treasury each spring.,access_restriction | cost_sharing | provider_regulation | coverage_mandate | none,provider_regulation,raises
+39,climate,market alone,"Clean technology is left to the market alone, without public funding.",carbon_pricing | emission_standards | green_subsidies | fossil_phaseout | none,green_subsidies,lowers
+40,data_privacy,data portability,Data portability allows users to move their data to a rival service.,consent_requirement | data_minimisation | individual_rights | enforcement | none,individual_rights,raises

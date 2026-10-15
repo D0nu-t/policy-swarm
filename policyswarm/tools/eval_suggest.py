@@ -22,6 +22,9 @@ precision   of the rules the model suggested, the share with the right
 recall      of the phrases that should get a rule, the share that got the right one.
 none->rule  of the phrases that should get no rule, the share given one.
 
+An item can carry ``also_accept`` labels where an independent labeller read it
+differently; any accepted label scores as correct (``accepted_labels``).
+
 Baselines: always answering the commonest dimension and direction, and word
 overlap between the phrase's sentence and each dimension's description.
 
@@ -124,6 +127,18 @@ def overlap_predictor(items: List[dict], dimensions: List[Dimension]) -> List[Pr
 # Scoring
 # ---------------------------------------------------------------------------
 
+def accepted_labels(item: dict) -> List[Tuple[Optional[str], Optional[str]]]:
+    """Every (dimension, direction) counted as correct for an item.
+
+    The drafted label, plus any ``also_accept`` alternatives: items where an
+    independent labeller read the phrase differently and both readings are
+    kept. ``(None, None)`` means "no rule".
+    """
+    labels = [(item["dimension"], item["direction"])]
+    labels += [(alt["dimension"], alt["direction"]) for alt in item.get("also_accept", [])]
+    return labels
+
+
 def score(domains: Dict[str, dict], predictor: Predictor) -> Dict[str, Any]:
     """Run ``predictor`` over every domain and count outcomes."""
     rows = []
@@ -131,17 +146,19 @@ def score(domains: Dict[str, dict], predictor: Predictor) -> Dict[str, Any]:
     for name, domain in domains.items():
         predictions = predictor(domain["items"], _dimensions(domain))
         for item, (dimension, direction, confidence) in zip(domain["items"], predictions):
+            accepted = accepted_labels(item)
             rows.append({
                 "domain": name, "phrase": item["phrase"],
                 "true_dimension": item["dimension"], "true_direction": item["direction"],
                 "dimension": dimension, "direction": direction, "confidence": confidence,
-                "correct": dimension is not None and dimension == item["dimension"]
-                           and direction == item["direction"],
-                "dimension_ok": dimension == item["dimension"],
+                "correct": dimension is not None and (dimension, direction) in accepted,
+                "dimension_ok": dimension in {d for d, _ in accepted},
+                "wants_rule": any(d is not None for d, _ in accepted),
+                "allows_none": any(d is None for d, _ in accepted),
             })
     suggested = [r for r in rows if r["dimension"] is not None]
-    wanted = [r for r in rows if r["true_dimension"] is not None]
-    unwanted = [r for r in rows if r["true_dimension"] is None]
+    wanted = [r for r in rows if r["wants_rule"]]
+    unwanted = [r for r in rows if r["allows_none"]]
     correct = sum(r["correct"] for r in rows)
     return {
         "items"       : len(rows),

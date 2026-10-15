@@ -3,6 +3,7 @@
 The decision model is replaced by a scripted fake, so Laya is not needed here.
 """
 
+import json
 from pathlib import Path
 
 import pytest
@@ -283,3 +284,24 @@ def test_decider_loads_each_checkpoint_once(monkeypatch):
     assert tuned.decide([{}], {}) == [{"from": "models/tuned"}]
     assert LayaDecider().decide([{}, {}], {}) == [{"from": DEFAULT_CHECKPOINT}] * 2
     assert loaded == [DEFAULT_CHECKPOINT, "models/tuned"]
+
+
+def test_alternative_labels_count_as_correct():
+    from policyswarm.tools.eval_suggest import accepted_labels, score
+    domain = {"dimensions": [d.to_dict() for d in DIMENSIONS], "items": [
+        {"phrase": "pilots", "sentence": "s", "dimension": "shipping", "direction": "raises",
+         "also_accept": [{"dimension": "farming", "direction": "raises"}]},
+        {"phrase": "chapter", "sentence": "s", "dimension": None, "direction": None,
+         "also_accept": [{"dimension": "farming", "direction": "lowers"}]},
+        {"phrase": "frost", "sentence": "s", "dimension": "farming", "direction": "lowers"}]}
+    assert accepted_labels(domain["items"][0]) == [("shipping", "raises"), ("farming", "raises")]
+    result = score({"demo": domain}, lambda items, dims: [
+        ("farming", "raises", None), ("farming", "lowers", None), ("farming", "raises", None)])
+    assert [r["correct"] for r in result["rows"]] == [True, True, False]
+    assert result["precision"] == pytest.approx(2 / 3)
+    # The "chapter" item allows no rule as well as a rule, so it is both wanted and unwanted.
+    assert result["recall"] == pytest.approx(2 / 3) and result["none_to_rule"] == 1.0
+
+    bench = json.loads((Path(__file__).parent / "data" / "keyword_benchmark.json").read_text(encoding="utf-8"))
+    alternatives = [i for d in bench["domains"].values() for i in d["items"] if "also_accept" in i]
+    assert len(alternatives) == 14

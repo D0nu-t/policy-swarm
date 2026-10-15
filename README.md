@@ -262,11 +262,11 @@ It takes the simulation settings, opinion space and policy text from the form, p
 
    | Held-out domains (104 phrases) | Precision | Recall | Generic phrases given a rule |
    |---|---|---|---|
-   | Laya, default questions | 0.66 | 0.49 | 0.17 |
-   | Word-overlap baseline (no model) | 0.53 | 0.46 | 0.29 |
+   | Laya, default questions | 0.68 | 0.49 | 0.17 |
+   | Word-overlap baseline (no model) | 0.56 | 0.48 | 0.29 |
    | Bar set beforehand for "useful" | 0.75 | 0.50 | 0.15 |
 
-   It beats the baseline and misses the bar on all three. Rewording the questions did not help: on the tuning domains, showing the model each dimension's two ends, or asking one yes/no or three-way question per dimension, made it give a rule to nearly every phrase (precision 0.25 to 0.32 against 0.56). Those variants remain selectable in `suggest.rate_keywords(strategy=...)`. The benchmark labels were drafted by an AI assistant; `--make-spot-check` / `--check-spot-check` let a person verify a sample. 
+   It beats the baseline and misses the bar on all three. Rewording the questions did not help: on the tuning domains, showing the model each dimension's two ends, or asking one yes/no or three-way question per dimension, made it give a rule to nearly every phrase (precision 0.25 to 0.32 against 0.56). Those variants remain selectable in `suggest.rate_keywords(strategy=...)`. **How far to trust the labels.** They were drafted by an AI assistant. The author labelled a random 40 of them independently (re-checking 12 doubtful answers) and agreed on 26 (65%); on a 30-item sample of the training set the agreement was 23 (77%). The dimensions overlap ("public register" is both transparency and auditing), so for the 14 benchmark disagreements both readings now count as correct (`also_accept`); the table above uses that rule. With people agreeing only about two thirds of the time, the 0.75 precision bar may be above what any model can reach against these labels.
 
    **Head-only fine-tuning was tried and did not help** (2026-10-12; 603 newly labelled phrases in ten other policy domains, `tests/data/keyword_training.json`; encoder frozen, CPU). On the tuning domains, zero-shot scored 0.56 precision / 0.38 recall. With Laya's default training objective two runs left 102 to 104 of 104 decisions unchanged. With plain cross-entropy the model picked the right dimension more often but almost stopped answering "none", scoring 0.41 / 0.46 after 6 epochs and 0.35 / 0.39 after 12. No checkpoint beat zero-shot, so none was scored on the held-out domains and the default model is unchanged. Details and the commands are in `policyswarm/tools/finetune_data.py`; a fine-tuned checkpoint can be tried in the dashboard with `python -m policyswarm.gui --decider-checkpoint <folder>`. Full fine-tuning (encoder included) has not been run.
 
