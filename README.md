@@ -25,9 +25,15 @@ The framework accompanies research on the interaction between **network topology
 
 ## Methods note (draft)
 
-`paper/methods_note/` holds a short methods paper: comparing distance measures in a bounded-confidence model at one shared threshold compares different interaction rates, and threshold matching has to use realised coverage, not coverage at the start. It includes a minimal Deffuant model, a PolicySwarm case study that traces the draft paper's withdrawn geometry "reversal" to its causes, and a reporting protocol. `make_figures.py` rebuilds every figure and every number in `main.tex` from `results/`; the run scripts (`run_minimal.py`, `run_policyswarm.py`, `diagnose_reversal.py`) regenerate the results. The two engine switches it uses (`SimConfig.gate_space`, `SimConfig.policy_pull`) default to the audited model and are hidden from the dashboard.
+`paper/methods_note/` holds a short methods paper, *Hidden Choices: How Thresholds, Origins and Tests Manufacture and Hide Effects in Bounded-Confidence Models*. It follows five choices that rarely appear in a methods section (the threshold value, when coverage is matched, where the origin sits, which test is read, and how groups are counted and when a run stops) through a minimal Deffuant model and a PolicySwarm case study, and ends with an audit list. `make_figures.py` rebuilds every figure, table and number in `main.tex` from `results/`; `run_minimal.py`, `run_curves.py`, `run_policyswarm.py` and `diagnose_reversal.py` regenerate the results. A simulated peer review of the first draft and the response to it are in `paper/methods_note/review/`.
 
----
+The engine switches the note uses default to the audited model, so ordinary runs are unchanged:
+
+| `SimConfig` field | Values (default first) | What it changes |
+|---|---|---|
+| `gate_space` | `centred`, `unit` | Whether the gate and the angular steps measure from the centre of the opinion cube or from its corner |
+| `policy_pull` | `anchor`, `gated` | An ungated pull toward the perceived policy every tick, or the draft's pull applied only after a conversation that passes the gate |
+| `trust_anchor` | `centre`, `corner`, `status_quo`, `own`, `level_shift` | What trust shrinks an agent's perceived policy toward |
 
 ## Model Overview
 
@@ -250,12 +256,18 @@ Then open http://127.0.0.1:8000. Besides experiment parameters, simulation setti
 **Watch one simulation.** The second section of the dashboard runs a single scenario and replays it tick by tick.
 
 - Each tick plays in the engine's own order (shock, media, conversations, policy). Every conversation attempt is drawn from speaker to listener with its outcome: blocked by the deployment cap, ignored because the two opinions are further apart than ε, or heard (the listener moves; the speaker does not).
-- **Compare geometries.** Tick two or three geometries to run the same scenario side by side from the same seed: same network, same starting opinions, same shocks, only the distance measure differs. By default each geometry gets the ε that lets the same share of neighbour pairs talk (`match_epsilon`), because one raw ε means a different amount of talking in each geometry.
+- **Compare geometries.** Tick two or three geometries to run the same scenario side by side from the same seed: same network, same starting opinions, same shocks, only the distance measure differs. By default each geometry gets the ε that lets the same share of neighbour pairs talk at the start (threshold rule `matched_start`), because one raw ε means a different amount of talking in each geometry.
 - **Three views of opinion space:** a 2-D slice of two dimensions; a 3-D plot you can drag to rotate (with a "directions only" option that shows what the angular geometries compare); and a distance map that places agents so that on-screen distance approximates the geometry's own distance over all dimensions (classical multidimensional scaling; the page reports how much of the true distances the flat picture keeps).
 - **Distance histograms** show, per geometry and tick, how far apart network neighbours are and what share fall within ε.
 - A per-tick log, a timeline, and details for any agent you click.
 
 It takes the simulation settings, opinion space and policy text from the form, plus its own scenario settings. Limits: 400 agents, 300 ticks, and 60,000 for agents × ticks × geometries. The data comes from `policyswarm/trace.py` (`record_trace`), which records a run without changing it.
+
+**Hidden choices.** The run form groups these switches under "Hidden choices", and the viewer's *Compare* selector puts one choice side by side (geometry, threshold rule, trust target, gate space or policy pull) with everything else fixed and the same seed. The threshold rule can be shared, matched at the start, or matched over the run (a quick bisection on a few pilot seeds).
+
+**ε explorer.** Shows the share of opinion pairs each distance measure admits as ε varies, for a chosen opinion space and dimension, with the coverage-matched ε for each measure; when the methods note's results are present it also plots outcomes against realised coverage.
+
+**Audit.** After a batch run, the Results tab lists the hidden choices used, the realised gate pass rate per geometry, whether ε was matched, the lag × geometry interaction next to the per-geometry tests, and plain-language warnings (for example, geometries compared at one shared ε, or pass rates that differ by more than 10 points). The same report is at `GET /api/runs/<run id>/audit`.
 
 **Adding a geometry.** Each geometry is one `GeometrySpec` in `policyswarm/geometry.py`: its distance and step functions plus the text the dashboard shows. Add a member to `config.Geometry`, write the two functions, and call `register_geometry`; the engine, the ε calibration and the viewer pick it up.
 
@@ -428,12 +440,6 @@ Across the benchmark experiments:
 
 ---
 
-<!-- # Citation
+# Citation
 
-If you use PolicySwarm in academic work, please cite:
-
-```text
-Krishnasai Addala.
-PolicySwarm: Agent-Based Analysis of AI Governance Dynamics.
-2026.
-``` -->
+If you use PolicySwarm in academic work, please cite it using the metadata in [`CITATION.cff`](CITATION.cff) (GitHub shows a "Cite this repository" button for it). A Zenodo archive with a DOI is being prepared; the DOI will be added here and to `CITATION.cff`.

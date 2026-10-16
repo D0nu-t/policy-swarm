@@ -26,11 +26,39 @@ const state = {
 // the JSON value or throws an Error with a message for the user.
 // ---------------------------------------------------------------------------
 
+/** The label a person sees: the server's label, or the field name made readable. */
+function labelOf(spec) {
+  if (spec.label) return spec.label;
+  const words = spec.name.replace(/_/g, " ");
+  return words.charAt(0).toUpperCase() + words.slice(1);
+}
+
 function parseNumber(text, spec) {
   const value = Number(text);
-  if (text.trim() === "" || !Number.isFinite(value)) throw new Error(`${spec.name}: "${text}" is not a number`);
-  if (spec.kind === "int" && !Number.isInteger(value)) throw new Error(`${spec.name}: ${text} is not a whole number`);
+  if (text.trim() === "" || !Number.isFinite(value)) throw new Error(`${labelOf(spec)}: "${text}" is not a number`);
+  if (spec.kind === "int" && !Number.isInteger(value)) throw new Error(`${labelOf(spec)}: ${text} is not a whole number`);
   return value;
+}
+
+/** Mark a field as wrong next to where it is, and move focus to it. */
+function markInvalid(field, message) {
+  if (!field) return;
+  field.classList.add("invalid");
+  field.setAttribute("aria-invalid", "true");
+  let note = field.parentElement.querySelector(".field-error");
+  if (!note) {
+    note = el("span", { className: "field-error", role: "alert" });
+    field.insertAdjacentElement("afterend", note);
+  }
+  note.textContent = message;
+  field.focus({ preventScroll: false });
+  const clear = () => {
+    field.classList.remove("invalid");
+    field.removeAttribute("aria-invalid");
+    note.remove();
+    field.removeEventListener("input", clear);
+  };
+  field.addEventListener("input", clear);
 }
 
 function checkboxGroup(spec, options, selected) {
@@ -38,13 +66,13 @@ function checkboxGroup(spec, options, selected) {
     const box = el("input", { type: "checkbox", checked: selected.includes(value) });
     return { value, box, label: el("label", {}, box, label) };
   });
-  const node = el("fieldset", {}, el("legend", { textContent: spec.name }),
+  const node = el("fieldset", {}, el("legend", { textContent: labelOf(spec) }),
                   el("div", { className: "checks" }, ...boxes.map((b) => b.label)));
   return {
     node,
     read() {
       const chosen = boxes.filter((b) => b.box.checked).map((b) => b.value);
-      if (chosen.length === 0) throw new Error(`${spec.name}: select at least one`);
+      if (chosen.length === 0) throw new Error(`${labelOf(spec)}: select at least one`);
       return chosen;
     },
   };
@@ -59,32 +87,34 @@ function buildInput(spec) {
   } else if (spec.many) {
     const input = el("input", { type: "text", value: spec.default.join(", "), autocomplete: "off" });
     control = {
-      node: el("label", { className: "param" }, el("span", { textContent: spec.name }), input),
+      node: el("label", { className: "param" }, el("span", { textContent: labelOf(spec) }), input),
+      field: input,
       read() {
         const parts = input.value.split(",").map((s) => s.trim()).filter((s) => s !== "");
-        if (parts.length === 0) throw new Error(`${spec.name}: enter at least one value`);
+        if (parts.length === 0) throw new Error(`${labelOf(spec)}: enter at least one value`);
         return parts.map((p) => parseNumber(p, spec));
       },
     };
   } else if (spec.kind === "choice") {
     const select = el("select", {}, ...spec.choices.map((c) => el("option", { value: c, textContent: c })));
     select.value = spec.default;
-    control = { node: el("label", { className: "param" }, el("span", { textContent: spec.name }), select),
-                read: () => select.value };
+    control = { node: el("label", { className: "param" }, el("span", { textContent: labelOf(spec) }), select),
+                field: select, read: () => select.value };
   } else if (spec.kind === "bool") {
     const box = el("input", { type: "checkbox", checked: spec.default });
-    control = { node: el("label", { className: "checks" }, box, spec.name), read: () => box.checked };
+    control = { node: el("label", { className: "checks" }, box, labelOf(spec)), read: () => box.checked };
   } else {
     const input = el("input", { type: "number", step: spec.kind === "int" ? "1" : "any",
                                 value: spec.default === null ? "" : String(spec.default) });
     if (spec.minimum !== null) input.min = spec.minimum;
     if (spec.maximum !== null) input.max = spec.maximum;
     control = {
-      node: el("label", { className: "param" }, el("span", { textContent: spec.name }), input),
+      node: el("label", { className: "param" }, el("span", { textContent: labelOf(spec) }), input),
+      field: input,
       read() {
         if (input.value.trim() === "") {
           if (spec.optional) return null;
-          throw new Error(`${spec.name}: a value is required`);
+          throw new Error(`${labelOf(spec)}: a value is required`);
         }
         return parseNumber(input.value, spec);
       },
@@ -98,10 +128,47 @@ function buildInput(spec) {
 function readChanged(specs, readers) {
   const changed = {};
   for (const spec of specs) {
-    const value = readers[spec.name].read();
+    let value;
+    try {
+      value = readers[spec.name].read();
+    } catch (error) {
+      const reader = readers[spec.name];
+      reader.node.closest("details")?.setAttribute("open", "");
+      markInvalid(reader.field, error.message);
+      throw error;
+    }
     if (JSON.stringify(value) !== JSON.stringify(spec.default)) changed[spec.name] = value;
   }
   return changed;
+}
+
+const HIDDEN_GROUP = "Hidden choices";
+const HIDDEN_NOTE = "Choices that can create or hide an effect without anyone noticing "
+  + "(see the methods note). The defaults are the audited model; change one at a time.";
+
+/** Render specs into labelled groups; the hidden choices get their own, marked box. */
+function renderGroups(specs, container, readers) {
+  const groups = new Map();
+  for (const spec of specs) {
+    const name = spec.group || "Settings";
+    if (!groups.has(name)) groups.set(name, []);
+    groups.get(name).push(spec);
+  }
+  const named = groups.size > 1;
+  for (const [name, list] of groups) {
+    const grid = el("div", { className: "grid" });
+    for (const spec of list) {
+      readers[spec.name] = buildInput(spec);
+      grid.append(readers[spec.name].node);
+    }
+    if (!named) { container.append(grid); continue; }
+    const wide = name === HIDDEN_GROUP || list.length > 6;      // many fields: use the full width
+    const box = el("fieldset", { className: `group${wide ? " wide" : ""}${name === HIDDEN_GROUP ? " hidden-choices" : ""}` },
+                   el("legend", { textContent: name }));
+    if (name === HIDDEN_GROUP) box.append(el("p", { className: "hint", textContent: HIDDEN_NOTE }));
+    box.append(grid);
+    container.append(box);
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -124,11 +191,7 @@ function renderSetup(catalogue) {
     card.dataset.name = exp.name;
     $("experiments").append(card);
   }
-  for (const spec of catalogue.sim_config) {
-    const control = buildInput(spec);
-    state.simInputs[spec.name] = control;
-    $("sim-config").append(control.node);
-  }
+  renderGroups(catalogue.sim_config, $("sim-config"), state.simInputs);
 }
 
 function parseSeeds(text) {
@@ -236,6 +299,7 @@ function appendLog(line) {
 function follow(run) {
   state.runId = run.id;
   $("progress").hidden = false;
+  $("results-empty").hidden = true;
   $("results").hidden = true;
   $("bars").replaceChildren();
   $("log").replaceChildren();
@@ -268,15 +332,30 @@ async function startRun() {
     showError(error.message);
     return;
   }
-  const response = await fetch("/api/runs", {
-    method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(request),
-  });
-  const body = await response.json();
-  if (!response.ok) {
-    showError(errorDetail(body));
-    return;
+  const button = $("run");
+  button.disabled = true;
+  button.setAttribute("aria-busy", "true");
+  $("estimate").textContent = "Starting…";
+  try {
+    const response = await fetch("/api/runs", {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(request),
+    });
+    const body = await response.json();
+    if (!response.ok) {
+      showError(errorDetail(body));
+      button.disabled = false;
+      return;
+    }
+    $("estimate").textContent = "";
+    follow(body);
+    location.hash = "#results";
+  } catch (error) {
+    showError(`Could not start the run: ${error.message}`);
+    button.disabled = false;
+  } finally {
+    button.removeAttribute("aria-busy");
+    if ($("estimate").textContent === "Starting…") $("estimate").textContent = "";
   }
-  follow(body);
 }
 
 async function cancelRun() {
@@ -316,12 +395,83 @@ function renderResult(result) {
   return node;
 }
 
+const CHOICE_TEXT = {
+  gate_space: "Gate measured from", policy_pull: "Policy pull", trust_anchor: "Low trust perceives",
+};
+
+function percentText(x) { return `${Math.round(100 * x)}%`; }
+/** Two significant figures, so very small effects are not shown as 0.000. */
+function sig(x) { return Number.isFinite(x) ? Number(x.toPrecision(2)).toString() : "–"; }
+
+function renderAudit(audit) {
+  const box = $("audit");
+  const parts = [el("h3", { textContent: "Hidden-choices check" }),
+                 el("p", { className: "hint", textContent: "Read from this run's own files. "
+                   + "It lists the choices that can create or hide an effect, and the test that "
+                   + "actually compares geometries." })];
+  parts.push(el("ul", { className: "choice-list" }, ...audit.choices.map((c) =>
+    el("li", {}, el("span", { textContent: `${CHOICE_TEXT[c.name] ?? c.name}: ` }),
+       el("b", { textContent: c.value }),
+       el("span", { className: c.default ? "tag ok" : "tag", textContent: c.default ? "default" : "changed" })))));
+  for (const exp of audit.experiments) {
+    const title = state.catalogue.experiments.find((e) => e.name === exp.name)?.title ?? exp.name;
+    const section = el("div", { className: "audit-exp" }, el("h4", { textContent: title }));
+    if (exp.geometries.length) {
+      const rows = exp.geometries.map((g) => el("tr", {},
+        el("th", { scope: "row", textContent: g.geometry }),
+        el("td", { textContent: g.epsilon === null ? "–" : g.epsilon.toFixed(3) }),
+        el("td", { textContent: g.pass_rate === null ? "–" : percentText(g.pass_rate) })));
+      section.append(el("div", { className: "table-wrap" }, el("table", {},
+        el("caption", { className: "sr-only", textContent: `${title}: threshold and realised pass rate by geometry` }),
+        el("thead", {}, el("tr", {}, el("th", { scope: "col", textContent: "Geometry" }),
+          el("th", { scope: "col", textContent: "ε" }), el("th", { scope: "col", textContent: "Realised pass rate" }))),
+        el("tbody", {}, ...rows))));
+    }
+    if (exp.interaction) {
+      const i = exp.interaction;
+      const cells = i.cells ? ` Single cells marked significant: ${i.cells.significant} of ${i.cells.total}; `
+        + "those test each cell against zero and do not compare the geometries." : "";
+      section.append(el("p", { textContent:
+        `Geometry × lag interaction (${i.pair}, relative effect): ${sig(i.estimate)} `
+        + `[95% CI ${sig(i.ci_low)}, ${sig(i.ci_high)}], p = ${i.p_value.toPrecision(2)}. `
+        + "This is the test that compares the geometries." + cells }));
+    }
+    parts.push(section);
+  }
+  if (audit.warnings.length) {
+    parts.push(el("ul", { className: "warnings" }, ...audit.warnings.map((w) =>
+      el("li", {}, el("b", { textContent: "Check: " }), w))));
+  } else {
+    parts.push(el("p", { className: "hint", textContent: "No warnings for this run." }));
+  }
+  box.replaceChildren(...parts);
+  box.hidden = false;
+}
+
 async function loadResults(runId) {
   const response = await fetch(`/api/runs/${runId}/results`);
   if (!response.ok) return;
   const results = await response.json();
   $("result-list").replaceChildren(...results.experiments.map(renderResult));
   $("results").hidden = false;
+  const audit = await fetch(`/api/runs/${runId}/audit`);
+  if (audit.ok) renderAudit(await audit.json());
+}
+
+// ---------------------------------------------------------------------------
+// Views (top navigation; the URL hash names the view, so it can be linked)
+// ---------------------------------------------------------------------------
+
+const VIEWS = ["run", "watch", "explorer", "results"];
+
+function showView() {
+  const name = VIEWS.includes(location.hash.slice(1)) ? location.hash.slice(1) : "run";
+  for (const view of VIEWS) $(`view-${view}`).hidden = view !== name;
+  for (const link of document.querySelectorAll("nav a")) {
+    if (link.hash === `#${name}`) link.setAttribute("aria-current", "page");
+    else link.removeAttribute("aria-current");
+  }
+  if (name === "explorer" && typeof Explorer !== "undefined") Explorer.show();
 }
 
 // ---------------------------------------------------------------------------
@@ -334,6 +484,8 @@ async function init() {
   SpaceEditor.init(state.catalogue.opinion_space, state.catalogue.suggest);
   Viewer.init(state.catalogue.viewer);
   $("policy-text").placeholder = state.catalogue.default_policy_text.trim().slice(0, 400) + " ...";
+  window.addEventListener("hashchange", showView);
+  showView();
   $("run").addEventListener("click", startRun);
   $("cancel").addEventListener("click", cancelRun);
 

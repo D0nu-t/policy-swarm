@@ -161,3 +161,37 @@ def test_describe_lists_the_scenario_settings_and_geometries():
     assert [g["key"] for g in description["geometries"]] == ["euclidean", "cosine", "manifold"]
     assert all(g["summary"] and g["distance"] and g["step"] and g["epsilon"]
                for g in description["geometries"])
+
+
+# --- compare one hidden choice ---------------------------------------------
+
+def test_compare_trust_anchor_gives_one_column_per_value():
+    out = record_trace(params={"compare": "trust_anchor", "geometries": ["cosine"]}, sim_config=SMALL)
+    labels = [r["label"] for r in out["runs"]]
+    assert len(labels) == 4 and all("Cosine" in label for label in labels)
+    assert [r["choices"]["trust_anchor"] for r in out["runs"]] == ["centre", "corner", "status_quo", "own"]
+
+
+def test_compare_gate_space_keeps_euclidean_identical_in_both_spaces():
+    out = record_trace(params={"compare": "gate_space", "geometries": ["euclidean"]}, sim_config=SMALL)
+    a, b = out["runs"]
+    assert a["epsilon"] == pytest.approx(2 * b["epsilon"])          # same gate in unit units
+    assert a["gate_pass_rate"] == pytest.approx(b["gate_pass_rate"])
+
+
+def test_threshold_rules_differ_for_an_angular_geometry():
+    out = record_trace(params={"compare": "threshold_rule", "geometries": ["cosine"]}, sim_config=SMALL)
+    eps = [r["epsilon"] for r in out["runs"]]
+    assert [r["choices"]["threshold_rule"] for r in out["runs"]] == ["shared", "matched_start", "matched_run"]
+    assert len(set(eps)) == 3
+
+
+def test_legacy_match_epsilon_still_accepted():
+    out = record_trace(params={"geometries": ["cosine"], "match_epsilon": False}, sim_config=SMALL)
+    assert out["runs"][0]["choices"]["threshold_rule"] == "shared"
+
+
+def test_compare_respects_the_size_budget():
+    big = {**SMALL, "n_agents": 400, "n_ticks": 60}
+    with pytest.raises(ParamError):
+        record_trace(params={"compare": "trust_anchor", "geometries": ["cosine"]}, sim_config=big)

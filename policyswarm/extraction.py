@@ -240,6 +240,8 @@ def perceived_policy(
     dimension_salience : Optional[np.ndarray] = None,
     noise_scale        : Union[float, np.ndarray] = 0.05,
     rng                : Optional[np.random.Generator] = None,
+    anchor             : Optional[np.ndarray] = None,
+    offset             : Optional[float] = None,
 ) -> np.ndarray:
     """
     Compute an individual agent's perception of the policy vector.
@@ -272,6 +274,12 @@ def perceived_policy(
     both are multiplied by CENTRED_SCALE here. Trust scales the policy signal
     toward the neutral origin: a zero-trust agent perceives a neutral policy.
     rng : np.random.Generator, optional
+    anchor : np.ndarray, shape (d,), optional
+        The point trust shrinks the signal toward (SimConfig.trust_anchor).
+        None keeps the default arithmetic exactly: shrinkage toward the
+        neutral origin.
+    offset : float, optional
+        Added to every dimension before clipping (the "level_shift" control).
 
     Returns
     -------
@@ -294,7 +302,12 @@ def perceived_policy(
     else:
         noise = np.random.normal(0.0, scale, size=d)
 
-    perceived = trust * (policy_vector + bias) + noise
+    if anchor is None:
+        perceived = trust * (policy_vector + bias) + noise
+    else:
+        perceived = anchor + trust * (policy_vector + bias - anchor) + noise
+    if offset is not None:
+        perceived = perceived + offset
     return np.clip(perceived, -1.0, 1.0)
 
 

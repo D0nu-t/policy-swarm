@@ -53,7 +53,7 @@ import numpy as np
 
 from . import geometry as _geom
 from .config import (
-    DEFAULT_SPLIT_DELTAS, GATE_SPACES, GATED_POLICY_RATE, POLICY_PULLS,
+    DEFAULT_SPLIT_DELTAS, GATE_SPACES, GATED_POLICY_RATE, POLICY_PULLS, TRUST_ANCHORS,
     Geometry, GovernanceConfig, Policy, ShockMode, SimConfig,
 )
 from .extraction import perceived_policy as _perceived_policy
@@ -115,6 +115,8 @@ class Simulation:
             raise ValueError(f"gate_space must be one of {GATE_SPACES}")
         if sim_config.policy_pull not in POLICY_PULLS:
             raise ValueError(f"policy_pull must be one of {POLICY_PULLS}")
+        if sim_config.trust_anchor not in TRUST_ANCHORS:
+            raise ValueError(f"trust_anchor must be one of {TRUST_ANCHORS}")
         self._unit_gate   = sim_config.gate_space == "unit"
         self._gated_pull  = sim_config.policy_pull == "gated"
 
@@ -125,6 +127,8 @@ class Simulation:
         self._pull_rng  = np.random.default_rng([seed, 2])
 
         self._init_agents()
+        self._status_quo  = self.opinions.mean(axis=0)
+        self._level_shift = -(1.0 - float(self.trust.mean()))
 
         # Bounded-confidence gate bookkeeping (see gate_pass_rate)
         self.gate_attempts = 0
@@ -348,7 +352,13 @@ class Simulation:
         # base scale 0.03 * (2 - confidence) → range [0.03, 0.06]
         noise_scale = 0.03 * (2.0 - self.policy.confidence)
 
+        mode = self.sim_config.trust_anchor
+        fixed_anchor = {"corner": -np.ones(len(policy_vec)),
+                        "status_quo": self._status_quo}.get(mode)
+        offset = self._level_shift if mode == "level_shift" else None
+
         for i in range(n):
+            anchor = self.opinions[i].copy() if mode == "own" else fixed_anchor
             pp = _perceived_policy(
                 policy_vec,
                 ideology           = self.ideology[i],
@@ -356,6 +366,8 @@ class Simulation:
                 dimension_salience = self.policy.dimension_salience,
                 noise_scale        = noise_scale,
                 rng                = self._pull_rng,
+                anchor             = anchor,
+                offset             = offset,
             )
             old = self.opinions[i].copy()
             self.opinions[i] = np.clip(

@@ -102,3 +102,42 @@ def test_run_average_calibration_hits_target():
     got = np.mean([mbc.simulate("cosine", "centred", 4, eps, seed=s, n=120, rounds=60)["pass_rate"]
                    for s in (10, 11)])
     assert got == pytest.approx(target, abs=0.02)
+
+
+# --- revision features: crossing, checkpoints, rulers, calibration report ---
+
+def test_gate_and_step_can_be_crossed():
+    a = mbc.simulate("cosine", "centred", 3, 0.4, seed=12, n=100, rounds=50)
+    b = mbc.simulate("cosine", "centred", 3, 0.4, seed=12, n=100, rounds=50, step_metric="euclidean")
+    assert not np.array_equal(a["final"], b["final"])
+
+
+def test_checkpoints_record_outcomes_and_end_matches_final():
+    r = mbc.simulate("euclidean", "centred", 2, 0.6, seed=13, n=100, rounds=60,
+                     checkpoints=(20, 60))
+    assert set(r["at"]) == {20, 60}
+    for key in ("variance", "groups_common", "eff_groups_common", "clusters_r0.05",
+                "radial_var", "pass_rate", "settled"):
+        assert key in r["at"][20]
+    assert r["at"][60]["variance"] == pytest.approx(r["variance"])
+
+
+def test_common_ruler_counts_one_group_at_consensus():
+    r = mbc.simulate("cosine", "centred", 2, 2.0, seed=14, n=100, rounds=400, checkpoints=(400,))
+    assert r["at"][400]["groups_common"] >= 1
+
+
+def test_measure_off_skips_groups():
+    r = mbc.simulate("euclidean", "unit", 2, 0.3, seed=15, n=80, rounds=10, measure=False)
+    assert "clusters" not in r and "pass_rate" in r
+
+
+def test_calibration_report_flags_misses():
+    target = mbc.simulate("euclidean", "centred", 4, 1.0, seed=10, n=120, rounds=60,
+                          measure=False)["pass_rate"]
+    rep = mbc.calibrate_report("cosine", "centred", 4, target, seeds=[10, 11],
+                               n=120, rounds=60, tol=0.01)
+    assert {"eps", "achieved", "error", "iterations", "within_tol", "monotone"} <= set(rep)
+    bad = mbc.calibrate_report("cosine", "centred", 4, 1.5, seeds=[10], n=60, rounds=20,
+                               tol=0.001, max_iter=3)
+    assert bad["within_tol"] is False

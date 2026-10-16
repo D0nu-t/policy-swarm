@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "PolicySwarm: an agent-based model of AI-governance opinion dynamics"
+type: software
+authors:
+  - family-names: Addala
+    given-names: Krishnasai
+version: 1.2.0
+license: Apache-2.0
+repository-code: "https://github.com/D0nu-t/policy-swarm"
+abstract: >-
+  An agent-based simulation of how a population's views on AI regulation
+  respond to a policy, media and shocks, with switchable "hidden choices"
+  (threshold rule, gate space, policy pull, trust anchor), a local dashboard,
+  and the code, data and manuscript of the methods note in paper/methods_note.
+keywords:
+  - agent-based model
+  - bounded confidence
+  - opinion dynamics
+  - AI governance
+  - reproducibility

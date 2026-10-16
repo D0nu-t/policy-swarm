@@ -32,7 +32,9 @@ from typing import Any, Dict, List, Optional, Tuple
 import networkx as nx
 import numpy as np
 
-from .config import Geometry, GovernanceConfig, ShockConfig, ShockMode
+from .config import (
+    GATE_SPACES, POLICY_PULLS, TRUST_ANCHORS, Geometry, GovernanceConfig, ShockConfig, ShockMode,
+)
 from .dynamics import Simulation
 from .experiments.base import BASELINE_GOVERNANCE
 from .experiments.params import ParamError, ParamSpec, parse_params
@@ -58,6 +60,28 @@ MAX_GEOMETRIES = 3
 #: agent and needs one distance map, so the three multiply.
 TRACE_BUDGET = 60_000
 
+#: Which hidden choice varies across the viewer's columns, and its values.
+COMPARE_MODES = ("geometry", "threshold_rule", "trust_anchor", "gate_space", "policy_pull")
+THRESHOLD_RULES = ("shared", "matched_start", "matched_run")
+COMPARE_VALUES = {
+    "threshold_rule": THRESHOLD_RULES,
+    "trust_anchor": ("centre", "corner", "status_quo", "own"),
+    "gate_space": GATE_SPACES,
+    "policy_pull": POLICY_PULLS,
+}
+_VALUE_LABELS = {
+    "shared": "shared ε", "matched_start": "matched at start", "matched_run": "matched over run",
+    "centre": "trust → neutral", "corner": "trust → no regulation",
+    "status_quo": "trust → status quo", "own": "trust → own view",
+    "level_shift": "level-shift control",
+    "centred": "gate from centre", "unit": "gate from corner",
+    "anchor": "anchor pull", "gated": "gated pull",
+}
+#: Most columns the viewer shows at once, and the largest run it calibrates
+#: "matched over the run" for (agents x ticks).
+MAX_COLUMNS = 4
+MATCH_RUN_BUDGET = 12_000
+
 #: Number of bars in the neighbour-distance histogram.
 HISTOGRAM_BINS = 24
 
@@ -68,10 +92,29 @@ TRACE_PARAMS: Tuple[ParamSpec, ...] = (
     ParamSpec("geometries", "choice", [Geometry.EUCLIDEAN.value], many=True, enum=Geometry,
               help="How the distance between two opinions is measured. Tick two or "
                    "three to watch the same scenario side by side."),
-    ParamSpec("match_epsilon", "bool", True,
-              help="Give every geometry the ε that lets the same share of neighbour pairs "
-                   "talk as Euclidean does. Without it, one raw ε means a different "
-                   "amount of talking in each geometry."),
+    ParamSpec("compare", "choice", "geometry", choices=COMPARE_MODES, label="Compare",
+              group="Hidden choices",
+              help="What changes from column to column; everything else, including the "
+                   "seed, stays the same. geometry: the ticked geometries. Any other "
+                   "choice: one column per value, using the first ticked geometry."),
+    ParamSpec("threshold_rule", "choice", "matched_start", choices=THRESHOLD_RULES,
+              label="Threshold rule", group="Hidden choices",
+              help="shared: every geometry uses Euclidean's ε number. matched_start: each "
+                   "gets the ε that lets the same share of neighbour pairs talk at the "
+                   "start. matched_run: the same share over the whole run (found by a "
+                   "short search; slower)."),
+    ParamSpec("gate_space", "choice", "centred", choices=GATE_SPACES,
+              label="Gate measured from", group="Hidden choices",
+              help="centred: angles from the neutral point. unit: from the corner where "
+                   "every dimension is at its minimum (the pre-audit space)."),
+    ParamSpec("policy_pull", "choice", "anchor", choices=POLICY_PULLS,
+              label="Policy pull", group="Hidden choices",
+              help="anchor: a small pull on everyone each tick. gated: only after a heard "
+                   "conversation (pre-audit)."),
+    ParamSpec("trust_anchor", "choice", "centre", choices=TRUST_ANCHORS,
+              label="Low trust perceives", group="Hidden choices",
+              help="centre: neutral. corner: no regulation at all. status_quo: the "
+                   "starting average. own: the agent's own view. level_shift: a control."),
     ParamSpec("seed", "int", 0, minimum=0,
               help="Fixes the network, the starting opinions and the shock schedule."),
     ParamSpec("deployment_rate_cap", "float", _GOV.deployment_rate_cap,
@@ -231,25 +274,42 @@ def record_trace(
     ParamError
         If a value is invalid or the run exceeds ``TRACE_LIMITS``.
     """
+    params = dict(params or {})
+    if "match_epsilon" in params:                     # legacy key, kept for old run files
+        legacy = params.pop("match_epsilon")
+        params.setdefault("threshold_rule", "matched_start" if legacy else "shared")
     p = {spec.name: spec.parse(spec.default) for spec in TRACE_PARAMS}
     p.update(parse_params(TRACE_PARAMS, params))
     geometries: List[Geometry] = p["geometries"]
     if len(set(geometries)) != len(geometries):
         raise ParamError("geometries: the same geometry is listed twice")
-    if len(geometries) > MAX_GEOMETRIES:
+    if p["compare"] == "geometry" and len(geometries) > MAX_GEOMETRIES:
         raise ParamError(f"geometries: compare at most {MAX_GEOMETRIES} at a time")
+
+    base = {name: p[name] for name in ("threshold_rule", "gate_space", "policy_pull", "trust_anchor")}
+    if p["compare"] == "geometry":
+        columns = [(g, dict(base)) for g in geometries]
+    else:
+        values = COMPARE_VALUES[p["compare"]]
+        columns = [(geometries[0], {**base, p["compare"]: v}) for v in values][:MAX_COLUMNS]
 
     config = build_sim_config(sim_config)
     for name, limit in TRACE_LIMITS.items():
         if getattr(config, name) > limit:
             raise ParamError(f"{name}: the viewer handles at most {limit} "
                              f"(got {getattr(config, name)})")
-    size = config.n_agents * config.n_ticks * len(geometries)
+    size = config.n_agents * config.n_ticks * len(columns)
     if size > TRACE_BUDGET:
         raise ParamError(
             f"This is too much to replay: {config.n_agents} agents x {config.n_ticks} ticks x "
-            f"{len(geometries)} geometries = {size:,}, and the viewer handles {TRACE_BUDGET:,}. "
-            "Use fewer agents, ticks or geometries.")
+            f"{len(columns)} columns = {size:,}, and the viewer handles {TRACE_BUDGET:,}. "
+            "Use fewer agents, ticks or columns.")
+    if any(c["threshold_rule"] == "matched_run" for _, c in columns) \
+            and config.n_agents * config.n_ticks > MATCH_RUN_BUDGET:
+        raise ParamError(
+            f"matched_run searches for ε by running the model repeatedly, so it is limited to "
+            f"{MATCH_RUN_BUDGET:,} agents x ticks (got {config.n_agents * config.n_ticks:,}). "
+            "Use fewer agents or ticks, or another threshold rule.")
 
     text = policy_text or DEFAULT_POLICY_TEXT
     if opinion_space is not None:
@@ -271,23 +331,72 @@ def record_trace(
     ) if p["shocks"] else []
 
     runs, shared = [], None
+    matching = any(g != Geometry.EUCLIDEAN for g, _ in columns)   # anything to match to?
     with _RUN_LOCK:
-        epsilons = {g.value: config.epsilon for g in geometries}
-        coverage = None
-        if p["match_epsilon"] and any(g != Geometry.EUCLIDEAN for g in geometries):
-            epsilons, coverage = matched_epsilons(config, geometries)
-        for geometry in geometries:
-            run_config = dataclasses.replace(config, epsilon=epsilons[geometry.value])
+        for geometry, choice in columns:
+            run_config = dataclasses.replace(
+                config, gate_space=choice["gate_space"], policy_pull=choice["policy_pull"],
+                trust_anchor=choice["trust_anchor"])
+            eps, coverage = _column_epsilon(run_config, geometry, choice["threshold_rule"],
+                                            governance, policy, p["seed"], matching)
+            run_config = dataclasses.replace(run_config, epsilon=eps)
             recorder = TraceRecorder()
             sim = Simulation(run_config, governance, policy, shocks, apply_shocks=bool(shocks),
                              seed=p["seed"], geometry=geometry, recorder=recorder)
-            if not runs:        # identical for every geometry: same seed, same draws
+            if not runs:        # identical for every column: same seed, same draws
                 shared = _shared(sim, p, governance, shocks)
             start = recorder.measure(sim)
             sim.run()
-            runs.append(_run_record(sim, recorder, start, coverage))
+            record = _run_record(sim, recorder, start, coverage)
+            record["choices"] = dict(choice)
+            if p["compare"] != "geometry":
+                record["label"] = f"{record['label']} · {_VALUE_LABELS[choice[p['compare']]]}"
+            runs.append(record)
 
     return {"shared": shared, "runs": runs}
+
+
+def _reference_epsilon(config) -> float:
+    """Euclidean's ε in the gate's own units: SimConfig.epsilon is in centred
+    units, and the unit-cube gate measures half those distances."""
+    return config.epsilon if config.gate_space == "centred" else config.epsilon / 2.0
+
+
+def _pass_rate(config, geometry, eps, governance, policy, seeds) -> float:
+    rates = []
+    for seed in seeds:
+        sim = Simulation(dataclasses.replace(config, epsilon=eps), governance, policy, [],
+                         apply_shocks=False, seed=seed, geometry=geometry)
+        sim.run()
+        rates.append(sim.gate_pass_rate)
+    return float(np.mean(rates))
+
+
+def _column_epsilon(config, geometry, rule, governance, policy, seed, matching=True):
+    """ε for one column under a threshold rule, and the matched start coverage."""
+    ref = _reference_epsilon(config)
+    if rule == "shared":
+        return ref, None
+    if geometry == Geometry.EUCLIDEAN:
+        if not matching:
+            return ref, None
+        # Euclidean is the reference; report the coverage everyone is matched to.
+        _, target = matched_epsilons(config, [Geometry.EUCLIDEAN], reference_epsilon=ref)
+        return ref, (target if rule == "matched_start" else None)
+    if rule == "matched_start":
+        eps, coverage = matched_epsilons(config, [Geometry.EUCLIDEAN, geometry],
+                                         reference_epsilon=ref)
+        return eps[geometry.value], coverage
+    # matched_run: a short bisection on pilot seeds the viewer does not show.
+    pilots = [seed + 1000 + k for k in range(3)]
+    target = _pass_rate(config, Geometry.EUCLIDEAN, ref, governance, policy, pilots)
+    lo, hi = 0.0, geometry_spec(geometry).max_distance(config.opinion_dim)
+    eps = 0.5 * (lo + hi)
+    for _ in range(8):
+        eps = 0.5 * (lo + hi)
+        rate = _pass_rate(config, geometry, eps, governance, policy, pilots)
+        lo, hi = (eps, hi) if rate < target else (lo, eps)
+    return eps, None
 
 
 def _shared(sim: Simulation, p: Dict[str, Any], governance: GovernanceConfig,

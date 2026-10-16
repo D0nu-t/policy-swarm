@@ -255,3 +255,54 @@ def test_cancelled_run_is_not_finished_until_its_process_exits(tmp_path):
         assert run.finished and manager.active is None
 
     asyncio.run(scenario())
+
+
+# --- explorer and audit ----------------------------------------------------
+
+def test_explorer_coverage_curves(client):
+    body = client.get("/api/explorer/coverage", params={"space": "unit", "d": 4, "epsilon": 0.5}).json()
+    assert {m["metric"] for m in body["metrics"]} == {"euclidean", "cosine", "manifold"}
+    cosine = next(m for m in body["metrics"] if m["metric"] == "cosine")
+    assert cosine["at_shared"] == pytest.approx(0.94, abs=0.03)        # the audit's 94%
+    assert len(cosine["curve"]) > 20 and cosine["curve"][0][1] <= cosine["curve"][-1][1]
+    euclid = next(m for m in body["metrics"] if m["metric"] == "euclidean")
+    assert cosine["matched_epsilon"] < euclid["matched_epsilon"]
+
+
+def test_explorer_rejects_bad_input(client):
+    assert client.get("/api/explorer/coverage", params={"space": "moon", "d": 4, "epsilon": 1}).status_code == 422
+    assert client.get("/api/explorer/coverage", params={"space": "unit", "d": 99, "epsilon": 1}).status_code == 422
+
+
+def test_explorer_outcomes_reports_availability(client):
+    body = client.get("/api/explorer/outcomes").json()
+    assert "available" in body
+
+
+def test_audit_reads_a_run(tmp_path):
+    from policyswarm.config import RunSpec
+    from policyswarm.gui.audit import build_audit
+    d = tmp_path / "counterfactual"
+    d.mkdir()
+    (d / "CounterfactualShockExperiment_results_1.csv").write_text(
+        "geometry,epsilon,lag,seed,gate_pass_ctrl\n"
+        "euclidean,0.5,0,0,0.58\ncosine,0.5,0,0,1.0\n", encoding="utf-8")
+    (d / "lag_geometry_interaction.csv").write_text(
+        "geometry_a,geometry_b,value,interaction,interaction_ci_low,interaction_ci_high,p_value\n"
+        "cosine,euclidean,rel_delta,0.018,0.005,0.032,0.01\n", encoding="utf-8")
+    spec = RunSpec(experiments=["counterfactual"], seeds=[0], sim_config={"gate_space": "unit"})
+    audit = build_audit(tmp_path, spec)
+    assert any(c["name"] == "gate_space" and not c["default"] for c in audit["choices"])
+    exp = audit["experiments"][0]
+    assert {g["geometry"] for g in exp["geometries"]} == {"euclidean", "cosine"}
+    assert exp["interaction"]["estimate"] == pytest.approx(0.018)
+    text = " ".join(audit["warnings"])
+    assert "same ε" in text and "pass rates differ by 42" in text
+
+
+def test_audit_warns_about_unit_gate_units(tmp_path):
+    from policyswarm.config import RunSpec
+    from policyswarm.gui.audit import build_audit
+    spec = RunSpec(experiments=["lag"], seeds=[0], sim_config={"gate_space": "unit"})
+    text = " ".join(build_audit(tmp_path, spec)["warnings"])
+    assert "unit-cube units" in text and "halve" in text

@@ -54,6 +54,10 @@ class ParamSpec:
         Inclusive bounds for numeric kinds.
     help : str
         One-line description shown in the CLI and dashboard.
+    label : str
+        Human-readable name for forms (default: the dashboard humanises ``name``).
+    group : str
+        Form section the field belongs to (dashboard only).
     """
 
     name     : str
@@ -66,6 +70,8 @@ class ParamSpec:
     minimum  : Optional[float]           = None
     maximum  : Optional[float]           = None
     help     : str                       = ""
+    label    : str                       = ""
+    group    : str                       = ""
 
     def __post_init__(self) -> None:
         if self.kind not in _SCALAR_KINDS:
@@ -135,6 +141,8 @@ class ParamSpec:
             "minimum" : self.minimum,
             "maximum" : self.maximum,
             "help"    : self.help,
+            "label"   : self.label,
+            "group"   : self.group,
         }
 
 

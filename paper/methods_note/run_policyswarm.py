@@ -51,9 +51,9 @@ REFERENCE_EPS = {"unit": 0.5, "centred": 1.0}
 OUT = Path(__file__).parent / "results"
 
 
-def sim_config(space: str, pull: str) -> SimConfig:
+def sim_config(space: str, pull: str, anchor: str = "centre") -> SimConfig:
     return dataclasses.replace(SimConfig(), gate_space=space, policy_pull=pull,
-                               epsilon=REFERENCE_EPS[space])
+                               trust_anchor=anchor, epsilon=REFERENCE_EPS[space])
 
 
 def thresholds(seeds) -> dict:
@@ -69,11 +69,11 @@ def thresholds(seeds) -> dict:
     return out
 
 
-def _realised_pass(space, pull, geometry, eps, seeds=PILOT_SEEDS, lag=20):
+def _realised_pass(space, pull, geometry, eps, seeds=PILOT_SEEDS, lag=20, anchor="centre"):
     """Mean realised gate pass rate of control runs at one eps."""
     from policyswarm.dynamics import Simulation
 
-    sc = dataclasses.replace(sim_config(space, pull), epsilon=eps)
+    sc = dataclasses.replace(sim_config(space, pull, anchor), epsilon=eps)
     policy = policy_from_text(DEFAULT_POLICY_TEXT)
     policy.lag = lag
     gov = GovernanceConfig(**BASELINE_GOVERNANCE, enforcement_lag=lag, policy_pull_onset=None)
@@ -86,13 +86,14 @@ def _realised_pass(space, pull, geometry, eps, seeds=PILOT_SEEDS, lag=20):
 
 
 def _calibrate_run(corner, tol=0.005, max_iter=25):
-    """Cosine eps whose realised pass rate matches Euclidean's in one corner."""
-    space, pull = corner
-    target = _realised_pass(space, pull, Geometry.EUCLIDEAN, REFERENCE_EPS[space])
+    """Cosine eps whose realised pass rate matches Euclidean's in one corner
+    (space, pull[, trust anchor])."""
+    space, pull, anchor = (*corner, "centre")[:3]
+    target = _realised_pass(space, pull, Geometry.EUCLIDEAN, REFERENCE_EPS[space], anchor=anchor)
     lo, hi = 0.0, 2.0
     for _ in range(max_iter):
         eps = 0.5 * (lo + hi)
-        rate = _realised_pass(space, pull, Geometry.COSINE, eps)
+        rate = _realised_pass(space, pull, Geometry.COSINE, eps, anchor=anchor)
         if abs(rate - target) <= tol:
             break
         lo, hi = (eps, hi) if rate < target else (lo, eps)
@@ -100,15 +101,16 @@ def _calibrate_run(corner, tol=0.005, max_iter=25):
 
 
 def _run(job):
-    space, mode, pull, geometry, lag, seed, eps = job
-    sc = dataclasses.replace(sim_config(space, pull), epsilon=eps)
+    space, mode, pull, geometry, lag, seed, eps, anchor = (*job, "centre")[:8]
+    sc = dataclasses.replace(sim_config(space, pull, anchor), epsilon=eps)
     policy = policy_from_text(DEFAULT_POLICY_TEXT)
     policy.lag = lag
     gov = GovernanceConfig(**BASELINE_GOVERNANCE, enforcement_lag=lag, policy_pull_onset=None)
     shocks = generate_shocks(ShockConfig(mode=ShockMode.COORDINATING), sc.n_ticks, seed)
     m_c, m_t = run_paired(sc, gov, policy, shocks, seed, Geometry(geometry))
     delta = m_t["variance"] - m_c["variance"]
-    return {"gate_space": space, "eps_mode": mode, "policy_pull": pull, "geometry": geometry,
+    return {"gate_space": space, "eps_mode": mode, "policy_pull": pull,
+            "trust_anchor": anchor, "geometry": geometry,
             "epsilon": eps, "lag": lag, "seed": seed,
             "control_var": m_c["variance"], "treat_var": m_t["variance"],
             "delta": delta, "rel_delta": delta / m_c["variance"],
@@ -135,15 +137,63 @@ def interactions(df: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+def _collect(jobs, args, t, tag):
+    rows = []
+    with ProcessPoolExecutor(args.workers) as pool:
+        for k, row in enumerate(pool.map(_run, jobs, chunksize=10), 1):
+            rows.append(row)
+            if k % 500 == 0:
+                print(f"{k}/{len(jobs)} paired runs, {time.time() - t:.0f} s", flush=True)
+    df = pd.DataFrame(rows)
+    df.to_csv(OUT / f"policyswarm_runs_{tag}.csv", index=False)
+    print(f"done: {len(jobs)} paired runs in {time.time() - t:.0f} s", flush=True)
+    return df
+
+
+def trust_designs(args, seeds):
+    """The revision's case designs (see --design)."""
+    t = time.time()
+    jobs = []
+    if args.design == "trust":
+        for space, anchor in itertools.product(GATE_SPACES, ("corner", "centre")):
+            jobs += [(space, "raw", "gated", g.value, lag, s, REFERENCE_EPS[space], anchor)
+                     for g, lag, s in itertools.product(GEOMETRIES, LAGS, seeds)]
+        jobs += [("unit", "raw", "gated", g.value, lag, s, REFERENCE_EPS["unit"], "level_shift")
+                 for g, lag, s in itertools.product(GEOMETRIES, LAGS, seeds)]
+        return _collect(jobs, args, t, "trust_v2")
+    anchors = ("corner", "centre", "status_quo", "own")
+    corners = [("centred", "anchor", a) for a in anchors]
+    with ProcessPoolExecutor(args.workers) as pool:
+        calib = {c[2]: (e, target, rate) for c, e, target, rate in pool.map(_calibrate_run, corners)}
+    pd.DataFrame([{"trust_anchor": a, "cosine_eps": e, "target": tg, "achieved": r}
+                  for a, (e, tg, r) in calib.items()]).to_csv(
+        OUT / "policyswarm_thresholds_anchors_v2.csv", index=False)
+    for a in anchors:
+        print(f"anchor {a}: cosine eps {calib[a][0]:.4f}, pass {calib[a][2]:.3f} "
+              f"vs Euclidean {calib[a][1]:.3f}", flush=True)
+        for g, lag, s in itertools.product(GEOMETRIES, LAGS, seeds):
+            eps = REFERENCE_EPS["centred"] if g == Geometry.EUCLIDEAN else calib[a][0]
+            jobs.append(("centred", "run", "anchor", g.value, lag, s, eps, a))
+            jobs.append(("unit", "raw", "gated", g.value, lag, s, REFERENCE_EPS["unit"], a))
+    return _collect(jobs, args, t, "anchors_v2")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--seeds", type=int, default=100)
     ap.add_argument("--workers", type=int, default=11)
     ap.add_argument("--modes", nargs="+", default=["raw", "matched"], choices=EPS_MODES)
     ap.add_argument("--tag", default="", help="suffix for the output files")
+    ap.add_argument("--design", choices=("factorial", "trust", "anchors"), default="factorial",
+                    help="factorial: the gate factorial; trust: trust anchor (corner/centre) x "
+                         "gate space with the draft's shared eps and gated pull, plus the "
+                         "level-shift control; anchors: all four trust anchors in the draft "
+                         "setting and in the recommended (centred, run-matched, anchor) one")
     args = ap.parse_args()
     OUT.mkdir(exist_ok=True)
     seeds = list(range(args.seeds))
+    if args.design != "factorial":
+        return trust_designs(args, seeds)
 
     t = time.time()
     eps = thresholds(seeds)

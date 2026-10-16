@@ -45,6 +45,8 @@ CENTRED_SCALE = 2.0
 #: Allowed values of the methods-note switches on SimConfig.
 GATE_SPACES = ("centred", "unit")
 POLICY_PULLS = ("anchor", "gated")
+#: Where trust shrinks an agent's perceived policy (SimConfig.trust_anchor).
+TRUST_ANCHORS = ("centre", "corner", "status_quo", "own", "level_shift")
 #: Pre-audit nudge toward the policy after each heard conversation.
 GATED_POLICY_RATE = 0.05
 
@@ -146,6 +148,13 @@ class SimConfig:
     #   the pull scales with the gate pass rate (pre-audit coupling).
     gate_space       : str         = "centred"
     policy_pull      : str         = "anchor"
+    # trust_anchor: the point an agent's trust shrinks its perceived policy
+    #   toward. "centre" (neutral; default), "corner" (-1 on every dimension,
+    #   the pre-audit [0, 1] origin: "no regulation at all"), "status_quo"
+    #   (the population's mean starting opinion), "own" (the agent's current
+    #   opinion, so trust scales how far it moves), "level_shift" (control:
+    #   centre plus corner's average shift, -(1 - mean trust), for everyone).
+    trust_anchor     : str         = "centre"
 
     def to_dict(self) -> dict:
         d = asdict(self)

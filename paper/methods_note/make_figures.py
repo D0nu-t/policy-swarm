@@ -14,12 +14,14 @@ from __future__ import annotations
 from pathlib import Path
 
 import matplotlib
+import matplotlib.ticker
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 
+import analysis_v2 as a2  # noqa: E402
 import coverage as cov  # noqa: E402
 
 HERE = Path(__file__).parent
@@ -124,229 +126,268 @@ def coverage_table():
     return df
 
 
-# --- Minimal model --------------------------------------------------------
+# --- Revision round (see analysis_v2.py for the statistics) ----------------
 
-MODES = ("raw", "t0", "run")
-MODE_LABELS = {"raw": "same\nnumber", "t0": "matched\nat $t=0$", "run": "matched\nover run"}
-OUTCOMES = {"pass_rate": "realised pass rate", "variance": "final variance",
-            "eff_clusters": "effective no. of groups"}
-CELL = ["space", "d", "target"]
+SERIES_ORDER = ("euclidean", "cosine", "manifold")
+MODE_TEXT = {"raw": "shared ε", "t0": "matched at start", "run": "matched over run"}
 
 
-def minimal_gaps(runs: pd.DataFrame) -> pd.DataFrame:
-    """Per cell, metric and rule: mean paired gap to Euclidean, with a t-test.
-
-    pass_rate gaps are differences; variance and group-count gaps are log2
-    ratios, so a gap of 1 means twice Euclidean's value.
-    """
-    from scipy.stats import ttest_1samp
-
-    euc = runs[runs.metric == "euclidean"].set_index(CELL + ["seed"])
-    rows = []
-    for (space, d, target, metric, mode), g in runs[runs.metric != "euclidean"].groupby(
-            CELL + ["metric", "mode"]):
-        g = g.set_index(CELL + ["seed"])
-        base = euc.loc[g.index]
-        row = {"space": space, "d": d, "target": target, "metric": metric, "mode": mode,
-               "eps": g["eps"].iloc[0], "pass_rate": g["pass_rate"].mean(),
-               "pass_rate_euc": base["pass_rate"].mean()}
-        for col in OUTCOMES:
-            if col == "pass_rate":
-                diff = g[col] - base[col]
-            else:
-                diff = np.log2(g[col].clip(lower=1e-12) / base[col].clip(lower=1e-12))
-            row[f"gap_{col}"] = diff.mean()
-            row[f"p_{col}"] = ttest_1samp(diff, 0.0).pvalue if diff.std() > 0 else 1.0
-        rows.append(row)
-    return pd.DataFrame(rows)
+def fmt_ci(st, digits=2):
+    return f"{st['mean']:+.{digits}f} [{st['lo95']:+.{digits}f}, {st['hi95']:+.{digits}f}]"
 
 
-def minimal_figure(gaps: pd.DataFrame):
-    """Strip plot: gap to Euclidean under each threshold rule, one dot per cell."""
-    fig, axes = plt.subplots(1, len(OUTCOMES), figsize=(6.8, 2.6))
-    rng = np.random.default_rng(0)
-    for ax, (col, title) in zip(axes, OUTCOMES.items()):
-        for k, mode in enumerate(MODES):
-            for j, metric in enumerate(("cosine", "manifold")):
-                y = gaps[(gaps["mode"] == mode) & (gaps.metric == metric)][f"gap_{col}"]
-                x = k + (j - 0.5) * 0.3 + rng.uniform(-0.06, 0.06, len(y))
-                ax.plot(x, y, "o" if metric == "cosine" else "^", ms=3.5, alpha=0.8,
-                        color=COLOURS[metric], mec="#fcfcfb", mew=0.5,
-                        label=LABELS[metric] if k == 0 else None)
-        ax.axhline(0, color="#c3c2b7", lw=1)
-        ax.set_xticks(range(len(MODES)), [MODE_LABELS[m] for m in MODES], fontsize=8)
-        ax.set_ylabel("difference" if col == "pass_rate" else "log$_2$ ratio", fontsize=8)
-        ax.set_title(title, color=INK, fontsize=9)
-        ax.grid(axis="x", visible=False)
-    fig.suptitle("Gap to Euclidean, one mark per cell", fontsize=9, color=INK, y=0.99)
-    axes[0].legend(frameon=False, fontsize=8, labelcolor=INK, loc="upper right")
-    fig.tight_layout()
-    _save(fig, "fig2_minimal_gaps")
+def curves_figure(curv: pd.DataFrame, runs: pd.DataFrame):
+    """Figure 2: primary outcome against realised pass rate, with matched points."""
+    fig, axes = plt.subplots(2, 3, figsize=(7.0, 4.6), sharey=False)
+    for r, space in enumerate(("unit", "centred")):
+        for c, d in enumerate((2, 4, 8)):
+            ax = axes[r, c]
+            for m in SERIES_ORDER:
+                s = curv[(curv.space == space) & (curv.d == d) & (curv.metric == m)].sort_values("pass_rate")
+                ax.plot(s.pass_rate, s[a2.PRIMARY], STYLES[m], color=COLOURS[m], label=LABELS[m], lw=1.6)
+            pts = runs[(runs.space == space) & (runs.d == d) & (runs.target == 0.15)]
+            for (m, mode), g in pts.groupby(["metric", "mode"]):
+                if mode == "raw":
+                    continue
+                marker = "o" if mode == "t0" else ("s" if mode == "run" else "D")
+                ax.plot(g.pass_rate.mean(), g[a2.PRIMARY].mean(), marker, ms=5, color=COLOURS[m],
+                        mec="#fcfcfb", mew=0.8)
+            ax.set_title(f"{space}, d = {d}", fontsize=8, color=INK)
+            ax.set_yscale("log")
+            top = ax.get_ylim()[1]
+            ax.set_yticks([t for t in (1, 2, 3, 5, 10, 20) if t <= top * 1.05])
+            ax.yaxis.set_major_formatter(matplotlib.ticker.ScalarFormatter())
+            ax.yaxis.set_minor_formatter(matplotlib.ticker.NullFormatter())
+            ax.tick_params(labelsize=7)
+            if r == 1:
+                ax.set_xlabel("realised pass rate", fontsize=8)
+            if c == 0:
+                ax.set_ylabel("opinion groups (≥1%)", fontsize=8)
+    axes[0, 2].legend(frameon=False, fontsize=7, labelcolor=INK, loc="upper right")
+    fig.text(0.5, 0.005, "markers at 15% starting coverage: diamond = Euclidean, circle = matched at start, "
+                         "square = matched over run", ha="center", fontsize=7, color=MUTED)
+    fig.tight_layout(rect=(0, 0.03, 1, 1))
+    _save(fig, "fig2_response_curves")
     plt.close(fig)
 
 
-def minimal_numbers(gaps: pd.DataFrame):
-    names = {"raw": "Raw", "t0": "Tzero", "run": "Run"}
-    for mode in MODES:
-        g = gaps[gaps["mode"] == mode]
-        n = names[mode]
-        numbers[f"Min{n}PassGap"] = f"{g['gap_pass_rate'].abs().median():.2f}"
-        numbers[f"Min{n}VarGap"] = f"{g['gap_variance'].abs().median():.2f}"
-        numbers[f"Min{n}GroupGap"] = f"{g['gap_eff_clusters'].abs().median():.2f}"
-        numbers[f"Min{n}GroupGapMax"] = f"{g['gap_eff_clusters'].abs().max():.1f}"
-        numbers[f"Min{n}VarGapMin"] = f"{g['gap_variance'].min():+.2f}"
-        numbers[f"Min{n}VarGapMax"] = f"{g['gap_variance'].max():+.2f}"
-        # Share of (cell, metric) rows whose group-count gap is under a third (|log2| < 0.5).
-        numbers[f"Min{n}GroupClose"] = pct((g['gap_eff_clusters'].abs() < 0.5).mean())
-    numbers["MinCells"] = str(gaps.groupby(CELL).ngroups)
-    # Matched cosine vs angular: same pairs at t = 0, so differences are the update rule's.
-    t0 = gaps[gaps["mode"] == "t0"].pivot_table(index=CELL, columns="metric",
-                                               values=["pass_rate", "gap_variance"])
-    numbers["MinCosAngPassDiff"] = (
-        f"{(t0['pass_rate']['cosine'] - t0['pass_rate']['manifold']).abs().max():.3f}")
-    ex = gaps[(gaps.space == "centred") & (gaps.d == 4) & (gaps.target == 0.15)
-              & (gaps["mode"] == "t0") & (gaps.metric == "cosine")].iloc[0]
-    numbers.update(DriftEuc=pct(ex.pass_rate_euc), DriftCos=pct(ex.pass_rate))
-    numbers["MinCosAngVarDiff"] = (
-        f"{(t0['gap_variance']['cosine'] - t0['gap_variance']['manifold']).abs().median():.2f}")
-
-
-# --- PolicySwarm case -----------------------------------------------------
-
-CASE_MODES = ("raw", "matched", "run")
-CASE_MODE_LABELS = {"raw": "shared", "matched": "$t{=}0$", "run": "run"}
-CASE_TABLE_LABELS = {"raw": "shared", "matched": "matched $t{=}0$", "run": "matched run"}
-
-
-def load_case():
-    """Runs and interaction tables from the main factorial and the run-matched arm."""
-    runs = [pd.read_csv(f) for f in sorted(RESULTS.glob("policyswarm_runs*.csv"))]
-    inter = [pd.read_csv(f) for f in sorted(RESULTS.glob("policyswarm_interactions*.csv"))]
-    return pd.concat(runs, ignore_index=True), pd.concat(inter, ignore_index=True)
-
-
-def case_summary(runs: pd.DataFrame, inter: pd.DataFrame) -> pd.DataFrame:
-    """One row per corner: the draft's lag index, realised pass rates, interaction."""
-    keys = ["gate_space", "eps_mode", "policy_pull"]
-    rows = []
-    for key, g in runs.groupby(keys):
-        row = dict(zip(keys, key))
-        for geom, gg in g.groupby("geometry"):
-            m = gg.groupby("lag")["delta"].mean()
-            row[f"{geom}_index40"] = 100 * abs(m[40]) / abs(m[0])
-            row[f"{geom}_pass"] = gg["gate_pass_ctrl"].mean()
-            row[f"{geom}_eps"] = gg["epsilon"].iloc[0]
-        it = inter[(inter["value"] == "rel_delta")
-                   & (inter[keys] == pd.Series(row)[keys]).all(axis=1)].iloc[0]
-        row.update({c: it[c] for c in ("euclidean_contrast", "cosine_contrast", "euclidean_trend",
-                                       "cosine_trend", "interaction", "ci_low", "ci_high",
-                                       "p_value")})
-        rows.append(row)
-    return pd.DataFrame(rows)
-
-
-def case_figure(summary: pd.DataFrame):
-    """Lag index (draft's measure: |shock effect| at lag 40, lag 0 = 100) per corner."""
-    fig, axes = plt.subplots(1, 2, figsize=(6.8, 2.8), sharey=True)
-    for ax, space in zip(axes, ("unit", "centred")):
-        groups = [(m, p) for m in CASE_MODES for p in ("gated", "anchor")]
-        for k, (mode, pull) in enumerate(groups):
-            row = summary[(summary.gate_space == space) & (summary.eps_mode == mode)
-                          & (summary.policy_pull == pull)]
-            if row.empty:
-                continue
-            row = row.iloc[0]
-            for j, metric in enumerate(("euclidean", "cosine")):
-                ax.bar(k + (j - 0.5) * 0.38, row[f"{metric}_index40"] - 100, bottom=100,
-                       width=0.36, color=COLOURS[metric],
-                       label=LABELS[metric] if (k == 0 and space == "centred") else None)
-        ax.axhline(100, color="#c3c2b7", lw=1)
-        ax.set_xticks(range(len(groups)),
-                      [f"{CASE_MODE_LABELS[m]}\n{p}" for m, p in groups], fontsize=7)
-        ax.set_title("pre-audit space (unit)" if space == "unit" else "centred space",
-                     color=INK, fontsize=9)
-        ax.set_xlabel("threshold (shared / matched at $t{=}0$ / matched over run)\n"
-                      "and policy pull (gated / anchor)", fontsize=7, color=MUTED)
-        ax.grid(axis="x", visible=False)
-    axes[0].set_ylabel("shock effect at lag 40\n(lag 0 = 100)")
-    axes[1].legend(frameon=False, fontsize=8, labelcolor=INK, loc="upper right")
+def ruler_figure(cva: pd.DataFrame, horizon: pd.DataFrame):
+    """Figure 3: (a) cosine vs angular group gap by ruler; (b) gap and unsettled share by run length."""
+    fig, (a, b) = plt.subplots(1, 2, figsize=(7.0, 2.7))
+    t0 = cva[cva["mode"] == "t0"]
+    names = {"clusters_r0.01": "0.01ε", "clusters_r0.05": "0.05ε", "clusters": "0.1ε",
+             "clusters_r0.2": "0.2ε", "groups_common": "common"}
+    vals = [t0[t0.outcome == k]["mean"].abs().median() for k in names]
+    a.bar(range(len(names)), vals, color=COLOURS["euclidean"], width=0.6)
+    for k, v in enumerate(vals):
+        a.text(k, v + 0.005, f"{v:.2f}", ha="center", fontsize=7, color=INK)
+    a.set_xticks(range(len(names)), list(names.values()), fontsize=7)
+    a.set_ylabel("median |log₂ gap|, cosine vs angular", fontsize=7)
+    a.set_title("(a) one gate, five rulers", fontsize=8, color=INK)
+    a.grid(axis="x", visible=False)
+    for mode in ("t0", "run"):
+        h = horizon[(horizon["mode"] == mode) & (horizon.metric == "cosine")].sort_values("checkpoint")
+        b.plot(h.checkpoint, h.median_abs_gap, STYLES["cosine"] if mode == "t0" else "-",
+               color=COLOURS["cosine"] if mode == "t0" else COLOURS["manifold"], label=MODE_TEXT[mode])
+    e = horizon[(horizon["mode"] == "reference")].sort_values("checkpoint")
+    b2 = b.twinx()
+    b2.plot(e.checkpoint, e.unsettled, ":", color=MUTED, label="Euclidean runs not settled")
+    b2.set_ylim(0, 1)
+    b2.set_ylabel("share not settled", fontsize=7, color=MUTED)
+    b2.tick_params(labelsize=7, colors=MUTED)
+    b.set_xscale("log")
+    b.set_xticks([500, 1000, 2000, 4000], ["500", "1k", "2k", "4k"], fontsize=7)
+    b.xaxis.set_minor_formatter(matplotlib.ticker.NullFormatter())
+    b.set_ylim(0, max(1.0, b.get_ylim()[1]))
+    b.set_xlabel("rounds", fontsize=8)
+    b.set_ylabel("median |log₂ gap| in groups", fontsize=7)
+    b.set_title("(b) the stopping time", fontsize=8, color=INK)
+    lines = b.get_lines() + b2.get_lines()
+    b.legend(lines, [ln.get_label() for ln in lines], frameon=False, fontsize=7,
+             labelcolor=INK, loc="lower left")
     fig.tight_layout()
-    _save(fig, "fig3_case_factorial")
+    _save(fig, "fig3_ruler_horizon")
     plt.close(fig)
 
 
-def case_table(summary: pd.DataFrame):
-    lines = [r"\begin{tabular}{lllrrrrl}", r"\toprule",
-             r"space & $\varepsilon$ & pull & \multicolumn{2}{c}{pass rate (E / C)} & "
-             r"\multicolumn{2}{c}{lag-40 index (E / C)} & interaction [95\% CI] \\", r"\midrule"]
-    order = {"unit": 0, "centred": 1, "raw": 0, "matched": 1, "run": 2, "gated": 0, "anchor": 1}
-    rows = summary.sort_values(["gate_space", "eps_mode", "policy_pull"],
-                               key=lambda c: c.map(order))
-    for r in rows.itertuples():
-        lines.append(
-            f"{r.gate_space} & {CASE_TABLE_LABELS[r.eps_mode]} & {r.policy_pull} & "
-            f"{r.euclidean_pass:.2f} & {r.cosine_pass:.2f} & "
-            f"{r.euclidean_index40:.0f} & {r.cosine_index40:.0f} & "
-            f"{r.interaction:+.3f} [{r.ci_low:+.3f}, {r.ci_high:+.3f}] \\\\")
+def case_forest(cells: pd.DataFrame):
+    """Figure 4: the geometry x lag interaction in every configuration."""
+    cells = cells.copy()
+    fig, ax = plt.subplots(figsize=(7.0, 0.22 * len(cells) + 1.0))
+    order = cells.sort_values(["source", "cell"]).reset_index(drop=True)
+    y = np.arange(len(order))[::-1]
+    colour = {"forward": COLOURS["euclidean"], "backward": COLOURS["cosine"]}
+    for yi, (_, r) in zip(y, order.iterrows()):
+        ax.plot([r.ci_low, r.ci_high], [yi, yi], "-", color=colour.get(r.source, MUTED), lw=1.5)
+        ax.plot(r.interaction, yi, "o", color=colour.get(r.source, MUTED), ms=4)
+    ax.axvline(0, color=MUTED, lw=0.8)
+    ax.set_yticks(y, [c.replace("pre-audit fixes: ", "pre-audit ") for c in order.cell], fontsize=6)
+    ax.set_xlabel("interaction: Euclidean's lag contrast minus cosine's (positive: cosine attenuates)", fontsize=8)
+    ax.grid(axis="y", visible=False)
+    fig.tight_layout()
+    _save(fig, "fig4_interaction_all_cells")
+    plt.close(fig)
+
+
+def table(path: str, header: list, rows: list, colspec: str):
+    lines = [rf"\begin{{tabular}}{{{colspec}}}", r"\toprule", " & ".join(header) + r" \\", r"\midrule"]
+    lines += [" & ".join(str(c) for c in row) + r" \\" for row in rows]
     lines += [r"\bottomrule", r"\end{tabular}"]
-    (FIGURES / "table2_case.tex").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    (FIGURES / path).write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def case_numbers(summary: pd.DataFrame):
-    tags = {"unit": "Unit", "centred": "Centred", "raw": "Raw", "matched": "Tzero", "run": "Run",
-            "gated": "Gated", "anchor": "Anchor"}
-    for r in summary.itertuples():
-        t = f"Case{tags[r.gate_space]}{tags[r.eps_mode]}{tags[r.policy_pull]}"
-        numbers[f"{t}EucIdx"] = f"{r.euclidean_index40:.0f}"
-        numbers[f"{t}CosIdx"] = f"{r.cosine_index40:.0f}"
-        numbers[f"{t}EucPass"] = pct(r.euclidean_pass)
-        numbers[f"{t}CosPass"] = pct(r.cosine_pass)
-        numbers[f"{t}Inter"] = f"{r.interaction:+.3f}"
-        numbers[f"{t}P"] = f"{r.p_value:.2g}"
+def revision():
+    """Every revision-round figure, table and number (needs the *_v2 results)."""
+    runs = a2.load_minimal()
+    gaps = a2.minimal_gaps(runs)
+    gaps.to_csv(RESULTS / "minimal_gaps_v2.csv", index=False)
+    prim = gaps[gaps.outcome == a2.PRIMARY]
+    for mode, tag in (("raw", "Raw"), ("t0", "Tzero"), ("run", "Run")):
+        g = prim[prim["mode"] == mode]
+        p = gaps[(gaps.outcome == "pass_rate") & (gaps["mode"] == mode)]
+        numbers[f"V{tag}GroupGap"] = f"{g['mean'].abs().median():.2f}"
+        numbers[f"V{tag}GroupEquiv"] = f"{int(g.equivalent.sum())}"
+        numbers[f"V{tag}PassGap"] = f"{p['mean'].abs().median():.3f}"
+        numbers[f"V{tag}PassEquiv"] = f"{int(p.equivalent.sum())}"
+    numbers["VCases"] = str(len(prim[prim["mode"] == "run"]))
+    for col, tag in (("variance", "Var"), ("radial_var", "Radial"), ("dispersion", "Disp")):
+        g = gaps[(gaps.outcome == col) & (gaps["mode"] == "run")]
+        numbers[f"VRun{tag}Gap"] = f"{g['mean'].abs().median():.2f}"
+        numbers[f"VRun{tag}Equiv"] = f"{int(g.equivalent.sum())}"
 
+    ang = runs[(runs.checkpoint == 2000) & runs.metric.isin(["cosine", "manifold"])]
+    numbers["VClipMean"] = f"{100 * ang.clip_rate.mean():.1f}\\%"
+    numbers["VClipMax"] = f"{100 * ang.clip_rate.max():.1f}\\%"
 
-# --- Diagnosis on the pre-audit engine ------------------------------------
+    cva = a2.cos_vs_angular(runs)
+    cva.to_csv(RESULTS / "cos_vs_angular_v2.csv", index=False)
+    t0 = cva[cva["mode"] == "t0"]
+    numbers["VCosAngPassMax"] = f"{t0[t0.outcome == 'pass_rate']['mean'].abs().max():.3f}"
+    for k, tag in (("clusters", "Own"), ("groups_common", "Common")):
+        numbers[f"VCosAng{tag}"] = f"{t0[t0.outcome == k]['mean'].abs().median():.2f}"
+        numbers[f"VCosAng{tag}Max"] = f"{t0[t0.outcome == k]['mean'].abs().max():.2f}"
 
-def diagnosis_numbers():
-    """Lag-40 index under each combination of undone fixes (diagnose_reversal.py)."""
-    files = [RESULTS / "diagnosis_lag_index.csv", RESULTS / "diagnosis_lag_index_trust.csv"]
-    if not all(f.exists() for f in files):
+    horizon = a2.horizon_table()
+    horizon.to_csv(RESULTS / "horizon_v2.csv", index=False)
+    ref = horizon[horizon["mode"] == "reference"].set_index("checkpoint")["unsettled"]
+    words = {500: "Five", 1000: "One", 2000: "Two", 4000: "Four"}      # macro names: letters only
+    for cp in (500, 2000, 4000):
+        numbers[f"VUnsettled{words[cp]}"] = pct(ref.get(cp, float("nan")))
+    for mode, tag in (("t0", "Tzero"), ("run", "Run")):
+        h = horizon[(horizon["mode"] == mode) & (horizon.metric == "cosine")].set_index("checkpoint")
+        for cp in (500, 4000):
+            numbers[f"VHor{tag}{words[cp]}"] = f"{h['median_abs_gap'].get(cp, float('nan')):.2f}"
+
+    ruler_figure(cva, horizon)
+
+    cal = a2.calibration_table()
+    numbers["VCalMiss"] = str(int((~cal.within_tol.astype(bool)).sum()))
+    numbers["VCalTotal"] = str(len(cal))
+    numbers["VCalMaxErr"] = f"{cal['error'].abs().max():.3f}"
+    numbers["VCalNonMono"] = str(int((~cal.monotone.astype(bool)).sum()))
+    table("table_calibration.tex", ["space", "$d$", "cov.", "metric", r"$\varepsilon$", "error", "iter.", "ok"],
+          [[r.space, r.d, f"{r.target:.2f}", LABELS[r.metric], f"{r.eps:.3f}", f"{r.error:+.3f}",
+            r.iterations, "yes" if r.within_tol else "no"] for r in cal.itertuples()], "lrrlrrrl")
+
+    have = lambda name: (RESULTS / name).exists()  # noqa: E731
+    if not have("minimal_crossing_v2.csv"):
+        print("note: crossing results not there yet")
         return
-    d = pd.concat([pd.read_csv(f) for f in files], ignore_index=True)
-    if "trust_centre" not in d:
-        d["trust_centre"] = 0
-    d["trust_centre"] = d["trust_centre"].fillna(0).astype(int)
+    cross = a2.crossing_table()
+    cross.to_csv(RESULTS / "crossing_v2.csv", index=False)
+    pick = lambda g, s, o: cross[(cross.gate == g) & (cross.step == s) & (cross.outcome == o)].iloc[0]  # noqa: E731
+    for g, s, tag in (("cosine", "cosine", "CosCos"), ("cosine", "euclidean", "CosEuc"),
+                      ("euclidean", "cosine", "EucCos")):
+        for o, otag in (("variance", "Var"), ("radial_var", "Radial"), ("dispersion", "Disp"),
+                        ("groups_common", "Groups")):
+            numbers[f"VX{tag}{otag}"] = fmt_ci(pick(g, s, o))
+    table("table_crossing.tex", ["gate", "update", "outcome", "log$_2$ gap to Euclidean/Euclidean [95\\% CI]"],
+          [[LABELS[r.gate], LABELS[r.step], r.outcome.replace("_", " "), fmt_ci(r._asdict())]
+           for r in cross[cross.outcome.isin(["variance", "dispersion", "radial_var", "groups_common"])].itertuples()],
+          "lllr")
 
-    def idx(fc, fr, sp, tc, geom):
-        r = d[(d.fix_cosine == fc) & (d.fix_rng == fr) & (d.split_tick == sp)
-              & (d.trust_centre == tc) & (d.geometry == geom)]
-        return float(r["lag40"].iloc[0])
+    if have("minimal_curves_v2.csv"):
+        curves_figure(a2.curves(), runs)
 
-    numbers.update(
-        DiagOrigEuc=f"{idx(0, 0, 40, 0, 'euclidean'):.0f}",
-        DiagOrigCos=f"{idx(0, 0, 40, 0, 'cosine'):.0f}",
-        DiagTrustEuc=f"{idx(0, 0, 40, 1, 'euclidean'):.0f}",
-        DiagTrustCos=f"{idx(0, 0, 40, 1, 'cosine'):.0f}",
-        DiagAllEuc=f"{idx(1, 1, 30, 1, 'euclidean'):.0f}",
-        DiagAllCos=f"{idx(1, 1, 30, 1, 'cosine'):.0f}",
-    )
-    fixes = d[d.trust_centre == 0]
-    cos, euc = fixes[fixes.geometry == "cosine"], fixes[fixes.geometry == "euclidean"]
-    numbers.update(DiagFixCosLo=f"{cos.lag40.min():.0f}", DiagFixCosHi=f"{cos.lag40.max():.0f}",
-                   DiagFixEucLo=f"{euc.lag40.min():.0f}", DiagFixEucHi=f"{euc.lag40.max():.0f}")
+    cells = a2.case_cells()
+    cells.to_csv(RESULTS / "case_cells_v2.csv", index=False)
+    case_forest(cells)
+    numbers["VCaseCells"] = str(len(cells))
+    numbers["VCasePositive"] = str(int((cells.ci_low > 0).sum()))
+    numbers["VCaseNegative"] = str(int((cells.ci_high < 0).sum()))
+    numbers["VCaseNull"] = str(int(((cells.ci_low <= 0) & (cells.ci_high >= 0)).sum()))
+
+    def cell(source, text):
+        r = cells[(cells.source == source) & (cells.cell == text)]
+        return r.iloc[0] if len(r) else None
+
+    named = {
+        "Draft": ("backward", "pre-audit fixes: cos=0 rng=0 split=30 trust_centre=0"),
+        "DraftFixed": ("backward", "pre-audit fixes: cos=1 rng=1 split=40 trust_centre=0"),
+        "DraftTrust": ("backward", "pre-audit fixes: cos=0 rng=0 split=40 trust_centre=1"),
+        "Recommended": ("forward", "centred/run/anchor/trust:centre"),
+        "UnitShared": ("forward", "unit/raw/gated/trust:centre"),
+        "UnitRunGated": ("forward", "unit/run/gated/trust:centre"),
+    }
+    for tag, (src, text) in named.items():
+        r = cell(src, text)
+        if r is None:
+            continue
+        numbers[f"VC{tag}Inter"] = f"{r.interaction:+.3f}"
+        numbers[f"VC{tag}CI"] = f"[{r.ci_low:+.3f}, {r.ci_high:+.3f}]"
+        for geom, gtag in (("euclidean", "Euc"), ("cosine", "Cos")):
+            numbers[f"VC{tag}{gtag}Idx"] = (f"{r[f'{geom}_index40']:.0f} "
+                                            f"[{r[f'{geom}_index_lo']:.0f}, {r[f'{geom}_index_hi']:.0f}]")
+            numbers[f"VC{tag}{gtag}Zero"] = f"{r[f'{geom}_effect0']:.4f}"
+
+    # Every trust/anchor cell of the draft's setting and the recommended one.
+    import re
+    for r in cells[cells.source == "forward"].itertuples():
+        mt = re.fullmatch(r"(unit|centred)/(raw|run)/(gated|anchor)/trust:(\w+)", r.cell)
+        if not mt or (mt[2], mt[3]) not in (("raw", "gated"), ("run", "anchor")):
+            continue
+        tag = "VT" + mt[1].title() + mt[2].title() + mt[4].title().replace("_", "")
+        numbers[f"{tag}Inter"] = f"{r.interaction:+.3f}"
+        numbers[f"{tag}CI"] = f"[{r.ci_low:+.3f}, {r.ci_high:+.3f}]"
+        for geom, gtag in (("euclidean", "Euc"), ("cosine", "Cos")):
+            numbers[f"{tag}{gtag}Idx"] = f"{getattr(r, geom + '_index40'):.0f}"
+            numbers[f"{tag}{gtag}IdxCI"] = (f"[{getattr(r, geom + '_index_lo'):.0f}, "
+                                           f"{getattr(r, geom + '_index_hi'):.0f}]")
+
+    trust_cells = cells[cells.cell.str.contains("trust:") & cells.cell.str.startswith(("unit/raw/gated", "centred/raw/gated"))]
+    table("table_trust.tex", ["gate", "trust shrinks toward", "Euclidean", "cosine", "interaction [95\\% CI]"],
+          [[r.cell.split("/")[0], r.cell.split("trust:")[1].replace("_", " "),
+            f"{r.euclidean_index40:.0f}", f"{r.cosine_index40:.0f}",
+            f"{r.interaction:+.3f} [{r.ci_low:+.3f}, {r.ci_high:+.3f}]"] for r in trust_cells.itertuples()],
+          "llrrr")
+    anchor_cells = cells[cells.cell.str.startswith("centred/run/anchor")]
+    table("table_anchors.tex", ["trust shrinks toward", "Euclidean", "cosine", "interaction [95\\% CI]"],
+          [[r.cell.split("trust:")[1].replace("_", " "), f"{r.euclidean_index40:.0f}",
+            f"{r.cosine_index40:.0f}", f"{r.interaction:+.3f} [{r.ci_low:+.3f}, {r.ci_high:+.3f}]"]
+           for r in anchor_cells.itertuples()], "lrrr")
+    for r in anchor_cells.itertuples():
+        a = r.cell.split("trust:")[1]
+        numbers[f"VAnchor{a.title().replace('_', '')}Inter"] = f"{r.interaction:+.3f}"
+    print(cells[["source", "cell", "interaction", "ci_low", "ci_high"]].round(3).to_string(index=False))
 
 
 def write_numbers():
+    bad = [k for k in numbers if not k.isalpha()]
+    if bad:
+        raise SystemExit(f"number macro names must be letters only: {bad}")
     lines = [f"\\newcommand{{\\{k}}}{{{v}}}" for k, v in sorted(numbers.items())]
     (HERE / "numbers.tex").write_text("% Written by make_figures.py; do not edit.\n"
                                       + "\n".join(lines) + "\n", encoding="utf-8")
     # Every number macro the text uses must be one this script defines.
     import re
     text = (HERE / "main.tex").read_text(encoding="utf-8")
-    used = set(re.findall(r"\\((?:Unit|Centred|Match|Min|Drift|Case|Diag)[A-Za-z]+)", text))
+    used = set(re.findall(r"\\((?:Unit|Centred|Match|V)[A-Za-z0-9]+)", text))
     missing = sorted(used - set(numbers))
     if missing:
         raise SystemExit(f"main.tex uses undefined number macros: {missing}")
+    todo = re.findall(r"\\(RESULTS\{[a-z]+\}|ABSTRACT\b|CODEDATA\b)", text)
+    if todo:
+        print(f"note: main.tex still has placeholders: {todo}")
 
 
 def main():
@@ -354,19 +395,8 @@ def main():
     RESULTS.mkdir(exist_ok=True)
     coverage_figure()
     print(coverage_table().round(3).to_string(index=False))
-    if (RESULTS / "minimal_runs.csv").exists():
-        gaps = minimal_gaps(pd.read_csv(RESULTS / "minimal_runs.csv"))
-        gaps.to_csv(RESULTS / "minimal_gaps.csv", index=False)
-        minimal_figure(gaps)
-        minimal_numbers(gaps)
-    if (RESULTS / "policyswarm_interactions.csv").exists():
-        summary = case_summary(*load_case())
-        summary.to_csv(RESULTS / "policyswarm_summary.csv", index=False)
-        print(summary.round(3).to_string(index=False))
-        case_figure(summary)
-        case_table(summary)
-        case_numbers(summary)
-    diagnosis_numbers()
+    if (RESULTS / "minimal_runs_v2.csv").exists():
+        revision()
     write_numbers()
 
 

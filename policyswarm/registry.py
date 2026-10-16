@@ -15,7 +15,7 @@ import dataclasses
 import os
 from typing import Any, Dict, List, Optional, Tuple, Type
 
-from .config import Policy, RunSpec, SimConfig
+from .config import GATE_SPACES, POLICY_PULLS, TRUST_ANCHORS, Policy, RunSpec, SimConfig
 from .experiments import (
     CentralitySweepExperiment,
     CounterfactualShockExperiment,
@@ -60,16 +60,56 @@ _SIM_CONFIG_HELP = {
     "sbm_p_out"         : "Cross-community edge probability (SBM).",
     "policy_split_tick" : "Tick at which the policy tightens.",
 }
+#: Form labels and sections for the SimConfig fields (dashboard only).
+_SIM_CONFIG_LABELS = {
+    "n_agents"          : ("Agents", "Population and time"),
+    "n_ticks"           : ("Ticks", "Population and time"),
+    "interactions"      : ("Conversations per tick", "Population and time"),
+    "mu"                : ("Convergence rate μ", "Interaction"),
+    "epsilon"           : ("Confidence threshold ε", "Interaction"),
+    "policy_anchor_rate": ("Policy anchor rate", "Interaction"),
+    "policy_split_tick" : ("Policy tightening tick", "Interaction"),
+    "network_type"      : ("Network type", "Network"),
+    "ba_m"              : ("BA edges per new node", "Network"),
+    "sbm_n_communities" : ("SBM communities", "Network"),
+    "sbm_p_in"          : ("SBM within-community probability", "Network"),
+    "sbm_p_out"         : ("SBM cross-community probability", "Network"),
+}
+
 _SIM_CONFIG_MINIMUM = {"n_agents": 10, "n_ticks": 6, "interactions": 1, "ba_m": 1,
                        "sbm_n_communities": 1}
 
 #: SimConfig fields a run may override. ``opinion_dim`` is set by the policy
 #: and ``shock_prob`` is unused by the engine, so neither is offered.
+#: The "hidden choices" (see paper/methods_note): defaults are the audited
+#: model, so leaving them alone changes nothing.
+HIDDEN_CHOICE_PARAMS: Tuple[ParamSpec, ...] = (
+    ParamSpec("gate_space", "choice", "centred", choices=GATE_SPACES,
+              label="Gate measured from", group="Hidden choices",
+              help="Where the confidence gate measures from. centred: angles are measured "
+                   "from the neutral point. unit: from the corner where every dimension is "
+                   "at its minimum (the pre-audit space). With unit, ε is read in unit-cube "
+                   "units: halve it (0.5 for the default 1.0) to keep the same Euclidean gate."),
+    ParamSpec("policy_pull", "choice", "anchor", choices=POLICY_PULLS,
+              label="Policy pull", group="Hidden choices",
+              help="anchor: every agent is pulled a little toward the policy each tick. "
+                   "gated: only after a conversation that passed the gate, so the pull "
+                   "grows with how many pairs can talk (the pre-audit coupling)."),
+    ParamSpec("trust_anchor", "choice", "centre", choices=TRUST_ANCHORS,
+              label="Low trust perceives", group="Hidden choices",
+              help="What a low-trust agent perceives instead of the policy. centre: "
+                   "neutral. corner: no regulation at all. status_quo: the population's "
+                   "starting average. own: its own view. level_shift: a control that "
+                   "moves everyone by corner's average amount."),
+)
+
 SIM_CONFIG_PARAMS: Tuple[ParamSpec, ...] = tuple(
-    dataclasses.replace(spec, minimum=_SIM_CONFIG_MINIMUM.get(spec.name, spec.minimum))
+    dataclasses.replace(spec, minimum=_SIM_CONFIG_MINIMUM.get(spec.name, spec.minimum),
+                        label=_SIM_CONFIG_LABELS[spec.name][0],
+                        group=_SIM_CONFIG_LABELS[spec.name][1])
     for spec in specs_from_dataclass(SimConfig, _SIM_CONFIG_HELP)
     if spec.name in _SIM_CONFIG_HELP
-)
+) + HIDDEN_CHOICE_PARAMS
 
 
 def get_experiment(name: str) -> Type[BaseExperiment]:

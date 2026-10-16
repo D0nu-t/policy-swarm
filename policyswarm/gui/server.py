@@ -34,8 +34,14 @@ from fastapi.sse import EventSourceResponse, ServerSentEvent
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-from .. import registry, suggest, trace
+from typing import Literal
+
+import numpy as np
+from fastapi import Query
+
+from .. import coverage, registry, suggest, trace
 from ..config import RunSpec
+from .audit import build_audit
 from ..experiments.params import ParamError
 from ..extraction import DEFAULT_POLICY_TEXT
 from ..opinion_space import OpinionSpace
@@ -225,6 +231,54 @@ def create_app(runs_dir: str = "runs",
     def cancel_run(run_id: str) -> dict:
         get_run(run_id)
         return manager.cancel(run_id).summary()
+
+    @app.get("/api/explorer/coverage")
+    def explorer_coverage(space: Literal["unit", "centred"] = "centred",
+                          d: int = Query(4, ge=2, le=16),
+                          epsilon: float = Query(1.0, gt=0)) -> dict:
+        """Share of uniform pairs within ε for each metric (the paper's Figure 1, live).
+
+        ``epsilon`` is a Euclidean threshold in this space; every metric is also
+        given the ε that admits the same share of pairs."""
+        n_pairs = 20_000
+        rng = np.random.default_rng(0)
+        a, b = coverage.sample_pairs(space, d, n_pairs, rng)
+        share = float(np.mean(coverage.distances("euclidean", a, b) <= epsilon))
+        out = []
+        for metric in coverage.METRICS:
+            dist = np.sort(coverage.distances(metric, a, b))
+            dist = dist[np.isfinite(dist)]
+            top = float(dist[-1])
+            grid = np.linspace(0.0, top, 61)
+            curve = np.searchsorted(dist, grid, side="right") / len(dist)
+            matched = float(np.quantile(dist, share)) if share > 0 else 0.0
+            out.append({
+                "metric": metric,
+                "curve": [[round(float(x), 4), round(float(y), 4)] for x, y in zip(grid, curve)],
+                "at_shared": round(float(np.mean(dist <= epsilon)), 4),
+                "matched_epsilon": round(matched, 4),
+            })
+        return {"space": space, "d": d, "epsilon": epsilon, "euclidean_share": round(share, 4),
+                "metrics": out, "pairs": n_pairs}
+
+    @app.get("/api/explorer/outcomes")
+    def explorer_outcomes() -> dict:
+        """The methods note's ε-response curves (minimal model), if they have been run."""
+        path = Path(__file__).resolve().parents[2] / "paper" / "methods_note" / "results"             / "minimal_curves_v2.csv"
+        if not path.exists():
+            return {"available": False, "reason": "The paper's curve results have not been generated."}
+        df = pd.read_csv(path)
+        outcomes = [c for c in ("groups_common", "eff_groups_common", "clusters", "variance",
+                                "radial_var", "dispersion", "converged_at") if c in df.columns]
+        keys = ["space", "d", "metric", "start_coverage"]
+        agg = df.groupby(keys)[["pass_rate", *outcomes]].mean().reset_index()
+        rows = [{k: _json_safe(v) for k, v in row.items()} for row in agg.to_dict("records")]
+        return {"available": True, "outcomes": outcomes, "rows": rows}
+
+    @app.get("/api/runs/{run_id}/audit")
+    def run_audit(run_id: str) -> dict:
+        run = get_run(run_id)
+        return {"id": run.id, **build_audit(run.directory, run.spec)}
 
     @app.get("/api/runs/{run_id}/results")
     def run_results(run_id: str) -> dict:

@@ -7,12 +7,20 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <a class="skip" href="#main">Skip to content</a>
   <header>
     <h1>PolicySwarm</h1>
-    <span id="status" class="badge idle">idle</span>
+    <span id="status" class="badge idle" role="status">idle</span>
+    <nav aria-label="Main">
+      <a href="#run">Run experiments</a>
+      <a href="#watch">Watch one simulation</a>
+      <a href="#explorer">ε explorer</a>
+      <a href="#results">Results</a>
+    </nav>
   </header>
 
-  <main>
+  <main id="main">
+   <div id="view-run" class="view">
     <section id="setup" aria-labelledby="setup-title">
       <h2 id="setup-title">Run setup</h2>
 
@@ -160,16 +168,18 @@
       </div>
       <p id="error" class="error" role="alert" hidden></p>
     </section>
+   </div>
 
+   <div id="view-watch" class="view" hidden>
     <section id="viewer" aria-labelledby="viewer-title">
       <h2 id="viewer-title">Watch one simulation</h2>
       <p class="hint">Runs one scenario and replays it tick by tick, showing every conversation
-        between agents. Tick two or three geometries to watch the same scenario side by side:
-        same network, same starting opinions, same shocks; only the way distance is measured
-        differs. It uses the simulation settings, opinion space and policy text from the run
-        setup above. Nothing is saved.</p>
-      <details>
-        <summary>Scenario and geometries</summary>
+        between agents. Columns show the same scenario side by side (same network, starting
+        opinions and shocks) with one thing changed: by default the geometry, or any hidden
+        choice under "Compare". It uses the simulation settings, opinion space and policy text
+        from Run experiments. Nothing is saved.</p>
+      <details open>
+        <summary>Scenario, geometries and hidden choices</summary>
         <div id="viewer-params" class="grid"></div>
         <h3>What each geometry measures</h3>
         <div id="viewer-geometries" class="geo-cards"></div>
@@ -264,7 +274,50 @@
         </div>
       </div>
     </section>
+   </div>
 
+   <div id="view-explorer" class="view" hidden>
+    <section id="explorer" aria-labelledby="explorer-title">
+      <h2 id="explorer-title">ε explorer</h2>
+      <p class="hint">How many pairs one confidence threshold lets talk, under each way of
+        measuring distance. Opinions are spread evenly, as at the start of a run. A shared ε
+        number is a different rule in each geometry; the matched ε lets the same share talk.</p>
+      <div class="grid explorer-controls">
+        <label class="param"><span>Opinion space</span>
+          <select id="ex-space"><option value="centred">centred cube [−1, 1]</option>
+            <option value="unit">unit cube [0, 1] (pre-audit)</option></select></label>
+        <label class="param"><span>Dimensions</span>
+          <input id="ex-d" type="number" min="2" max="16" step="1" value="4"></label>
+        <label class="param"><span>Euclidean ε</span>
+          <input id="ex-eps" type="number" min="0.01" step="0.05" value="1.0">
+          <small>Moving it shows the share each geometry admits at this number.</small></label>
+      </div>
+      <p id="ex-status" class="hint" role="status"></p>
+      <figure class="chart-figure">
+        <div id="ex-chart" class="chart"></div>
+        <figcaption id="ex-caption" class="hint"></figcaption>
+      </figure>
+      <details>
+        <summary>Table view</summary>
+        <div id="ex-table" class="table-wrap"></div>
+      </details>
+
+      <h3>Outcomes against realised coverage (minimal model)</h3>
+      <p id="ex-out-note" class="hint">From the methods note's ε-response runs, when they exist.</p>
+      <div id="ex-out-controls" class="grid explorer-controls" hidden>
+        <label class="param"><span>Outcome</span><select id="ex-outcome"></select></label>
+      </div>
+      <figure class="chart-figure" id="ex-out-figure" hidden>
+        <div id="ex-out-chart" class="chart"></div>
+        <figcaption class="hint">Each point is the mean of 50 seeds at one ε. The x-axis is the
+          share of conversations that actually passed the gate over the run, not the share at the
+          start: matched points sit at the same x.</figcaption>
+      </figure>
+    </section>
+   </div>
+
+   <div id="view-results" class="view" hidden>
+    <p id="results-empty" class="empty">No run yet. Start one from <a href="#run">Run experiments</a>.</p>
     <section id="progress" aria-labelledby="progress-title" hidden>
       <h2 id="progress-title">Progress</h2>
       <div id="bars"></div>
@@ -276,8 +329,10 @@
 
     <section id="results" aria-labelledby="results-title" hidden>
       <h2 id="results-title">Results</h2>
+      <div id="audit" class="audit" hidden></div>
       <div id="result-list"></div>
     </section>
+   </div>
   </main>
 
   <script src="app.js"></script>
@@ -286,5 +341,6 @@
   <script src="viewer-views.js"></script>
   <script src="viewer-draw.js"></script>
   <script src="viewer-panels.js"></script>
+  <script src="explorer.js"></script>
 </body>
 </html>

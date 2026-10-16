@@ -84,3 +84,62 @@ def test_anchor_mode_moves_without_conversations():
     sc = dataclasses.replace(SMALL, epsilon=0.0)            # anchor default
     sim = _run(sc, gov=GovernanceConfig(**QUIET))
     assert not np.array_equal(sim.final_opinions, sim.initial_opinions)
+
+
+# --- trust_anchor: where trust shrinks the perceived policy ----------------
+
+from policyswarm.extraction import perceived_policy  # noqa: E402
+from policyswarm.registry import SIM_CONFIG_PARAMS  # noqa: E402
+
+P = np.array([0.5, 0.2, 0.8, -0.1])
+
+
+def _pp(trust, anchor=None):
+    return perceived_policy(P, ideology=0.3, trust=trust, noise_scale=0.0,
+                            rng=np.random.default_rng(0), anchor=anchor)
+
+
+def test_trust_anchor_default_is_centre():
+    assert SimConfig().trust_anchor == "centre"
+
+
+def test_zero_anchor_is_bit_identical_to_no_anchor():
+    for t in (0.0, 0.37, 1.0):
+        np.testing.assert_array_equal(_pp(t, anchor=None), _pp(t, anchor=np.zeros(4)))
+
+
+def test_corner_is_centre_shifted_by_one_minus_trust():
+    # -1 + t(p + b + 1) == t(p + b) - (1 - t); compare before clipping matters.
+    for t in (0.1, 0.5, 0.9):
+        corner = _pp(t, anchor=-np.ones(4))
+        centre = _pp(t)
+        unclipped = (np.abs(centre - (1 - t)) < 1) & (np.abs(corner) < 1)
+        np.testing.assert_allclose(corner[unclipped], (centre - (1 - t))[unclipped], atol=1e-12)
+
+
+def test_unknown_trust_anchor_is_rejected():
+    with pytest.raises(ValueError):
+        _run(dataclasses.replace(SMALL, trust_anchor="moon"))
+
+
+@pytest.mark.parametrize("anchor", ["corner", "status_quo", "own", "level_shift"])
+def test_each_trust_anchor_runs_and_changes_something(anchor):
+    base = _run(SMALL, gov=GovernanceConfig(policy_pull_onset=0))
+    other = _run(dataclasses.replace(SMALL, trust_anchor=anchor),
+                 gov=GovernanceConfig(policy_pull_onset=0))
+    assert not np.array_equal(base.final_opinions, other.final_opinions)
+
+
+def test_level_shift_matches_corner_on_average():
+    # The control applies corner's average shift, -(1 - mean trust), to everyone.
+    sim = Simulation(dataclasses.replace(SMALL, trust_anchor="level_shift"), GovernanceConfig(),
+                     Policy(vector=POLICY.copy()), [], seed=3)
+    shift = sim._level_shift
+    assert shift == pytest.approx(-(1 - sim.trust.mean()))
+
+
+def test_registry_offers_the_hidden_choices():
+    specs = {s.name: s for s in SIM_CONFIG_PARAMS}
+    for name, default in (("gate_space", "centred"), ("policy_pull", "anchor"),
+                          ("trust_anchor", "centre")):
+        assert specs[name].kind == "choice" and specs[name].default == default

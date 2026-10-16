@@ -367,7 +367,7 @@ const Viewer = (() => {
       const meta = body.shared.meta;
       $("viewer-status").textContent = `${meta.n_agents} agents, ${meta.n_ticks} ticks, `
         + `${attempts.toLocaleString()} conversation attempts`
-        + (body.runs.length > 1 ? ` in each of ${body.runs.length} geometries.` : ".");
+        + (body.runs.length > 1 ? ` in each of ${body.runs.length} columns.` : ".");
     } catch (error) {
       fail(`Could not run the simulation: ${error.message}`);
       $("viewer-status").textContent = "";
@@ -384,10 +384,7 @@ const Viewer = (() => {
 
   function init(description) {
     v.description = description;
-    for (const spec of description.params) {
-      v.inputs[spec.name] = buildInput(spec);
-      $("viewer-params").append(v.inputs[spec.name].node);
-    }
+    renderGroups(description.params, $("viewer-params"), v.inputs);
     Viewer.renderGeometryCards(description.geometries);
 
     $("viewer-run").addEventListener("click", simulate);
