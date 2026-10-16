@@ -1,0 +1,713 @@
+{
+  "phase": "1",
+  "contract_version": "1.1",
+  "round_id": "not_available",
+  "input_manifest_hash": "not_available",
+  "note": "Revision-blind. item_id uses roadmap ids (R1..R16, S1..S17) rather than REV- pattern; letter_text = decision-letter Required-table row (+cost), with blocking-table, DA-CRITICAL 'Required' and arbitration text appended where the letter ties them to the item. Simulated review by an AI model; role-separated, not independent.",
+  "records": [
+    {
+      "item_id": "R1",
+      "obligation_class": "must_fix",
+      "source_reviewer": "EIC, R2, DA",
+      "source_reviewer_labels": [
+        "EIC",
+        "R2",
+        "DA"
+      ],
+      "verifier_seat": "EIC",
+      "verifier_persona": "JASSS associate editor handling opinion-dynamics and model-replication/comparison papers",
+      "inherited_criterion": {
+        "roadmap_text": "Survey published multidimensional-BC metric comparisons (how eps set, coverage reported) or reframe as a pre-emptive guideline; drop 'A common way'",
+        "letter_text": "Survey published multidimensional-BC metric comparisons (how ε set, coverage reported) or reframe as a pre-emptive guideline; drop \"A common way\" | Cost: section",
+        "letter_item_ref": "R1"
+      },
+      "operationalization": {
+        "fully_addressed": "Either (a) a stated, reproducible literature survey (search terms/databases/date, inclusion rule) of published multidimensional bounded-confidence studies that compare distance metrics, tabulating per study how epsilon was set per metric and whether realised or initial coverage was reported, and the prevalence wording in abstract/intro/sec.3 matches what the survey found; or (b) the paper is explicitly reframed as a pre-emptive guideline, with prevalence language removed. In both cases the phrase 'A common way' (or any equivalent unsupported prevalence claim, incl. 'conventional bounds' used as prevalence) no longer appears unsupported.",
+        "partially_addressed": "Prevalence wording softened or 'A common way' removed but no survey and no explicit pre-emptive framing; or a survey listed without a stated search/inclusion rule or without the per-study epsilon/coverage columns; or survey shows the practice is rare while the text still implies it is common.",
+        "made_worse_discriminator": "Stronger or new unsupported prevalence claims (e.g. 'widespread', 'standard practice') without evidence, or citing as shared-epsilon instances papers that do not do this (e.g. Li et al., which already identifies the confound)."
+      },
+      "expected_change_surface": "Abstract first sentences; sec.1 Introduction prevalence claim; sec.3 'conventional bounds'; Fig.1 caption; possibly a new survey subsection/appendix table.",
+      "equivalence_policy": "allowed"
+    },
+    {
+      "item_id": "R2",
+      "obligation_class": "must_fix",
+      "source_reviewer": "EIC, R3",
+      "source_reviewer_labels": [
+        "EIC",
+        "R3"
+      ],
+      "verifier_seat": "EIC",
+      "verifier_persona": "JASSS associate editor handling opinion-dynamics and model-replication/comparison papers",
+      "inherited_criterion": {
+        "roadmap_text": "Recast section 5 on a documented, citable, archived model; short disclosure of the draft + policy stakes",
+        "letter_text": "Recast §5 on a documented, citable, archived model; short disclosure of the draft + policy stakes | Cost: section || Arbitration SC-2 Resolution: §5 must rest on a documented, citable model; keep a short disclosure (author's own, unreleased, caught before external use) plus 2–3 sentences on the averted policy reading.",
+        "letter_item_ref": "R2"
+      },
+      "operationalization": {
+        "fully_addressed": "Section 5 rests on a model a reader can inspect: a documented specification (ODD or equations) plus a citable, archived version (persistent identifier/DOI or archived commit) of the case model; the case is presented as a demonstration of how each protocol item catches its artefact rather than as correction of an inaccessible draft; draft history reduced to a short disclosure stating it is the author's own, unreleased work caught before external use; and 2-3 sentences stating the policy reading the withdrawn result would have supported.",
+        "partially_addressed": "Archive/ID added but sec.5 still argued mainly against the unseen draft's numbers; or recast done but no disclosure sentence, or disclosure present without the policy-stakes sentences; or model documented but not citable/archived.",
+        "made_worse_discriminator": "Section 5 depends more heavily on unpublished/inaccessible material, the disclosure is removed entirely (loss of transparency R3 praised), or the archive/ID points to something that does not contain the case model."
+      },
+      "expected_change_surface": "Sec.5.1 opening ('An earlier draft of our paper reported...') and its footnote; Code and data statement; ODD appendix; possibly sec.5.4 bridge.",
+      "equivalence_policy": "allowed"
+    },
+    {
+      "item_id": "R3",
+      "obligation_class": "must_fix",
+      "source_reviewer": "EIC, R2, DA",
+      "source_reviewer_labels": [
+        "EIC",
+        "R2",
+        "DA"
+      ],
+      "verifier_seat": "EIC",
+      "verifier_persona": "JASSS associate editor handling opinion-dynamics and model-replication/comparison papers",
+      "inherited_criterion": {
+        "roadmap_text": "Run-matching as an estimand; report t=0 and run-matched side by side; add one outcome-independent calibration; state mechanically tied outcomes; remove 'removes the gap'",
+        "letter_text": "Run-matching as an estimand; report t=0 and run-matched side by side; add one outcome-independent calibration; state mechanically tied outcomes; remove \"removes the gap\" | Cost: new_data || Blocking B1: Run-matching \"removal\" is outcome-coupled; estimand undefended (sources: EIC W3, R2 W3, DA C2) || DA C2 (VALIDATED) Required: present run-matching as one estimand alongside t=0; report both; add an outcome-independent calibration (transient/early window); drop \"removes the gap\".",
+        "letter_item_ref": "R3"
+      },
+      "operationalization": {
+        "fully_addressed": "Run-matching is defined as an estimand ('geometry effect at equal realised interaction rate') distinct from t=0 matching ('effect including the interaction-rate channel'); results under t=0 and run-matched calibration are reported side by side for the minimal model outcomes; at least one outcome-independent calibration (e.g. transient/early-window interactions per agent, first ~50-100 rounds) is run and its results reported; the text states which outcomes are mechanically tied to the realised pass rate (group count/structure) and why; and the claims that run-matching 'removes the gap'/'removes geometry effects' (abstract, sec.4.4, protocol item 3) are dropped or replaced by estimand-qualified wording.",
+        "partially_addressed": "Estimand framing added in words but no outcome-independent calibration run; or both matchings reported but 'removes the gap' survives in abstract or protocol; or mechanically tied outcomes not identified.",
+        "made_worse_discriminator": "Run-matching presented more strongly as the single correct estimand/default, t=0 results removed, or new claims of 'removal' that rely on outcomes tied by construction to the matched pass rate."
+      },
+      "expected_change_surface": "Abstract ('matching on the share admitted over the whole run does...'); sec.4.4 results ('the median pass-rate gap falls to ..., and the group structure follows'); Fig.2; sec.6 protocol item 3; sec.7 Limitations; possibly new results table/appendix.",
+      "equivalence_policy": "allowed",
+      "blocking": "B1"
+    },
+    {
+      "item_id": "R4",
+      "obligation_class": "must_fix",
+      "source_reviewer": "EIC, R1, R3, DA",
+      "source_reviewer_labels": [
+        "EIC",
+        "R1",
+        "R3",
+        "DA"
+      ],
+      "verifier_seat": "EIC",
+      "verifier_persona": "JASSS associate editor handling opinion-dynamics and model-replication/comparison papers",
+      "inherited_criterion": {
+        "roadmap_text": "Report the interaction across all backward/forward cells; quantify the residual effect in abstract and 5.3; revise l.228, 234, 249",
+        "letter_text": "Report the interaction across all backward/forward cells; quantify the residual effect in abstract and §5.3; revise l.228, 234, 249 | Cost: re_analysis || Blocking B2: Residual geometry effect understated; l.249 contradicted by own interaction column (sources: EIC W4, R1 W6, R3 W2, DA C1) || DA C1 (VALIDATED) Required: report the interaction across all backward/forward cells; revise l.228/234/249; state the residual effect in abstract and §5.3.",
+        "letter_item_ref": "R4"
+      },
+      "operationalization": {
+        "fully_addressed": "The geometry x lag interaction (cosine-minus-Euclidean, with CIs/p) is reported for every backward-ablation configuration and every forward-factorial cell (a table or figure covering all of them); the residual geometry effect in the recommended (centred, run-matched) design is stated quantitatively (e.g. interaction ~+0.034 with CI; indices 189 vs 161) in the abstract and in sec.5.3; and the sentences at l.228 ('somewhat more', 'never its sign'), l.234 and l.249 ('Neither layer is a property of geometry') are revised so the size/sign decomposition is not asserted beyond what the interaction column shows (e.g. withdrawn claim framed as 'attenuates' rather than 'reverses').",
+        "partially_addressed": "Interaction reported for some but not all backward/forward cells; or residual effect quantified in sec.5.3 but not the abstract (or vice versa); or one of l.228/234/249 still claims geometry plays no role / sign never changes.",
+        "made_worse_discriminator": "Interaction column removed or de-emphasised, residual effect hidden further, or new text more strongly asserting geometry has no effect / that the threshold accounts for size and origin for sign."
+      },
+      "expected_change_surface": "Abstract; sec.5.3 'Reading the case' (approx. l.228, 234, 242, 249); Table 2 interaction column; Fig.3; possibly a new appendix table for the backward ablation.",
+      "equivalence_policy": "allowed",
+      "blocking": "B2"
+    },
+    {
+      "item_id": "R5",
+      "obligation_class": "must_fix",
+      "source_reviewer": "EIC, R2",
+      "source_reviewer_labels": [
+        "EIC",
+        "R2"
+      ],
+      "verifier_seat": "EIC",
+      "verifier_persona": "JASSS associate editor handling opinion-dynamics and model-replication/comparison papers",
+      "inherited_criterion": {
+        "roadmap_text": "Related-work section (R2's verified references first; model alignment/docking; BC surveys); cite or drop flache2017",
+        "letter_text": "Related-work section (R2's verified references first; model alignment/docking; BC surveys); cite or drop flache2017 | Cost: section",
+        "letter_item_ref": "R5"
+      },
+      "operationalization": {
+        "fully_addressed": "A dedicated related-work section (or equivalent integrated subsection) citing R2's verified missing references first (e.g. Lorenz 2007 survey, Fortunato et al. 2005, Huet/Deffuant/Jager 2008, Kurahashi-Nakamura et al. 2016, Baumann et al. 2021, Aggarwal et al. 2001), the model alignment/docking tradition, and BC surveys, each tied to how this paper relates to it; flache2017 either cited in text or removed from refs.bib.",
+        "partially_addressed": "Some references added (reference count grows) but no section positioning the paper, or docking/alignment tradition or BC surveys missing, or flache2017 still uncited in refs.bib.",
+        "made_worse_discriminator": "References added that are mis-described/unverifiable as used (e.g. claims about a paper not supported by it), or existing correct citations removed."
+      },
+      "expected_change_surface": "New sec.2 (or sec.1 extension) Related work; refs.bib; Introduction.",
+      "equivalence_policy": "allowed"
+    },
+    {
+      "item_id": "R6",
+      "obligation_class": "must_fix",
+      "source_reviewer": "R2",
+      "source_reviewer_labels": [
+        "R2"
+      ],
+      "verifier_seat": "R2",
+      "verifier_persona": "bounded-confidence theorist (multidimensional Deffuant and HK models, confidence-region geometry, opinion-dynamics surveys)",
+      "inherited_criterion": {
+        "roadmap_text": "Position as static volume matching (Lorenz) -> distribution coverage -> dynamic matching; say which protocol items are new",
+        "letter_text": "Position as static volume matching (Lorenz) → distribution coverage → dynamic matching; say which protocol items are new | Cost: section",
+        "letter_item_ref": "R6"
+      },
+      "operationalization": {
+        "fully_addressed": "The paper explicitly positions its contribution as a sequence: static Lebesgue-volume matching (Lorenz 2008, L1/Linf) -> coverage matching under the actual opinion distribution (incl. why angular gates need it) -> dynamic/realised matching; and states which protocol items are new versus restatements of existing practice (EIC's reading: 1, 3-4 new; 2, 5 restatements, or the author's justified alternative).",
+        "partially_addressed": "Lorenz volume matching mentioned but the three-step positioning not made explicit, or the new-vs-restated protocol items not identified.",
+        "made_worse_discriminator": "Novelty claims expanded to cover the size-vs-shape separation itself (already in Lorenz 2008 / Li et al.), or Lorenz's contribution misrepresented."
+      },
+      "expected_change_surface": "Introduction contribution paragraph; related-work section; sec.6 protocol preamble; possibly Discussion.",
+      "equivalence_policy": "allowed"
+    },
+    {
+      "item_id": "R7",
+      "obligation_class": "must_fix",
+      "source_reviewer": "R2",
+      "source_reviewer_labels": [
+        "R2"
+      ],
+      "verifier_seat": "R2",
+      "verifier_persona": "bounded-confidence theorist (multidimensional Deffuant and HK models, confidence-region geometry, opinion-dynamics surveys)",
+      "inherited_criterion": {
+        "roadmap_text": "Correct the Lorenz 2008 citation (l.38)",
+        "letter_text": "Correct the Lorenz 2008 citation (l.38) | Cost: sentence",
+        "letter_item_ref": "R7"
+      },
+      "operationalization": {
+        "fully_addressed": "The citation at l.38 no longer attributes 'Euclidean distance is the default' to Lorenz 2008; Lorenz 2008 is cited for what it does (1-norm and inf-norm, epsilon scaled to equal confidence-region volume), and the default-Euclidean claim, if kept, has a correct source or is reworded.",
+        "partially_addressed": "Wording adjusted but Lorenz 2008 still cited for a claim it does not make, or its volume-matching content still not described where it is cited.",
+        "made_worse_discriminator": "Lorenz 2008 further miscited elsewhere, or the reference entry corrupted."
+      },
+      "expected_change_surface": "sec.1 Introduction approx. l.38; refs.bib lorenz2008 entry.",
+      "equivalence_policy": "allowed"
+    },
+    {
+      "item_id": "R8",
+      "obligation_class": "must_fix",
+      "source_reviewer": "EIC, DA",
+      "source_reviewer_labels": [
+        "EIC",
+        "DA"
+      ],
+      "verifier_seat": "EIC",
+      "verifier_persona": "JASSS associate editor handling opinion-dynamics and model-replication/comparison papers",
+      "inherited_criterion": {
+        "roadmap_text": "Narrow 'for any study...' claims to the tested design, or extend (Consider C2)",
+        "letter_text": "Narrow \"for any study…\" claims to the tested design, or extend (Consider C2) | Cost: section",
+        "letter_item_ref": "R8"
+      },
+      "operationalization": {
+        "fully_addressed": "Every general claim such as 'for any study that compares distance measures' (abstract, intro, protocol, conclusion) is either narrowed to the tested design (Deffuant, uniform independent starts, n=500 ER, d in {2,4,8}, three coverage levels, fixed horizon, one case model) or supported by added evidence beyond it (e.g. HK variant, clustered starts, runs to convergence, mu/n/network sensitivity); the Limitations section states the scope consistently with the claims.",
+        "partially_addressed": "Abstract narrowed but protocol/title/conclusion still claim generality, or Limitations states scope while headline claims remain universal; or partial extension that does not cover the claimed generality.",
+        "made_worse_discriminator": "Scope claims broadened (e.g. to all opinion-dynamics or all ABMs) without added evidence."
+      },
+      "expected_change_surface": "Abstract ('for any study that compares distance measures'); title; sec.6 protocol framing; sec.7 Limitations; conclusion/discussion.",
+      "equivalence_policy": "allowed"
+    },
+    {
+      "item_id": "R9",
+      "obligation_class": "must_fix",
+      "source_reviewer": "R1, R2, DA",
+      "source_reviewer_labels": [
+        "R1",
+        "R2",
+        "DA"
+      ],
+      "verifier_seat": "R1",
+      "verifier_persona": "simulation-methods researcher (ABM experimental design, sensitivity analysis, calibration, paired CRN designs, statistical reporting)",
+      "inherited_criterion": {
+        "roadmap_text": "Re-cluster final states with one metric-independent rule or a radius sweep; report cosine-vs-angular group gaps",
+        "letter_text": "Re-cluster final states with one metric-independent rule or a radius sweep; report cosine-vs-angular group gaps | Cost: re_analysis || Blocking B3: Group-structure outcome not comparable across metrics (sources: R1 W1, R2 W4, DA M2)",
+        "letter_item_ref": "R9"
+      },
+      "operationalization": {
+        "fully_addressed": "Group-structure outcomes are recomputed with one metric-independent clustering rule applied to all final states (e.g. Euclidean radius in centred space, coverage-matched radius, or density-based), or with a reported radius sweep (e.g. 0.01, 0.05, 0.1, 0.2 of epsilon plus a fixed absolute radius); results are reported alongside or replacing the 0.1-epsilon-in-run-metric rule; cosine-vs-angular group gaps are reported explicitly; conclusions about group structure are stated in terms of the comparable rule.",
+        "partially_addressed": "A metric-independent rule or sweep is described but applied only to some cells/outcomes, or cosine-vs-angular gaps not reported, or the text still draws cross-metric group conclusions from the metric-specific rule alone.",
+        "made_worse_discriminator": "Cross-metric group comparisons made more central while still using the metric-specific rule, or the clustering rule changed in a way that remains metric-dependent without disclosure."
+      },
+      "expected_change_surface": "sec.4.3 outcome definitions ('within 0.1 epsilon of each other under the run's metric'); sec.4.4 results; Fig.2 right panel; appendix tables.",
+      "equivalence_policy": "allowed",
+      "blocking": "B3"
+    },
+    {
+      "item_id": "R10",
+      "obligation_class": "must_fix",
+      "source_reviewer": "R1",
+      "source_reviewer_labels": [
+        "R1"
+      ],
+      "verifier_seat": "R1",
+      "verifier_persona": "simulation-methods researcher (ABM experimental design, sensitivity analysis, calibration, paired CRN designs, statistical reporting)",
+      "inherited_criterion": {
+        "roadmap_text": "Report unconverged share per cell; correct the 'exceptions' sentence (l.161); report convergence time",
+        "letter_text": "Report unconverged share per cell; correct the \"exceptions\" sentence (l.161); report convergence time | Cost: re_analysis",
+        "letter_item_ref": "R10"
+      },
+      "operationalization": {
+        "fully_addressed": "The share of runs not converged by the 2,000-round cap is reported for each cell (table/appendix); the 'exceptions' sentence at l.161 is corrected to match those shares (non-convergence not confined to 5% coverage/low dimension); convergence time is reported as an outcome.",
+        "partially_addressed": "Unconverged shares reported only in aggregate or for some cells; or l.161 still understates the extent; or convergence time missing.",
+        "made_worse_discriminator": "The convergence statement becomes more absolute, or unconverged runs dropped silently from analyses."
+      },
+      "expected_change_surface": "sec.4.4 approx. l.161 ('The exceptions all have the lowest reference coverage (5%) and low dimension'); sec.4.2 design/horizon; appendix table.",
+      "equivalence_policy": "allowed"
+    },
+    {
+      "item_id": "R11",
+      "obligation_class": "must_fix",
+      "source_reviewer": "R1",
+      "source_reviewer_labels": [
+        "R1"
+      ],
+      "verifier_seat": "R1",
+      "verifier_persona": "simulation-methods researcher (ABM experimental design, sensitivity analysis, calibration, paired CRN designs, statistical reporting)",
+      "inherited_criterion": {
+        "roadmap_text": "Report all 4.3 outcomes (>=1% groups, directional dispersion, convergence time); name the primary outcome",
+        "letter_text": "Report all §4.3 outcomes (≥1% groups, directional dispersion, convergence time); name the primary outcome | Cost: re_analysis",
+        "letter_item_ref": "R11"
+      },
+      "operationalization": {
+        "fully_addressed": "All sec.4.3-defined outcomes are reported: number of groups holding >=1% of agents, directional dispersion, and convergence time (in addition to effective groups and variance), with their gaps under each threshold rule; a primary outcome is named (and the text says whether it was chosen before results); disagreement between the two group measures (effective vs >=1%) is discussed.",
+        "partially_addressed": "Some but not all defined outcomes reported, or no primary outcome named, or the >=1% result reported without addressing that it is larger under run-matching than shared.",
+        "made_worse_discriminator": "Defined outcomes removed from sec.4.3 to avoid reporting them, or the primary outcome chosen/stated in a way that hides contrary results."
+      },
+      "expected_change_surface": "sec.4.3 outcome definitions; sec.4.4 results; Fig.2; appendix tables.",
+      "equivalence_policy": "allowed"
+    },
+    {
+      "item_id": "R12",
+      "obligation_class": "must_fix",
+      "source_reviewer": "R1",
+      "source_reviewer_labels": [
+        "R1"
+      ],
+      "verifier_seat": "R1",
+      "verifier_persona": "simulation-methods researcher (ABM experimental design, sensitivity analysis, calibration, paired CRN designs, statistical reporting)",
+      "inherited_criterion": {
+        "roadmap_text": "Report achieved calibration error per cell with CIs; flag out-of-tolerance cells; max_iter/monotonicity check; pilot-size guidance",
+        "letter_text": "Report achieved calibration error per cell with CIs; flag out-of-tolerance cells; max_iter/monotonicity check; pilot-size guidance | Cost: re_analysis",
+        "letter_item_ref": "R12"
+      },
+      "operationalization": {
+        "fully_addressed": "Per cell, the achieved calibration error (realised pass-rate gap after run-matching) is reported with a CI; cells outside the stated tolerance are flagged; the calibration routine's handling of max_iter and monotonicity is checked and reported (which cells hit max_iter, if any); protocol item 3 gives pilot-size guidance relative to between-seed SD.",
+        "partially_addressed": "Achieved error reported without CIs, or out-of-tolerance cells not flagged, or max_iter/monotonicity not addressed, or no pilot-size guidance.",
+        "made_worse_discriminator": "Calibration presented as more precise than shown (e.g. 'falls to 0.01' retained as a summary while cells miss tolerance), or tolerance redefined post hoc to hide misses."
+      },
+      "expected_change_surface": "sec.4.2/4.4 calibration description and results; appendix per-cell table; sec.6 protocol item 3.",
+      "equivalence_policy": "allowed"
+    },
+    {
+      "item_id": "R13",
+      "obligation_class": "must_fix",
+      "source_reviewer": "R1",
+      "source_reviewer_labels": [
+        "R1"
+      ],
+      "verifier_seat": "R1",
+      "verifier_persona": "simulation-methods researcher (ABM experimental design, sensitivity analysis, calibration, paired CRN designs, statistical reporting)",
+      "inherited_criterion": {
+        "roadmap_text": "Per-cell paired bootstrap CIs; pre-stated equivalence margins (TOST) for 'removes'/'behave as one'; report cosine and angular separately",
+        "letter_text": "Per-cell paired bootstrap CIs; pre-stated equivalence margins (TOST) for \"removes\"/\"behave as one\"; report cosine and angular separately | Cost: re_analysis",
+        "letter_item_ref": "R13"
+      },
+      "operationalization": {
+        "fully_addressed": "Per-cell paired-bootstrap 95% CIs on the reported gaps (Fig.2 and text); equivalence margins stated (with justification, ahead of the equivalence results) and TOST used for every 'removes'/'behave as one'-type claim, with those claims kept only where equivalence is shown; cosine and angular reported separately (or only one, without pooling near-duplicates); the 'almost every gap differs significantly ... so we report sizes' sentence corrected for run-matching.",
+        "partially_addressed": "CIs added but no equivalence margins/TOST, or TOST used for some equivalence claims only, or cosine/angular still pooled.",
+        "made_worse_discriminator": "Equivalence claims strengthened without tests, margins chosen to fit results without disclosure, or uncertainty information removed."
+      },
+      "expected_change_surface": "sec.4.4 results and Fig.2; abstract equivalence wording; sec.5 'behave as one' phrasing; appendix.",
+      "equivalence_policy": "allowed"
+    },
+    {
+      "item_id": "R14",
+      "obligation_class": "must_fix",
+      "source_reviewer": "R1, DA",
+      "source_reviewer_labels": [
+        "R1",
+        "DA"
+      ],
+      "verifier_seat": "R1",
+      "verifier_persona": "simulation-methods researcher (ABM experimental design, sensitivity analysis, calibration, paired CRN designs, statistical reporting)",
+      "inherited_criterion": {
+        "roadmap_text": "Show which comparison isolates threshold from centring, or restate the 'size' claim; explain the 478 cell",
+        "letter_text": "Show which comparison isolates threshold from centring, or restate the \"size\" claim; explain the 478 cell | Cost: section",
+        "letter_item_ref": "R14"
+      },
+      "operationalization": {
+        "fully_addressed": "Either a comparison that varies the threshold rule with centring held fixed (and shows its effect on the case's size difference) is identified and reported, or the 'shared threshold changed the size' claim is restated to what the data support (centred: shared ~ run-matched; unit: matching worsens); and the 478 unit/run-matched/gated cosine index is explained (e.g. small lag-0 denominator vs agents collapsing toward the corner) with supporting numbers.",
+        "partially_addressed": "'Size' claim softened but no isolating comparison and no restatement, or the 478 cell mentioned without explanation.",
+        "made_worse_discriminator": "The threshold attributed more strongly as the source of size differences, or the 478 cell omitted."
+      },
+      "expected_change_surface": "sec.5.3 interpretation; Table 2 unit/run-matched rows; Fig.3; sec.5.4.",
+      "equivalence_policy": "allowed"
+    },
+    {
+      "item_id": "R15",
+      "obligation_class": "must_fix",
+      "source_reviewer": "R1",
+      "source_reviewer_labels": [
+        "R1"
+      ],
+      "verifier_seat": "R1",
+      "verifier_persona": "simulation-methods researcher (ABM experimental design, sensitivity analysis, calibration, paired CRN designs, statistical reporting)",
+      "inherited_criterion": {
+        "roadmap_text": "2x2 (trust centre x gate centre) + level-shift control, or soften l.242 to 'a single switch removes the reversal'",
+        "letter_text": "2×2 (trust centre × gate centre) + level-shift control, or soften l.242 to \"a single switch removes the reversal\" | Cost: new_data (or sentence)",
+        "letter_item_ref": "R15"
+      },
+      "operationalization": {
+        "fully_addressed": "Either a 2x2 (trust shrinkage centre: corner/neutral x gate centre: corner/neutral) with seeds and CIs plus a level-shift control (same mean shift, unchanged shrinkage point) is reported and the mechanism claim matches its results, or l.242 is softened to 'a single switch removes the reversal' with the mechanistic 'because' explanation qualified as a hypothesis.",
+        "partially_addressed": "2x2 run without the level-shift control (or vice versa) while the mechanistic claim is kept; or softened at l.242 but the mechanism is still asserted elsewhere (abstract, sec.5.4, protocol).",
+        "made_worse_discriminator": "The trust-origin mechanism asserted more strongly (e.g. as established) without the 2x2 or control."
+      },
+      "expected_change_surface": "sec.5.3 approx. l.242 ('Making only this change in the original engine ... removes the reversal'); abstract; sec.5.4; possibly a new table.",
+      "equivalence_policy": "allowed"
+    },
+    {
+      "item_id": "R16",
+      "obligation_class": "must_fix",
+      "source_reviewer": "R3",
+      "source_reviewer_labels": [
+        "R3"
+      ],
+      "verifier_seat": "R3",
+      "verifier_persona": "AI-governance and policy-modelling researcher who builds and evaluates ABMs used to inform regulation and public policy",
+      "inherited_criterion": {
+        "roadmap_text": "Treat the shrinkage target as an explicit assumption/parameter; rerun the case under >=1 alternative target (status quo, own opinion)",
+        "letter_text": "Treat the shrinkage target as an explicit assumption/parameter; rerun the case under ≥1 alternative target (status quo, own opinion) | Cost: new_data",
+        "letter_item_ref": "R16"
+      },
+      "operationalization": {
+        "fully_addressed": "The shrinkage target of the trust step is stated as an explicit modelling assumption/parameter (protocol item 1 reframed accordingly), and the case experiment is rerun under at least one alternative target (e.g. status quo, own opinion) with results reported, and the text says whether the 'both geometries amplify' conclusion holds under it; the original reversal is described as arising from an unexamined substantive assumption, not purely a coding artefact.",
+        "partially_addressed": "Target named as an assumption but no rerun under an alternative; or rerun reported without stating whether the headline holds; or protocol item 1 still prescribes 'centre at neutral' as the fix without the parameter framing.",
+        "made_worse_discriminator": "'Neutral' centring presented more firmly as the correct specification, or the corrected model described as 'correct' rather than one defensible specification."
+      },
+      "expected_change_surface": "sec.5.2/5.3 trust specification and results; sec.6 protocol item 1 ('put the origin at neutral'); sec.7 Limitations; possibly appendix.",
+      "equivalence_policy": "allowed"
+    },
+    {
+      "item_id": "S1",
+      "obligation_class": "should_fix",
+      "source_reviewer": "R1, DA",
+      "source_reviewer_labels": [
+        "R1",
+        "DA"
+      ],
+      "verifier_seat": "R1",
+      "verifier_persona": "simulation-methods researcher (ABM experimental design, sensitivity analysis, calibration, paired CRN designs, statistical reporting)",
+      "inherited_criterion": {
+        "roadmap_text": "Define 'geometry' (gate vs gate + update rule), radial vs directional dispersion, ideally gate x update crossing"
+      },
+      "operationalization": {
+        "fully_addressed": "'Geometry' is defined explicitly (gate only vs gate + update rule); radial dispersion (variance of norms) and directional dispersion are reported separately; ideally a gate x update-rule crossing (cosine gate + Euclidean step and reverse) is reported, or the update-rule attribution of the residual variance gap is labelled untested."
+      },
+      "expected_change_surface": "sec.2 definitions; sec.4.4 ('its likely source...', 'genuine geometric difference'); sec.5.3.",
+      "equivalence_policy": "allowed"
+    },
+    {
+      "item_id": "S2",
+      "obligation_class": "should_fix",
+      "source_reviewer": "R3",
+      "source_reviewer_labels": [
+        "R3"
+      ],
+      "verifier_seat": "R3",
+      "verifier_persona": "AI-governance and policy-modelling researcher who builds and evaluates ABMs used to inform regulation and public policy",
+      "inherited_criterion": {
+        "roadmap_text": "Policy-ABM / trust / validation literature"
+      },
+      "operationalization": {
+        "fully_addressed": "Representative policy/regulatory ABMs using trust/credibility scaling, institutional-trust modelling, and ABM validation/reporting guidance are cited and the origin audit is positioned relative to them."
+      },
+      "expected_change_surface": "Related-work section; sec.6 protocol; refs.bib.",
+      "equivalence_policy": "allowed"
+    },
+    {
+      "item_id": "S3",
+      "obligation_class": "should_fix",
+      "source_reviewer": "EIC",
+      "source_reviewer_labels": [
+        "EIC"
+      ],
+      "verifier_seat": "EIC",
+      "verifier_persona": "JASSS associate editor handling opinion-dynamics and model-replication/comparison papers",
+      "inherited_criterion": {
+        "roadmap_text": "Retitle to name both mechanisms"
+      },
+      "operationalization": {
+        "fully_addressed": "The title names both mechanisms (unmatched threshold/coverage and uncentred origin) and no longer implies the threshold alone manufactures the effects."
+      },
+      "expected_change_surface": "Title (and matching abstract framing).",
+      "equivalence_policy": "allowed"
+    },
+    {
+      "item_id": "S4",
+      "obligation_class": "should_fix",
+      "source_reviewer": "EIC",
+      "source_reviewer_labels": [
+        "EIC"
+      ],
+      "verifier_seat": "EIC",
+      "verifier_persona": "JASSS associate editor handling opinion-dynamics and model-replication/comparison papers",
+      "inherited_criterion": {
+        "roadmap_text": "'Median absolute gap' with signs"
+      },
+      "operationalization": {
+        "fully_addressed": "Wherever medians of absolute gaps are given, they are labelled 'median absolute gap', and signs/directions are given where they matter (e.g. t=0 pass gaps negative; group gap -7.1 rather than 2^7.1)."
+      },
+      "expected_change_surface": "sec.4.4 text; Fig.2 caption/axes.",
+      "equivalence_policy": "allowed"
+    },
+    {
+      "item_id": "S5",
+      "obligation_class": "should_fix",
+      "source_reviewer": "EIC",
+      "source_reviewer_labels": [
+        "EIC"
+      ],
+      "verifier_seat": "EIC",
+      "verifier_persona": "JASSS associate editor handling opinion-dynamics and model-replication/comparison papers",
+      "inherited_criterion": {
+        "roadmap_text": "Archive with a persistent ID"
+      },
+      "operationalization": {
+        "fully_addressed": "Model code/data are archived with a persistent identifier (e.g. DOI via Zenodo/CoMSES) cited in the Code and data statement."
+      },
+      "expected_change_surface": "Code and data statement; refs/acknowledgements.",
+      "equivalence_policy": "allowed"
+    },
+    {
+      "item_id": "S6",
+      "obligation_class": "should_fix",
+      "source_reviewer": "EIC, R3",
+      "source_reviewer_labels": [
+        "EIC",
+        "R3"
+      ],
+      "verifier_seat": "EIC",
+      "verifier_persona": "JASSS associate editor handling opinion-dynamics and model-replication/comparison papers",
+      "inherited_criterion": {
+        "roadmap_text": "Merge/rank protocol items 2-3, soften 'never share'"
+      },
+      "operationalization": {
+        "fully_addressed": "Protocol items 2 and 3 are merged or ranked (e.g. item 2 minimum, item 3 preferred) and 'never share a numerical bound' is softened to acceptable-if-realised-coverage-shown-to-match (or equivalent)."
+      },
+      "expected_change_surface": "sec.6 protocol items 2-3.",
+      "equivalence_policy": "allowed"
+    },
+    {
+      "item_id": "S7",
+      "obligation_class": "should_fix",
+      "source_reviewer": "R2",
+      "source_reviewer_labels": [
+        "R2"
+      ],
+      "verifier_seat": "R2",
+      "verifier_persona": "bounded-confidence theorist (multidimensional Deffuant and HK models, confidence-region geometry, opinion-dynamics surveys)",
+      "inherited_criterion": {
+        "roadmap_text": "Cite or relabel 'conventional bound'"
+      },
+      "operationalization": {
+        "fully_addressed": "The 'conventional bound' 0.5 in d dimensions is either cited to a source or relabelled (e.g. as the case-study draft's value)."
+      },
+      "expected_change_surface": "Fig.1 caption; sec.3.",
+      "equivalence_policy": "allowed"
+    },
+    {
+      "item_id": "S8",
+      "obligation_class": "should_fix",
+      "source_reviewer": "R2, R3",
+      "source_reviewer_labels": [
+        "R2",
+        "R3"
+      ],
+      "verifier_seat": "R2",
+      "verifier_persona": "bounded-confidence theorist (multidimensional Deffuant and HK models, confidence-region geometry, opinion-dynamics surveys)",
+      "inherited_criterion": {
+        "roadmap_text": "Housekeeping (refs.bib private comment, draft date, 'we', Li et al. entry, manifold/angular)"
+      },
+      "operationalization": {
+        "fully_addressed": "Housekeeping done: private-notes comment removed from refs.bib; draft date (\\date{Draft, \\today}) removed; 'we'/'our paper' reconciled with single authorship; Li et al. entry settled on one form (journal DOI or preprint); 'manifold' (code) vs 'angular' (paper) terminology reconciled or explained."
+      },
+      "expected_change_surface": "Preamble; refs.bib; throughout text; code/documentation naming.",
+      "equivalence_policy": "allowed"
+    },
+    {
+      "item_id": "S9",
+      "obligation_class": "should_fix",
+      "source_reviewer": "R1, EIC, R3",
+      "source_reviewer_labels": [
+        "R1",
+        "EIC",
+        "R3"
+      ],
+      "verifier_seat": "R1",
+      "verifier_persona": "simulation-methods researcher (ABM experimental design, sensitivity analysis, calibration, paired CRN designs, statistical reporting)",
+      "inherited_criterion": {
+        "roadmap_text": "CIs on lag indices and Fig. 3"
+      },
+      "operationalization": {
+        "fully_addressed": "Uncertainty intervals (e.g. seed-level bootstrap CIs) are reported for case lag indices in text/Table 2 and shown as error bars on Fig.3."
+      },
+      "expected_change_surface": "Table 2; Fig.3; sec.5.3 text.",
+      "equivalence_policy": "allowed"
+    },
+    {
+      "item_id": "S10",
+      "obligation_class": "should_fix",
+      "source_reviewer": "R1",
+      "source_reviewer_labels": [
+        "R1"
+      ],
+      "verifier_seat": "R1",
+      "verifier_persona": "simulation-methods researcher (ABM experimental design, sensitivity analysis, calibration, paired CRN designs, statistical reporting)",
+      "inherited_criterion": {
+        "roadmap_text": "Absolute shock effects alongside the ratio index"
+      },
+      "operationalization": {
+        "fully_addressed": "Absolute shock effects (e.g. mean change in final variance per lag, with sign) are reported alongside the ratio lag index (text or appendix table)."
+      },
+      "expected_change_surface": "sec.5.3; Table 2 or appendix table; Fig.3.",
+      "equivalence_policy": "allowed"
+    },
+    {
+      "item_id": "S11",
+      "obligation_class": "should_fix",
+      "source_reviewer": "R1",
+      "source_reviewer_labels": [
+        "R1"
+      ],
+      "verifier_seat": "R1",
+      "verifier_persona": "simulation-methods researcher (ABM experimental design, sensitivity analysis, calibration, paired CRN designs, statistical reporting)",
+      "inherited_criterion": {
+        "roadmap_text": "9 independent Euclidean cells, not 18"
+      },
+      "operationalization": {
+        "fully_addressed": "The text states that Euclidean unit and centred cells are exact rescalings, so there are 9 independent Euclidean cells, not 18, and summaries/counts do not double-count them."
+      },
+      "expected_change_surface": "sec.4.2 design; sec.4.4 summary statistics; Fig.2 caption.",
+      "equivalence_policy": "allowed"
+    },
+    {
+      "item_id": "S12",
+      "obligation_class": "should_fix",
+      "source_reviewer": "R1",
+      "source_reviewer_labels": [
+        "R1"
+      ],
+      "verifier_seat": "R1",
+      "verifier_persona": "simulation-methods researcher (ABM experimental design, sensitivity analysis, calibration, paired CRN designs, statistical reporting)",
+      "inherited_criterion": {
+        "roadmap_text": "Clipping frequency after angular steps"
+      },
+      "operationalization": {
+        "fully_addressed": "The frequency with which clipping is applied after norm-preserving angular steps is reported, and its implication for norm preservation/the variance-gap explanation noted."
+      },
+      "expected_change_surface": "sec.4.1 model description; sec.4.4 variance discussion; appendix.",
+      "equivalence_policy": "allowed"
+    },
+    {
+      "item_id": "S13",
+      "obligation_class": "should_fix",
+      "source_reviewer": "R2",
+      "source_reviewer_labels": [
+        "R2"
+      ],
+      "verifier_seat": "R2",
+      "verifier_persona": "bounded-confidence theorist (multidimensional Deffuant and HK models, confidence-region geometry, opinion-dynamics surveys)",
+      "inherited_criterion": {
+        "roadmap_text": "Concentration limits as a proposition"
+      },
+      "operationalization": {
+        "fully_addressed": "Concentration limits (Euclidean ~sqrt(d/6) in [0,1]^d, ~sqrt(2d/3) in [-1,1]^d; unit d_cos -> 1/4; centred angles -> pi/2) are stated as a short proposition with the consequence for coverage, replacing 'distances grow with dimension while angles do not', with distance-concentration literature cited."
+      },
+      "expected_change_surface": "sec.3 ('because distances grow with dimension while angles do not'); Table 1 discussion.",
+      "equivalence_policy": "allowed"
+    },
+    {
+      "item_id": "S14",
+      "obligation_class": "should_fix",
+      "source_reviewer": "R2",
+      "source_reviewer_labels": [
+        "R2"
+      ],
+      "verifier_seat": "R2",
+      "verifier_persona": "bounded-confidence theorist (multidimensional Deffuant and HK models, confidence-region geometry, opinion-dynamics surveys)",
+      "inherited_criterion": {
+        "roadmap_text": "Cosine/angular identity as a lemma; eps to 3 s.f."
+      },
+      "operationalization": {
+        "fully_addressed": "The cosine/angular monotone identity is stated once as a lemma (not presented as a simulation finding), and matched epsilon values are reported to 3 significant figures so they are mutually consistent."
+      },
+      "expected_change_surface": "sec.2 definitions; sec.4.4 ('one gate'); tables of matched epsilon.",
+      "equivalence_policy": "allowed"
+    },
+    {
+      "item_id": "S15",
+      "obligation_class": "should_fix",
+      "source_reviewer": "R3, R2",
+      "source_reviewer_labels": [
+        "R3",
+        "R2"
+      ],
+      "verifier_seat": "R3",
+      "verifier_persona": "AI-governance and policy-modelling researcher who builds and evaluates ABMs used to inform regulation and public policy",
+      "inherited_criterion": {
+        "roadmap_text": "Item 1 as an origin/affine-equivariance audit with a box of origin-dependent operations (R3 dissent: Major)"
+      },
+      "operationalization": {
+        "fully_addressed": "Protocol item 1 is reworded as an origin/affine-equivariance audit, with a box/subsection listing origin-dependent operations (multiplicative scaling, decay toward 0, angular/normalised quantities, clipping, zero initialisation, ratio outcomes) and a cheap diagnostic (affine recoding of the space, rerun a few seeds, flag outcomes that change)."
+      },
+      "expected_change_surface": "sec.6 protocol item 1; new box/subsection; sec.7; abstract mention.",
+      "equivalence_policy": "allowed"
+    },
+    {
+      "item_id": "S16",
+      "obligation_class": "should_fix",
+      "source_reviewer": "R1",
+      "source_reviewer_labels": [
+        "R1"
+      ],
+      "verifier_seat": "R1",
+      "verifier_persona": "simulation-methods researcher (ABM experimental design, sensitivity analysis, calibration, paired CRN designs, statistical reporting)",
+      "inherited_criterion": {
+        "roadmap_text": "Calibration scope, pilot count, cost"
+      },
+      "operationalization": {
+        "fully_addressed": "The case/protocol calibration scope is specified (per cell/condition; control vs treatment; which lag), along with pilot-run count and relative computational cost."
+      },
+      "expected_change_surface": "sec.5.2 case calibration; sec.6 protocol item 3.",
+      "equivalence_policy": "allowed"
+    },
+    {
+      "item_id": "S17",
+      "obligation_class": "should_fix",
+      "source_reviewer": "R1",
+      "source_reviewer_labels": [
+        "R1"
+      ],
+      "verifier_seat": "R1",
+      "verifier_persona": "simulation-methods researcher (ABM experimental design, sensitivity analysis, calibration, paired CRN designs, statistical reporting)",
+      "inherited_criterion": {
+        "roadmap_text": "Interaction sign convention; is bias shrinkage intended?"
+      },
+      "operationalization": {
+        "fully_addressed": "The sign convention of the interaction column is stated (with the sign of the mean shock effect) so positive/negative values map unambiguously, and the text says whether shrinking the bias term b_i with trust is intended."
+      },
+      "expected_change_surface": "Table 2 caption/interaction column; sec.5.2 trust formula/patch description.",
+      "equivalence_policy": "allowed"
+    }
+  ],
+  "new_standard_records": [
+    {
+      "new_standard_id": "NS-1",
+      "item_id": "global",
+      "standard_text": "Abstract and protocol item 2 should not lead with t=0 coverage matching as the remedy where the paper's own case shows t=0 matching gives the largest realised pass-rate mismatch (centred space: t=0 coverage 14% vs 50% but realised pass 58% vs 61%; t=0-matched 58% vs 32%); the ordering/emphasis of t=0 vs realised coverage should be consistent with that evidence.",
+      "why_not_in_round1": "Raised only as DA M4 (internal consistency); not carried into any roadmap item. S6 (merge/rank items 2-3) and R3 (estimand) touch it only indirectly.",
+      "classification": "advisory"
+    },
+    {
+      "new_standard_id": "NS-2",
+      "item_id": "R2",
+      "standard_text": "If any draft-era figures remain in the disclosure, the discrepancy between draft indices (143/72) and the saved S=30 run (131/75) should be explained or the draft figures dropped.",
+      "why_not_in_round1": "Raised only as R1 Question 6 and noted by EIC/DA as a footnote; the R2 roadmap criterion (recast on an archived model + short disclosure) does not mention reconciling draft vs saved numbers.",
+      "classification": "advisory"
+    }
+  ],
+  "routing_status": "card_mapped",
+  "routing_counts": {
+    "EIC": 10,
+    "R2": 6,
+    "R1": 14,
+    "R3": 3
+  },
+  "end_marker": "[CONTRACT-ACKNOWLEDGED]"
+}
