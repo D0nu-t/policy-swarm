@@ -53,7 +53,8 @@ import numpy as np
 
 from . import geometry as _geom
 from .config import (
-    DEFAULT_SPLIT_DELTAS, Geometry, GovernanceConfig, Policy, ShockMode, SimConfig,
+    DEFAULT_SPLIT_DELTAS, GATE_SPACES, GATED_POLICY_RATE, POLICY_PULLS,
+    Geometry, GovernanceConfig, Policy, ShockMode, SimConfig,
 )
 from .extraction import perceived_policy as _perceived_policy
 from .network import build_neighbour_cache, build_network, top_hub_indices
@@ -110,6 +111,13 @@ class Simulation:
         self.geometry     = geometry
         self.recorder     = recorder
 
+        if sim_config.gate_space not in GATE_SPACES:
+            raise ValueError(f"gate_space must be one of {GATE_SPACES}")
+        if sim_config.policy_pull not in POLICY_PULLS:
+            raise ValueError(f"policy_pull must be one of {POLICY_PULLS}")
+        self._unit_gate   = sim_config.gate_space == "unit"
+        self._gated_pull  = sim_config.policy_pull == "gated"
+
         np.random.seed(seed)
         random.seed(seed)
         self._rng       = np.random.default_rng(seed)
@@ -155,9 +163,14 @@ class Simulation:
     # -----------------------------------------------------------------------
 
     def _distance(self, a: np.ndarray, b: np.ndarray) -> float:
+        if self._unit_gate:
+            a, b = (a + 1.0) / 2.0, (b + 1.0) / 2.0
         return _geom.distance(self.geometry, a, b)
 
     def _step_toward(self, op_i: np.ndarray, op_j: np.ndarray, rate: float) -> np.ndarray:
+        if self._unit_gate:
+            moved = _geom.step(self.geometry, (op_i + 1.0) / 2.0, (op_j + 1.0) / 2.0, rate)
+            return 2.0 * moved - 1.0
         return _geom.step(self.geometry, op_i, op_j, rate)
 
     def _retract(self, op: np.ndarray) -> np.ndarray:
@@ -275,6 +288,11 @@ class Simulation:
             self.opinions[i] = self._retract(
                 self._step_toward(self.opinions[i], self.opinions[j], mu * infl)
             )
+            if self._gated_pull:
+                self.opinions[i] = self._retract(
+                    self.opinions[i]
+                    + GATED_POLICY_RATE * (self.policy.as_vector() - self.opinions[i])
+                )
 
             change = float(np.linalg.norm(self.opinions[i] - old))
             if change > _LOG_THRESHOLD:
@@ -295,7 +313,7 @@ class Simulation:
         geometry and epsilon, which confounded geometry comparisons.
         """
         rate = self.sim_config.policy_anchor_rate
-        if rate <= 0:
+        if rate <= 0 or self._gated_pull:
             return
         old = self.opinions.copy()
         self.opinions = self._retract(

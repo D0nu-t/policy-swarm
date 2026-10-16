@@ -23,6 +23,12 @@ The framework accompanies research on the interaction between **network topology
 
 ---
 
+## Methods note (draft)
+
+`paper/methods_note/` holds a short methods paper: comparing distance measures in a bounded-confidence model at one shared threshold compares different interaction rates, and threshold matching has to use realised coverage, not coverage at the start. It includes a minimal Deffuant model, a PolicySwarm case study that traces the draft paper's withdrawn geometry "reversal" to its causes, and a reporting protocol. `make_figures.py` rebuilds every figure and every number in `main.tex` from `results/`; the run scripts (`run_minimal.py`, `run_policyswarm.py`, `diagnose_reversal.py`) regenerate the results. The two engine switches it uses (`SimConfig.gate_space`, `SimConfig.policy_pull`) default to the audited model and are hidden from the dashboard.
+
+---
+
 ## Model Overview
 
 PolicySwarm represents a population of bounded-rational agents interacting on a social network.

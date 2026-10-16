@@ -42,6 +42,13 @@ import numpy as np
 CENTRED_SCALE = 2.0
 
 
+#: Allowed values of the methods-note switches on SimConfig.
+GATE_SPACES = ("centred", "unit")
+POLICY_PULLS = ("anchor", "gated")
+#: Pre-audit nudge toward the policy after each heard conversation.
+GATED_POLICY_RATE = 0.05
+
+
 def unit_to_centred(x):
     """Map a value (or array) from the unit interval [0, 1] to [-1, 1]."""
     if np.ndim(x) == 0:
@@ -128,6 +135,17 @@ class SimConfig:
     # the unit scale). 30 sits between the lag grid points {20, 40} so the
     # tightening never coincides with an enforcement-lag onset.
     policy_split_tick: int         = 30
+    # Switches for the threshold-artefact methods note (paper/methods_note),
+    # reproducing two pre-audit choices. Not offered in the dashboard.
+    # gate_space "unit": the confidence gate and the angular update steps act
+    #   on [0, 1] coordinates, (x + 1) / 2, so angles are measured from the
+    #   cube's corner and epsilon is in unit-cube units (pre-audit space).
+    #   Everything else is affine and unaffected.
+    # policy_pull "gated": instead of the per-tick anchor, nudge a listener
+    #   GATED_POLICY_RATE toward the policy after each heard conversation, so
+    #   the pull scales with the gate pass rate (pre-audit coupling).
+    gate_space       : str         = "centred"
+    policy_pull      : str         = "anchor"
 
     def to_dict(self) -> dict:
         d = asdict(self)

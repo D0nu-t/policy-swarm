@@ -1,0 +1,5 @@
+# Run logs and caches are not kept.
+*.log
+__pycache__/
+# results/ is ignored repo-wide, but these CSVs are the inputs to make_figures.py.
+!results/

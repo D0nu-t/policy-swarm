@@ -1,0 +1,9 @@
+gate_space,eps_mode,geometry,epsilon
+unit,raw,euclidean,0.5
+unit,matched,euclidean,0.5
+unit,raw,cosine,0.5
+unit,matched,cosine,0.0633093822725383
+centred,raw,euclidean,1.0
+centred,matched,euclidean,1.0
+centred,raw,cosine,1.0
+centred,matched,cosine,0.39945557396491765

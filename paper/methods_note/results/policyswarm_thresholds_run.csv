@@ -1,0 +1,17 @@
+key,epsilon
+unit/raw/euclidean,0.5
+unit/matched/euclidean,0.5
+unit/raw/cosine,0.5
+unit/matched/cosine,0.0633093822725383
+centred/raw/euclidean,1.0
+centred/matched/euclidean,1.0
+centred/raw/cosine,1.0
+centred/matched/cosine,0.39945557396491765
+unit/run/gated/cosine,0.03515625
+unit/run/gated/euclidean,0.5
+unit/run/anchor/cosine,0.029296875
+unit/run/anchor/euclidean,0.5
+centred/run/gated/cosine,0.9375
+centred/run/gated/euclidean,1.0
+centred/run/anchor/cosine,0.921875
+centred/run/anchor/euclidean,1.0

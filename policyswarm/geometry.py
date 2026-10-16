@@ -335,9 +335,10 @@ def _edge_distances(
         edges = np.array(sim.graph.edges(), dtype=int)
         if edges.size == 0:
             continue
-        dists.append(pairwise_distance(
-            geometry, sim.opinions[edges[:, 0]], sim.opinions[edges[:, 1]],
-        ))
+        ops = sim.opinions
+        if sim_config.gate_space == "unit":       # gate acts on [0, 1] coordinates
+            ops = (ops + 1.0) / 2.0
+        dists.append(pairwise_distance(geometry, ops[edges[:, 0]], ops[edges[:, 1]]))
     return np.concatenate(dists) if dists else np.array([])
 
 

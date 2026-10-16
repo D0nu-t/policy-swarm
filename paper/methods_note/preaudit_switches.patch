@@ -1,0 +1,77 @@
+diff --git a/policyswarm/dynamics.py b/policyswarm/dynamics.py
+index e4d8adf..2a04c69 100644
+--- a/policyswarm/dynamics.py
++++ b/policyswarm/dynamics.py
+@@ -92,6 +92,11 @@ class Simulation:
+         np.random.seed(seed)
+         random.seed(seed)
+         self._rng = np.random.default_rng(seed)
++        # Methods-note diagnosis switches (scratch worktree only).
++        import os as _os
++        self._fix_cosine = _os.environ.get("PS_FIX_COSINE") == "1"
++        self._shock_rng = (np.random.default_rng([seed, 1])
++                           if _os.environ.get("PS_FIX_RNG") == "1" else self._rng)
+ 
+         self._init_agents()
+         self.history        : List[np.ndarray] = []
+@@ -186,7 +191,7 @@ class Simulation:
+             if shock["type"] == "hub":
+                 targets = self._hub_indices[:self.sim_config.ba_m * 3]
+             else:
+-                targets = list(self._rng.choice(
++                targets = list(self._shock_rng.choice(
+                     self.sim_config.n_agents,
+                     size=min(10, self.sim_config.n_agents),
+                     replace=False,
+@@ -201,7 +206,7 @@ class Simulation:
+             old = self.opinions[targets].copy()
+             apply_shock_to_opinions(
+                 self.opinions, targets, shock,
+-                policy_vector=policy_vec, rng=self._rng,
++                policy_vector=policy_vec, rng=self._shock_rng,
+             )
+             for idx, t in enumerate(targets):
+                 change = float(np.linalg.norm(self.opinions[t] - old[idx]))
+@@ -272,10 +277,20 @@ class Simulation:
+ 
+             old = self.opinions[i].copy()
+ 
+-            direction = self._update_direction(self.opinions[i], self.opinions[j])
+-            self.opinions[i] = self._retract(
+-                self.opinions[i] + mu * infl * direction
+-            )
++            if self._fix_cosine and self.geometry == Geometry.COSINE:
++                # Audited cosine step: move the direction, keep the magnitude.
++                op_i, op_j = self.opinions[i], self.opinions[j]
++                ni, nj = np.linalg.norm(op_i), np.linalg.norm(op_j)
++                if ni > 1e-9 and nj > 1e-9:
++                    moved = op_i / ni + mu * infl * (op_j / nj - op_i / ni)
++                    nm = np.linalg.norm(moved)
++                    if nm > 1e-12:
++                        self.opinions[i] = self._retract(ni * moved / nm)
++            else:
++                direction = self._update_direction(self.opinions[i], self.opinions[j])
++                self.opinions[i] = self._retract(
++                    self.opinions[i] + mu * infl * direction
++                )
+ 
+             policy_vec = self.policy.as_vector()
+             self.opinions[i] = np.clip(
+diff --git a/policyswarm/extraction.py b/policyswarm/extraction.py
+index 6418bc0..87dcb0e 100644
+--- a/policyswarm/extraction.py
++++ b/policyswarm/extraction.py
+@@ -229,7 +229,12 @@ def perceived_policy(
+     else:
+         noise = np.random.normal(0.0, noise_scale, size=d)
+ 
+-    perceived = trust * (policy_vector + bias) + noise
++    import os as _os
++    if _os.environ.get("PS_TRUST_CENTRE") == "1":
++        # Audited behaviour: trust shrinks the signal toward neutral (0.5), not toward 0.
++        perceived = 0.5 + trust * (policy_vector + bias - 0.5) + noise
++    else:
++        perceived = trust * (policy_vector + bias) + noise
+     return np.clip(perceived, 0.0, 1.0)
+ 
+ 
