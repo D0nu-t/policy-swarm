@@ -70,7 +70,7 @@ COMPARE_VALUES = {
     "policy_pull": POLICY_PULLS,
 }
 _VALUE_LABELS = {
-    "shared": "shared ε", "matched_start": "matched at start", "matched_run": "matched over run",
+    "shared": "shared ε", "matched_start": "start-matched", "matched_run": "run-matched",
     "centre": "trust → neutral", "corner": "trust → no regulation",
     "status_quo": "trust → status quo", "own": "trust → own view",
     "level_shift": "level-shift control",
@@ -112,8 +112,9 @@ TRACE_PARAMS: Tuple[ParamSpec, ...] = (
               help="anchor: a small pull on everyone each tick. gated: only after a heard "
                    "conversation (pre-audit)."),
     ParamSpec("trust_anchor", "choice", "centre", choices=TRUST_ANCHORS,
-              label="Low trust perceives", group="Hidden choices",
-              help="centre: neutral. corner: no regulation at all. status_quo: the "
+              label="Trust target", group="Hidden choices",
+              help="Where a low-trust agent's perceived policy is pulled. centre: neutral. "
+                   "corner: no regulation at all. status_quo: the "
                    "starting average. own: the agent's own view. level_shift: a control."),
     ParamSpec("seed", "int", 0, minimum=0,
               help="Fixes the network, the starting opinions and the shock schedule."),

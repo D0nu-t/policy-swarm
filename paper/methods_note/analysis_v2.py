@@ -29,7 +29,7 @@ from policyswarm.analysis import lag_geometry_interaction
 RESULTS = Path(__file__).parent / "results"
 CELL = ["space", "d", "target"]
 B = 2000
-RNG = np.random.default_rng(20261016)
+BOOT_SEED = 20261016
 MARGIN = {"pass_rate": 0.02}
 DEFAULT_MARGIN = 0.25
 PRIMARY = "groups_common"
@@ -53,7 +53,9 @@ def boot(x: np.ndarray):
     if len(x) < 2:
         return dict(mean=float("nan"), lo95=float("nan"), hi95=float("nan"),
                     lo90=float("nan"), hi90=float("nan"))
-    idx = RNG.integers(0, len(x), size=(B, len(x)))
+    # A fresh, fixed-seed generator per call: an interval depends only on its
+    # own data, not on how many intervals were computed before it.
+    idx = np.random.default_rng(BOOT_SEED).integers(0, len(x), size=(B, len(x)))
     means = x[idx].mean(axis=1)
     return dict(mean=float(x.mean()),
                 lo95=float(np.percentile(means, 2.5)), hi95=float(np.percentile(means, 97.5)),
@@ -124,9 +126,15 @@ def calibration_table() -> pd.DataFrame:
                                          "within_tol", "monotone"]]
 
 
-def crossing_table() -> pd.DataFrame:
-    """Gate x update rule: gaps to the pure Euclidean pairing, paired by seed."""
-    x = pd.read_csv(RESULTS / "minimal_crossing_v2.csv")
+def crossing_table(name: str = "minimal_crossing_v2.csv") -> pd.DataFrame:
+    """Gate x update rule: gaps to the pure Euclidean pairing, paired by seed.
+
+    A file without Euclidean/Euclidean rows (the run-matched rerun) is compared
+    with the base pairing of the start-matched file: the same seeds and cells."""
+    x = pd.read_csv(RESULTS / name)
+    if not ((x.gate == "euclidean") & (x.step == "euclidean")).any():
+        b = pd.read_csv(RESULTS / "minimal_crossing_v2.csv")
+        x = pd.concat([x, b[(b.gate == "euclidean") & (b.step == "euclidean")]], ignore_index=True)
     base = x[(x.gate == "euclidean") & (x.step == "euclidean")].set_index(CELL + ["seed"])
     rows = []
     for key, g in x.groupby(["gate", "step"]):
@@ -144,8 +152,13 @@ def crossing_table() -> pd.DataFrame:
 def curves() -> pd.DataFrame:
     c = pd.read_csv(RESULTS / "minimal_curves_v2.csv")
     keys = ["space", "d", "metric", "start_coverage"]
-    return c.groupby(keys)[["pass_rate", "groups_common", "eff_groups_common", "variance",
-                            "radial_var", "dispersion"]].mean().reset_index()
+    out = c.groupby(keys)[["pass_rate", "groups_common", "eff_groups_common", "variance",
+                           "radial_var", "dispersion"]].mean().reset_index()
+    sem = c.groupby(keys)["groups_common"].sem().reset_index(drop=True)
+    out["groups_lo"] = (out["groups_common"] - 1.96 * sem).clip(lower=1.0)
+    out["groups_hi"] = out["groups_common"] + 1.96 * sem
+    out["n_seeds"] = c.groupby(keys).size().reset_index(drop=True)
+    return out
 
 
 # --- case study ---------------------------------------------------------------
@@ -157,14 +170,34 @@ def _rel(df):
     return df
 
 
-def _index_ci(g, lag):
-    """Lag-`lag` index (|mean delta| at lag / at lag 0, x100) with a paired bootstrap CI."""
-    w = g.pivot_table(index="seed", columns="lag", values="delta")
+def _index_ci(g, lag, col="rel_delta"):
+    """Lag-`lag` index (|mean effect| at lag / at lag 0, x100) with a paired bootstrap CI.
+
+    The effect is the relative shock effect by default (the paper's lag index);
+    col="delta" gives the draft's index on the absolute shock effect."""
+    w = g.pivot_table(index="seed", columns="lag", values=col)
     d0, dl = w[0].to_numpy(), w[lag].to_numpy()
-    idx = RNG.integers(0, len(d0), size=(B, len(d0)))
+    idx = np.random.default_rng(BOOT_SEED).integers(0, len(d0), size=(B, len(d0)))
     vals = 100 * np.abs(dl[idx].mean(axis=1)) / np.abs(d0[idx].mean(axis=1))
     return (100 * abs(dl.mean()) / abs(d0.mean()), float(np.percentile(vals, 2.5)),
             float(np.percentile(vals, 97.5)), float(d0.mean()), float(dl.mean()))
+
+
+# Equivalence margin for the case interaction (relative shock effect units),
+# fixed before the round-3 analysis: about a third of the recommended design's
+# interaction (+0.034).
+INTERACTION_MARGIN = 0.01
+
+
+def _interaction_ci90(g):
+    """90% t interval of the paired interaction (cosine's lag contrast minus
+    Euclidean's, relative shock effect, lag 40 vs 0), for the equivalence test."""
+    from scipy import stats
+    w = g.pivot_table(index="seed", columns=["geometry", "lag"], values="rel_delta")
+    c = ((w[("cosine", 40)] - w[("cosine", 0)])
+         - (w[("euclidean", 40)] - w[("euclidean", 0)])).dropna().to_numpy()
+    half = stats.t.ppf(0.95, len(c) - 1) * c.std(ddof=1) / np.sqrt(len(c))
+    return float(c.mean() - half), float(c.mean() + half)
 
 
 def case_cells() -> pd.DataFrame:
@@ -200,14 +233,20 @@ def case_cells() -> pd.DataFrame:
             per_g, pair = lag_geometry_interaction(g, "rel_delta")
             p = pair.iloc[0]
             sign = 1 if p["geometry_a"] == "cosine" else -1
+            lo90, hi90 = _interaction_ci90(g)
             row = {"source": source, "cell": cell, "interaction": sign * p["interaction"],
                    "ci_low": (p["interaction_ci_low"] if sign > 0 else -p["interaction_ci_high"]),
                    "ci_high": (p["interaction_ci_high"] if sign > 0 else -p["interaction_ci_low"]),
-                   "p_value": p["p_value"]}
+                   "p_value": p["p_value"], "ci90_low": lo90, "ci90_high": hi90,
+                   "equivalent": bool(-INTERACTION_MARGIN < lo90 and hi90 < INTERACTION_MARGIN)}
             for geom, gg in g.groupby("geometry"):
                 ix, lo, hi, d0, d40 = _index_ci(gg, 40)
+                ax, alo, ahi, a0, a40 = _index_ci(gg, 40, "delta")
                 row.update({f"{geom}_index40": ix, f"{geom}_index_lo": lo, f"{geom}_index_hi": hi,
                             f"{geom}_effect0": d0, f"{geom}_effect40": d40,
+                            f"{geom}_abs_index40": ax, f"{geom}_abs_index_lo": alo,
+                            f"{geom}_abs_index_hi": ahi, f"{geom}_abs_effect0": a0,
+                            f"{geom}_abs_effect40": a40,
                             f"{geom}_pass": float(gg["gate_pass_ctrl"].mean()) if "gate_pass_ctrl" in gg else np.nan})
             rows.append(row)
     return pd.DataFrame(rows)

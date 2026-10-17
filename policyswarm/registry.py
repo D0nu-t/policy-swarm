@@ -96,8 +96,8 @@ HIDDEN_CHOICE_PARAMS: Tuple[ParamSpec, ...] = (
                    "gated: only after a conversation that passed the gate, so the pull "
                    "grows with how many pairs can talk (the pre-audit coupling)."),
     ParamSpec("trust_anchor", "choice", "centre", choices=TRUST_ANCHORS,
-              label="Low trust perceives", group="Hidden choices",
-              help="What a low-trust agent perceives instead of the policy. centre: "
+              label="Trust target", group="Hidden choices",
+              help="The point a low-trust agent's perceived policy is pulled toward. centre: "
                    "neutral. corner: no regulation at all. status_quo: the population's "
                    "starting average. own: its own view. level_shift: a control that "
                    "moves everyone by corner's average amount."),

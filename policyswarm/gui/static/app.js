@@ -396,7 +396,7 @@ function renderResult(result) {
 }
 
 const CHOICE_TEXT = {
-  gate_space: "Gate measured from", policy_pull: "Policy pull", trust_anchor: "Low trust perceives",
+  gate_space: "Gate measured from", policy_pull: "Policy pull", trust_anchor: "Trust target",
 };
 
 function percentText(x) { return `${Math.round(100 * x)}%`; }

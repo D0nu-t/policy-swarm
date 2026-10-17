@@ -115,7 +115,7 @@ def coverage_table():
     # Thresholds that admit 15% of pairs, d = 4.
     for space, tag in (("unit", "Unit"), ("centred", "Centred")):
         for m, mtag in (("euclidean", "Euc"), ("cosine", "Cos"), ("manifold", "Ang")):
-            numbers[f"Match{tag}{mtag}"] = f"{cov.matched_epsilon(m, space, 4, 0.15, 400_000):.2f}"
+            numbers[f"Match{tag}{mtag}"] = f"{cov.matched_epsilon(m, space, 4, 0.15, 400_000):.3g}"
     lines = [r"\begin{tabular}{llrrrr}", r"\toprule",
              r"space & $\varepsilon$ & $d$ & Euclidean & cosine & angular \\", r"\midrule"]
     for r in df.itertuples():
@@ -129,7 +129,8 @@ def coverage_table():
 # --- Revision round (see analysis_v2.py for the statistics) ----------------
 
 SERIES_ORDER = ("euclidean", "cosine", "manifold")
-MODE_TEXT = {"raw": "shared ε", "t0": "matched at start", "run": "matched over run"}
+MODE_TEXT = {"raw": "shared", "t0": "start-matched", "run": "run-matched", "early": "early-matched"}
+MODE_TAGS = (("raw", "Raw"), ("t0", "Tzero"), ("run", "Run"), ("early", "Early"))
 
 
 def fmt_ci(st, digits=2):
@@ -144,12 +145,13 @@ def curves_figure(curv: pd.DataFrame, runs: pd.DataFrame):
             ax = axes[r, c]
             for m in SERIES_ORDER:
                 s = curv[(curv.space == space) & (curv.d == d) & (curv.metric == m)].sort_values("pass_rate")
+                ax.fill_between(s.pass_rate, s.groups_lo, s.groups_hi, color=COLOURS[m], alpha=0.15, lw=0)
                 ax.plot(s.pass_rate, s[a2.PRIMARY], STYLES[m], color=COLOURS[m], label=LABELS[m], lw=1.6)
             pts = runs[(runs.space == space) & (runs.d == d) & (runs.target == 0.15)]
             for (m, mode), g in pts.groupby(["metric", "mode"]):
                 if mode == "raw":
                     continue
-                marker = "o" if mode == "t0" else ("s" if mode == "run" else "D")
+                marker = {"t0": "o", "run": "s", "early": "^"}.get(mode, "D")
                 ax.plot(g.pass_rate.mean(), g[a2.PRIMARY].mean(), marker, ms=5, color=COLOURS[m],
                         mec="#fcfcfb", mew=0.8)
             ax.set_title(f"{space}, d = {d}", fontsize=8, color=INK)
@@ -160,13 +162,14 @@ def curves_figure(curv: pd.DataFrame, runs: pd.DataFrame):
             ax.yaxis.set_minor_formatter(matplotlib.ticker.NullFormatter())
             ax.tick_params(labelsize=7)
             if r == 1:
-                ax.set_xlabel("realised pass rate", fontsize=8)
+                ax.set_xlabel("pass rate", fontsize=8)
             if c == 0:
                 ax.set_ylabel("opinion groups (≥1%)", fontsize=8)
     axes[0, 2].legend(frameon=False, fontsize=7, labelcolor=INK, loc="upper right")
-    fig.text(0.5, 0.005, "markers at 15% starting coverage: diamond = Euclidean, circle = matched at start, "
-                         "square = matched over run", ha="center", fontsize=7, color=MUTED)
-    fig.tight_layout(rect=(0, 0.03, 1, 1))
+    fig.text(0.5, 0.005, "markers at 15% starting coverage: diamond = Euclidean, circle = start-matched,\n"
+                         "square = run-matched, triangle = early-matched; bands: 95% CI",
+             ha="center", fontsize=7, color=MUTED)
+    fig.tight_layout(rect=(0, 0.05, 1, 1))
     _save(fig, "fig2_response_curves")
     plt.close(fig)
 
@@ -210,6 +213,23 @@ def ruler_figure(cva: pd.DataFrame, horizon: pd.DataFrame):
     plt.close(fig)
 
 
+RULE_WORDS = {"raw": "shared", "matched": "start-matched", "run": "run-matched"}
+
+
+def cell_label(source: str, cell: str) -> str:
+    """Plain-language label for a case configuration."""
+    if source == "backward":
+        f = dict(kv.split("=") for kv in cell.replace("pre-audit fixes: ", "").split())
+        parts = [name for key, on, name in (("cos", "1", "cosine step"), ("rng", "1", "random streams"),
+                                             ("split", "40", "tightening tick"),
+                                             ("trust_centre", "1", "trust at centre"))
+                 if f.get(key) == on]
+        return "draft engine" + (" + " + ", ".join(parts) if parts else "")
+    space, rule, pull, trust = cell.split("/")
+    return (f"{space} gate, {RULE_WORDS.get(rule, rule)}, {pull} pull, "
+            f"trust to {trust.split(':')[1].replace('_', ' ')}")
+
+
 def case_forest(cells: pd.DataFrame):
     """Figure 4: the geometry x lag interaction in every configuration."""
     cells = cells.copy()
@@ -221,8 +241,11 @@ def case_forest(cells: pd.DataFrame):
         ax.plot([r.ci_low, r.ci_high], [yi, yi], "-", color=colour.get(r.source, MUTED), lw=1.5)
         ax.plot(r.interaction, yi, "o", color=colour.get(r.source, MUTED), ms=4)
     ax.axvline(0, color=MUTED, lw=0.8)
-    ax.set_yticks(y, [c.replace("pre-audit fixes: ", "pre-audit ") for c in order.cell], fontsize=6)
-    ax.set_xlabel("interaction: Euclidean's lag contrast minus cosine's (positive: cosine attenuates)", fontsize=8)
+    ax.set_yticks(y, [cell_label(r.source, r.cell) for r in order.itertuples()], fontsize=6)
+    for lim in (-a2.INTERACTION_MARGIN, a2.INTERACTION_MARGIN):
+        ax.axvline(lim, color=MUTED, lw=0.6, ls=":")
+    ax.set_xlabel("interaction: cosine's lag contrast minus Euclidean's\n(positive: cosine attenuates the lag effect)",
+                  fontsize=8)
     ax.grid(axis="y", visible=False)
     fig.tight_layout()
     _save(fig, "fig4_interaction_all_cells")
@@ -236,13 +259,57 @@ def table(path: str, header: list, rows: list, colspec: str):
     (FIGURES / path).write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+def cells_tables(gaps: pd.DataFrame):
+    """Appendix: per-cell gaps to Euclidean with 95% CIs, cosine and angular apart."""
+    modes = [m for m, _ in MODE_TAGS if (gaps["mode"] == m).any()]
+    for outcome, name, digits in (("pass_rate", "table_cells_pass.tex", 3),
+                                  (a2.PRIMARY, "table_cells_groups.tex", 2)):
+        g = gaps[gaps.outcome == outcome].set_index(a2.CELL + ["metric", "mode"])
+        rows = []
+        for (space, d, target, metric), _ in g.groupby(level=[0, 1, 2, 3]):
+            row = [space, d, f"{target:.2f}", LABELS[metric]]
+            for m in modes:
+                st = g.loc[(space, d, target, metric, m)]
+                row.append(fmt_ci(st, digits) + ("$^{=}$" if st.equivalent else ""))
+            rows.append(row)
+        table(name, ["space", "$d$", "cov.", "geometry"] + [MODE_TEXT[m] for m in modes], rows,
+              "lrrl" + "r" * len(modes))
+
+
+def settled_table():
+    """Appendix: share of runs not settled after 2,000 and 4,000 rounds, and
+    median convergence time (censored at 4,000 rounds)."""
+    runs = pd.read_csv(RESULTS / "minimal_runs_v2.csv")
+    r = runs[runs["mode"].isin(["reference", "run"]) & runs.checkpoint.isin([2000, 4000])]
+    u = r.pivot_table(index=a2.CELL + ["metric"], columns="checkpoint", values="settled",
+                      aggfunc=lambda x: 1 - x.mean())
+    conv = r[r.checkpoint == 4000].groupby(a2.CELL + ["metric"]).converged_at.median()
+    rows = []
+    for (space, d, target), _ in u.groupby(level=[0, 1, 2]):
+        row = [space, d, f"{target:.2f}"]
+        for m in SERIES_ORDER:
+            k = (space, d, target, m)
+            row.append(f"{pct(u.loc[k, 2000])} / {pct(u.loc[k, 4000])}")
+        row += [f"{conv.loc[(space, d, target, m)]:.0f}" for m in SERIES_ORDER]
+        rows.append(row)
+    table("table_settled.tex", ["space", "$d$", "cov."]
+          + [f"unsettled {LABELS[m]}" for m in SERIES_ORDER]
+          + [f"conv. {LABELS[m]}" for m in SERIES_ORDER], rows, "lrr" + "r" * 6)
+    last = r[r.checkpoint == 4000]
+    numbers["VUnsettledMaxCell"] = pct(u[2000].max())
+    numbers["VUnsettledFourAll"] = pct(1 - last.settled.mean())
+    numbers["VConvCensored"] = pct((~last.settled.astype(bool)).mean())
+
+
 def revision():
     """Every revision-round figure, table and number (needs the *_v2 results)."""
     runs = a2.load_minimal()
     gaps = a2.minimal_gaps(runs)
     gaps.to_csv(RESULTS / "minimal_gaps_v2.csv", index=False)
     prim = gaps[gaps.outcome == a2.PRIMARY]
-    for mode, tag in (("raw", "Raw"), ("t0", "Tzero"), ("run", "Run")):
+    for mode, tag in MODE_TAGS:
+        if not (prim["mode"] == mode).any():
+            continue
         g = prim[prim["mode"] == mode]
         p = gaps[(gaps.outcome == "pass_rate") & (gaps["mode"] == mode)]
         numbers[f"V{tag}GroupGap"] = f"{g['mean'].abs().median():.2f}"
@@ -250,7 +317,8 @@ def revision():
         numbers[f"V{tag}PassGap"] = f"{p['mean'].abs().median():.3f}"
         numbers[f"V{tag}PassEquiv"] = f"{int(p.equivalent.sum())}"
     numbers["VCases"] = str(len(prim[prim["mode"] == "run"]))
-    for col, tag in (("variance", "Var"), ("radial_var", "Radial"), ("dispersion", "Disp")):
+    for col, tag in (("variance", "Var"), ("radial_var", "Radial"), ("dispersion", "Disp"),
+                     ("eff_groups_common", "EffGroups"), ("converged_at", "Conv")):
         g = gaps[(gaps.outcome == col) & (gaps["mode"] == "run")]
         numbers[f"VRun{tag}Gap"] = f"{g['mean'].abs().median():.2f}"
         numbers[f"VRun{tag}Equiv"] = f"{int(g.equivalent.sum())}"
@@ -285,9 +353,24 @@ def revision():
     numbers["VCalTotal"] = str(len(cal))
     numbers["VCalMaxErr"] = f"{cal['error'].abs().max():.3f}"
     numbers["VCalNonMono"] = str(int((~cal.monotone.astype(bool)).sum()))
-    table("table_calibration.tex", ["space", "$d$", "cov.", "metric", r"$\varepsilon$", "error", "iter.", "ok"],
-          [[r.space, r.d, f"{r.target:.2f}", LABELS[r.metric], f"{r.eps:.3f}", f"{r.error:+.3f}",
-            r.iterations, "yes" if r.within_tol else "no"] for r in cal.itertuples()], "lrrlrrrl")
+    ev = gaps[(gaps.outcome == "pass_rate") & (gaps["mode"] == "run")].set_index(a2.CELL + ["metric"])
+    numbers["VCalEvalEquiv"] = str(int(ev.equivalent.sum()))
+    allruns = pd.read_csv(RESULTS / "minimal_runs_v2.csv")
+    allruns = allruns[(allruns.checkpoint == a2.CHECKPOINT) & allruns["mode"].isin(["run", "reference"])]
+    se = allruns.groupby(a2.CELL + ["metric"]).pass_rate.std() / np.sqrt(50)
+    numbers["VPilotSEMed"] = f"{se.median():.3f}"
+    numbers["VPilotSEMax"] = f"{se.max():.3f}"
+    numbers["VCalIterMean"] = f"{cal.iterations.mean():.0f}"
+    share = (cal.iterations.sum() * 50 * 2000 + 18 * 50 * 2000) / (12600 * 4000)
+    numbers["VCalCostShare"] = pct(share)
+    numbers["VCalEvalMax"] = f"{ev['mean'].abs().max():.3f}"
+    table("table_calibration.tex", ["space", "$d$", "cov.", "geometry", r"$\varepsilon$", "pilot error",
+                                    "iter.", "evaluation gap [95\\% CI]"],
+          [[r.space, r.d, f"{r.target:.2f}", LABELS[r.metric], f"{r.eps:.3g}", f"{r.error:+.3f}",
+            r.iterations, fmt_ci(ev.loc[(r.space, r.d, r.target, r.metric)], 3)]
+           for r in cal.itertuples()], "lrrlrrrr")
+    cells_tables(gaps)
+    settled_table()
 
     have = lambda name: (RESULTS / name).exists()  # noqa: E731
     if not have("minimal_crossing_v2.csv"):
@@ -306,6 +389,17 @@ def revision():
            for r in cross[cross.outcome.isin(["variance", "dispersion", "radial_var", "groups_common"])].itertuples()],
           "lllr")
 
+    if have("minimal_crossing_run_v2.csv"):
+        xr = a2.crossing_table("minimal_crossing_run_v2.csv")
+        xr.to_csv(RESULTS / "crossing_run_v2.csv", index=False)
+        for g, st, tag in (("cosine", "cosine", "CosCos"), ("cosine", "euclidean", "CosEuc")):
+            for o, otag in (("variance", "Var"), ("dispersion", "Disp"), ("groups_common", "Groups")):
+                numbers[f"VXR{tag}{otag}"] = fmt_ci(xr[(xr.gate == g) & (xr.step == st) & (xr.outcome == o)].iloc[0])
+        table("table_crossing_run.tex", ["gate", "update", "outcome", "log$_2$ gap [95\\% CI]"],
+              [[LABELS[r.gate], LABELS[r.step], r.outcome.replace("_", " "), fmt_ci(r._asdict())]
+               for r in xr[xr.outcome.isin(["variance", "dispersion", "groups_common"])].itertuples()],
+              "lllr")
+
     if have("minimal_curves_v2.csv"):
         curves_figure(a2.curves(), runs)
 
@@ -315,7 +409,11 @@ def revision():
     numbers["VCaseCells"] = str(len(cells))
     numbers["VCasePositive"] = str(int((cells.ci_low > 0).sum()))
     numbers["VCaseNegative"] = str(int((cells.ci_high < 0).sum()))
-    numbers["VCaseNull"] = str(int(((cells.ci_low <= 0) & (cells.ci_high >= 0)).sum()))
+    null = (cells.ci_low <= 0) & (cells.ci_high >= 0)
+    numbers["VCaseNull"] = str(int(null.sum()))
+    numbers["VCaseEquivalent"] = str(int((null & cells.equivalent).sum()))
+    numbers["VCaseInconclusive"] = str(int((null & ~cells.equivalent).sum()))
+    numbers["VInterMargin"] = f"{a2.INTERACTION_MARGIN:.2f}"
 
     def cell(source, text):
         r = cells[(cells.source == source) & (cells.cell == text)]
@@ -338,7 +436,13 @@ def revision():
         for geom, gtag in (("euclidean", "Euc"), ("cosine", "Cos")):
             numbers[f"VC{tag}{gtag}Idx"] = (f"{r[f'{geom}_index40']:.0f} "
                                             f"[{r[f'{geom}_index_lo']:.0f}, {r[f'{geom}_index_hi']:.0f}]")
-            numbers[f"VC{tag}{gtag}Zero"] = f"{r[f'{geom}_effect0']:.4f}"
+            numbers[f"VC{tag}{gtag}Zero"] = f"{r[f'{geom}_effect0']:.3f}"
+            numbers[f"VC{tag}{gtag}AbsIdx"] = f"{r[f'{geom}_abs_index40']:.0f}"
+
+    # Forward cells with centre trust: which comparison isolates the threshold (R14).
+    for r in cells[(cells.source == "forward") & cells.cell.str.endswith("trust:centre")].itertuples():
+        space, rule, pull, _ = r.cell.split("/")
+        numbers[f"VF{space.title()}{rule.title()}{pull.title()}Inter"] = f"{r.interaction:+.3f}"
 
     # Every trust/anchor cell of the draft's setting and the recommended one.
     import re
@@ -349,22 +453,34 @@ def revision():
         tag = "VT" + mt[1].title() + mt[2].title() + mt[4].title().replace("_", "")
         numbers[f"{tag}Inter"] = f"{r.interaction:+.3f}"
         numbers[f"{tag}CI"] = f"[{r.ci_low:+.3f}, {r.ci_high:+.3f}]"
+        numbers[f"{tag}CINinety"] = f"[{r.ci90_low:+.3f}, {r.ci90_high:+.3f}]"
         for geom, gtag in (("euclidean", "Euc"), ("cosine", "Cos")):
+            numbers[f"{tag}{gtag}Zero"] = f"{getattr(r, geom + '_effect0'):.3f}"
             numbers[f"{tag}{gtag}Idx"] = f"{getattr(r, geom + '_index40'):.0f}"
             numbers[f"{tag}{gtag}IdxCI"] = (f"[{getattr(r, geom + '_index_lo'):.0f}, "
                                            f"{getattr(r, geom + '_index_hi'):.0f}]")
 
+    def idx(r, geom):
+        return (f"{getattr(r, geom + '_index40'):.0f} [{getattr(r, geom + '_index_lo'):.0f}, "
+                f"{getattr(r, geom + '_index_hi'):.0f}]")
+
+    def inter(r):
+        mark = "$^{=}$" if r.equivalent else ""
+        return f"{r.interaction:+.3f} [{r.ci_low:+.3f}, {r.ci_high:+.3f}]{mark}"
+
+    head = ["Euclidean index", "cosine index", "lag-0 effect (E / C)", "interaction [95" + chr(92) + "% CI]"]
     trust_cells = cells[cells.cell.str.contains("trust:") & cells.cell.str.startswith(("unit/raw/gated", "centred/raw/gated"))]
-    table("table_trust.tex", ["gate", "trust shrinks toward", "Euclidean", "cosine", "interaction [95\\% CI]"],
-          [[r.cell.split("/")[0], r.cell.split("trust:")[1].replace("_", " "),
-            f"{r.euclidean_index40:.0f}", f"{r.cosine_index40:.0f}",
-            f"{r.interaction:+.3f} [{r.ci_low:+.3f}, {r.ci_high:+.3f}]"] for r in trust_cells.itertuples()],
-          "llrrr")
+    table("table_trust.tex", ["gate", "trust target"] + head,
+          [[r.cell.split("/")[0], r.cell.split("trust:")[1].replace("_", " "), idx(r, "euclidean"),
+            idx(r, "cosine"), f"{r.euclidean_effect0:.3f} / {r.cosine_effect0:.3f}", inter(r)]
+           for r in trust_cells.itertuples()], "llrrrr")
     anchor_cells = cells[cells.cell.str.startswith("centred/run/anchor")]
-    table("table_anchors.tex", ["trust shrinks toward", "Euclidean", "cosine", "interaction [95\\% CI]"],
-          [[r.cell.split("trust:")[1].replace("_", " "), f"{r.euclidean_index40:.0f}",
-            f"{r.cosine_index40:.0f}", f"{r.interaction:+.3f} [{r.ci_low:+.3f}, {r.ci_high:+.3f}]"]
-           for r in anchor_cells.itertuples()], "lrrr")
+    table("table_anchors.tex", ["trust target"] + head,
+          [[r.cell.split("trust:")[1].replace("_", " "), idx(r, "euclidean"), idx(r, "cosine"),
+            f"{r.euclidean_effect0:.3f} / {r.cosine_effect0:.3f}", inter(r)]
+           for r in anchor_cells.itertuples()], "lrrrr")
+    numbers["VTargetEucMin"] = f"{anchor_cells.euclidean_index40.min():.0f}"
+    numbers["VTargetEucMax"] = f"{anchor_cells.euclidean_index40.max():.0f}"
     for r in anchor_cells.itertuples():
         a = r.cell.split("trust:")[1]
         numbers[f"VAnchor{a.title().replace('_', '')}Inter"] = f"{r.interaction:+.3f}"

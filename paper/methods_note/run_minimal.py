@@ -17,6 +17,12 @@ factorial   space {unit, centred} x dimension {2, 4, 8} x reference coverage
 crossing    the same cells with the gate and the update rule crossed: a
             cosine gate (t0-matched) with a Euclidean step, and a Euclidean
             gate with a cosine step, beside the pure pairings, 2,000 rounds.
+crossing_run  the cosine-gate pairings again with the run-matched cosine eps
+            (the Euclidean-gate rows of `crossing` are unchanged).
+early       a fourth rule, early-matched: eps giving the same pass rate over
+            the first 100 rounds as Euclidean's (an outcome-independent
+            window; bisection on the pilot seeds). The thresholds are added to
+            the saved file and the factorial then runs only the new jobs.
 
 Seeds 0-99, paired across every rule in a cell.
 
@@ -82,6 +88,40 @@ def _thresholds(job):
                                        ("eps", "achieved", "error", "iterations",
                                         "within_tol", "monotone")}})
     return rows
+
+
+EARLY_ROUNDS = 100
+
+
+def _early_thresholds(job):
+    space, d, target, ref_eps = job
+    ref_rate = mbc.mean_pass_rate("euclidean", space, d, ref_eps, PILOT_SEEDS, rounds=EARLY_ROUNDS)
+    rows = []
+    for metric in ANGULAR:
+        rep = mbc.calibrate_report(metric, space, d, ref_rate, PILOT_SEEDS, rounds=EARLY_ROUNDS)
+        rows.append({"space": space, "d": d, "target": target, "metric": metric,
+                     "mode": "early", **{k: rep[k] for k in
+                                         ("eps", "achieved", "error", "iterations",
+                                          "within_tol", "monotone")}})
+    return rows
+
+
+def early(args, t):
+    """Add early-matched thresholds to the saved file, then run their jobs."""
+    tpath = OUT / "minimal_thresholds_v2.csv"
+    thresholds = _load_thresholds(tpath)
+    if not any(r["mode"] == "early" for r in thresholds):
+        refs = [(r["space"], r["d"], r["target"], r["eps"]) for r in thresholds
+                if r["mode"] == "reference"]
+        with ProcessPoolExecutor(args.workers) as pool:
+            new = [r for rows in pool.map(_early_thresholds, refs) for r in rows]
+        fields = list(dict.fromkeys(k for row in thresholds + new for k in row))
+        with open(tpath, "a", newline="") as f:
+            csv.DictWriter(f, fieldnames=fields, extrasaction="ignore").writerows(new)
+        misses = [r for r in new if not r["within_tol"]]
+        print(f"early thresholds: {len(new)} in {time.time() - t:.0f} s; "
+              f"{len(misses)} outside tolerance", flush=True)
+    factorial(args, t)
 
 
 def _run_factorial(job):
@@ -187,9 +227,28 @@ def crossing(args, t):
     print(f"done: {len(jobs)} runs in {time.time() - t:.0f} s", flush=True)
 
 
+def crossing_run(args, t):
+    """Cosine-gate pairings at the run-matched cosine eps."""
+    run_eps = {(r["space"], r["d"], r["target"]): r["eps"]
+               for r in _load_thresholds(OUT / "minimal_thresholds_v2.csv")
+               if r["mode"] == "run" and r["metric"] == "cosine"}
+    jobs = [(cell, "cosine", step, run_eps[cell], seed)
+            for cell in itertools.product(SPACES, DIMS, TARGETS)
+            for step in ("cosine", "euclidean") for seed in range(args.seeds)]
+    rows = []
+    with ProcessPoolExecutor(args.workers) as pool:
+        for k, row in enumerate(pool.map(_run_crossing, jobs, chunksize=10), 1):
+            rows.append(row)
+            if k % 1000 == 0:
+                print(f"{k}/{len(jobs)} runs, {time.time() - t:.0f} s", flush=True)
+    _write(OUT / "minimal_crossing_run_v2.csv", rows)
+    print(f"done: {len(jobs)} runs in {time.time() - t:.0f} s", flush=True)
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--design", choices=("factorial", "crossing"), default="factorial")
+    ap.add_argument("--design", choices=("factorial", "crossing", "crossing_run", "early"),
+                    default="factorial")
     ap.add_argument("--seeds", type=int, default=100)
     ap.add_argument("--workers", type=int, default=10)
     ap.add_argument("--recalibrate", action="store_true",
@@ -197,7 +256,8 @@ def main():
     args = ap.parse_args()
     OUT.mkdir(exist_ok=True)
     t = time.time()
-    (factorial if args.design == "factorial" else crossing)(args, t)
+    {"factorial": factorial, "crossing": crossing, "crossing_run": crossing_run,
+     "early": early}[args.design](args, t)
 
 
 if __name__ == "__main__":
