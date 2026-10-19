@@ -91,6 +91,53 @@ def coverage_figure():
     plt.close(fig)
 
 
+def linkedin_figure():
+    """A single-panel, phone-sized version of Fig. 1 (unit cube, d = 4) for posting.
+
+    Same Monte Carlo as Fig. 1; the marked values at eps = 0.5 are computed, not typed."""
+    eps, d = 0.5, 4
+    grid = np.linspace(0, 1.6, 161)
+    fig = plt.figure(figsize=(10.8, 13.5), dpi=100)          # 1080 x 1350 px
+    ax = fig.add_axes((0.17, 0.11, 0.77, 0.62))
+    at = {}
+    for m in ("euclidean", "manifold", "cosine"):
+        y = cov.pass_curve(m, "unit", d, grid, n_pairs=200_000, seed=0)
+        ax.plot(grid, y, STYLES[m], color=COLOURS[m], lw=4.5 if m != "manifold" else 3.5, label=LABELS[m])
+        at[m] = cov.pass_fraction(m, "unit", d, eps, n_pairs=400_000, seed=0)
+        ax.plot([eps], [at[m]], "o", ms=16, color=COLOURS[m], mec="#fcfcfb", mew=3, zorder=5)
+    ax.axvline(eps, color=MUTED, lw=2)
+    ax.text(eps + 0.02, 1.03, "threshold = 0.5", color=MUTED, fontsize=24, va="bottom")
+    # angular's label sits in the empty lower right, joined to its point by a leader line
+    for m, x, y, ha in (("cosine", eps + 0.05, at["cosine"] - 0.02, "left"),
+                        ("manifold", 1.0, at["manifold"], "left"),
+                        ("euclidean", eps + 0.05, at["euclidean"] - 0.02, "left")):
+        ax.annotate(f"{LABELS[m]}: {100 * at[m]:.0f}%", (eps, at[m]), xytext=(x, y),
+                    color=INK, fontsize=32, fontweight="bold" if m != "manifold" else "normal",
+                    va="center", ha=ha,
+                    arrowprops=dict(arrowstyle="-", color=MUTED, lw=1.5) if m == "manifold" else None)
+    ax.legend(loc="lower left", bbox_to_anchor=(0.0, 1.07), ncol=3, frameon=False, fontsize=22,
+              labelcolor=INK, handlelength=2.6, columnspacing=1.6)
+    ax.set_xlim(0, 1.6)
+    ax.set_ylim(0, 1.08)
+    ax.set_yticks([0, 0.25, 0.5, 0.75, 1.0], ["0%", "25%", "50%", "75%", "100%"])
+    ax.set_xticks([0, 0.5, 1.0, 1.5])
+    ax.tick_params(labelsize=24, length=0, pad=10)
+    ax.set_xlabel("threshold (each measure in its own units)", fontsize=26, labelpad=14, color=INK)
+    ax.set_ylabel("share of pairs allowed to interact", fontsize=26, labelpad=14, color=INK)
+    ax.grid(axis="y", color=GRID, lw=1.2)
+    for side in ("top", "right"):
+        ax.spines[side].set_visible(False)
+    fig.text(0.07, 0.94, "Same threshold, different rules", fontsize=38, fontweight="bold", color=INK)
+    fig.text(0.07, 0.897, "One threshold number lets a very different share of", fontsize=25, color=INK)
+    fig.text(0.07, 0.867, "opinion pairs interact, depending on how distance", fontsize=25, color=INK)
+    fig.text(0.07, 0.837, "is measured (random opinions in four dimensions).", fontsize=25, color=INK)
+    fig.patch.set_facecolor("#fcfcfb")
+    ax.set_facecolor("#fcfcfb")
+    fig.savefig(FIGURES / "linkedin_coverage.png", dpi=100, facecolor=fig.get_facecolor())
+    plt.close(fig)
+    return at
+
+
 def coverage_table():
     """Share of pairs admitted at one shared eps, by space and dimension."""
     rows = []
@@ -616,6 +663,7 @@ def main():
     FIGURES.mkdir(exist_ok=True)
     RESULTS.mkdir(exist_ok=True)
     coverage_figure()
+    linkedin_figure()           # post-sized version of Fig. 1
     print(coverage_table().round(3).to_string(index=False))
     if (RESULTS / "minimal_runs_v2.csv").exists():
         revision()
