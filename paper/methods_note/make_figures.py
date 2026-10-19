@@ -599,14 +599,17 @@ def write_numbers():
                                       + "\n".join(lines) + "\n", encoding="utf-8")
     # Every number macro the text uses must be one this script defines.
     import re
-    text = (HERE / "main.tex").read_text(encoding="utf-8")
-    used = set(re.findall(r"\\((?:Unit|Centred|Match|V)[A-Za-z0-9]+)", text))
-    missing = sorted(used - set(numbers))
-    if missing:
-        raise SystemExit(f"main.tex uses undefined number macros: {missing}")
-    todo = re.findall(r"\\(RESULTS\{[a-z]+\}|ABSTRACT\b|CODEDATA\b)", text)
-    if todo:
-        print(f"note: main.tex still has placeholders: {todo}")
+    for name in ("main.tex", "main_short.tex"):     # full and short versions
+        if not (HERE / name).exists():
+            continue
+        text = (HERE / name).read_text(encoding="utf-8")
+        used = set(re.findall(r"\\((?:Unit|Centred|Match|V)[A-Za-z0-9]+)", text))
+        missing = sorted(used - set(numbers))
+        if missing:
+            raise SystemExit(f"{name} uses undefined number macros: {missing}")
+        todo = re.findall(r"\\(RESULTS\{[a-z]+\}|ABSTRACT\b|CODEDATA\b)", text)
+        if todo:
+            print(f"note: {name} still has placeholders: {todo}")
 
 
 def main():
