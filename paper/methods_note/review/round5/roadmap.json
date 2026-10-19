@@ -1,0 +1,185 @@
+{
+ "note": "Round-5 roadmap: every round-4 item not FULLY_ADDRESSED, at its round-4 residual class, plus round-4 new issues NEW-10..NEW-12 as should_fix. R2 and S5 (DOI) deferred by the author; S10 (lag-20 effects) declined; all are still verified.",
+ "items": [
+  {
+   "id": "R2",
+   "obligation_class": "must_fix",
+   "source_reviewer": "EIC, R3",
+   "text": "Recast section 5 on a documented, citable, archived model; short disclosure of the draft + policy stakes",
+   "round4_verdict": "PARTIALLY_ADDRESSED",
+   "round4_residual_gap": "Element (ii) unmet: the DOI is still printed as '[Zenodo DOI to be added]' and refs.bib still says 'DOI to be added on archiving' (an author deferral leaves (ii) unmet). Element (i) still incomplete: Appendix B does not give the case's shared epsilon or the start/run-matched cosine thresholds, the influence-weight function (only 'grows with its degree'), the per-dimension bias weights (only 'a fixed per-dimension weight'), whether trust is static, or the general perception formula for a non-origin trust target. Elements (iii)-(v) and the draft-engine commit 50a42e5 are retained. No made-worse trigger.",
+   "round4_criterion": "Sec.5 rests on a model a reader can inspect: (i) a documented specification of the PolicySwarm case model (ODD-style appendix or update equations covering state variables, perception/trust update, shock, schedule and outcome) comparable to the minimal model's, which for the residual means it states every parameter value needed to rerun sec.5: the case's shared epsilon value and the matched thresholds, the influence-weight function, the per-dimension bias weights, whether trust is static or updated, and the general perception formula for a non-origin trust target (not only 'shrunk toward its trust target'); (ii) a citable archived version printed in text and bibliography as a real persistent identifier (resolvable DOI, not a placeholder such as '[Zenodo DOI to be added]' or a bib note 'DOI to be added on archiving') or an archived commit hash, and an inspectable identifier (commit/tag/patch) for the 'draft's own engine' used in the backward experiment; (iii) the case framed as demonstrating how each protocol item catches its artefact; (iv) a short disclosure that the draft is the author's own unreleased work caught before external use; (v) 2-3 sentences stating the policy reading the withdrawn result would have supported. Round-3 progress on (i), (iii)-(v) may be retained.",
+   "author_triage": "wont_address"
+  },
+  {
+   "id": "R3",
+   "obligation_class": "should_fix",
+   "source_reviewer": "EIC, R2, DA",
+   "text": "Run-matching as an estimand; report t=0 and run-matched side by side; add one outcome-independent calibration; state mechanically tied outcomes; remove 'removes the gap'",
+   "round4_verdict": "PARTIALLY_ADDRESSED",
+   "round4_residual_gap": "(c) unmet: Sec.4.1 still asserts that the first 100 rounds form 'a window that ends before most opinion groups have formed' with no supporting numbers (e.g. share of eventual groups formed by round 100), and it is not removed or qualified. (a) and (b) are met; on (b) the justification explains the centred gate and anchor pull and calls run-matching 'our choice of estimand' backed by a near-identical start-matched interaction, which is accepted, though 'couplings' is not defined elsewhere.",
+   "round4_criterion": "All of the round-3 criterion: run-matching defined as an estimand distinct from t=0 matching; at least one outcome-independent calibration (early-window matching) run and reported alongside the others; mechanically tied outcomes named with the reason; no 'removes the gap'/'removes geometry effects' wording (round-3 progress on these may be retained). Specifically for the residual: (a) side-by-side reporting extended to every minimal-model outcome, i.e. the gaps in variance, directional dispersion, radial variance, effective number of groups and convergence time reported under shared, start-matched (t=0), early-matched and run-matched thresholds, not only under run-matching (table, appendix or figure); (b) sec.5's 'recommended' label for the run-matched design either justified (why that estimand is preferred in the case study) or removed; (c) the claim that 100 rounds 'ends before most opinion groups have formed' either supported by reported numbers or removed/qualified.",
+   "author_triage": "will_address"
+  },
+  {
+   "id": "R5",
+   "obligation_class": "should_fix",
+   "source_reviewer": "EIC, R2",
+   "text": "Related-work section (R2's verified references first; model alignment/docking; BC surveys); cite or drop flache2017",
+   "round4_verdict": "PARTIALLY_ADDRESSED",
+   "round4_residual_gap": "(a) is met for the Fortunato sentence itself, which matches its abstract (external: https://arxiv.org/abs/physics/0504017: thresholds coincide with or are very close to their one-dimensional counterparts). (b) is unmet for Schweighofer 2020 and Baumann 2021, which are still named only in a list clause, and Huet 2008 gets a description but no statement of how the note relates to it beyond the collective sentence. Also, the new collective sentence 'These studies show that the shape of the confidence region matters' contradicts Fortunato's finding as the previous sentence reports it (thresholds close to the 1-D ones, i.e. shape mattered little). This is a peripheral mis-description; it should be qualified.",
+   "round4_criterion": "Round-3 criterion retained: a dedicated (or clearly delimited) related-work section citing R2's verified references, the alignment/docking tradition and BC surveys; flache2017 cited or removed; no uncited added references; grimm2020 cited where the ODD is used. Specifically for the residual: (a) Fortunato et al. 2005 described in line with its content, i.e. as a precedent that compares shapes of the confidence range (a direct precedent for comparing distances), and not cited as support for 'Euclidean distance is the usual default'; (b) each of Fortunato 2005, Huet 2008, Kurahashi-Nakamura 2016, Baumann 2021 and Schweighofer 2020 tied to this paper's argument by its own sentence or clause stating how the note relates to it (what it did and what this note adds or differs on), not only named in a list clause.",
+   "author_triage": "will_address"
+  },
+  {
+   "id": "R12",
+   "obligation_class": "should_fix",
+   "source_reviewer": "R1",
+   "text": "Report achieved calibration error per cell with CIs; flag out-of-tolerance cells; max_iter/monotonicity check; pilot-size guidance",
+   "round4_verdict": "PARTIALLY_ADDRESSED",
+   "round4_residual_gap": "(b) is met. (a) is only partly met: the four non-equivalent cases are flagged, but the five cells at exactly +-0.005 pilot error (centred d=2 c=.15 cosine, centred d=2 c=.30 angular, centred d=4 c=.30 angular, centred d=8 c=.05 cosine, unit d=8 c=.30 angular) and the many cells whose evaluation gap exceeds the 0.005 tolerance (e.g. -0.025, +0.013, -0.009, +0.008) are still unmarked, so they can be found only by reading the columns.",
+   "round4_criterion": "Round-3 criterion: per cell, achieved calibration error on the evaluation seeds with a CI; max_iter value stated with which cells (if any) hit it, plus the monotonicity check (round-3 progress may be retained). Specifically for the residual: (a) out-of-tolerance cells explicitly flagged in the manuscript (marker, column or list), including the four cases not equivalent on the evaluation seeds, the five cells at exactly +/-0.005 pilot error, and the cells whose evaluation gap exceeds the 0.005 tolerance, so they can be found without cross-reading tables; (b) protocol item 3 itself gives pilot-size guidance relative to the between-seed SD (e.g. a rule linking the number of pilot seeds to the tolerance and between-seed SD), not only the qualitative 'noisy cells need more pilot seeds'.",
+   "author_triage": "will_address"
+  },
+  {
+   "id": "R13",
+   "obligation_class": "must_fix",
+   "source_reviewer": "R1",
+   "text": "Per-cell paired bootstrap CIs; pre-stated equivalence margins (TOST) for 'removes'/'behave as one'; report cosine and angular separately",
+   "round4_verdict": "PARTIALLY_ADDRESSED",
+   "round4_residual_gap": "(i) unmet: per-cell CIs are still printed only for the pass rate, the primary outcome and the cosine-angular comparison; the secondary outcomes (variance, radial spread, directional dispersion, effective groups, convergence time) appear only as medians with equivalence counts and no CIs. (ii) unmet: the case margin is still described as 'a margin fixed before this analysis', with no disclosure that it was set after the round-2 own-target interval it tests had been reported. (iv) mostly met, but one pooled count remains: Sec.4.1 gives 'equivalent to zero in 32 of 36 cases' (cosine+angular pooled, the same run-matched pass-rate gaps reported separately as 16 and 16). (iii) met for 'one gate'/'common ruler'/own-target 'disappears'; (v) met. Peripheral made-worse trigger carried here: the new 'the start-matched version gives almost the same interaction (+0.032 against +0.034)' is a no-difference claim added without an equivalence test. It is not on the core and does not outweigh the progress, so PARTIALLY_ADDRESSED under the precedence rule.",
+   "round4_criterion": "All of: (i) per-cell paired-bootstrap 95% CIs printed in the manuscript for every reported gap, not only the pass rate and the primary outcome (also the secondary outcomes reported per cell or summarised); (ii) equivalence margins stated with a justification before the equivalence results, and where a margin was set after the result it tests had been reported (the case margin vs the round-2 own-target interval) the text says so rather than 'fixed before this analysis'; (iii) TOST (or an equivalent equivalence test) for every 'removes'/'behave as one'/'one gate'/'one common ruler removes'/'no effect'/'disappears'-type claim, minimal model and case study, including 'cosine and angular gates are one gate' and the abstract's 'one common ruler removes the difference', each claim kept only where equivalence is shown and otherwise reworded (point medians/maxima such as 0.00 or 'at most 0.07' do not suffice); (iv) cosine and angular reported separately or only one kept, with NO summary median or equivalence count in text, abstract or tables pooling them (e.g. the 'of 36 cases' counts and pass-gap medians), or the pooling explicitly justified; (v) the 'almost every gap differs significantly ... so we report sizes' sentence corrected for run-matching (round-3 progress may be retained).",
+   "author_triage": "will_address"
+  },
+  {
+   "id": "S1",
+   "obligation_class": "should_fix",
+   "source_reviewer": "R1, DA",
+   "text": "Define 'geometry' (gate vs gate + update rule), radial vs directional dispersion, ideally gate x update crossing",
+   "round4_verdict": "PARTIALLY_ADDRESSED",
+   "round4_residual_gap": "The run-matched crossing table (tab:crossing-run) still has no radial-variance row, and nothing says why it is omitted, whereas the start-matched crossing table has one.",
+   "round4_criterion": "Round-3 criterion: 'geometry' defined explicitly (gate only vs gate + update rule) and used consistently, incl. sec.5; the gate x update-rule crossing reported under run-matching or its attribution explicitly qualified/labelled untested (round-3 progress may be retained). Specifically for the residual: radial and directional dispersion reported separately under run-matching, including the run-matched radial-variance gap (1.48 in round 3, or recomputed) in the text or a table, and the run-matched crossing table includes a radial-variance row or states why it is omitted.",
+   "author_triage": "will_address"
+  },
+  {
+   "id": "S2",
+   "obligation_class": "should_fix",
+   "source_reviewer": "R3",
+   "text": "Policy-ABM / trust / validation literature",
+   "round4_verdict": "PARTIALLY_ADDRESSED",
+   "round4_residual_gap": "Institutional-trust modelling is now cited, and accurately: the paper calibrates to ESS institutional-trust items and SHP trust in government (external: https://www.jasss.org/26/4/9.html). But no policy or regulatory ABM that uses trust or credibility scaling of a signal is cited. The trust-target/origin audit is not positioned against how such models scale signals by trust. Gestefeld & Lorenz model trust as an opinion, not as a multiplier, and the text does not draw that contrast.",
+   "round4_criterion": "Representative policy or regulatory ABMs that use trust or credibility scaling, and institutional-trust modelling literature, cited in text (so they print in the bibliography), with the trust-target/origin audit explicitly positioned relative to how trust is usually modelled there; ABM validation/reporting guidance citations retained.",
+   "author_triage": "will_address"
+  },
+  {
+   "id": "S5",
+   "obligation_class": "should_fix",
+   "source_reviewer": "EIC",
+   "text": "Archive with a persistent ID",
+   "round4_verdict": "NOT_ADDRESSED",
+   "round4_residual_gap": null,
+   "round4_criterion": "Model code/data archived with a real persistent identifier (resolvable DOI via Zenodo/CoMSES or equivalent, not a placeholder or a 'DOI to be added on archiving' note) cited in the Code and data statement and bibliography.",
+   "author_triage": "wont_address"
+  },
+  {
+   "id": "S10",
+   "obligation_class": "consider",
+   "source_reviewer": "R1",
+   "text": "Absolute shock effects alongside the ratio index",
+   "round4_verdict": "PARTIALLY_ADDRESSED",
+   "round4_residual_gap": "Lag-20 effects are not reported, and the Fig.4 configurations outside Tables tab:trust/tab:anchors have no per-cell effects, although Sec.5.2 says 'For every cell we report ... its relative shock effect at lags 0 and 40'.",
+   "round4_criterion": null,
+   "author_triage": "wont_address"
+  },
+  {
+   "id": "S15",
+   "obligation_class": "consider",
+   "source_reviewer": "R3, R2",
+   "text": "Item 1 as an origin/affine-equivariance audit with a box of origin-dependent operations (R3 dissent: Major)",
+   "round4_verdict": "PARTIALLY_ADDRESSED",
+   "round4_residual_gap": "The clipping entry in the origin box is unchanged; the dependence comes from bounds fixed in code, not from asymmetry about the origin.",
+   "round4_criterion": null,
+   "author_triage": "will_address"
+  },
+  {
+   "id": "C5",
+   "obligation_class": "consider",
+   "source_reviewer": "R3",
+   "text": "Short discussion: protocol cost; which published results to revisit",
+   "round4_verdict": "NOT_ADDRESSED",
+   "round4_residual_gap": null,
+   "round4_criterion": null,
+   "author_triage": "will_address"
+  },
+  {
+   "id": "NEW-3",
+   "obligation_class": "should_fix",
+   "source_reviewer": "R1",
+   "text": "The response-curve experiment that the abstract offers as the paper's answer ('we report whole response curves instead') is undocumented: the threshold grid, seeds (50, apparently separate from the factorial's 100), horizon and how the realised pass rate is computed appear nowhere in §4.1 or the ODD, and the curves carry no uncertainty bands.",
+   "round4_verdict": "PARTIALLY_ADDRESSED",
+   "round4_residual_gap": "The documentation still sits only in the Fig.2 caption. Neither Sec.4.1 nor the ODD (Appendix A) describes the response-curve experiment (grid, seeds 2000-2049, horizon, pass-rate window), which the criterion explicitly requires.",
+   "round4_criterion": "The response-curve experiment documented in sec.4.1 or the ODD, not only in the Fig.2 caption: the threshold grid with its values or spacing, the seed count and relation to the factorial seeds, the horizon, and how the realised pass rate is computed including the window over which the plotted pass rate is taken; and the curves carry uncertainty bands (or per-point CIs) with the band method stated (bootstrap, normal or other, with the unit of resampling).",
+   "author_triage": "will_address"
+  },
+  {
+   "id": "NEW-4",
+   "obligation_class": "should_fix",
+   "source_reviewer": "R1",
+   "text": "The 'settled' criterion (no move above 1e-4) uses an absolute tolerance that is not rescaled with the cube. §4.1 says Euclidean dynamics are unchanged by shifting and rescaling, so its unit and centred cells are the same 9 designs; yet the Euclidean unsettled shares and convergence times differ between paired unit/centred cells (d=2, c=5%: 66%/31% vs 60%/22%; d=2, c=30%: 523 vs 468 rounds; d=4, c=5%: 92%/67% vs 91%/55%). The per-cell settled table, the pooled 26%/13%/14% and the convergence-time gap therefore depend on the coordinate coding, an instance of the hidden choice the paper warns about.",
+   "round4_verdict": "PARTIALLY_ADDRESSED",
+   "round4_residual_gap": "Disclosure only. The tolerance is not made coding-invariant; the dependence is not quantified; and no coding-invariant version is reported or used. The pooled unsettled shares (44%/26%/13%, and 14% in Limitations) and Fig.3b still pool unit and centred runs. The new sentence says that comparison is not valid between spaces.",
+   "round4_criterion": "The 'settled' criterion no longer depends on the coordinate coding: its tolerance is expressed in coding-invariant units (e.g. relative to the cube side or the threshold) or otherwise made invariant to shift and rescale, and the dependent quantities (per-cell settled/unsettled table, the pooled settled shares (26%/13%/14% in round 3), convergence times and the convergence-time gap) are recomputed under it, so that paired Euclidean unit and centred cells, which the paper states have the same dynamics, report the same settled shares and convergence times (up to stated numerical tolerance), or any remaining difference is explained. Equivalent fix: the coding dependence explicitly disclosed and quantified, with a coding-invariant version reported alongside and used for the claims.",
+   "author_triage": "will_address"
+  },
+  {
+   "id": "NEW-6",
+   "obligation_class": "should_fix",
+   "source_reviewer": "R1",
+   "text": "The backward design says the audit's changes are undone 'in all eight combinations, and then the trust step'. In Fig. 4, however, the two trust rows pair centre trust with different subsets ('+ tightening tick' and '+ cosine step, random streams', without the tick). Neither is the draft engine with trust alone or with all the other changes, so the reader cannot tell what the trust rows isolate.",
+   "round4_verdict": "PARTIALLY_ADDRESSED",
+   "round4_residual_gap": "The text names the pairings but never says what each trust row isolates: that each is compared with its matching no-trust row to estimate the trust step in that background. It also gives no reason for these two backgrounds, and the two trust rows' results (interactions +0.026 etc.) are not discussed. So the reader must infer what the trust contrast estimates.",
+   "round4_criterion": "The backward-design description and the Fig.4 trust rows agree: either the text states exactly which combinations the trust step is paired with (e.g. centre trust added to '+ tightening tick' and to '+ cosine step, random streams') and what each trust row isolates, or the rows are changed to match the stated design (e.g. draft engine with trust alone and/or with all other changes), so a reader can tell from the manuscript what the trust contrast estimates.",
+   "author_triage": "will_address"
+  },
+  {
+   "id": "NEW-7",
+   "obligation_class": "should_fix",
+   "source_reviewer": "R1",
+   "text": "Early-matched thresholds are calibrated by bisection on pilot seeds, but their achieved pass-rate error over the first 100 rounds, on the pilot or the evaluation seeds, is not reported, and the claim that 100 rounds 'ends before most opinion groups have formed' has no supporting numbers.",
+   "round4_verdict": "PARTIALLY_ADDRESSED",
+   "round4_residual_gap": "The 100-round claim 'ends before most opinion groups have formed' is still asserted without supporting numbers and is not removed or qualified.",
+   "round4_criterion": "The early-matched thresholds' achieved pass-rate error over the first 100 rounds reported (on the pilot and/or the evaluation seeds, per cell or as a summary such as the maximum, against the tolerance), and the claim that 100 rounds 'ends before most opinion groups have formed' either supported by reported numbers (e.g. share of runs or of eventual groups formed by round 100) or removed/qualified.",
+   "author_triage": "will_address"
+  },
+  {
+   "id": "NEW-10",
+   "obligation_class": "should_fix",
+   "source_reviewer": "R1",
+   "text": "Table tab:secondary reports a median signed log2 gap of -21.96 for cosine directional dispersion under the shared threshold, i.e. a ratio near 2^-22. That is a numerical artefact of taking log2 ratios of a quantity that is essentially zero at consensus (cosine admits almost all pairs in the unit cube). So the log2 scale, the median and the +-0.25 equivalence count are ill-defined for directional dispersion (and possibly radial spread) whenever runs reach consensus. Nothing in the text or the caption says so.",
+   "round4_verdict": "NEW_ISSUE",
+   "round4_residual_gap": null,
+   "round4_criterion": null,
+   "author_triage": "will_address"
+  },
+  {
+   "id": "NEW-11",
+   "obligation_class": "should_fix",
+   "source_reviewer": "R1",
+   "text": "The new definitions of radial spread (variance of opinion lengths) and directional dispersion (one minus the length of the mean unit opinion vector) measure from the origin. By the paper's own origin box, these are origin-dependent outcomes, yet the text does not say in which coordinates they are computed (the primary outcome is explicitly measured in centred coordinates). Terminology is also inconsistent across outputs: 'radial spread' and 'directional dispersion' in the text and Table tab:secondary, but 'radial var' and 'dispersion' in Tables tab:crossing and tab:crossing-run; neither term is in the glossary.",
+   "round4_verdict": "NEW_ISSUE",
+   "round4_residual_gap": null,
+   "round4_criterion": null,
+   "author_triage": "will_address"
+  },
+  {
+   "id": "NEW-12",
+   "obligation_class": "should_fix",
+   "source_reviewer": "R1",
+   "text": "Editorial defects in the new captions: Table tab:secondary says the equivalence counts are 'in brackets' but prints them in parentheses, and labels all outcomes 'after 2,000 rounds' though convergence time is censored at 4,000 rounds. The Fig.2 caption states the ten-threshold grid twice ('varies over ten values ... from 2% to 60%' and 'at one of ten thresholds, those giving ...').",
+   "round4_verdict": "NEW_ISSUE",
+   "round4_residual_gap": null,
+   "round4_criterion": null,
+   "author_triage": "will_address"
+  }
+ ]
+}

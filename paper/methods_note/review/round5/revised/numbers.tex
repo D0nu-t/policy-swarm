@@ -1,0 +1,356 @@
+% Written by make_figures.py; do not edit.
+\newcommand{\CentredCosMax}{50\%}
+\newcommand{\CentredCosMin}{50\%}
+\newcommand{\CentredEucEight}{0.5\%}
+\newcommand{\CentredEucTwo}{48\%}
+\newcommand{\MatchCentredAng}{0.949}
+\newcommand{\MatchCentredCos}{0.418}
+\newcommand{\MatchCentredEuc}{1.01}
+\newcommand{\MatchUnitAng}{0.365}
+\newcommand{\MatchUnitCos}{0.0658}
+\newcommand{\MatchUnitEuc}{0.507}
+\newcommand{\UnitFourAng}{32\%}
+\newcommand{\UnitFourCos}{94\%}
+\newcommand{\UnitFourEuc}{14\%}
+\newcommand{\UnitSixteenCos}{99.7\%}
+\newcommand{\UnitSixteenEuc}{0.0\%}
+\newcommand{\VAnchorCentreInter}{+0.034}
+\newcommand{\VAnchorCornerInter}{+0.021}
+\newcommand{\VAnchorOwnInter}{+0.001}
+\newcommand{\VAnchorStatusQuoInter}{+0.035}
+\newcommand{\VCDraftCI}{[+0.025, +0.044]}
+\newcommand{\VCDraftCosAbsIdx}{78}
+\newcommand{\VCDraftCosForty}{-0.042}
+\newcommand{\VCDraftCosIdx}{85 [80, 90]}
+\newcommand{\VCDraftCosZero}{-0.049}
+\newcommand{\VCDraftEucAbsIdx}{132}
+\newcommand{\VCDraftEucForty}{-0.146}
+\newcommand{\VCDraftEucIdx}{123 [114, 132]}
+\newcommand{\VCDraftEucZero}{-0.119}
+\newcommand{\VCDraftFixedCI}{[+0.020, +0.039]}
+\newcommand{\VCDraftFixedCosAbsIdx}{77}
+\newcommand{\VCDraftFixedCosForty}{-0.043}
+\newcommand{\VCDraftFixedCosIdx}{85 [81, 88]}
+\newcommand{\VCDraftFixedCosZero}{-0.050}
+\newcommand{\VCDraftFixedEucAbsIdx}{126}
+\newcommand{\VCDraftFixedEucForty}{-0.141}
+\newcommand{\VCDraftFixedEucIdx}{118 [110, 127]}
+\newcommand{\VCDraftFixedEucZero}{-0.120}
+\newcommand{\VCDraftFixedInter}{+0.029}
+\newcommand{\VCDraftInter}{+0.034}
+\newcommand{\VCDraftTrustCI}{[+0.013, +0.038]}
+\newcommand{\VCDraftTrustCosAbsIdx}{117}
+\newcommand{\VCDraftTrustCosForty}{-0.037}
+\newcommand{\VCDraftTrustCosIdx}{110 [102, 121]}
+\newcommand{\VCDraftTrustCosZero}{-0.033}
+\newcommand{\VCDraftTrustEucAbsIdx}{169}
+\newcommand{\VCDraftTrustEucForty}{-0.157}
+\newcommand{\VCDraftTrustEucIdx}{123 [112, 136]}
+\newcommand{\VCDraftTrustEucZero}{-0.128}
+\newcommand{\VCDraftTrustInter}{+0.026}
+\newcommand{\VCRecommendedCI}{[+0.027, +0.042]}
+\newcommand{\VCRecommendedCosAbsIdx}{161}
+\newcommand{\VCRecommendedCosForty}{-0.080}
+\newcommand{\VCRecommendedCosIdx}{134 [129, 139]}
+\newcommand{\VCRecommendedCosZero}{-0.060}
+\newcommand{\VCRecommendedEucAbsIdx}{189}
+\newcommand{\VCRecommendedEucForty}{-0.174}
+\newcommand{\VCRecommendedEucIdx}{146 [138, 154]}
+\newcommand{\VCRecommendedEucZero}{-0.119}
+\newcommand{\VCRecommendedInter}{+0.034}
+\newcommand{\VCUnitRunGatedCI}{[-0.071, -0.043]}
+\newcommand{\VCUnitRunGatedCosAbsIdx}{478}
+\newcommand{\VCUnitRunGatedCosForty}{-0.123}
+\newcommand{\VCUnitRunGatedCosIdx}{292 [260, 333]}
+\newcommand{\VCUnitRunGatedCosZero}{-0.042}
+\newcommand{\VCUnitRunGatedEucAbsIdx}{160}
+\newcommand{\VCUnitRunGatedEucForty}{-0.154}
+\newcommand{\VCUnitRunGatedEucIdx}{119 [108, 131]}
+\newcommand{\VCUnitRunGatedEucZero}{-0.130}
+\newcommand{\VCUnitRunGatedInter}{-0.057}
+\newcommand{\VCUnitSharedCI}{[+0.005, +0.032]}
+\newcommand{\VCUnitSharedCosAbsIdx}{124}
+\newcommand{\VCUnitSharedCosForty}{-0.040}
+\newcommand{\VCUnitSharedCosIdx}{117 [114, 121]}
+\newcommand{\VCUnitSharedCosZero}{-0.034}
+\newcommand{\VCUnitSharedEucAbsIdx}{160}
+\newcommand{\VCUnitSharedEucForty}{-0.154}
+\newcommand{\VCUnitSharedEucIdx}{119 [108, 131]}
+\newcommand{\VCUnitSharedEucZero}{-0.130}
+\newcommand{\VCUnitSharedInter}{+0.018}
+\newcommand{\VCalCostShare}{39\%}
+\newcommand{\VCalEvalBeyondTol}{12}
+\newcommand{\VCalEvalEquiv}{32}
+\newcommand{\VCalEvalEquivAng}{16}
+\newcommand{\VCalEvalEquivCos}{16}
+\newcommand{\VCalEvalMax}{0.025}
+\newcommand{\VCalEvalMiss}{4}
+\newcommand{\VCalIterMean}{5}
+\newcommand{\VCalMaxErr}{0.005}
+\newcommand{\VCalMiss}{0}
+\newcommand{\VCalNonMono}{0}
+\newcommand{\VCalTotal}{36}
+\newcommand{\VCaseCells}{30}
+\newcommand{\VCaseEquivalent}{1}
+\newcommand{\VCaseInconclusive}{1}
+\newcommand{\VCaseNegative}{3}
+\newcommand{\VCaseNull}{2}
+\newcommand{\VCasePositive}{25}
+\newcommand{\VCases}{36}
+\newcommand{\VCellsPerGeom}{18}
+\newcommand{\VClipMax}{8.8\%}
+\newcommand{\VClipMean}{0.5\%}
+\newcommand{\VConvCensored}{14\%}
+\newcommand{\VCosAngCells}{18}
+\newcommand{\VCosAngCommon}{0.00}
+\newcommand{\VCosAngCommonEquiv}{18}
+\newcommand{\VCosAngCommonMax}{0.07}
+\newcommand{\VCosAngOwn}{0.12}
+\newcommand{\VCosAngOwnEquiv}{10}
+\newcommand{\VCosAngOwnMax}{1.36}
+\newcommand{\VCosAngPassEquiv}{18}
+\newcommand{\VCosAngPassMax}{0.006}
+\newcommand{\VEarlyCalMaxErr}{0.005}
+\newcommand{\VEarlyCalMiss}{0}
+\newcommand{\VEarlyCalTotal}{36}
+\newcommand{\VEarlyGroupEquiv}{10}
+\newcommand{\VEarlyGroupEquivAng}{5}
+\newcommand{\VEarlyGroupEquivCos}{5}
+\newcommand{\VEarlyGroupGap}{0.61}
+\newcommand{\VEarlyGroupGapAng}{0.58}
+\newcommand{\VEarlyGroupGapCos}{0.61}
+\newcommand{\VEarlyPassEquiv}{8}
+\newcommand{\VEarlyPassEquivAng}{4}
+\newcommand{\VEarlyPassEquivCos}{4}
+\newcommand{\VEarlyPassGap}{0.048}
+\newcommand{\VEarlyPassGapAng}{0.048}
+\newcommand{\VEarlyPassGapCos}{0.047}
+\newcommand{\VFCentredMatchedAnchorInter}{+0.032}
+\newcommand{\VFCentredMatchedGatedInter}{+0.003}
+\newcommand{\VFCentredRawAnchorInter}{+0.035}
+\newcommand{\VFCentredRawGatedInter}{+0.015}
+\newcommand{\VFCentredRunAnchorInter}{+0.034}
+\newcommand{\VFCentredRunGatedInter}{+0.013}
+\newcommand{\VFUnitMatchedAnchorInter}{+0.026}
+\newcommand{\VFUnitMatchedGatedInter}{-0.037}
+\newcommand{\VFUnitRawAnchorInter}{+0.038}
+\newcommand{\VFUnitRawGatedInter}{+0.018}
+\newcommand{\VFUnitRunAnchorInter}{+0.020}
+\newcommand{\VFUnitRunGatedInter}{-0.057}
+\newcommand{\VHorRunFive}{0.71}
+\newcommand{\VHorRunFour}{0.70}
+\newcommand{\VHorTzeroFive}{0.93}
+\newcommand{\VHorTzeroFour}{0.87}
+\newcommand{\VInterMargin}{0.01}
+\newcommand{\VPilotSEMax}{0.020}
+\newcommand{\VPilotSEMed}{0.004}
+\newcommand{\VRawGroupEquiv}{14}
+\newcommand{\VRawGroupEquivAng}{7}
+\newcommand{\VRawGroupEquivCos}{7}
+\newcommand{\VRawGroupGap}{0.35}
+\newcommand{\VRawGroupGapAng}{0.40}
+\newcommand{\VRawGroupGapCos}{0.35}
+\newcommand{\VRawPassEquiv}{0}
+\newcommand{\VRawPassEquivAng}{0}
+\newcommand{\VRawPassEquivCos}{0}
+\newcommand{\VRawPassGap}{0.192}
+\newcommand{\VRawPassGapAng}{0.177}
+\newcommand{\VRawPassGapCos}{0.258}
+\newcommand{\VRunConvEquiv}{14}
+\newcommand{\VRunConvEquivAng}{7}
+\newcommand{\VRunConvEquivCos}{7}
+\newcommand{\VRunConvGap}{0.39}
+\newcommand{\VRunConvGapAng}{0.39}
+\newcommand{\VRunConvGapCos}{0.39}
+\newcommand{\VRunDispEquiv}{20}
+\newcommand{\VRunDispEquivAng}{10}
+\newcommand{\VRunDispEquivCos}{10}
+\newcommand{\VRunDispGap}{0.01}
+\newcommand{\VRunDispGapAng}{0.01}
+\newcommand{\VRunDispGapCos}{0.01}
+\newcommand{\VRunEffGroupsEquiv}{23}
+\newcommand{\VRunEffGroupsEquivAng}{11}
+\newcommand{\VRunEffGroupsEquivCos}{12}
+\newcommand{\VRunEffGroupsGap}{0.06}
+\newcommand{\VRunEffGroupsGapAng}{0.07}
+\newcommand{\VRunEffGroupsGapCos}{0.05}
+\newcommand{\VRunGroupEquiv}{11}
+\newcommand{\VRunGroupEquivAng}{6}
+\newcommand{\VRunGroupEquivCos}{5}
+\newcommand{\VRunGroupGap}{0.70}
+\newcommand{\VRunGroupGapAng}{0.69}
+\newcommand{\VRunGroupGapCos}{0.70}
+\newcommand{\VRunPassEquiv}{32}
+\newcommand{\VRunPassEquivAng}{16}
+\newcommand{\VRunPassEquivCos}{16}
+\newcommand{\VRunPassGap}{0.004}
+\newcommand{\VRunPassGapAng}{0.004}
+\newcommand{\VRunPassGapCos}{0.004}
+\newcommand{\VRunRadialEquiv}{6}
+\newcommand{\VRunRadialEquivAng}{3}
+\newcommand{\VRunRadialEquivCos}{3}
+\newcommand{\VRunRadialGap}{1.48}
+\newcommand{\VRunRadialGapAng}{1.49}
+\newcommand{\VRunRadialGapCos}{1.48}
+\newcommand{\VRunVarEquiv}{10}
+\newcommand{\VRunVarEquivAng}{5}
+\newcommand{\VRunVarEquivCos}{5}
+\newcommand{\VRunVarGap}{0.57}
+\newcommand{\VRunVarGapAng}{0.57}
+\newcommand{\VRunVarGapCos}{0.57}
+\newcommand{\VRunVsStartCI}{[+0.002, +0.004]}
+\newcommand{\VRunVsStartDiff}{+0.003}
+\newcommand{\VRunVsStartEquiv}{equivalent}
+\newcommand{\VTCentredRawCentreCI}{[+0.002, +0.029]}
+\newcommand{\VTCentredRawCentreCINinety}{[+0.004, +0.026]}
+\newcommand{\VTCentredRawCentreCosIdx}{118}
+\newcommand{\VTCentredRawCentreCosIdxCI}{[110, 126]}
+\newcommand{\VTCentredRawCentreCosZero}{-0.049}
+\newcommand{\VTCentredRawCentreEucIdx}{119}
+\newcommand{\VTCentredRawCentreEucIdxCI}{[108, 131]}
+\newcommand{\VTCentredRawCentreEucZero}{-0.130}
+\newcommand{\VTCentredRawCentreInter}{+0.015}
+\newcommand{\VTCentredRawCornerCI}{[+0.005, +0.025]}
+\newcommand{\VTCentredRawCornerCINinety}{[+0.007, +0.023]}
+\newcommand{\VTCentredRawCornerCosIdx}{106}
+\newcommand{\VTCentredRawCornerCosIdxCI}{[101, 113]}
+\newcommand{\VTCentredRawCornerCosZero}{-0.062}
+\newcommand{\VTCentredRawCornerEucIdx}{116}
+\newcommand{\VTCentredRawCornerEucIdxCI}{[108, 124]}
+\newcommand{\VTCentredRawCornerEucZero}{-0.121}
+\newcommand{\VTCentredRawCornerInter}{+0.015}
+\newcommand{\VTCentredRunCentreCI}{[+0.027, +0.042]}
+\newcommand{\VTCentredRunCentreCINinety}{[+0.028, +0.040]}
+\newcommand{\VTCentredRunCentreCosIdx}{134}
+\newcommand{\VTCentredRunCentreCosIdxCI}{[129, 139]}
+\newcommand{\VTCentredRunCentreCosZero}{-0.060}
+\newcommand{\VTCentredRunCentreEucIdx}{146}
+\newcommand{\VTCentredRunCentreEucIdxCI}{[138, 154]}
+\newcommand{\VTCentredRunCentreEucZero}{-0.119}
+\newcommand{\VTCentredRunCentreInter}{+0.034}
+\newcommand{\VTCentredRunCornerCI}{[+0.016, +0.025]}
+\newcommand{\VTCentredRunCornerCINinety}{[+0.017, +0.025]}
+\newcommand{\VTCentredRunCornerCosIdx}{106}
+\newcommand{\VTCentredRunCornerCosIdxCI}{[103, 109]}
+\newcommand{\VTCentredRunCornerCosZero}{-0.071}
+\newcommand{\VTCentredRunCornerEucIdx}{121}
+\newcommand{\VTCentredRunCornerEucIdxCI}{[116, 125]}
+\newcommand{\VTCentredRunCornerEucZero}{-0.121}
+\newcommand{\VTCentredRunCornerInter}{+0.021}
+\newcommand{\VTCentredRunOwnCI}{[-0.004, +0.007]}
+\newcommand{\VTCentredRunOwnCINinety}{[-0.003, +0.006]}
+\newcommand{\VTCentredRunOwnCosIdx}{128}
+\newcommand{\VTCentredRunOwnCosIdxCI}{[125, 132]}
+\newcommand{\VTCentredRunOwnCosZero}{-0.077}
+\newcommand{\VTCentredRunOwnEucIdx}{113}
+\newcommand{\VTCentredRunOwnEucIdxCI}{[109, 116]}
+\newcommand{\VTCentredRunOwnEucZero}{-0.182}
+\newcommand{\VTCentredRunOwnInter}{+0.001}
+\newcommand{\VTCentredRunStatusQuoCI}{[+0.027, +0.042]}
+\newcommand{\VTCentredRunStatusQuoCINinety}{[+0.029, +0.041]}
+\newcommand{\VTCentredRunStatusQuoCosIdx}{134}
+\newcommand{\VTCentredRunStatusQuoCosIdxCI}{[129, 140]}
+\newcommand{\VTCentredRunStatusQuoCosZero}{-0.059}
+\newcommand{\VTCentredRunStatusQuoEucIdx}{147}
+\newcommand{\VTCentredRunStatusQuoEucIdxCI}{[138, 156]}
+\newcommand{\VTCentredRunStatusQuoEucZero}{-0.119}
+\newcommand{\VTCentredRunStatusQuoInter}{+0.035}
+\newcommand{\VTUnitRawCentreCI}{[+0.005, +0.032]}
+\newcommand{\VTUnitRawCentreCINinety}{[+0.007, +0.030]}
+\newcommand{\VTUnitRawCentreCosIdx}{117}
+\newcommand{\VTUnitRawCentreCosIdxCI}{[114, 121]}
+\newcommand{\VTUnitRawCentreCosZero}{-0.034}
+\newcommand{\VTUnitRawCentreEucIdx}{119}
+\newcommand{\VTUnitRawCentreEucIdxCI}{[108, 131]}
+\newcommand{\VTUnitRawCentreEucZero}{-0.130}
+\newcommand{\VTUnitRawCentreInter}{+0.018}
+\newcommand{\VTUnitRawCornerCI}{[+0.017, +0.036]}
+\newcommand{\VTUnitRawCornerCINinety}{[+0.019, +0.034]}
+\newcommand{\VTUnitRawCornerCosIdx}{85}
+\newcommand{\VTUnitRawCornerCosIdxCI}{[82, 88]}
+\newcommand{\VTUnitRawCornerCosZero}{-0.050}
+\newcommand{\VTUnitRawCornerEucIdx}{116}
+\newcommand{\VTUnitRawCornerEucIdxCI}{[108, 124]}
+\newcommand{\VTUnitRawCornerEucZero}{-0.121}
+\newcommand{\VTUnitRawCornerInter}{+0.026}
+\newcommand{\VTUnitRawLevelShiftCI}{[+0.008, +0.029]}
+\newcommand{\VTUnitRawLevelShiftCINinety}{[+0.010, +0.027]}
+\newcommand{\VTUnitRawLevelShiftCosIdx}{103}
+\newcommand{\VTUnitRawLevelShiftCosIdxCI}{[102, 105]}
+\newcommand{\VTUnitRawLevelShiftCosZero}{-0.045}
+\newcommand{\VTUnitRawLevelShiftEucIdx}{116}
+\newcommand{\VTUnitRawLevelShiftEucIdxCI}{[107, 125]}
+\newcommand{\VTUnitRawLevelShiftEucZero}{-0.124}
+\newcommand{\VTUnitRawLevelShiftInter}{+0.018}
+\newcommand{\VTUnitRawOwnCI}{[-0.029, -0.009]}
+\newcommand{\VTUnitRawOwnCINinety}{[-0.028, -0.010]}
+\newcommand{\VTUnitRawOwnCosIdx}{124}
+\newcommand{\VTUnitRawOwnCosIdxCI}{[119, 129]}
+\newcommand{\VTUnitRawOwnCosZero}{-0.036}
+\newcommand{\VTUnitRawOwnEucIdx}{94}
+\newcommand{\VTUnitRawOwnEucIdxCI}{[89, 100]}
+\newcommand{\VTUnitRawOwnEucZero}{-0.184}
+\newcommand{\VTUnitRawOwnInter}{-0.019}
+\newcommand{\VTUnitRawStatusQuoCI}{[+0.006, +0.034]}
+\newcommand{\VTUnitRawStatusQuoCINinety}{[+0.008, +0.031]}
+\newcommand{\VTUnitRawStatusQuoCosIdx}{117}
+\newcommand{\VTUnitRawStatusQuoCosIdxCI}{[114, 121]}
+\newcommand{\VTUnitRawStatusQuoCosZero}{-0.034}
+\newcommand{\VTUnitRawStatusQuoEucIdx}{120}
+\newcommand{\VTUnitRawStatusQuoEucIdxCI}{[109, 133]}
+\newcommand{\VTUnitRawStatusQuoEucZero}{-0.129}
+\newcommand{\VTUnitRawStatusQuoInter}{+0.020}
+\newcommand{\VTUnitRunCentreCI}{[+0.014, +0.027]}
+\newcommand{\VTUnitRunCentreCINinety}{[+0.015, +0.025]}
+\newcommand{\VTUnitRunCentreCosIdx}{153}
+\newcommand{\VTUnitRunCentreCosIdxCI}{[147, 160]}
+\newcommand{\VTUnitRunCentreCosZero}{-0.065}
+\newcommand{\VTUnitRunCentreEucIdx}{146}
+\newcommand{\VTUnitRunCentreEucIdxCI}{[138, 154]}
+\newcommand{\VTUnitRunCentreEucZero}{-0.119}
+\newcommand{\VTUnitRunCentreInter}{+0.020}
+\newcommand{\VTargetEucMax}{147}
+\newcommand{\VTargetEucMin}{113}
+\newcommand{\VTzeroGroupEquiv}{6}
+\newcommand{\VTzeroGroupEquivAng}{3}
+\newcommand{\VTzeroGroupEquivCos}{3}
+\newcommand{\VTzeroGroupGap}{0.87}
+\newcommand{\VTzeroGroupGapAng}{0.85}
+\newcommand{\VTzeroGroupGapCos}{0.87}
+\newcommand{\VTzeroPassEquiv}{6}
+\newcommand{\VTzeroPassEquivAng}{3}
+\newcommand{\VTzeroPassEquivCos}{3}
+\newcommand{\VTzeroPassGap}{0.162}
+\newcommand{\VTzeroPassGapAng}{0.163}
+\newcommand{\VTzeroPassGapCos}{0.162}
+\newcommand{\VUnsettledFive}{44\%}
+\newcommand{\VUnsettledFiveCentred}{45\%}
+\newcommand{\VUnsettledFiveUnit}{43\%}
+\newcommand{\VUnsettledFour}{13\%}
+\newcommand{\VUnsettledFourAll}{14\%}
+\newcommand{\VUnsettledFourCentred}{15\%}
+\newcommand{\VUnsettledFourUnit}{12\%}
+\newcommand{\VUnsettledMaxCell}{100\%}
+\newcommand{\VUnsettledTwo}{26\%}
+\newcommand{\VUnsettledTwoCentred}{27\%}
+\newcommand{\VUnsettledTwoUnit}{26\%}
+\newcommand{\VXCosCosDisp}{+0.19 [+0.18, +0.21]}
+\newcommand{\VXCosCosGroups}{+0.19 [+0.13, +0.25]}
+\newcommand{\VXCosCosRadial}{+0.17 [+0.07, +0.28]}
+\newcommand{\VXCosCosVar}{+1.44 [+1.38, +1.50]}
+\newcommand{\VXCosEucDisp}{+0.23 [+0.21, +0.24]}
+\newcommand{\VXCosEucGroups}{+0.68 [+0.63, +0.73]}
+\newcommand{\VXCosEucRadial}{-1.42 [-1.49, -1.36]}
+\newcommand{\VXCosEucVar}{+0.43 [+0.39, +0.46]}
+\newcommand{\VXEucCosDisp}{+0.08 [+0.07, +0.09]}
+\newcommand{\VXEucCosGroups}{+0.15 [+0.10, +0.20]}
+\newcommand{\VXEucCosRadial}{+0.30 [+0.21, +0.40]}
+\newcommand{\VXEucCosVar}{+1.09 [+1.04, +1.14]}
+\newcommand{\VXRCosCosDisp}{+0.06 [+0.06, +0.07]}
+\newcommand{\VXRCosCosGroups}{-0.12 [-0.17, -0.06]}
+\newcommand{\VXRCosCosRadial}{+0.03 [-0.08, +0.14]}
+\newcommand{\VXRCosCosVar}{+0.72 [+0.67, +0.76]}
+\newcommand{\VXRCosEucDisp}{+0.14 [+0.13, +0.15]}
+\newcommand{\VXRCosEucGroups}{+0.22 [+0.18, +0.26]}
+\newcommand{\VXRCosEucRadial}{-3.08 [-3.23, -2.93]}
+\newcommand{\VXRCosEucVar}{-1.04 [-1.14, -0.95]}

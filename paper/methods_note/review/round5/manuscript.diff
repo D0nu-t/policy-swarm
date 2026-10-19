@@ -1,0 +1,181 @@
+diff --git a/paper/methods_note/main.tex b/paper/methods_note/main.tex
+index 48a32cb..bb0168a 100644
+--- a/paper/methods_note/main.tex
++++ b/paper/methods_note/main.tex
+@@ -56,9 +56,10 @@ Sections~\ref{sec:threshold}--\ref{sec:ruler} take the choices one at a time in
+ \label{sec:related}
+ 
+ \paragraph{Distance in multidimensional BC models.}
+-Most multidimensional BC models use Euclidean distance \citep{lorenz2007}, and comparing confidence regions of different shapes is almost as old: \citet{fortunato2005} tried several shapes for two-dimensional opinions in the Hegselmann--Krause model and found consensus thresholds close to the one-dimensional ones.
+-\citet{lorenz2008} compared the $L_1$ and $L_\infty$ norms after rescaling the threshold so that their confidence regions had equal volume; \citet{huet2008} added rejection when two agents are close on one dimension and far on the other, which changes how the number of clusters grows as the threshold shrinks; angular measures \citep{schweighofer2020}, topic spaces whose topics overlap \citep{baumann2021} and topic-weighted discordances \citep{li2026} have followed.
+-These studies show that the shape of the confidence region matters; our concern is that a comparison of shapes is easily confounded with a comparison of sizes.
++Most multidimensional BC models use Euclidean distance \citep{lorenz2007}, and comparing confidence regions of different shapes is almost as old: \citet{fortunato2005} tried several shapes for two-dimensional opinions in the Hegselmann--Krause model and found consensus thresholds close to the one-dimensional ones, while the arrangement of the clusters that survive followed the shape of the opinion space.
++\citet{lorenz2008} compared the $L_1$ and $L_\infty$ norms after rescaling the threshold so that their confidence regions had equal volume; \citet{huet2008} added rejection when two agents are close on one dimension and far on the other, which changes how the number of clusters grows as the threshold shrinks: a change to the interaction rule, not to the distance, moved a group count, as the update step does in our crossing (Section~\ref{sec:matching}).
++\citet{schweighofer2020} derived multidimensional opinion change from cognitive dissonance and structural balance and found that ideological alignment and polarisation can emerge on their own; \citet{baumann2021} let topics overlap, so that the coordinates of an opinion space are themselves a modelling choice; and \citet{li2026} weighted topics in the discordance itself.
++So the shape of the confidence region matters for some outcomes and not for others; our concern is that a comparison of shapes is easily confounded with a comparison of sizes.
+ \citet{kurahashi2016} showed that adding rare random influences makes clustering robust under relaxed bounded confidence, a reminder that small changes to the dynamics can move the outcomes we compare.
+ \citet{li2026} note that lowering their topic weight at a fixed bound enlarges the region of agreement as well as changing its shape, which is the confound behind our first choice.
+ \citet{flache2017} review social-influence models more widely and call for this kind of systematic comparison.
+@@ -71,7 +72,7 @@ Of the six items in our audit list (Section~\ref{sec:protocol}), the origin audi
+ 
+ \paragraph{Alignment and policy models.}
+ Model docking and replication \citep{axtell1996,wilensky2007} showed that settings that look like implementation details can carry substantive assumptions; our five choices are instances of that problem.
+-For models used to inform policy, \citet{gilbert2018} and \citet{windrum2007} stress that a model's value depends on its assumptions being visible and checked against the domain; the trust target in Section~\ref{sec:case} is one such assumption, and trust in government is itself modelled and calibrated to survey data by \citet{gestefeld2023}, which suggests where evidence on the target could come from.
++For models used to inform policy, \citet{gilbert2018} and \citet{windrum2007} stress that a model's value depends on its assumptions being visible and checked against the domain; the trust target in Section~\ref{sec:case} is one such assumption, and trust in government is itself modelled and calibrated to survey data by \citet{gestefeld2023}, which suggests where evidence on the target could come from; \citet{falcone2023} use survey estimates of trust in institutions to drive acceptance of public-health restrictions in an agent-based model.
+ We describe both models with the ODD protocol \citep{grimm2020}.
+ 
+ \section{Background}
+@@ -117,7 +118,7 @@ Other operations depend on the origin in the same way:
+ \item angular distances, angular update steps and any gate built on them;
+ \item multiplicative shrinkage or scaling of a signal, such as perceived policy scaled by trust;
+ \item decay or forgetting toward zero;
+-\item clipping to a box, when the box is not symmetric about the origin;
++\item clipping to a box after a step that is not equivariant, since how much the clip changes the step depends on where the box sits relative to the origin;
+ \item initial values set to zero, which mean ``neutral'' only if the origin is neutral;
+ \item outcomes that are ratios, whose size depends on where zero is.
+ \end{itemize}
+@@ -173,19 +174,20 @@ In each cell Euclidean distance runs at the threshold that admits a share $c$ of
+ \item[shared:] the same number as Euclidean's threshold;
+ \item[start-matched:] the threshold that gives the same coverage $c$ at the start;
+ \item[run-matched:] the threshold whose \emph{pass rate}, the share of attempted conversations that pass the gate, equals Euclidean's over the first 2{,}000 rounds;
+-\item[early-matched:] the threshold whose pass rate equals Euclidean's over the first 100 rounds, a window that ends before most opinion groups have formed.
++\item[early-matched:] the threshold whose pass rate equals Euclidean's over the first 100 rounds, an early window of the 2{,}000-round run that is fixed in advance rather than set by the outcome.
+ \end{description}
+ Run- and early-matched thresholds were found by bisection (at most 30 steps, tolerance 0.005 in pass rate) on 50 pilot seeds that are not reused.
+-All \VCalTotal\ run-matched calibrations met their tolerance on the pilot seeds (largest error \VCalMaxErr), and the pass rate rose with $\varepsilon$ at every step; on the 100 evaluation seeds the pass-rate gap is equivalent to zero in \VCalEvalEquiv\ of \VCalTotal\ cases, with the largest gap \VCalEvalMax; the \VCalEvalMiss\ others are flagged in Appendix Table~\ref{tab:calibration}.
++All \VCalTotal\ run-matched calibrations met their tolerance on the pilot seeds (largest error \VCalMaxErr), and the pass rate rose with $\varepsilon$ at every step; on the 100 evaluation seeds the pass-rate gap is equivalent to zero in \VCalEvalEquivCos\ cosine and \VCalEvalEquivAng\ angular cells of \VCellsPerGeom\ each, with the largest gap \VCalEvalMax; Appendix Table~\ref{tab:calibration} flags the \VCalEvalMiss\ gaps that are not equivalent and the \VCalEvalBeyondTol\ that exceed the pilot tolerance.
+ All \VEarlyCalTotal\ early-matched calibrations also met their tolerance on the pilot seeds (largest error \VEarlyCalMaxErr).
+ The standard error of a 50-seed mean pass rate has median \VPilotSEMed\ across cells but reaches \VPilotSEMax\ in the noisiest one, so there the pilot tolerance is tighter than the pilot's own precision; the evaluation-seed check is the test that counts, and noisy cells need more pilot seeds.
+ Each cell has 100 seeds, paired across geometries and rules.
+ Euclidean dynamics are unchanged by shifting and rescaling the cube, so its 18 cells are 9 distinct designs, each run in both coordinate systems.
+ 
+-Gaps to the Euclidean run are differences for the pass rate and $\log_2$ ratios for everything else, with paired bootstrap 95\% intervals; cosine and angular are reported separately, each over \VCellsPerGeom\ cells per rule, because Lemma~\ref{lem:monotone} makes them one gate only when start-matched, while their run- and early-matched thresholds are calibrated separately (Appendix Tables~\ref{tab:cells-pass} and~\ref{tab:cells-groups}).
++Gaps to the Euclidean run are differences for the pass rate and the directional dispersion (both are shares in $[0,1]$, and dispersion can be close to zero) and $\log_2$ ratios for everything else, with paired bootstrap 95\% intervals; cosine and angular are reported separately, each over \VCellsPerGeom\ cells per rule, because Lemma~\ref{lem:monotone} makes them one gate only when start-matched, while their run- and early-matched thresholds are calibrated separately (Appendix Tables~\ref{tab:cells-pass} and~\ref{tab:cells-groups}).
+ Summaries across cases are medians of absolute gaps; the signed per-cell gaps are in the appendix.
+-We call a gap \emph{equivalent to zero} when its 90\% interval lies within $\pm 0.02$ for the pass rate or $\pm 0.25$ on the $\log_2$ scale, a two-one-sided-tests criterion \citep{lakens2017}.
++We call a gap \emph{equivalent to zero} when its 90\% interval lies within $\pm 0.02$ for the pass rate and the dispersion or $\pm 0.25$ on the $\log_2$ scale, a two-one-sided-tests criterion \citep{lakens2017}.
+ The pass-rate margin is two percentage points of attempted conversations, about a tenth of the median shared-threshold gap; the $\log_2$ margin is a ratio of $2^{0.25} \approx 1.19$, below the smallest change in the number of groups (one group in five) that a reader would treat as a different outcome.
++The response curves of Figure~\ref{fig:curves} use ten thresholds per geometry, those giving starting coverage 2, 3, 5, 10, 15, 20, 30, 40, 50 and 60\%, with 50 seeds each (seeds 2000--2049, separate from the factorial's) and 2{,}000 rounds; each point is a mean with a band of $\pm 1.96$ standard errors.
+ The primary outcome is the number of opinion groups holding at least 1\% of agents, counted with one ruler for every geometry (Euclidean distance in centred coordinates, radius 5\% of the cube's diagonal) after 2{,}000 rounds.
+ This outcome was chosen after the first review round, which showed that our earlier outcome, the effective number of groups, is close to fixed by the pass rate; we report the effective number as a secondary outcome.
+ The margins and the tests were fixed before the runs of this version were analysed.
+@@ -195,7 +197,7 @@ The margins and the tests were fixed before the runs of this version were analys
+ \begin{figure}[t]
+ \centering
+ \includegraphics[width=\linewidth]{figures/fig2_response_curves.pdf}
+-\caption{Number of opinion groups (at least 1\% of agents, common ruler) against the pass rate, as the threshold varies over ten values giving starting coverage from 2\% to 60\%. One line per geometry; each point is the mean of 50 seeds (seeds 2000--2049, separate from the factorial's) at one of ten thresholds, those giving starting coverage 2, 3, 5, 10, 15, 20, 30, 40, 50 and 60\%; the pass rate is over the 2{,}000 rounds of the run, and the band is the mean $\pm 1.96$ standard errors. Markers: the factorial's runs at 15\% starting coverage (diamond Euclidean, circle start-matched, square run-matched, triangle early-matched). Log scale on the vertical axis.}
++\caption{Number of opinion groups (at least 1\% of agents, common ruler) against the pass rate, as the threshold varies over ten values giving starting coverage from 2\% to 60\%. One line per geometry; each point is the mean of 50 seeds at one threshold (design in Section~\ref{sec:matching}); the pass rate is over the 2{,}000 rounds of the run, and the band is the mean $\pm 1.96$ standard errors. Markers: the factorial's runs at 15\% starting coverage (diamond Euclidean, circle start-matched, square run-matched, triangle early-matched). Log scale on the vertical axis.}
+ \label{fig:curves}
+ \end{figure}
+ 
+@@ -219,14 +221,14 @@ Figure~\ref{fig:curves} shows why no single matching rule settles the question:
+ We therefore treat matching as a choice of estimand: a start- or early-matched comparison includes a geometry's effect on how often agents interact; a run-matched comparison excludes it.
+ 
+ \paragraph{What remains comes partly from the gate, partly from the update step.}
+-We measure the spread of final opinions three ways: their variance, their \emph{radial spread} (the variance of opinion lengths) and their \emph{directional dispersion} (one minus the length of the mean unit opinion vector, 0 when all opinions point the same way).
+-Run-matched, the angular geometries still leave opinions more spread out than Euclidean distance does (median absolute variance gap \VRunVarGapCos\ for cosine and \VRunVarGapAng\ for angular, equivalent in \VRunVarEquivCos\ and \VRunVarEquivAng\ of \VCellsPerGeom\ cells; directional dispersion \VRunDispGapCos\ and \VRunDispGapAng, equivalent in \VRunDispEquivCos\ and \VRunDispEquivAng); the signed variance gap is positive in every cell for both geometries, and their medians under every rule are in Appendix Table~\ref{tab:secondary}.
++We measure the spread of final opinions three ways: their variance, their \emph{radial spread} (the variance of opinion lengths) and their \emph{directional dispersion} (one minus the length of the mean unit opinion vector, 0 when all opinions point the same way). Both are computed in each run's own coordinates, so in the unit cube they measure lengths and directions from the corner, an origin dependence of the kind listed in Section~\ref{sec:background}; we treat them as secondary outcomes for that reason.
++Run-matched, the angular geometries still leave opinions more spread out than Euclidean distance does (median absolute variance gap \VRunVarGapCos\ for cosine and \VRunVarGapAng\ for angular, equivalent in \VRunVarEquivCos\ and \VRunVarEquivAng\ of \VCellsPerGeom\ cells; directional dispersion, as a difference, \VRunDispGapCos\ and \VRunDispGapAng, equivalent in \VRunDispEquivCos\ and \VRunDispEquivAng); the signed variance gap is positive in every cell for both geometries; signed medians under every rule are in Appendix Table~\ref{tab:secondary} and per-cell intervals for the run-matched rule in Appendix Table~\ref{tab:secondary-cells}.
+ Radial spread differs by more (median absolute gap \VRunRadialGapCos\ and \VRunRadialGapAng, equivalent in \VRunRadialEquivCos\ and \VRunRadialEquivAng), but in both directions, so its median signed gap is small.
+ Crossing the gate with the update step separates the two sources.
+ With start-matched gates, averaged over the 18 cells and relative to the pure Euclidean pairing, a Euclidean gate with the cosine step raises the variance of final opinions by \VXEucCosVar\ ($\log_2$, 95\% CI), most of the \VXCosCosVar\ of the pure cosine pairing, while a cosine gate with the Euclidean step raises it by only \VXCosEucVar.
+ The spread of opinion \emph{directions} behaves the other way round: it follows the gate (\VXCosEucDisp\ for the cosine gate with the Euclidean step, against \VXEucCosDisp\ for the reverse).
+ With run-matched cosine gates the variance result holds and is sharper: the cosine gate with the Euclidean step leaves opinions \emph{less} spread than Euclidean distance (\VXRCosEucVar), while the pure cosine pairing raises the spread (\VXRCosCosVar).
+-The directional result does not hold cleanly: the run-matched cosine gate raises the spread of directions with the Euclidean step (\VXRCosEucDisp) but hardly with its own step (\VXRCosCosDisp) (Appendix Tables~\ref{tab:crossing} and~\ref{tab:crossing-run}).
++The directional result does not hold cleanly: the run-matched cosine gate raises the spread of directions with the Euclidean step (\VXRCosEucDisp) but by less than half as much with its own step (\VXRCosCosDisp), and with the Euclidean step it sharply lowers radial spread (\VXRCosEucRadial) (Appendix Tables~\ref{tab:crossing} and~\ref{tab:crossing-run}).
+ So the overall spread is mostly the update step's doing, while the directional fragmentation depends on the gate and the step together; a comparison that changes both at once cannot tell them apart.
+ 
+ \paragraph{Cosine and angular gates are one gate.}
+@@ -253,6 +255,7 @@ Under such rulers, start-matched cosine and angular runs are equivalent in only
+ We call a run \emph{settled} from the first round after which no conversing pair's opinion moves by more than $10^{-4}$, and its convergence time is that round; a later, larger move unsettles it.
+ The tolerance is in opinion coordinates and is not rescaled with the cube, so a unit-cube run, whose moves are half as long, settles earlier than the identical centred run; settled shares are therefore comparable within a space, not between the two.
+ After 500 rounds, \VUnsettledFive\ of Euclidean runs are not settled; after 2{,}000, \VUnsettledTwo; after 4{,}000, \VUnsettledFour.
++The difference between the two spaces is small: \VUnsettledTwoUnit\ of unit-cube and \VUnsettledTwoCentred\ of centred Euclidean runs are unsettled after 2{,}000 rounds, and \VUnsettledFourUnit\ and \VUnsettledFourCentred\ after 4{,}000.
+ Unsettled shares differ widely between cells, up to \VUnsettledMaxCell\ after 2{,}000 rounds (Appendix Table~\ref{tab:settled}).
+ The group gaps barely move over the same range (start-matched: \VHorTzeroFive\ to \VHorTzeroFour; run-matched: \VHorRunFive\ to \VHorRunFour; Figure~\ref{fig:ruler}b), so the remaining geometry effect on group structure is not a transient up to 4{,}000 rounds.
+ A reader can tell this only because the stopping time is reported and a longer run was checked.
+@@ -281,16 +284,16 @@ An internal audit (pre-audit engine: commit \texttt{50a42e5}) found the problem
+ 
+ \subsection{Design}
+ \paragraph{Forward.} In the audited engine we switch three choices independently: \emph{gate space} (the gate and the angular steps act on unit coordinates, measuring angles from the cube's corner, or on centred ones), \emph{threshold} (shared, start-matched, or run-matched), and \emph{policy pull} (gated, applied only after a conversation that passes the gate, as in the draft; or an ungated anchor). Trust shrinks toward the centre of the cube, as in the audited engine. Run-matched cosine thresholds were found by bisection (at most 25 steps, tolerance 0.005) on 10 pilot seeds of runs without shocks at lag 20, separately for each combination of gate space and policy pull; a calibration costs at most about 260 single runs, against 1{,}800 paired runs per combination.
+-\paragraph{Backward.} In the draft's engine we undo the audit's other changes (the cosine step, the random streams, the tightening tick) in all eight combinations, and switch the trust step to centre shrinkage in two of them (with only the tightening tick changed, and with the cosine step and random streams changed).
++\paragraph{Backward.} In the draft's engine we undo the audit's other changes (the cosine step, the random streams, the tightening tick) in all eight combinations, and switch the trust step to centre shrinkage in two of them: with only the tightening tick changed, which isolates the trust step closest to the draft as it ran, and with the cosine step and random streams changed, which isolates it once the other two fixes are in place.
+ \paragraph{Where trust shrinks.} With the draft's gate (shared threshold, gated pull) we cross the \emph{trust target}, the point a low-trust agent's perceived policy is pulled toward, between the cube's corner ($-1$ on every dimension, the draft's origin) and its centre, with the gate space, and add a \emph{level shift} control in which every agent's perceived policy is moved by the same amount, $-(1-\bar\tau)$, the average of the corner's shift.
+ Shrinking toward the corner is shrinking toward the centre plus a shift of $-(1-\tau_i)$ that depends on each agent's trust, so the control separates a change in the mean perceived policy from a change that differs between trusting and distrustful agents.
+ \paragraph{Which target.} We treat the trust target as a parameter and run four, the corner, the centre, the population's mean starting opinion (status quo) and the agent's own current opinion, both in the draft's setting and in the recommended one (centred gate, run-matched threshold recalibrated for each target, anchor pull).
+ We call that design recommended because it removes both of the draft's couplings: the centred gate does not measure angles from a corner, and the anchor pull does not grow with the pass rate.
+-Run-matching is our choice of estimand; the start-matched version gives almost the same interaction (\VFCentredMatchedAnchorInter\ against \VFCentredRunAnchorInter).
++Run-matching is our choice of estimand; the start-matched version gives an equivalent interaction (\VFCentredMatchedAnchorInter\ against \VFCentredRunAnchorInter; paired difference \VRunVsStartDiff, 90\% interval \VRunVsStartCI, within the margin below, though not zero).
+ 
+ Every cell crosses the two geometries with the three lags, with 100 paired seeds.
+ For every cell we report each geometry's lag index with a paired bootstrap 95\% interval, its relative shock effect at lags 0 and 40, and the interaction with a 95\% $t$ interval over seeds.
+-We call an interaction \emph{equivalent to zero} when its 90\% interval lies within $\pm\VInterMargin$, about a third of the interaction in the recommended design, a margin fixed before this analysis.
++We call an interaction \emph{equivalent to zero} when its 90\% interval lies within $\pm\VInterMargin$, about a third of the interaction in the recommended design; we set this margin after the first revision had reported the own-target interval it is used on, so that test should be read as confirmatory of a result already seen, not as a pre-registered one.
+ 
+ \subsection{Results}
+ 
+@@ -366,7 +369,8 @@ We would now report this result with the condition the target sweep attaches to
+ \item \textbf{Report the ruler and the stopping time} (the ruler is new). Count groups with one rule for every geometry, report the share of runs that have not settled, and show that conclusions survive a longer run.
+ \end{enumerate}
+ \end{framed}
+-\noindent Applying the list costs a fraction of the comparison itself: the origin audit and the ruler need a few reruns or a recount of saved states, the response curves about ten thresholds per geometry, and run-matching one bisection per cell, which took \VCalIterMean\ steps on average and cost about \VCalCostShare\ of the main runs' compute in our minimal model.
++\noindent The studies most worth rechecking against the list are those that compared distance measures at one shared threshold or read each geometry against a benchmark rather than testing the comparison.
++Applying the list costs a fraction of the comparison itself: the origin audit and the ruler need a few reruns or a recount of saved states, the response curves about ten thresholds per geometry, and run-matching one bisection per cell, which took \VCalIterMean\ steps on average and cost about \VCalCostShare\ of the main runs' compute in our minimal model.
+ 
+ \section{Limitations}
+ Opinions start uniform and independent; clustered or correlated starting opinions change how coverage depends on the geometry, though not the argument for reporting it.
+@@ -404,7 +408,7 @@ The hidden choices studied here are switches in PolicySwarm's configuration (\te
+ \label{app:policyswarm}
+ \paragraph{Purpose.} To study how a population's views on AI regulation respond to a policy, to media and to shocks; here, how a schedule of shocks changes the final spread of opinions at different enforcement lags.
+ 
+-\paragraph{Entities, state variables and scales.} 120 agents on a Barab\'asi--Albert network ($m=3$). Each agent has a four-dimensional opinion in $[-1,1]^4$ (deployment cap, transparency, enforcement, audit intensity; 0 is neutral), an ideology in $[-1,1]$, a trust $\tau_i \in [0,1]$ and an influence weight that grows with its degree. The policy is a fixed point in the same space, read from a policy text. Runs last 60 ticks.
++\paragraph{Entities, state variables and scales.} 120 agents on a Barab\'asi--Albert network ($m=3$). Each agent has a four-dimensional opinion in $[-1,1]^4$ (deployment cap, transparency, enforcement, audit intensity; 0 is neutral), an ideology in $[-1,1]$, a trust $\tau_i \in [0,1]$ drawn once and fixed for the run, and an influence weight equal to its degree divided by the largest degree in the network. The policy is a fixed point in the same space, $p = (0.5, 0.6, 0.9, 0.9)$, read from a policy text. Runs last 60 ticks. The Euclidean threshold is $\varepsilon = 1.0$ in centred coordinates (0.5 in unit coordinates); the cosine thresholds are 1.0 or 0.5 when shared, 0.399 (centred) or 0.0633 (unit) when start-matched, between 0.922 and 0.938 (centred) or 0.0293 and 0.0352 (unit) when run-matched, and between 0.719 and 0.922 when recalibrated for each trust target.
+ 
+ \paragraph{Process overview and scheduling.} Each tick: (1) at tick 30 the policy tightens (enforcement $+0.3$, audit intensity $+0.2$); (2) shocks, if scheduled; (3) media: each agent moves toward the policy, if its ideology is positive, or toward its opposite, by $0.1\,|\text{ideology}|\,\tau_i$ of the distance; (4) 150 conversation attempts, each from a random agent to a random neighbour: half are blocked by the deployment cap, the rest pass the gate if the two opinions are within $\varepsilon$, and the listener then moves toward the speaker by $\mu = 0.15$ times the speaker's influence, which is halved after the enforcement lag if the speaker violates the policy (first dimension above the policy's threshold); (5) the policy pull: either the anchor, moving every agent $0.004$ of the way to the policy each tick, or the gated pull, $0.05$ of the way after each conversation that passes the gate; (6) the perceived-policy pull: from the enforcement lag on, every agent moves $0.04$ of the way toward its perceived policy, $\tau_i(p + b_i) + \eta$ shrunk toward its trust target.
+ 
+@@ -412,14 +416,14 @@ The hidden choices studied here are switches in PolicySwarm's configuration (\te
+ 
+ \paragraph{Initialisation.} Opinions and ideology uniform, trust Beta(2,\,2).
+ 
+-\paragraph{Submodels.} \emph{Shocks:} at each tick, with probability 0.2, a shock of strength drawn from $[0.1,0.4]$ moves either the network's main hubs or ten random agents that fraction of the way toward the neutral centre. \emph{Perception:} the bias $b_i$ is the agent's ideology times a fixed per-dimension weight; the noise $\eta$ is Gaussian with standard deviation between 0.06 and 0.12 by dimension.
++\paragraph{Submodels.} \emph{Shocks:} at each tick, with probability 0.2, a shock of strength drawn from $[0.1,0.4]$ moves either the network's main hubs or ten random agents that fraction of the way toward the neutral centre. \emph{Perception:} agent $i$ perceives $a_i + \tau_i(p + b_i - a_i) + \eta$, clipped to the cube, where $a_i$ is its trust target (the centre $0$, the corner $(-1,\dots,-1)$, the population's mean starting opinion, or the agent's current opinion; the level-shift control adds $-(1-\bar\tau)$ to the centre version). The bias is $b_i = 2\,\text{ideology}_i\,(-0.3, 0.1, 0.2, 0.15)$, and the noise $\eta$ is Gaussian with standard deviation 0.06 on every dimension.
+ 
+ \section{Calibration, per-cell results and the gate--update crossing}
+ \label{app:tables}
+ 
+ \begin{table}[h]
+ \centering\scriptsize
+-\caption{Run-matched thresholds: the $\varepsilon$ found by bisection (3 significant figures), its pass-rate error against the Euclidean target on the 50 pilot seeds, the number of bisection steps, and the pass-rate gap to Euclidean on the 100 evaluation seeds with a paired bootstrap 95\% interval; $^\dagger$ marks a gap not equivalent to zero ($\pm0.02$).}
++\caption{Run-matched thresholds: the $\varepsilon$ found by bisection (3 significant figures), its pass-rate error against the Euclidean target on the 50 pilot seeds, the number of bisection steps, and the pass-rate gap to Euclidean on the 100 evaluation seeds with a paired bootstrap 95\% interval; $^\dagger$ marks a gap not equivalent to zero ($\pm0.02$) and $^\ddagger$ a gap larger than the pilot tolerance ($0.005$).}
+ \label{tab:calibration}
+ \input{figures/table_calibration.tex}
+ \end{table}
+@@ -447,11 +451,18 @@ The hidden choices studied here are switches in PolicySwarm's configuration (\te
+ 
+ \begin{table}[h]
+ \centering\scriptsize
+-\caption{Secondary outcomes after 2{,}000 rounds under every threshold rule: median signed $\log_2$ gap to Euclidean across the 18 cells, with the number of cells equivalent to zero ($\pm0.25$) in brackets.}
++\caption{Secondary outcomes under every threshold rule, after 2{,}000 rounds (convergence time: the round a run settled, censored at 4{,}000): median signed gap to Euclidean across the 18 cells, a $\log_2$ ratio except for directional dispersion (a difference), with the number of cells equivalent to zero ($\pm0.25$; $\pm0.02$ for dispersion) in parentheses.}
+ \label{tab:secondary}
+ \input{figures/table_secondary.tex}
+ \end{table}
+ 
++\begin{table}[h]
++\centering\scriptsize
++\caption{Run-matched secondary outcomes per cell after 2{,}000 rounds: gap to Euclidean [paired bootstrap 95\% CI], a $\log_2$ ratio except for directional dispersion (a difference); $^{=}$ marks equivalence to zero.}
++\label{tab:secondary-cells}
++\input{figures/table_secondary_cells.tex}
++\end{table}
++
+ \begin{table}[h]
+ \centering\scriptsize
+ \caption{Share of runs not settled after 2{,}000 / 4{,}000 rounds, and median convergence time (rounds, censored at 4{,}000), for Euclidean and the run-matched angular geometries.}
+@@ -461,7 +472,7 @@ The hidden choices studied here are switches in PolicySwarm's configuration (\te
+ 
+ \begin{table}[h]
+ \centering\small
+-\caption{Gate crossed with update step, start-matched gates, after 2{,}000 rounds: mean $\log_2$ ratio to the Euclidean-gate, Euclidean-step run with the same seed, averaged over the 18 cells, with paired bootstrap 95\% intervals.}
++\caption{Gate crossed with update step, start-matched gates, after 2{,}000 rounds: mean gap to the Euclidean-gate, Euclidean-step run with the same seed ($\log_2$ ratio; difference for directional dispersion), averaged over the 18 cells, with paired bootstrap 95\% intervals.}
+ \label{tab:crossing}
+ \input{figures/table_crossing.tex}
+ \end{table}

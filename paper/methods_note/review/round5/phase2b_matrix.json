@@ -1,0 +1,302 @@
+{
+ "phase": "2B",
+ "round": 5,
+ "note": "Simulated review by an AI model; role-separated, not independent. Integration call (Journal-Fit Reviewer). The letter was treated as untrusted persuasion. No letter assertion led to manuscript evidence that changes a committed 2A verdict, so no adjustments are booked and every final_verdict equals phase2a_verdict. The 2A new-issue set (NEW-13..NEW-16) is carried frozen.",
+ "rows": [
+  {
+   "item_id": "R2",
+   "obligation_class": "must_fix",
+   "verified_by": "EIC",
+   "author_triage": "wont_address",
+   "authors_claim": "DOI still deferred. ODD summary now gives every case threshold, influence weight, policy point, bias weights, fixed trust and general perception formula; noise SD corrected to 0.06.",
+   "claim_vs_manuscript": "Partly consistent. App.B now states epsilon, influence weight, p, bias weights, static trust and the Submodels formula, so element (i) is met; but the run-matched and per-target thresholds are given as ranges, not each threshold, and the DOI remains a placeholder. Anchor: text: App.B Entities, 'between 0.719 and 0.922 when recalibrated for each trust target'; text: preamble/Code and data, '[Zenodo DOI to be added]'.",
+   "phase2a_verdict": "PARTIALLY_ADDRESSED",
+   "final_verdict": "PARTIALLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": "Element (ii) unmet: the archive DOI is still printed as '[Zenodo DOI to be added]' (author deferral; refs.bib archive entry unchanged). Element (i) is now met; (iii)-(v) and commit 50a42e5 retained. No made-worse trigger established, but see NEW-13 (perception-noise SD changed from 'between 0.06 and 0.12 by dimension' to '0.06 on every dimension' with no case result changing) and NEW-14 (step 6 still says 'tau_i(p+b_i)+eta shrunk toward its trust target', inconsistent with the new formula). If NEW-13 shows the new specification is wrong, that is a made-worse trigger under the 'specification contradicting the model' clause.",
+   "residual_obligation_class": "must_fix"
+  },
+  {
+   "item_id": "R3",
+   "obligation_class": "should_fix",
+   "verified_by": "EIC",
+   "author_triage": "will_address",
+   "authors_claim": "'Ends before most opinion groups have formed' withdrawn, as no saved checkpoint supports it; the window is now described as early and fixed in advance.",
+   "claim_vs_manuscript": "Consistent. Anchor: text: Sec.4.1 early-matched, 'an early window of the 2{,}000-round run that is fixed in advance rather than set by the outcome'.",
+   "phase2a_verdict": "FULLY_ADDRESSED",
+   "final_verdict": "FULLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": null,
+   "residual_obligation_class": null
+  },
+  {
+   "item_id": "R5",
+   "obligation_class": "should_fix",
+   "verified_by": "EIC",
+   "author_triage": "will_address",
+   "authors_claim": "Huet tied to the note; Schweighofer described from its abstract; contradiction removed: shape matters for some outcomes and not others (Fortunato: thresholds unchanged, cluster arrangement follows the space).",
+   "claim_vs_manuscript": "Consistent with what is claimed; the letter does not claim a tie for Schweighofer, and none exists. Anchor: text: Sec.2, 'derived multidimensional opinion change from cognitive dissonance and structural balance'; text: Sec.2, 'a change to the interaction rule, not to the distance, moved a group count'.",
+   "phase2a_verdict": "PARTIALLY_ADDRESSED",
+   "final_verdict": "PARTIALLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": "Schweighofer 2020 is described (what it did), but no clause says how the note relates to it or what the note adds or does differently. The earlier 'angular measures' link to this note was dropped, so its relevance to a paper on distance measures is now unstated.",
+   "residual_obligation_class": "should_fix"
+  },
+  {
+   "item_id": "R12",
+   "obligation_class": "should_fix",
+   "verified_by": "R1",
+   "author_triage": "will_address",
+   "authors_claim": "A second flag marks the evaluation gaps larger than the pilot tolerance, as well as the non-equivalent ones.",
+   "claim_vs_manuscript": "Consistent (12 double-dagger and 4 dagger flags). The letter is silent on the five cells at exactly +/-0.005 pilot error, which remain unmarked. Anchor: table: App. Table tab:calibration caption, '$^\\ddagger$ a gap larger than the pilot tolerance ($0.005$)'.",
+   "phase2a_verdict": "PARTIALLY_ADDRESSED",
+   "final_verdict": "PARTIALLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": "The third group named by the criterion is still unmarked: the five cells at exactly +/-0.005 pilot error. Centred d=2 c=.15 cosine, centred d=4 c=.30 angular and unit d=8 c=.30 angular carry no marker; the other two are flagged only for their evaluation gap.",
+   "residual_obligation_class": "should_fix"
+  },
+  {
+   "item_id": "R13",
+   "obligation_class": "must_fix",
+   "verified_by": "R1",
+   "author_triage": "will_address",
+   "authors_claim": "New per-cell 95% intervals for every run-matched secondary outcome; '32 of 36' split 16/16; case margin timing disclosed; 'almost the same' replaced by an equivalence result.",
+   "claim_vs_manuscript": "Consistent; each claim is scoped as the manuscript shows. The letter does not claim CIs under the other rules or a justification of the +/-0.02 dispersion margin; both are still missing. Anchor: table: App. Table tab:secondary-cells caption, 'gap to Euclidean [paired bootstrap 95\\% CI]'; text: Sec.5.2, 'we set this margin after the first revision had reported the own-target interval'.",
+   "phase2a_verdict": "PARTIALLY_ADDRESSED",
+   "final_verdict": "PARTIALLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": "(ii) is not fully met. The new +/-0.02 equivalence margin for directional dispersion has no justification: the justification sentence covers only the pass-rate and log2 margins. In Sec.5.2 the start- vs run-matched equivalence result is also printed before the margin it uses ('within the margin below'). (i) is only partly met: per-cell CIs for secondary outcomes exist only for the run-matched rule; under shared, start- and early-matched thresholds, Table tab:secondary still gives medians and equivalence counts without CIs. No made-worse trigger: the new equivalence claim is tested, no pooled count is added and no uncertainty information is removed. The text's counts (variance 5/5, radial 3/3, dispersion 10/10, effective groups 12/11, convergence 7/7) match the per-cell table.",
+   "residual_obligation_class": "should_fix"
+  },
+  {
+   "item_id": "S1",
+   "obligation_class": "should_fix",
+   "verified_by": "R1",
+   "author_triage": "will_address",
+   "authors_claim": "Radial spread added to both crossing tables; the run-matched cosine-gate/Euclidean-step radial result is reported.",
+   "claim_vs_manuscript": "End state consistent, but 'added to both' overstates: tab:crossing already had a radial row (only relabelled from 'radial var' to 'radial spread'); only tab:crossing-run gained rows. Anchor: table: App. Table tab:crossing-run, 'cosine & Euclidean & radial spread & -3.08 [-3.23, -2.93]'.",
+   "phase2a_verdict": "FULLY_ADDRESSED",
+   "final_verdict": "FULLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": null,
+   "residual_obligation_class": null
+  },
+  {
+   "item_id": "S2",
+   "obligation_class": "should_fix",
+   "verified_by": "R3",
+   "author_triage": "will_address",
+   "authors_claim": "Added Falcone 2023 (survey-estimated institutional trust drives acceptance of restrictions); no model found discounts a policy signal by trust as PolicySwarm does; text claims none.",
+   "claim_vs_manuscript": "Consistent: one descriptive clause added; no positioning of the trust-target audit is claimed or present. The 'no such model' statement is a letter assertion, not a rebuttal of the positioning requirement. Anchor: text: Sec.2 Alignment and policy models, 'use survey estimates of trust in institutions to drive acceptance of public-health restrictions'.",
+   "phase2a_verdict": "PARTIALLY_ADDRESSED",
+   "final_verdict": "PARTIALLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": "A policy ABM that uses trust is now cited (citation details verified, external: https://ideas.repec.org/a/taf/tjsmxx/v17y2023i1p105-119.html). The trust-target/origin audit is still not positioned against how trust is modelled there or in Gestefeld & Lorenz (e.g. trust as a multiplier on a signal vs trust as an opinion or as a driver of acceptance); the new clause only describes the paper.",
+   "residual_obligation_class": "should_fix"
+  },
+  {
+   "item_id": "S5",
+   "obligation_class": "should_fix",
+   "verified_by": "EIC",
+   "author_triage": "wont_address",
+   "authors_claim": "Still open: the Zenodo DOI is deferred by the author.",
+   "claim_vs_manuscript": "Consistent. Anchor: text: preamble/Code and data, '\\textbf{[Zenodo DOI to be added]}'.",
+   "phase2a_verdict": "NOT_ADDRESSED",
+   "final_verdict": "NOT_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": null,
+   "residual_obligation_class": null
+  },
+  {
+   "item_id": "S10",
+   "obligation_class": "consider",
+   "verified_by": "R1",
+   "author_triage": "wont_address",
+   "authors_claim": "Lag-20 effects are not added; tables give lags 0 and 40.",
+   "claim_vs_manuscript": "Consistent. Anchor: text: Sec.5.2, 'its relative shock effect at lags 0 and 40'.",
+   "phase2a_verdict": "NOT_ADDRESSED",
+   "final_verdict": "NOT_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": null,
+   "residual_obligation_class": null
+  },
+  {
+   "item_id": "S15",
+   "obligation_class": "consider",
+   "verified_by": "R3",
+   "author_triage": "will_address",
+   "authors_claim": "The clipping entry in the origin box now says why clipping depends on the origin.",
+   "claim_vs_manuscript": "Consistent. Anchor: text: Sec.3 origin box, 'clipping to a box after a step that is not equivariant'.",
+   "phase2a_verdict": "FULLY_ADDRESSED",
+   "final_verdict": "FULLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": null,
+   "residual_obligation_class": null
+  },
+  {
+   "item_id": "C5",
+   "obligation_class": "consider",
+   "verified_by": "R3",
+   "author_triage": "will_address",
+   "authors_claim": "One sentence says which published studies are most worth rechecking against the list.",
+   "claim_vs_manuscript": "Overstated: the sentence names a category (shared-threshold comparisons, benchmark readings), not specific published studies. Anchor: text: Sec.6, 'The studies most worth rechecking against the list are those that compared distance measures at one shared threshold'.",
+   "phase2a_verdict": "PARTIALLY_ADDRESSED",
+   "final_verdict": "PARTIALLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": "Protocol cost is discussed, but 'which published results to revisit' is answered only by a category (shared-threshold comparisons; benchmark readings), with no specific published study named.",
+   "residual_obligation_class": "consider"
+  },
+  {
+   "item_id": "NEW-3",
+   "obligation_class": "should_fix",
+   "verified_by": "R1",
+   "author_triage": "will_address",
+   "authors_claim": "The response-curve design (grid, seeds, rounds, band) is now in the Design section; the Fig.2 caption refers to it instead of repeating it.",
+   "claim_vs_manuscript": "Consistent. Anchor: text: Sec.4.1, 'with 50 seeds each (seeds 2000--2049, separate from the factorial's) and 2{,}000 rounds'.",
+   "phase2a_verdict": "FULLY_ADDRESSED",
+   "final_verdict": "FULLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": null,
+   "residual_obligation_class": null
+  },
+  {
+   "item_id": "NEW-4",
+   "obligation_class": "should_fix",
+   "verified_by": "R1",
+   "author_triage": "will_address",
+   "authors_claim": "Quantified by space: 26%/27% unit/centred unsettled after 2,000 rounds, 12%/15% after 4,000. The effect is small.",
+   "claim_vs_manuscript": "Pooled numbers match numbers.tex; 'the effect is small' holds only for the pools: per cell it reaches 67% vs 55% and 31% vs 22% (Table tab:settled), convergence times are not addressed, and no coding-invariant version is reported. Anchor: text: Sec.4.4, 'The difference between the two spaces is small'; table: App. Table tab:settled, 'centred & 4 & 0.05 & 92\\% / 67\\%' vs 'unit & 4 & 0.05 & 91\\% / 55\\%'.",
+   "phase2a_verdict": "PARTIALLY_ADDRESSED",
+   "final_verdict": "PARTIALLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": "Quantified only as pooled shares by space. No coding-invariant tolerance or coding-invariant version is reported or used, and the pooled 44%/26%/13% and the 14% in Limitations still pool both spaces. 'Small' holds for the pools but not per cell (e.g. d=4, c=5%: 67% vs 55% unsettled at 4,000 rounds in Table tab:settled). Convergence times and the convergence-time gap are not addressed.",
+   "residual_obligation_class": "should_fix"
+  },
+  {
+   "item_id": "NEW-6",
+   "obligation_class": "should_fix",
+   "verified_by": "R1",
+   "author_triage": "will_address",
+   "authors_claim": "The text says what each of the two trust rows isolates.",
+   "claim_vs_manuscript": "Consistent; the letter does not claim the trust-row results are discussed, and they are not (the VCDraftTrust* macros are unused in the text). Anchor: text: Sec.5.2 Backward, 'which isolates the trust step closest to the draft as it ran'.",
+   "phase2a_verdict": "PARTIALLY_ADDRESSED",
+   "final_verdict": "PARTIALLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": "The two trust rows' results (e.g. interaction +0.026, cosine index 110) are still neither reported nor discussed in the text; they appear only in Fig.4, and the matching numbers.tex macros are unused in the text.",
+   "residual_obligation_class": "should_fix"
+  },
+  {
+   "item_id": "NEW-7",
+   "obligation_class": "should_fix",
+   "verified_by": "R1",
+   "author_triage": "will_address",
+   "authors_claim": "'Ends before most opinion groups have formed' withdrawn (earliest checkpoint is round 500); window described as early and fixed in advance.",
+   "claim_vs_manuscript": "Consistent. Anchor: text: Sec.4.1, 'fixed in advance rather than set by the outcome'.",
+   "phase2a_verdict": "FULLY_ADDRESSED",
+   "final_verdict": "FULLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": null,
+   "residual_obligation_class": null
+  },
+  {
+   "item_id": "NEW-10",
+   "obligation_class": "should_fix",
+   "verified_by": "R1",
+   "author_triage": "will_address",
+   "authors_claim": "Dispersion now compared as a difference with the +/-0.02 margin everywhere: text, crossing tables, secondary tables. Results change scale, not direction; crossing claims rechecked.",
+   "claim_vs_manuscript": "Values are differences everywhere and signs are unchanged, but 'everywhere' overstates: tab:crossing-run's header still reads 'log$_2$ gap [95\\% CI]' over the dispersion difference rows (frozen NEW-15). Anchor: table: App. Table tab:crossing-run header, 'log$_2$ gap [95\\% CI]'.",
+   "phase2a_verdict": "FULLY_ADDRESSED",
+   "final_verdict": "FULLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": null,
+   "residual_obligation_class": null
+  },
+  {
+   "item_id": "NEW-11",
+   "obligation_class": "should_fix",
+   "verified_by": "R1",
+   "author_triage": "will_address",
+   "authors_claim": "Radial spread and dispersion stated as computed in each run's own coordinates (from the corner in the unit cube), hence secondary; tables use one name per measure.",
+   "claim_vs_manuscript": "Consistent. Anchor: text: Sec.4.2, 'Both are computed in each run's own coordinates'; table: App. Table tab:crossing, 'radial spread' and 'directional dispersion' row labels.",
+   "phase2a_verdict": "FULLY_ADDRESSED",
+   "final_verdict": "FULLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": null,
+   "residual_obligation_class": null
+  },
+  {
+   "item_id": "NEW-12",
+   "obligation_class": "should_fix",
+   "verified_by": "R1",
+   "author_triage": "will_address",
+   "authors_claim": "tab:secondary: parentheses, convergence time censored at 4,000, dispersion marked as a difference; duplicated grid removed from the Fig.2 caption.",
+   "claim_vs_manuscript": "Consistent for the named surfaces. Anchor: table: App. Table tab:secondary caption, 'censored at 4{,}000' and 'in parentheses'; figure: Fig.2 caption, 'each point is the mean of 50 seeds at one threshold'.",
+   "phase2a_verdict": "FULLY_ADDRESSED",
+   "final_verdict": "FULLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": null,
+   "residual_obligation_class": null
+  }
+ ],
+ "adjustments": [],
+ "letter_overstatements": [
+  {
+   "item_id": "R2",
+   "claim": "The PolicySwarm ODD summary now gives every case threshold (Euclidean and cosine, all rules, all trust targets)",
+   "anchor": "text: App.B Entities, 'between 0.922 and 0.938 (centred) or 0.0293 and 0.0352 (unit) when run-matched, and between 0.719 and 0.922 when recalibrated for each trust target'",
+   "why": "Run-matched and per-target thresholds are given as ranges, not each threshold. No verdict effect: 2A already judged element (i) met, and R2 stays partial on the DOI."
+  },
+  {
+   "item_id": "S1",
+   "claim": "Radial spread added to both crossing tables.",
+   "anchor": "table: App. Table tab:crossing (original), 'cosine & cosine & radial var & +0.17 [+0.07, +0.28]'",
+   "why": "The start-matched table already had a radial row and was only relabelled; only tab:crossing-run gained radial rows. No verdict effect."
+  },
+  {
+   "item_id": "NEW-4",
+   "claim": "The effect is small.",
+   "anchor": "table: App. Table tab:settled, 'centred & 4 & 0.05 & 92\\% / 67\\%' vs 'unit & 4 & 0.05 & 91\\% / 55\\%'",
+   "why": "True for the pooled shares only; per-cell differences reach 12 points, and convergence times (e.g. 523 vs 468 rounds) are not addressed."
+  },
+  {
+   "item_id": "NEW-10",
+   "claim": "compared as a difference with the pass-rate margin (±0.02) everywhere: text, crossing tables and the secondary tables",
+   "anchor": "table: App. Table tab:crossing-run header, 'log$_2$ gap [95\\% CI]'",
+   "why": "tab:crossing-run still labels its dispersion difference rows as a log2 gap (frozen NEW-15). No verdict effect on NEW-10."
+  },
+  {
+   "item_id": "C5",
+   "claim": "one sentence says which published studies are most worth rechecking against the list",
+   "anchor": "text: Sec.6, 'those that compared distance measures at one shared threshold or read each geometry against a benchmark'",
+   "why": "Names a category of studies, not any specific published study."
+  }
+ ],
+ "letter_claims_verified_accurate": 26,
+ "letter_claims_total": 31,
+ "post_letter_observations": [
+  "NEW-13 (frozen): the letter says the noise SD was corrected to 0.06 on every dimension because the earlier '0.06-0.12' text 'does not hold for this policy'. This explanation exists only in the letter: the manuscript has no note of the correction, and the claim cannot be checked against code from the review inputs. If it is accurate, NEW-13 is a correction rather than a regression. The author should confirm it against the code and say so in App.B.",
+  "NEW-14 (frozen): the letter's R2 entry presents the general perception formula as complete but does not mention that App.B process step (6) still gives the inconsistent 'tau_i(p + b_i) + eta shrunk toward its trust target'.",
+  "NEW-16 (frozen): the letter's NEW-12 entry does not mention the new tab:secondary-cells caption, which repeats the 'after 2,000 rounds' wording for convergence time and omits the margins behind its '=' marker.",
+  "S2: the letter's statement that no model discounts a policy signal by trust exactly as PolicySwarm does is not a rebuttal of the positioning requirement. The audit can still be contrasted with trust as an opinion (Gestefeld & Lorenz) and trust as a driver of acceptance (Falcone & Sapienza).",
+  "NS-1 check: the letter does not falsely claim any of the six gaps listed by 2A (R12 five pilot cells, R13 dispersion-margin justification or all-rule CIs, S2 positioning, NEW-4 coding-invariant version, NEW-6 trust-row discussion, R5 Schweighofer tie). It leaves them unmentioned rather than misrepresenting them.",
+  "The letter's 'Corrections to the round-4 letter' section (R13, R11, R5) checks out against the manuscript and corrects the round-4 letter's overstatements in good faith.",
+  "The letter's anchor check ('Every anchor is checked by check_response.py') shows only that the anchors exist, not that the cited text meets the criteria."
+ ],
+ "verdict_counts_final": {
+  "must_fix": {
+   "PARTIALLY_ADDRESSED": 2
+  },
+  "should_fix": {
+   "FULLY_ADDRESSED": 7,
+   "PARTIALLY_ADDRESSED": 5,
+   "NOT_ADDRESSED": 1
+  },
+  "consider": {
+   "NOT_ADDRESSED": 1,
+   "FULLY_ADDRESSED": 1,
+   "PARTIALLY_ADDRESSED": 1
+  }
+ },
+ "should_fix_addressed_rate": "12/13 = 92.3%",
+ "end_marker": "[MATRIX-COMMITTED]"
+}

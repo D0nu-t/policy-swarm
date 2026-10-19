@@ -411,6 +411,10 @@ def revision():
         for cp in (500, 2000, 4000):
             sub = euc[(euc.space == space) & (euc.checkpoint == cp)]
             numbers[f"VUnsettled{words[cp]}{stag}"] = pct(1 - sub.settled.mean())
+    for cp in (2000, 4000):
+        w = euc[euc.checkpoint == cp].pivot_table(index=["d", "target"], columns="space", values="settled",
+                                                   aggfunc=lambda x: 1 - x.mean())
+        numbers[f"VSettledCellGap{words[cp]}"] = f"{100 * (w.unit - w.centred).abs().max():.0f}"
     for mode, tag in (("t0", "Tzero"), ("run", "Run")):
         h = horizon[(horizon["mode"] == mode) & (horizon.metric == "cosine")].set_index("checkpoint")
         for cp in (500, 4000):
@@ -439,7 +443,8 @@ def revision():
           [[r.space, r.d, f"{r.target:.2f}", LABELS[r.metric], f"{r.eps:#.3g}", f"{r.error:+.3f}",
             int(r.iterations), fmt_ci(ev.loc[(r.space, r.d, r.target, r.metric)], 3)
             + ("" if ev.loc[(r.space, r.d, r.target, r.metric)].equivalent else "$^{\\dagger}$")
-            + ("$^{\\ddagger}$" if abs(ev.loc[(r.space, r.d, r.target, r.metric)]["mean"]) > 0.005 else "")]
+            + ("$^{\\ddagger}$" if abs(ev.loc[(r.space, r.d, r.target, r.metric)]["mean"]) > 0.005 else "")
+            + ("$^{\\S}$" if abs(r.error) >= 0.0045 else "")]
            for r in cal.itertuples()], "lrrlrrrr")
     t = pd.read_csv(RESULTS / "minimal_thresholds_v2.csv")
     early = t[t["mode"] == "early"]
@@ -448,6 +453,7 @@ def revision():
     numbers["VEarlyCalMaxErr"] = f"{early['error'].abs().max():.3f}"
     numbers["VCalEvalMiss"] = str(int((~ev.equivalent.astype(bool)).sum()))
     numbers["VCalEvalBeyondTol"] = str(int((ev["mean"].abs() > 0.005).sum()))
+    numbers["VCalAtTol"] = str(int((cal["error"].abs() >= 0.0045).sum()))
     for geom, gtag in GEOM_TAGS:
         e = ev.xs(geom, level="metric")
         numbers[f"VCalEvalEquiv{gtag}"] = str(int(e.equivalent.sum()))
@@ -480,7 +486,7 @@ def revision():
             for o, otag in (("variance", "Var"), ("radial_var", "Radial"), ("dispersion", "Disp"),
                             ("groups_common", "Groups")):
                 numbers[f"VXR{tag}{otag}"] = fmt_ci(xr[(xr.gate == g) & (xr.step == st) & (xr.outcome == o)].iloc[0])
-        table("table_crossing_run.tex", ["gate", "update", "outcome", "log$_2$ gap [95\\% CI]"],
+        table("table_crossing_run.tex", ["gate", "update", "outcome", "gap [95\\% CI]"],
               [[LABELS[r.gate], LABELS[r.step], OUTCOME_LABELS[r.outcome], fmt_ci(r._asdict())]
                for r in xr[xr.outcome.isin(["variance", "radial_var", "dispersion", "groups_common"])].itertuples()],
               "lllr")
@@ -513,6 +519,9 @@ def revision():
         "Draft": ("backward", "pre-audit fixes: cos=0 rng=0 split=30 trust_centre=0"),
         "DraftFixed": ("backward", "pre-audit fixes: cos=1 rng=1 split=40 trust_centre=0"),
         "DraftTrust": ("backward", "pre-audit fixes: cos=0 rng=0 split=40 trust_centre=1"),
+        "DraftSplit": ("backward", "pre-audit fixes: cos=0 rng=0 split=40 trust_centre=0"),
+        "DraftCosRng": ("backward", "pre-audit fixes: cos=1 rng=1 split=30 trust_centre=0"),
+        "DraftCosRngTrust": ("backward", "pre-audit fixes: cos=1 rng=1 split=30 trust_centre=1"),
         "Recommended": ("forward", "centred/run/anchor/trust:centre"),
         "UnitShared": ("forward", "unit/raw/gated/trust:centre"),
         "UnitRunGated": ("forward", "unit/run/gated/trust:centre"),
