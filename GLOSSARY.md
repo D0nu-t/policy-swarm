@@ -66,7 +66,10 @@ The point a low-trust agent's perceived policy is pulled toward (centre, corner,
 _Avoid_: Trust anchor, shrinkage target, origin
 
 **Policy pull**:
-The move of each agent toward its perceived policy; gated (only after a conversation that passes the gate) or anchor (every agent, every tick).
+The move of each agent toward the policy itself; gated (only after a conversation that passes the gate) or anchor (every agent, every tick).
+
+**Perceived-policy pull**:
+From the enforcement lag on, the move of each agent toward its perceived policy.
 
 **Level shift**:
 The control in which every agent's perceived policy is moved by the same amount, the average shift the corner trust target would give.
