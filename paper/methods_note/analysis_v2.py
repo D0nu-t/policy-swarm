@@ -30,7 +30,9 @@ RESULTS = Path(__file__).parent / "results"
 CELL = ["space", "d", "target"]
 B = 2000
 BOOT_SEED = 20261016
-MARGIN = {"pass_rate": 0.02}
+MARGIN = {"pass_rate": 0.02, "dispersion": 0.02}
+# Shares on [0, 1] that can be near zero are compared as differences, not log ratios.
+DIFFERENCE_OUTCOMES = ("pass_rate", "dispersion")
 DEFAULT_MARGIN = 0.25
 PRIMARY = "groups_common"
 CHECKPOINT = 2000
@@ -41,7 +43,7 @@ RULERS = ["clusters_r0.01", "clusters_r0.05", "clusters", "clusters_r0.2", "grou
 
 def _diff(a, b, col):
     a, b = np.asarray(a, float), np.asarray(b, float)
-    if col == "pass_rate":
+    if col in DIFFERENCE_OUTCOMES:
         return a - b
     return np.log2(np.clip(a, 1e-9, None) / np.clip(b, 1e-9, None))
 
@@ -198,6 +200,28 @@ def _interaction_ci90(g):
          - (w[("euclidean", 40)] - w[("euclidean", 0)])).dropna().to_numpy()
     half = stats.t.ppf(0.95, len(c) - 1) * c.std(ddof=1) / np.sqrt(len(c))
     return float(c.mean() - half), float(c.mean() + half)
+
+
+def interaction_difference(cell_a: str, cell_b: str):
+    """Paired per-seed difference between the interactions of two case cells that
+    share seeds (mean, 90% t interval, equivalence within INTERACTION_MARGIN)."""
+    from scipy import stats
+    f = pd.concat([pd.read_csv(x) for x in sorted(RESULTS.glob("policyswarm_runs*.csv"))], ignore_index=True)
+    f = _rel(f)
+    if "trust_anchor" not in f.columns:
+        f["trust_anchor"] = "centre"
+    f["trust_anchor"] = f["trust_anchor"].fillna("centre")
+    f = f.drop_duplicates(["gate_space", "eps_mode", "policy_pull", "trust_anchor", "geometry", "lag", "seed"])
+    f["cell"] = f.gate_space + "/" + f.eps_mode + "/" + f.policy_pull + "/trust:" + f.trust_anchor
+
+    def per_seed(cell):
+        w = f[f.cell == cell].pivot_table(index="seed", columns=["geometry", "lag"], values="rel_delta")
+        return (w[("cosine", 40)] - w[("cosine", 0)]) - (w[("euclidean", 40)] - w[("euclidean", 0)])
+
+    d = (per_seed(cell_a) - per_seed(cell_b)).dropna().to_numpy()
+    half = stats.t.ppf(0.95, len(d) - 1) * d.std(ddof=1) / np.sqrt(len(d))
+    lo, hi = float(d.mean() - half), float(d.mean() + half)
+    return float(d.mean()), lo, hi, bool(-INTERACTION_MARGIN < lo and hi < INTERACTION_MARGIN)
 
 
 def case_cells() -> pd.DataFrame:

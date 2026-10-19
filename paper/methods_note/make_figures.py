@@ -133,6 +133,11 @@ MODE_TEXT = {"raw": "shared", "t0": "start-matched", "run": "run-matched", "earl
 MODE_TAGS = (("raw", "Raw"), ("t0", "Tzero"), ("run", "Run"), ("early", "Early"))
 
 
+OUTCOME_LABELS = {"variance": "variance", "radial_var": "radial spread", "dispersion": "directional dispersion",
+                  "groups_common": "groups (common ruler)", "eff_groups_common": "effective groups",
+                  "converged_at": "convergence time", "pass_rate": "pass rate"}
+
+
 def fmt_ci(st, digits=2):
     return f"{st['mean']:+.{digits}f} [{st['lo95']:+.{digits}f}, {st['hi95']:+.{digits}f}]"
 
@@ -295,6 +300,21 @@ def secondary_table(gaps: pd.DataFrame):
           "ll" + "r" * len(modes))
 
 
+def secondary_cells_table(gaps: pd.DataFrame):
+    """Appendix: per-cell run-matched secondary outcomes with 95% CIs."""
+    cols = ["variance", "radial_var", "dispersion", "eff_groups_common", "converged_at"]
+    g = gaps[(gaps["mode"] == "run") & gaps.outcome.isin(cols)].set_index(a2.CELL + ["metric", "outcome"])
+    rows = []
+    for (space, d, target, metric), _ in g.groupby(level=[0, 1, 2, 3]):
+        row = [space, d, f"{target:.2f}", LABELS[metric]]
+        for o in cols:
+            st = g.loc[(space, d, target, metric, o)]
+            row.append(fmt_ci(st, 2) + ("$^{=}$" if st.equivalent else ""))
+        rows.append(row)
+    table("table_secondary_cells.tex", ["space", "$d$", "cov.", "geometry"] + [OUTCOME_LABELS[o] for o in cols],
+          rows, "lrrl" + "r" * len(cols))
+
+
 def settled_table():
     """Appendix: share of runs not settled after 2,000 and 4,000 rounds, and
     median convergence time (censored at 4,000 rounds)."""
@@ -385,6 +405,12 @@ def revision():
     words = {500: "Five", 1000: "One", 2000: "Two", 4000: "Four"}      # macro names: letters only
     for cp in (500, 2000, 4000):
         numbers[f"VUnsettled{words[cp]}"] = pct(ref.get(cp, float("nan")))
+    allr = pd.read_csv(RESULTS / "minimal_runs_v2.csv")
+    euc = allr[allr.metric == "euclidean"]
+    for space, stag in (("unit", "Unit"), ("centred", "Centred")):
+        for cp in (500, 2000, 4000):
+            sub = euc[(euc.space == space) & (euc.checkpoint == cp)]
+            numbers[f"VUnsettled{words[cp]}{stag}"] = pct(1 - sub.settled.mean())
     for mode, tag in (("t0", "Tzero"), ("run", "Run")):
         h = horizon[(horizon["mode"] == mode) & (horizon.metric == "cosine")].set_index("checkpoint")
         for cp in (500, 4000):
@@ -412,7 +438,8 @@ def revision():
                                     "iter.", "evaluation gap [95\\% CI]"],
           [[r.space, r.d, f"{r.target:.2f}", LABELS[r.metric], f"{r.eps:#.3g}", f"{r.error:+.3f}",
             int(r.iterations), fmt_ci(ev.loc[(r.space, r.d, r.target, r.metric)], 3)
-            + ("" if ev.loc[(r.space, r.d, r.target, r.metric)].equivalent else "$^{\\dagger}$")]
+            + ("" if ev.loc[(r.space, r.d, r.target, r.metric)].equivalent else "$^{\\dagger}$")
+            + ("$^{\\ddagger}$" if abs(ev.loc[(r.space, r.d, r.target, r.metric)]["mean"]) > 0.005 else "")]
            for r in cal.itertuples()], "lrrlrrrr")
     t = pd.read_csv(RESULTS / "minimal_thresholds_v2.csv")
     early = t[t["mode"] == "early"]
@@ -420,6 +447,11 @@ def revision():
     numbers["VEarlyCalMiss"] = str(int((~early.within_tol.astype(bool)).sum()))
     numbers["VEarlyCalMaxErr"] = f"{early['error'].abs().max():.3f}"
     numbers["VCalEvalMiss"] = str(int((~ev.equivalent.astype(bool)).sum()))
+    numbers["VCalEvalBeyondTol"] = str(int((ev["mean"].abs() > 0.005).sum()))
+    for geom, gtag in GEOM_TAGS:
+        e = ev.xs(geom, level="metric")
+        numbers[f"VCalEvalEquiv{gtag}"] = str(int(e.equivalent.sum()))
+    secondary_cells_table(gaps)
     secondary_table(gaps)
     cells_tables(gaps)
     settled_table()
@@ -436,8 +468,8 @@ def revision():
         for o, otag in (("variance", "Var"), ("radial_var", "Radial"), ("dispersion", "Disp"),
                         ("groups_common", "Groups")):
             numbers[f"VX{tag}{otag}"] = fmt_ci(pick(g, s, o))
-    table("table_crossing.tex", ["gate", "update", "outcome", "log$_2$ gap to Euclidean/Euclidean [95\\% CI]"],
-          [[LABELS[r.gate], LABELS[r.step], r.outcome.replace("_", " "), fmt_ci(r._asdict())]
+    table("table_crossing.tex", ["gate", "update", "outcome", "gap to Euclidean/Euclidean [95\\% CI]"],
+          [[LABELS[r.gate], LABELS[r.step], OUTCOME_LABELS[r.outcome], fmt_ci(r._asdict())]
            for r in cross[cross.outcome.isin(["variance", "dispersion", "radial_var", "groups_common"])].itertuples()],
           "lllr")
 
@@ -445,11 +477,12 @@ def revision():
         xr = a2.crossing_table("minimal_crossing_run_v2.csv")
         xr.to_csv(RESULTS / "crossing_run_v2.csv", index=False)
         for g, st, tag in (("cosine", "cosine", "CosCos"), ("cosine", "euclidean", "CosEuc")):
-            for o, otag in (("variance", "Var"), ("dispersion", "Disp"), ("groups_common", "Groups")):
+            for o, otag in (("variance", "Var"), ("radial_var", "Radial"), ("dispersion", "Disp"),
+                            ("groups_common", "Groups")):
                 numbers[f"VXR{tag}{otag}"] = fmt_ci(xr[(xr.gate == g) & (xr.step == st) & (xr.outcome == o)].iloc[0])
         table("table_crossing_run.tex", ["gate", "update", "outcome", "log$_2$ gap [95\\% CI]"],
-              [[LABELS[r.gate], LABELS[r.step], r.outcome.replace("_", " "), fmt_ci(r._asdict())]
-               for r in xr[xr.outcome.isin(["variance", "dispersion", "groups_common"])].itertuples()],
+              [[LABELS[r.gate], LABELS[r.step], OUTCOME_LABELS[r.outcome], fmt_ci(r._asdict())]
+               for r in xr[xr.outcome.isin(["variance", "radial_var", "dispersion", "groups_common"])].itertuples()],
               "lllr")
 
     if have("minimal_curves_v2.csv"):
@@ -466,6 +499,11 @@ def revision():
     numbers["VCaseEquivalent"] = str(int((null & cells.equivalent).sum()))
     numbers["VCaseInconclusive"] = str(int((null & ~cells.equivalent).sum()))
     numbers["VInterMargin"] = f"{a2.INTERACTION_MARGIN:.2f}"
+    dm, dlo, dhi, deq = a2.interaction_difference("centred/run/anchor/trust:centre",
+                                                  "centred/matched/anchor/trust:centre")
+    numbers["VRunVsStartDiff"] = f"{dm:+.3f}"
+    numbers["VRunVsStartCI"] = f"[{dlo:+.3f}, {dhi:+.3f}]"
+    numbers["VRunVsStartEquiv"] = "equivalent" if deq else "not equivalent"
 
     def cell(source, text):
         r = cells[(cells.source == source) & (cells.cell == text)]

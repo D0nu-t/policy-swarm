@@ -1,0 +1,371 @@
+{
+ "phase": "2B",
+ "round": 4,
+ "note": "Simulated review by an AI model (Journal-Fit Reviewer / EIC integration call); role-separated, not independent. RESPONSE.md treated as untrusted author persuasion. No letter pointer located manuscript evidence meeting a Phase-1 operationalization beyond what 2A recorded, no rebuttal was offered, and no scope misreading was revealed, so no adjustment is booked and every final verdict equals its 2A verdict. The new-issue set (NEW-10..NEW-12) stays frozen in phase2a_verdicts.json and is not restated here.",
+ "rows": [
+  {
+   "item_id": "R1",
+   "obligation_class": "should_fix",
+   "verified_by": "EIC",
+   "author_triage": "will_address",
+   "authors_claim": "Uniform independent starts now attributed to the original models (deffuant2000, hegselmann2002).",
+   "claim_vs_manuscript": "Accurate. text: Sec.3 para 1, 'For opinions drawn independently and uniformly, as in the original BC models' with both citations; no prevalence claim remains.",
+   "phase2a_verdict": "FULLY_ADDRESSED",
+   "final_verdict": "FULLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": null,
+   "residual_obligation_class": null
+  },
+  {
+   "item_id": "R2",
+   "obligation_class": "must_fix",
+   "verified_by": "EIC",
+   "author_triage": "wont_address",
+   "authors_claim": "—",
+   "claim_vs_manuscript": "Letter lists R2 under 'Still open ... Deferred by the author'; accurate. text: Code and data, '[Zenodo DOI to be added]' unchanged. The letter makes no claim about the Appendix B parameter gaps.",
+   "phase2a_verdict": "PARTIALLY_ADDRESSED",
+   "final_verdict": "PARTIALLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": "Element (ii) unmet: the DOI is still printed as '[Zenodo DOI to be added]' and refs.bib still says 'DOI to be added on archiving' (an author deferral leaves (ii) unmet). Element (i) still incomplete: Appendix B does not give the case's shared epsilon or the start/run-matched cosine thresholds, the influence-weight function (only 'grows with its degree'), the per-dimension bias weights (only 'a fixed per-dimension weight'), whether trust is static, or the general perception formula for a non-origin trust target. Elements (iii)-(v) and the draft-engine commit 50a42e5 are retained. No made-worse trigger.",
+   "residual_obligation_class": "must_fix"
+  },
+  {
+   "item_id": "R3",
+   "obligation_class": "should_fix",
+   "verified_by": "EIC",
+   "author_triage": "will_address",
+   "authors_claim": "New appendix table of five secondary outcomes under all four rules per geometry; paragraph justifies 'recommended' design; start-matched +0.032 against run-matched +0.034.",
+   "claim_vs_manuscript": "Accurate as far as it goes. table: tab:secondary has the five outcomes x four rules x two geometries; text: Sec.5.2 'Which target', 'removes both of the draft's couplings' and '(+0.032 against +0.034)'. The letter is silent on element (c): text: Sec.4.1 'a window that ends before most opinion groups have formed' is unchanged.",
+   "phase2a_verdict": "PARTIALLY_ADDRESSED",
+   "final_verdict": "PARTIALLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": "(c) unmet: Sec.4.1 still asserts that the first 100 rounds form 'a window that ends before most opinion groups have formed' with no supporting numbers (e.g. share of eventual groups formed by round 100), and it is not removed or qualified. (a) and (b) are met; on (b) the justification explains the centred gate and anchor pull and calls run-matching 'our choice of estimand' backed by a near-identical start-matched interaction, which is accepted, though 'couplings' is not defined elsewhere.",
+   "residual_obligation_class": "should_fix"
+  },
+  {
+   "item_id": "R5",
+   "obligation_class": "should_fix",
+   "verified_by": "EIC",
+   "author_triage": "will_address",
+   "authors_claim": "Fortunato described as comparing confidence-region shapes; Huet and Kurahashi described by what they show, paragraph says how they bear on this note; checked against abstracts.",
+   "claim_vs_manuscript": "Partly accurate. text: Sec.2 para 1, the Fortunato sentence matches its abstract and Kurahashi has a tying sentence; but Huet gets no tie beyond 'These studies show that the shape of the confidence region matters', which contradicts the Fortunato finding just reported. Overstated (see letter_overstatements).",
+   "phase2a_verdict": "PARTIALLY_ADDRESSED",
+   "final_verdict": "PARTIALLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": "(a) is met for the Fortunato sentence itself, which matches its abstract (external: https://arxiv.org/abs/physics/0504017: thresholds coincide with or are very close to their one-dimensional counterparts). (b) is unmet for Schweighofer 2020 and Baumann 2021, which are still named only in a list clause, and Huet 2008 gets a description but no statement of how the note relates to it beyond the collective sentence. Also, the new collective sentence 'These studies show that the shape of the confidence region matters' contradicts Fortunato's finding as the previous sentence reports it (thresholds close to the 1-D ones, i.e. shape mattered little). This is a peripheral mis-description; it should be qualified.",
+   "residual_obligation_class": "should_fix"
+  },
+  {
+   "item_id": "R6",
+   "obligation_class": "should_fix",
+   "verified_by": "R2",
+   "author_triage": "will_address",
+   "authors_claim": "Audit item 4 marked 'a known identity, stated here as a lemma'.",
+   "claim_vs_manuscript": "Accurate. text: Sec.6 box item 4, 'Check for monotone equivalence (a known identity, stated here as a lemma)'.",
+   "phase2a_verdict": "FULLY_ADDRESSED",
+   "final_verdict": "FULLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": null,
+   "residual_obligation_class": null
+  },
+  {
+   "item_id": "R11",
+   "obligation_class": "should_fix",
+   "verified_by": "R1",
+   "author_triage": "will_address",
+   "authors_claim": "Radial spread and directional dispersion defined; run-matched radial gap reported (1.48, 1.49), going in both directions (22 cells positive, 14 negative).",
+   "claim_vs_manuscript": "Definitions and gaps accurate: text: Sec.4.2 'What remains', 'radial spread (the variance of opinion lengths)' and 'median absolute gap 1.48 and 1.49 ... but in both directions'. The '22 positive, 14 negative' counts appear nowhere in the manuscript (no per-cell radial table) and pool 36 cases. Overstated (see letter_overstatements).",
+   "phase2a_verdict": "FULLY_ADDRESSED",
+   "final_verdict": "FULLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": null,
+   "residual_obligation_class": null
+  },
+  {
+   "item_id": "R12",
+   "obligation_class": "should_fix",
+   "verified_by": "R1",
+   "author_triage": "will_address",
+   "authors_claim": "The 4 calibrations not equivalent on evaluation seeds are flagged in the table; audit item 3 gives pilot-size guidance.",
+   "claim_vs_manuscript": "Accurate. table: tab:calibration, four rows carry the dagger; text: Sec.6 box item 3, 'use enough pilot seeds that the standard error of the pilot pass rate is below the tolerance'. The letter does not claim the +-0.005 boundary cells are flagged; they are not.",
+   "phase2a_verdict": "PARTIALLY_ADDRESSED",
+   "final_verdict": "PARTIALLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": "(b) is met. (a) is only partly met: the four non-equivalent cases are flagged, but the five cells at exactly +-0.005 pilot error (centred d=2 c=.15 cosine, centred d=2 c=.30 angular, centred d=4 c=.30 angular, centred d=8 c=.05 cosine, unit d=8 c=.30 angular) and the many cells whose evaluation gap exceeds the 0.005 tolerance (e.g. -0.025, +0.013, -0.009, +0.008) are still unmarked, so they can be found only by reading the columns.",
+   "residual_obligation_class": "should_fix"
+  },
+  {
+   "item_id": "R13",
+   "obligation_class": "must_fix",
+   "verified_by": "R1",
+   "author_triage": "will_address",
+   "authors_claim": "Every headline summary in abstract and Sec.4 split by geometry out of 18; 'one gate' and 'common ruler' now equivalence results (18/18, 18/18, own ruler 10/18); new tab:cos-ang.",
+   "claim_vs_manuscript": "Mostly accurate: text: Abstract, 'equivalent in 10 of 18 ... equivalent in 18 of 18'; text: Sec.4.2, 'equivalent in pass rate in 18 of 18 cells'; table: tab:cos-ang exists. But text: Sec.4.1, 'the pass-rate gap is equivalent to zero in 32 of 36 cases' remains pooled (32 = 16 + 16), so 'every headline summary ... separately' is overstated. The letter is silent on residual elements (i) secondary-outcome CIs and (ii) case-margin timing ('a margin fixed before this analysis', Sec.5.2, unchanged).",
+   "phase2a_verdict": "PARTIALLY_ADDRESSED",
+   "final_verdict": "PARTIALLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": "(i) unmet: per-cell CIs are still printed only for the pass rate, the primary outcome and the cosine-angular comparison; the secondary outcomes (variance, radial spread, directional dispersion, effective groups, convergence time) appear only as medians with equivalence counts and no CIs. (ii) unmet: the case margin is still described as 'a margin fixed before this analysis', with no disclosure that it was set after the round-2 own-target interval it tests had been reported. (iv) mostly met, but one pooled count remains: Sec.4.1 gives 'equivalent to zero in 32 of 36 cases' (cosine+angular pooled, the same run-matched pass-rate gaps reported separately as 16 and 16). (iii) met for 'one gate'/'common ruler'/own-target 'disappears'; (v) met. Peripheral made-worse trigger carried here: the new 'the start-matched version gives almost the same interaction (+0.032 against +0.034)' is a no-difference claim added without an equivalence test. It is not on the core and does not outweigh the progress, so PARTIALLY_ADDRESSED under the precedence rule.",
+   "residual_obligation_class": "must_fix"
+  },
+  {
+   "item_id": "R14",
+   "obligation_class": "should_fix",
+   "verified_by": "R1",
+   "author_triage": "will_address",
+   "authors_claim": "Wrong sentence replaced; cosine grows from -0.042 to -0.123, nearly tripling; Euclidean from -0.130 to -0.154; a large change on the shared scale.",
+   "claim_vs_manuscript": "Accurate. text: Sec.5.3, 'cosine's relative shock effect grows from -0.042 at lag 0 to -0.123 at lag 40, nearly tripling ... a large change on the shared scale too'. The ratio (2.93) checks.",
+   "phase2a_verdict": "FULLY_ADDRESSED",
+   "final_verdict": "FULLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": null,
+   "residual_obligation_class": null
+  },
+  {
+   "item_id": "S1",
+   "obligation_class": "should_fix",
+   "verified_by": "R1",
+   "author_triage": "will_address",
+   "authors_claim": "Radial spread and directional dispersion defined; run-matched radial gap reported (1.48, 1.49), going in both directions.",
+   "claim_vs_manuscript": "Accurate for what is claimed (text: Sec.4.2 'What remains'). The letter is silent on the residual: table: tab:crossing-run still has no radial-variance row and no stated reason.",
+   "phase2a_verdict": "PARTIALLY_ADDRESSED",
+   "final_verdict": "PARTIALLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": "The run-matched crossing table (tab:crossing-run) still has no radial-variance row, and nothing says why it is omitted, whereas the start-matched crossing table has one.",
+   "residual_obligation_class": "should_fix"
+  },
+  {
+   "item_id": "S2",
+   "obligation_class": "should_fix",
+   "verified_by": "R3",
+   "author_triage": "will_address",
+   "authors_claim": "gestefeld2023 (trust in government, calibrated to survey data) cited as a possible source of evidence on the trust target; checked against the JASSS page.",
+   "claim_vs_manuscript": "Accurate. text: Sec.2 'Alignment and policy models', 'trust in government is itself modelled and calibrated to survey data by gestefeld2023, which suggests where evidence on the target could come from'. No policy or regulatory ABM with trust-scaled signals is claimed or added.",
+   "phase2a_verdict": "PARTIALLY_ADDRESSED",
+   "final_verdict": "PARTIALLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": "Institutional-trust modelling is now cited, and accurately: the paper calibrates to ESS institutional-trust items and SHP trust in government (external: https://www.jasss.org/26/4/9.html). But no policy or regulatory ABM that uses trust or credibility scaling of a signal is cited. The trust-target/origin audit is not positioned against how such models scale signals by trust. Gestefeld & Lorenz model trust as an opinion, not as a multiplier, and the text does not draw that contrast.",
+   "residual_obligation_class": "should_fix"
+  },
+  {
+   "item_id": "S4",
+   "obligation_class": "consider",
+   "verified_by": "EIC",
+   "author_triage": "will_address",
+   "authors_claim": "Signed medians for all secondary outcomes; the signed variance gap is positive in all 36 cases.",
+   "claim_vs_manuscript": "Accurate for the run-matched rule: text: Sec.4.2, 'the signed variance gap is positive in every cell for both geometries'; table: tab:secondary gives signed medians under every rule (the shared-rule cosine median is -0.55, so 'all 36' holds only run-matched, as the manuscript scopes it).",
+   "phase2a_verdict": "FULLY_ADDRESSED",
+   "final_verdict": "FULLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": null,
+   "residual_obligation_class": null
+  },
+  {
+   "item_id": "S5",
+   "obligation_class": "should_fix",
+   "verified_by": "EIC",
+   "author_triage": "wont_address",
+   "authors_claim": "—",
+   "claim_vs_manuscript": "Letter lists S5 as still open (DOI deferred); accurate. text: Code and data, '[Zenodo DOI to be added]'.",
+   "phase2a_verdict": "NOT_ADDRESSED",
+   "final_verdict": "NOT_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": null,
+   "residual_obligation_class": null
+  },
+  {
+   "item_id": "S10",
+   "obligation_class": "consider",
+   "verified_by": "R1",
+   "author_triage": "will_address",
+   "authors_claim": "Tables 2 and 3 give each geometry's relative shock effect at lags 0 and 40.",
+   "claim_vs_manuscript": "Accurate. table: tab:trust and tab:anchors, columns 'effect lag 0 / 40'. The letter does not claim lag-20 effects or per-cell effects for the other Fig.4 configurations; they are absent.",
+   "phase2a_verdict": "PARTIALLY_ADDRESSED",
+   "final_verdict": "PARTIALLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": "Lag-20 effects are not reported, and the Fig.4 configurations outside Tables tab:trust/tab:anchors have no per-cell effects, although Sec.5.2 says 'For every cell we report ... its relative shock effect at lags 0 and 40'.",
+   "residual_obligation_class": "consider"
+  },
+  {
+   "item_id": "S14",
+   "obligation_class": "consider",
+   "verified_by": "R2",
+   "author_triage": "will_address",
+   "authors_claim": "epsilon printed to 3 significant figures with trailing zeros; integer iteration counts.",
+   "claim_vs_manuscript": "Accurate. table: tab:calibration, epsilon 0.430, 1.10, 1.70 and integer 'iter.'; text: Sec.3, matched thresholds 0.507, 0.0658, 0.365, 1.01, 0.418, 0.949.",
+   "phase2a_verdict": "FULLY_ADDRESSED",
+   "final_verdict": "FULLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": null,
+   "residual_obligation_class": null
+  },
+  {
+   "item_id": "S15",
+   "obligation_class": "consider",
+   "verified_by": "R3",
+   "author_triage": "will_address",
+   "authors_claim": "Audit item 1 reads 'Affine change of coordinates (shift and rescale)'.",
+   "claim_vs_manuscript": "Accurate. text: Sec.6 box item 1, 'by an affine change of coordinates (shift and rescale)'. The letter does not claim the clipping entry changed; it did not.",
+   "phase2a_verdict": "PARTIALLY_ADDRESSED",
+   "final_verdict": "PARTIALLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": "The clipping entry in the origin box is unchanged; the dependence comes from bounds fixed in code, not from asymmetry about the origin.",
+   "residual_obligation_class": "consider"
+  },
+  {
+   "item_id": "C5",
+   "obligation_class": "consider",
+   "verified_by": "R3",
+   "author_triage": "will_address",
+   "authors_claim": "—",
+   "claim_vs_manuscript": "Letter lists C5 as 'not pursued; no new experiments this round'; accurate against the manuscript. absence: no sentence naming published results to revisit (Sec.6 cost paragraph, Sec.7).",
+   "phase2a_verdict": "NOT_ADDRESSED",
+   "final_verdict": "NOT_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": null,
+   "residual_obligation_class": null
+  },
+  {
+   "item_id": "NEW-3",
+   "obligation_class": "should_fix",
+   "verified_by": "R1",
+   "author_triage": "will_address",
+   "authors_claim": "Caption gives the ten coverage values, the pass-rate window (the 2,000 rounds) and the band (mean +-1.96 standard errors).",
+   "claim_vs_manuscript": "Accurate. figure: Fig.2 caption, 'coverage 2, 3, 5, 10, 15, 20, 30, 40, 50 and 60%; the pass rate is over the 2,000 rounds of the run, and the band is the mean +-1.96 standard errors'. The letter does not claim Sec.4.1 or ODD documentation; there is none.",
+   "phase2a_verdict": "PARTIALLY_ADDRESSED",
+   "final_verdict": "PARTIALLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": "The documentation still sits only in the Fig.2 caption. Neither Sec.4.1 nor the ODD (Appendix A) describes the response-curve experiment (grid, seeds 2000-2049, horizon, pass-rate window), which the criterion explicitly requires.",
+   "residual_obligation_class": "should_fix"
+  },
+  {
+   "item_id": "NEW-4",
+   "obligation_class": "should_fix",
+   "verified_by": "R1",
+   "author_triage": "will_address",
+   "authors_claim": "Text states the tolerance is not rescaled with the cube, unit runs settle earlier, settled shares compare only within a space; data agree.",
+   "claim_vs_manuscript": "Accurate. text: Sec.5 'The stopping time', 'not rescaled with the cube ... comparable within a space, not between the two'. The data remark checks against table: tab:settled (Euclidean unit unsettled shares <= centred in all 9 pairs) but is letter-side, not in the text; no coding-invariant version is reported.",
+   "phase2a_verdict": "PARTIALLY_ADDRESSED",
+   "final_verdict": "PARTIALLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": "Disclosure only. The tolerance is not made coding-invariant; the dependence is not quantified; and no coding-invariant version is reported or used. The pooled unsettled shares (44%/26%/13%, and 14% in Limitations) and Fig.3b still pool unit and centred runs. The new sentence says that comparison is not valid between spaces.",
+   "residual_obligation_class": "should_fix"
+  },
+  {
+   "item_id": "NEW-5",
+   "obligation_class": "should_fix",
+   "verified_by": "R1",
+   "author_triage": "will_address",
+   "authors_claim": "Introduction no longer says the stopping time changed the differences; it says it could have and here did not.",
+   "claim_vs_manuscript": "Accurate. text: Sec.1 para 3, 'the stopping time could have, and here did not'.",
+   "phase2a_verdict": "FULLY_ADDRESSED",
+   "final_verdict": "FULLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": null,
+   "residual_obligation_class": null
+  },
+  {
+   "item_id": "NEW-6",
+   "obligation_class": "should_fix",
+   "verified_by": "R1",
+   "author_triage": "will_address",
+   "authors_claim": "The design now names the two combinations in which the trust step was switched.",
+   "claim_vs_manuscript": "Accurate. text: Sec.5.2 'Backward', 'switch the trust step to centre shrinkage in two of them (with only the tightening tick changed, and with the cosine step and random streams changed)'. What each trust row isolates is still not stated.",
+   "phase2a_verdict": "PARTIALLY_ADDRESSED",
+   "final_verdict": "PARTIALLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": "The text names the pairings but never says what each trust row isolates: that each is compared with its matching no-trust row to estimate the trust step in that background. It also gives no reason for these two backgrounds, and the two trust rows' results (interactions +0.026 etc.) are not discussed. So the reader must infer what the trust contrast estimates.",
+   "residual_obligation_class": "should_fix"
+  },
+  {
+   "item_id": "NEW-7",
+   "obligation_class": "should_fix",
+   "verified_by": "R1",
+   "author_triage": "will_address",
+   "authors_claim": "All 36 early-matched calibrations met their tolerance (largest error 0.005).",
+   "claim_vs_manuscript": "Accurate. text: Sec.4.1, 'All 36 early-matched calibrations also met their tolerance on the pilot seeds (largest error 0.005)'. The letter is silent on the unsupported 100-round claim, which is unchanged.",
+   "phase2a_verdict": "PARTIALLY_ADDRESSED",
+   "final_verdict": "PARTIALLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": "The 100-round claim 'ends before most opinion groups have formed' is still asserted without supporting numbers and is not removed or qualified.",
+   "residual_obligation_class": "should_fix"
+  },
+  {
+   "item_id": "NEW-8",
+   "obligation_class": "should_fix",
+   "verified_by": "R1",
+   "author_triage": "will_address",
+   "authors_claim": "Lag indices: paired bootstrap; interaction: t interval over 100 paired seeds; stated in the design and the Fig.4 caption.",
+   "claim_vs_manuscript": "Accurate. text: Sec.5.2, 'lag index with a paired bootstrap 95% interval ... the interaction with a 95% t interval over seeds'; figure: Fig.4 caption, '95% t intervals over 100 paired seeds'.",
+   "phase2a_verdict": "FULLY_ADDRESSED",
+   "final_verdict": "FULLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": null,
+   "residual_obligation_class": null
+  },
+  {
+   "item_id": "NEW-9",
+   "obligation_class": "should_fix",
+   "verified_by": "R1",
+   "author_triage": "will_address",
+   "authors_claim": "'Policy pull' and 'perceived-policy pull' are separate terms in glossary, case description and Appendix B; 'corner' no longer names design combinations.",
+   "claim_vs_manuscript": "Accurate. text: Sec.5.1, 'a policy pull toward the policy itself and, after the enforcement lag, a pull toward the policy as each agent perceives it'; text: Appendix B steps (5) 'the policy pull' and (6) 'the perceived-policy pull'; Sec.5.2, 'each combination of gate space and policy pull'.",
+   "phase2a_verdict": "FULLY_ADDRESSED",
+   "final_verdict": "FULLY_ADDRESSED",
+   "adjustment_id": null,
+   "residual_gap": null,
+   "residual_obligation_class": null
+  }
+ ],
+ "adjustments": [],
+ "letter_overstatements": [
+  {
+   "item_id": "R13",
+   "claim": "Every headline summary in the abstract and §4 now gives cosine and angular separately, each out of 18 cells",
+   "anchor": "text: Sec.4.1, 'on the 100 evaluation seeds the pass-rate gap is equivalent to zero in 32 of 36 cases'",
+   "finding": "One pooled count (32 = 16 cosine + 16 angular run-matched pass-rate equivalences) remains in Sec.4.1."
+  },
+  {
+   "item_id": "R11",
+   "claim": "The run-matched radial gap is reported ... with the fact that it goes in both directions (22 cells positive, 14 negative).",
+   "anchor": "text: Sec.4.2 'What remains', 'Radial spread differs by more (median absolute gap 1.48 and 1.49 ...), but in both directions'",
+   "finding": "The manuscript says only 'in both directions'; the 22/14 split is printed nowhere, so it cannot be checked there, and it pools the two geometries (36 cases)."
+  },
+  {
+   "item_id": "R5",
+   "claim": "cite:huet2008 and cite:kurahashi2016 are described by what they show, and the paragraph says how they bear on this note. All descriptions were checked against the papers' abstracts.",
+   "anchor": "text: Sec.2 para 1, 'These studies show that the shape of the confidence region matters'",
+   "finding": "Huet 2008 has no tie to the note beyond this collective sentence, and that sentence contradicts the Fortunato finding reported in the sentence before it (thresholds close to the 1-D ones)."
+  }
+ ],
+ "letter_claims_verified_accurate": 24,
+ "letter_claims_counting_note": "27 checkable claims: 5 R13 bullets, 20 table rows (including the '18cells' spacing fix, confirmed: no number-then-'cells' run remains in revised/main.tex) and 2 'Still open' lines. 24 are accurate and 3 overstated. Accurate claims that leave residuals unmentioned (R3(c), R13(i)-(ii), the S1 crossing-run row, NEW-3 ODD, NEW-6 isolation, the NEW-7 100-round claim) count as accurate: silence is not overstatement.",
+ "post_letter_observations": [
+  "C5: the letter says C5 is 'not pursued', but roadmap.json records author_triage will_address for C5. The triage record and the letter disagree; next round should take the triage from the author-adjudication sidecar and ask the author to reconcile the two.",
+  "NEW-4: the letter's check that Euclidean unit cells are settled at least as often as their centred twins holds in Table tab:settled (all 9 pairs), but it is letter-side only. Stating it in Sec.5 with the size of the gap (e.g. d=2, c=0.05: 60%/22% unit against 66%/31% centred) would be a first step toward the 'quantified' half of the NEW-4 criterion.",
+  "R11/S1: if the radial direction counts are added to the manuscript, they should be split by geometry (out of 18 each), consistent with the R13 split, not the letter's pooled 22/14 of 36.",
+  "S4: the letter's 'positive in all 36 cases' is another pooled count. The manuscript's wording ('in every cell for both geometries', run-matched) is correctly scoped; Table tab:secondary shows a negative shared-rule cosine signed variance median (-0.55), so the claim must stay scoped to run-matching.",
+  "R13: the letter's 'Both tests use the paper's existing margins (+-0.02 pass rate, +-0.25 log2), fixed before analysis' is accurate for the minimal model (Sec.4.1, 'fixed before the runs of this version were analysed') but says nothing about the case-study margin +-0.01 in Sec.5.2, where the residual (ii) disclosure is still owed.",
+  "The letter is headed 'in progress' and says unlisted items are still open, yet it lists R3, R13, S1, NEW-3, NEW-6 and NEW-7 as changed without noting their open criterion elements. The next letter should say per item which elements remain open."
+ ],
+ "final_verdict_counts": {
+  "should_fix": {
+   "FULLY_ADDRESSED": 7,
+   "PARTIALLY_ADDRESSED": 9,
+   "NOT_ADDRESSED": 1
+  },
+  "must_fix": {
+   "PARTIALLY_ADDRESSED": 2
+  },
+  "consider": {
+   "FULLY_ADDRESSED": 2,
+   "PARTIALLY_ADDRESSED": 2,
+   "NOT_ADDRESSED": 1
+  }
+ },
+ "should_fix_addressed_rate": {
+  "numerator": 16,
+  "denominator": 17,
+  "rate": 0.941
+ },
+ "end_marker": "[MATRIX-COMMITTED]"
+}
