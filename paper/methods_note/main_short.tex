@@ -25,7 +25,7 @@
 Comparing distance measures in multidimensional bounded-confidence models involves choices that are easy to leave unstated.
 We follow five of them, each met while auditing our own model.
 In an agent-based model of AI governance, a draft finding that geometry reverses the effect of enforcement lag came from reading each geometry against a benchmark; the test that compares the geometries keeps its sign from the draft's model to the audited one (interaction \VCDraftInter\ and \VCRecommendedInter).
-Where low trust pulls the perceived policy, an assumption nobody had measured, moved the cosine result across that benchmark and, for one of four defensible targets, removed the difference between geometries.
+The point toward which low trust pulls the perceived policy, which nobody had measured, moved the cosine result across that benchmark and, for one of four defensible targets, removed the difference between geometries.
 In a minimal Deffuant model, one shared threshold admits very different shares of opinion pairs under Euclidean, cosine and angular distance; matching the threshold at the start leaves interaction rates apart, and matching it over the run equalises them but not the number of opinion groups, so each matched point answers a different question.
 Counting groups with each geometry's own radius made two identical gates look different.
 We close with a six-item audit list.
@@ -45,7 +45,7 @@ Such a comparison involves five choices that can each create an effect or hide o
 \end{enumerate}
 We met every one of them while auditing our own model.
 In an unpublished draft we reported that, in an agent-based model of AI governance, geometry \emph{reverses} the effect of enforcement lag on shocks.
-It does not: the first two choices produced that reading, and Section~\ref{sec:case} shows how.
+The first two choices produced that reading (Section~\ref{sec:case}).
 Section~\ref{sec:minimal} then takes the other three in a minimal Deffuant model, and Section~\ref{sec:protocol} collects the lessons into an audit list.
 The note is pre-emptive: we do not estimate how often published studies make these choices.
 A longer version with every per-cell result, the gate~$\times$~update-step crossing and a fuller literature review is in the repository (Code and data).
@@ -95,7 +95,7 @@ We ran the audited engine with the draft's choices restored as switches: the gat
 We also ran the draft's own engine with the audit's other fixes undone in turn, and a \emph{level-shift} control that moves every agent's perceived policy by the corner's average shift, $-(1-\bar\tau)$, separating a shift in the mean from one that differs between trusting and distrustful agents.
 The \emph{recommended} design uses a centred gate, a run-matched threshold and a pull applied every tick, which removes both of the draft's couplings.
 Every cell crosses Euclidean and cosine with the three lags over 100 paired seeds.
-We report each lag index with a paired bootstrap 95\% interval and the interaction with a 95\% $t$ interval, and call an interaction equivalent to zero when its 90\% interval lies within $\pm\VInterMargin$; we set this margin after an earlier version had reported the result it is used on, so that test confirms rather than predicts.
+We report each lag index with a paired bootstrap 95\% interval and the interaction with a 95\% $t$ interval, and call an interaction equivalent to zero when its 90\% interval lies within $\pm\VInterMargin$; we set this margin after an earlier version had reported the result it is used on, so that test confirms a result already known.
 
 \subsection{Results}
 
@@ -122,7 +122,7 @@ In the unit cube the same change of threshold moves it from \VFUnitRawAnchorInte
 With trust shrinking toward the corner and angles measured from the corner, as in the draft, the audited engine gives Euclidean \VTUnitRawCornerEucIdx\ and cosine \VTUnitRawCornerCosIdx, matching the draft's engine (\VCDraftFixedEucIdx\ and \VCDraftFixedCosIdx).
 Shrinking toward the centre lifts cosine to \VTUnitRawCentreCosIdx; measuring the gate from the centre lifts it to \VTCentredRawCornerCosIdx.
 In this setting Euclidean's index barely moves with the trust target, and the level shift takes cosine only to \VTUnitRawLevelShiftCosIdx: most of the corner's effect comes from shifting distrustful agents further than trusting ones, which an angle measured from the corner registers.
-The interaction stays positive throughout (\VTUnitRawCornerInter, \VTUnitRawCentreInter, \VTUnitRawLevelShiftInter): the origin moved cosine's index across 100, not the sign of the comparison.
+The interaction stays positive throughout (\VTUnitRawCornerInter, \VTUnitRawCentreInter, \VTUnitRawLevelShiftInter): the origin moved cosine's index across 100 but left the sign of the comparison unchanged.
 
 \begin{table}[t]
 \centering\small
@@ -141,7 +141,7 @@ The right target depends on how distrust distorts a policy signal, which the mod
 
 \paragraph{The remaining effect.}
 In the recommended design with trust shrinking toward the centre, lag enlarges the shock effect under both geometries and less under cosine (indices \VCRecommendedEucIdx\ and \VCRecommendedCosIdx; interaction \VCRecommendedInter\ \VCRecommendedCI).
-That is the result we would now report, with the condition the target sweep attaches to it.
+We would report this result, with the condition the target sweep attaches to it.
 
 \section{The other three choices, in a minimal model}
 \label{sec:minimal}
@@ -225,17 +225,17 @@ After 500 rounds \VUnsettledFive\ of Euclidean runs are still changing, and afte
 \section{Why this matters}
 \label{sec:relevance}
 
-For anyone comparing distance measures, the lesson is that each of the five choices can produce or remove a difference on its own.
+For anyone comparing distance measures, each of the five choices can produce or remove a difference on its own.
 In our two models a shared threshold changed the pass rate by a median of \VRawPassGapAng\ to \VRawPassGapCos\ of attempted conversations, a geometry-specific ruler left two identical gates in agreement in only \VCosAngOwnEquiv\ of \VCosAngCells\ cells, and a test read against a benchmark turned an attenuation into a reported reversal.
-None of these needed a coding error, and each is invisible in a results table unless the choice is reported.
+All three arose without a coding error, and a results table shows none of them unless the choice is reported.
 
-For models used to inform policy, the case study shows how far a conclusion can travel from its evidence.
-Whether enforcement delays make a population more or less fragile after shocks depended, in turn, on the test read, on where the opinion space put its origin, and on a trust target that no one had measured.
+For models used to inform policy, the case study shows a policy-relevant conclusion resting on choices its readers could not see.
+Whether enforcement delays make a population more or less fragile after shocks depended on the test read, on where the opinion space put its origin, and on a trust target that no one had measured.
 \citet{gilbert2018} argue that a policy model is useful only when its assumptions are visible, and any trust or credibility parameter that shrinks or scales a signal carries an origin with it.
 
 The choices are not specific to distance measures.
 Any comparison of model variants that share a free parameter on different scales, shrink a quantity toward a point, or count outcomes with a variant-specific rule meets the same problems, which is the docking problem \citep{axtell1996,wilensky2007} in a narrower form.
-We have not measured how often published comparisons make these choices; the audit list below is meant to make that easy to check.
+We have not measured how often published comparisons make these choices; the audit list below gives a way to check.
 
 \section{An audit list}
 \label{sec:protocol}
